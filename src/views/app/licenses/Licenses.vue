@@ -80,7 +80,7 @@ export default {
   },
   methods: {
     launchAppForm() {
-      this.$router.push("/app/licenses");
+      this.$router.push("/app/payments");
     }
   }
 };

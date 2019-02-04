@@ -24,10 +24,8 @@
         <v-divider></v-divider>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <!-- <v-tooltip top> -->
             <v-spacer></v-spacer>
             <v-btn slot="activator" flat color="success" @click.native.stop="apply">I accept</v-btn>
-          <!-- </v-tooltip> -->
         </v-card-actions>
       </v-card>
     </v-dialog>

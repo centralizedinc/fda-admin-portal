@@ -43,7 +43,7 @@
           { text: 'Type', value: 'fat' },
           { text: 'Task', value: 'carbs' },
           { text: 'Application Date', value: 'protein' },
-          { text: 'Variation Date', value: 'iron' }
+          { text: 'Actions', value: 'iron' }
         ],
         licenses: []
       }

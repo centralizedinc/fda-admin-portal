@@ -18,8 +18,16 @@
           <v-card-text>Please enter your registered email address. Access the link in your mail to login with your new password.</v-card-text>
           <v-divider></v-divider>
           <v-flex xs12 pa-5>
-            <v-text-field name="name" label="Name" id="id"></v-text-field>
-            <v-text-field name="name" label="Last Name" id="id"></v-text-field>
+            <v-card-text>
+                Please enter your registered email address. Access the link in your mail to login with your new password.
+                Please enter your registered email address. Access the link in your mail to login with your new password.
+                Please enter your registered email address. Access the link in your mail to login with your new password.
+                Please enter your registered email address. Access the link in your mail to login with your new password.
+                Please enter your registered email address. Access the link in your mail to login with your new password.
+                Please enter your registered email address. Access the link in your mail to login with your new password.
+                Please enter your registered email address. Access the link in your mail to login with your new password.
+                Please enter your registered email address. Access the link in your mail to login with your new password.
+            </v-card-text>
           </v-flex>
         </v-card-text>
         <v-divider></v-divider>

@@ -37,10 +37,7 @@
             <v-icon color="success">card_membership</v-icon>
           </v-list-tile-action>
           <v-list-tile-content>
-            <v-list-tile-title class="body-1 font-weight-light">
-              Products
-              <i class="fa fa-caret-down" style="margin-left: 65px;"></i>
-            </v-list-tile-title>
+            <v-list-tile-title class="body-1 font-weight-light">Products</v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
         <v-list-tile
@@ -52,10 +49,7 @@
             <v-icon color="success">account_box</v-icon>
           </v-list-tile-action>
           <v-list-tile-content>
-            <v-list-tile-title class="body-1 font-weight-light">
-              Accounts
-              <i class="fa fa-caret-down" style="margin-left: 60px;"></i>
-            </v-list-tile-title>
+            <v-list-tile-title class="body-1 font-weight-light">Accounts</v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
         <v-list-tile @click="goTo('/app/payments')" class="ma-1" :style="activeRoute('Payments')">
@@ -66,11 +60,7 @@
             <v-list-tile-title class="body-1 font-weight-light">Location</v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
-        <v-list-tile
-          @click="goTo('/app/task')"
-          class="ma-1"
-          :style="activeRoute('task')"
-        >
+        <v-list-tile @click="goTo('/app/task')" class="ma-1" :style="activeRoute('task')">
           <v-list-tile-action>
             <v-icon color="success">subject</v-icon>
           </v-list-tile-action>
@@ -93,11 +83,7 @@
           </v-list-tile-content>
         </v-list-tile>
 
-        <v-list-tile
-          @click="goTo('/app/password')"
-          class="ma-1"
-          :style="activeRoute('password')"
-        >
+        <v-list-tile @click="goTo('/app/password')" class="ma-1" :style="activeRoute('password')">
           <v-list-tile-action>
             <v-icon color="success">lock_open</v-icon>
           </v-list-tile-action>
@@ -109,11 +95,7 @@
           </v-list-tile-content>
         </v-list-tile>
 
-        <v-list-tile
-          @click="goTo('/')"
-          class="ma-1"
-          :style="activeRoute('Login')"
-        >
+        <v-list-tile @click="goTo('/')" class="ma-1" :style="activeRoute('Login')">
           <v-list-tile-action>
             <v-icon color="success">fas fa-sign-out-alt</v-icon>
           </v-list-tile-action>

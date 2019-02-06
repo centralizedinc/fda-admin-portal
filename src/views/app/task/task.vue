@@ -42,7 +42,7 @@ export default {
       // this.
     },
     apply() {
-      this.$router.push("/app/licenses/apply");
+      this.$router.push("/reference/primary");
     }
   }
 };

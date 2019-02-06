@@ -2,7 +2,7 @@
   <div>
     <v-toolbar flat color="white">
       <v-flex xs4>
-        <v-text-field append-icon="search" label="Search" single-line hide-details v-model="search"></v-text-field>
+        <v-text-field hide-details prepend-icon="search" single-line label="Search"></v-text-field>
       </v-flex>
       <v-divider class="mx-2" inset vertical></v-divider>
       <v-btn fab medium color="fdaMed" top right absolute @click="dialog=true">
@@ -51,35 +51,8 @@
           </v-card-actions>
         </v-card>
       </v-dialog>
-      <v-dialog v-model="dialog2" max-width="800px">
-        <v-card>
-          <v-card-title
-            primary-title
-            class="headline"
-            style="background: linear-gradient(45deg, #104B2A 0%, #b5c25a 100%)"
-          >Confirmation</v-card-title>
-          <v-divider></v-divider>
-          <div>
-            <md-table v-model="headers1" :items="product" class="elevation-1">
-              <md-table-row slot="md-table-row" slot-scope="{ defaultItem }">
-                <md-table-cell md-label="Case #">{{ defaultItem.case_no }}</md-table-cell>
-                <md-table-cell md-label="Process">{{ defaultItem.case_no }}</md-table-cell>
-                <md-table-cell md-label="Status">{{ defaultItem.application_type }}</md-table-cell>
-                <md-table-cell md-label="Country">{{ defaultItem.current_task }}</md-table-cell>
-                <md-table-cell md-label="City">{{ defaultItem.date_created }}</md-table-cell>
-                <md-table-cell md-label="City">{{ defaultItem.date_variation }}</md-table-cell>
-              </md-table-row>
-            </md-table>
-          </div>
-          <v-divider></v-divider>
-          <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn color="success" @click="dialog2=false">Close</v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-dialog>
     </v-toolbar>
-    <v-data-table :headers="headers" :items="product" :search="search" class="elevation-1">
+    <v-data-table :headers="headers" :items="product" class="elevation-1">
       <template slot="items" slot-scope="props">
         <td>{{ props.item.case_no }}</td>
         <td>{{ props.item.case_no }}</td>
@@ -89,15 +62,9 @@
         <td>{{ props.item.date_variation }}</td>
         <td class="justify-center layout px-0">
           <v-icon small class="mr-2" @click="editItem(props.item)" flat icon color="primary">edit</v-icon>
-          <v-icon small @click="viewItem(props.item)" flat icon color="primary">assignment</v-icon>
+          <v-icon small @click="deleteItem(props.item)" flat icon color="primary">assignment</v-icon>
         </td>
       </template>
-      <v-alert
-        slot="no-results"
-        :value="true"
-        color="error"
-        icon="warning"
-      >Your search for "{{ search }}" found no results.</v-alert>
       <template slot="no-data">
         <v-btn color="primary" @click="initialize">Reset</v-btn>
       </template>
@@ -108,20 +75,6 @@
 export default {
   data: () => ({
     dialog: false,
-    dialog2: false,
-    search: "",
-    email: "",
-    rules: {
-      required: value => !!value || "Required."
-    },
-    headers1: [
-      { text: "Case No", value: "case_no" },
-      { text: "License No", value: "case_no" },
-      { text: "Type", value: "application_type" },
-      { text: "Task", value: "current_task" },
-      { text: "Application Date", value: "date_created" },
-      { text: "Variation Date", value: "date_variation" }
-    ],
     headers: [
       { text: "Case No", value: "case_no" },
       { text: "License No", value: "case_no" },
@@ -132,7 +85,6 @@ export default {
       { text: "Actions", value: "name", sortable: false }
     ],
     product: [],
-    editedIndex: -1,
     editedItem: {
       case_no: "00",
       application_type: "sample application",
@@ -141,8 +93,8 @@ export default {
       date_variation: "01/01/2019"
     },
     defaultItem: {
-      case_no: "22",
-      application_type: "Sample Text sample application",
+      case_no: "00",
+      application_type: "sample application",
       current_task: "sample task",
       date_created: "01/01/2019",
       date_variation: "01/01/2019"
@@ -177,14 +129,14 @@ export default {
         },
         {
           case_no: "01",
-          application_type: "Text sample application",
+          application_type: "sample application",
           current_task: "sample task",
           date_created: "01/01/2019",
           date_variation: "01/01/2019"
         },
         {
           case_no: "02",
-          application_type: "One sample application",
+          application_type: "sample application",
           current_task: "sample task",
           date_created: "01/01/2019",
           date_variation: "01/01/2019"
@@ -198,10 +150,10 @@ export default {
       this.dialog = true;
     },
 
-    viewItem(item) {
-      this.defaultIndex = this.product.indexOf(item);
-      this.defaultItem = Object.assign({}, item);
-      this.dialog = true;
+    deleteItem(item) {
+      const index = this.product.indexOf(item);
+      confirm("Are you sure you want to delete this item?") &&
+        this.product.splice(index, 1);
     },
 
     close() {

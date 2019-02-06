@@ -52,7 +52,7 @@
             <v-list-tile-title class="body-1 font-weight-light">Accounts</v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
-        <v-list-tile @click="goTo('/app/payments')" class="ma-1" :style="activeRoute('Payments')">
+        <v-list-tile @click="goTo('/app/location')" class="ma-1" :style="activeRoute('location')">
           <v-list-tile-action>
             <v-icon color="success">room</v-icon>
           </v-list-tile-action>

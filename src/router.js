@@ -52,6 +52,11 @@ export default new Router({
           component: () => import('@/views/app/passwordSettings/ChangePassword.vue')
         },
         {
+          path: 'location',
+          name: 'location',
+          component: () => import('@/views/app/location/location.vue')
+        },
+        {
           path: 'task',
           name: 'task',
           component: () => import('@/views/app/task/task.vue')

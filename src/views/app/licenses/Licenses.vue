@@ -11,7 +11,6 @@
         </v-btn>
 
         <Add :show="dialog" @proceed="launchAppForm"></Add>
-        <View :show="dialogOne" @proceed="launchAppFormTo"></View>
 
         <v-data-table :headers="headers" :items="certificates" class="elevation-1">
           <template slot="items" slot-scope="props">
@@ -32,7 +31,7 @@
                 </v-flex>
                 <v-flex xs3>
                   <v-tooltip top>
-                    <v-btn slot="activator" flat icon color="primary" @click="dialogOne=true">
+                    <v-btn slot="activator" flat icon color="primary">
                       <v-icon small>assignment</v-icon>
                     </v-btn>View
                   </v-tooltip>
@@ -48,17 +47,14 @@
 
 <script>
 import Add from "@/components/Add";
-import View from "@/components/View";
 
 export default {
   components: {
-    Add: () => import("@/components/Add"),
-    View: () => import("@/components/View")
+    Add: () => import("@/components/Add")
   },
   data() {
     return {
       dialog: false,
-      dialogOne: true,
       headers: [
         { text: "Case No", value: "case_no" },
         { text: "License No", value: "case_no" },
@@ -85,9 +81,6 @@ export default {
   methods: {
     launchAppForm() {
       this.$router.push("/app/payments");
-    },
-    launchAppFormTo(){
-      this.$router.push("/app/password")
     }
   }
 };

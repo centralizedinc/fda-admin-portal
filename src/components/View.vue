@@ -12,22 +12,14 @@
           primary-title
           class="headline"
           style="background: linear-gradient(45deg, #104B2A 0%, #b5c25a 100%)"
-        >ADD Accounts</v-card-title>
+        >View Accounts</v-card-title>
         <v-divider></v-divider>
         <v-card-text>
           <v-card-text>Please enter your registered email address. Access the link in your mail to login with your new password.</v-card-text>
           <v-divider></v-divider>
           <v-flex xs12 pa-5>
-            <v-card-text>
-                Please enter your registered email address. Access the link in your mail to login with your new password.
-                Please enter your registered email address. Access the link in your mail to login with your new password.
-                Please enter your registered email address. Access the link in your mail to login with your new password.
-                Please enter your registered email address. Access the link in your mail to login with your new password.
-                Please enter your registered email address. Access the link in your mail to login with your new password.
-                Please enter your registered email address. Access the link in your mail to login with your new password.
-                Please enter your registered email address. Access the link in your mail to login with your new password.
-                Please enter your registered email address. Access the link in your mail to login with your new password.
-            </v-card-text>
+            <v-text-field name="name" label="Name" id="id"></v-text-field>
+            <v-text-field name="name" label="Last Name" id="id"></v-text-field>
           </v-flex>
         </v-card-text>
         <v-divider></v-divider>

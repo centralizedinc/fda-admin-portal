@@ -20,6 +20,7 @@
           <v-flex xs12 pa-5>
             <v-text-field name="name" label="Name" id="id"></v-text-field>
             <v-text-field name="name" label="Last Name" id="id"></v-text-field>
+            <v-text-field name="name" label="Last Name" id="id"></v-text-field>
           </v-flex>
         </v-card-text>
         <v-divider></v-divider>

@@ -5,7 +5,7 @@
         <v-btn fab small color="primary" top right absolute @click.native.stop="apply">
           <v-icon>edit</v-icon>
         </v-btn>
-        <v-data-table :headers="headers" :items="licenses" class="elevation-1">
+        <v-data-table :headers="headers" :items="product" class="elevation-1">
           <template slot="items" slot-scope="props">
             <td>{{ props.item.name }}</td>
             <td class="text-xs-right">{{ props.item.calories }}</td>
@@ -33,7 +33,7 @@ export default {
         { text: "Application Date", value: "protein" },
         { text: "Actions", value: "iron" }
       ],
-      licenses: []
+      product: []
     };
   },
   created() {},

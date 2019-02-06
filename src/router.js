@@ -27,14 +27,14 @@ export default new Router({
           component: () => import('@/views/app/UserPortfolio.vue')
         },
         {
-          path: 'licenses',
-          name: 'Licenses',
-          component: () => import('@/views/app/licenses/Licenses.vue')
+          path: 'products',
+          name: 'product',
+          component: () => import('@/views/app/reference/product.vue')
         },
         {
-          path: 'licenses/apply',
+          path: 'reference/apply',
           name: 'New License Application',
-          component: () => import('@/views/app/licenses/Apply.vue')
+          component: () => import('@/views/app/reference/Apply.vue')
         },
         {
           path: 'certificates',
@@ -50,6 +50,11 @@ export default new Router({
           path: 'password',
           name: 'Change Password',
           component: () => import('@/views/app/passwordSettings/ChangePassword.vue')
+        },
+        {
+          path: 'location',
+          name: 'location',
+          component: () => import('@/views/app/location/location.vue')
         },
         {
           path: 'task',

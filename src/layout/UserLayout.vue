@@ -32,7 +32,7 @@
             <v-list-tile-title class="body-1 font-weight-light">Dashboard</v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
-        <v-list-tile @click="goTo('/app/licenses')" class="ma-1" :style="activeRoute('Licenses')">
+        <v-list-tile @click="goTo('/app/products')" class="ma-1" :style="activeRoute('products')">
           <v-list-tile-action>
             <v-icon color="success">card_membership</v-icon>
           </v-list-tile-action>

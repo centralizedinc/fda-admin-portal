@@ -60,6 +60,11 @@ export default new Router({
           path: 'logout',
           name: 'Logout',
           component: () => import('@/views/app/UserPortfolio.vue')
+        },
+        {
+          path: 'test',
+          name: 'test',
+          component: () => import('@/views/app/accounts/test.vue')
         }
       ]
 

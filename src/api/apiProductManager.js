@@ -10,7 +10,22 @@ export default class ProductType {
 
     getProduct(cb) {
 
-        axios.get('lto-api/resource/product_type').then((result) => {
+        axios.get('core/products').then((result) => {
+                if (result.data.success) {
+
+                    console.log("###API###" + JSON.stringify(result.data.model))
+                    cb(result.data.model)
+                } else {
+                    cb(null, result.data.errors)
+                }
+            })
+            .catch(err => {
+                cd(null, err)
+            })
+    }
+
+    getPrimary(selectedProduct,cb) {
+        axios.get('core/primary/' + selectedProduct).then((result) => {
                 if (result.data.success) {
                     cb(result.data.model)
                 } else {
@@ -22,8 +37,8 @@ export default class ProductType {
             })
     }
 
-    getPrimary(cb) {
-        axios.get('lto-api/resource/primary/:product').then((result) => {
+    getSecondary(primary,cb) {
+        axios.get('core/secondary/' + primary).then((result) => {
                 if (result.data.success) {
                     cb(result.data.model)
                 } else {
@@ -35,8 +50,8 @@ export default class ProductType {
             })
     }
 
-    getSecondary(cb) {
-        axios.get('lto-api/resource/secondary/:primary').then((result) => {
+    getAdditional(primary,cb) {
+        axios.get('core/additional/' + primary).then((result) => {
                 if (result.data.success) {
                     cb(result.data.model)
                 } else {
@@ -48,8 +63,8 @@ export default class ProductType {
             })
     }
 
-    getAdditional(cb) {
-        axios.get('lto-api/resource/additional/:primary').then((result) => {
+    getDeclaredCapital(primary,cb) {
+        axios.get('core/declared/' + primary).then((result) => {
                 if (result.data.success) {
                     cb(result.data.model)
                 } else {
@@ -61,69 +76,56 @@ export default class ProductType {
             })
     }
 
-    getDeclaredCapital(cb) {
-        axios.get('lto-api/resource/declared/:primary"').then((result) => {
-                if (result.data.success) {
-                    cb(result.data.model)
-                } else {
-                    cb(null, result.data.errors)
-                }
-            })
-            .catch(err => {
-                cd(null, err)
-            })
-    }
+    // getRegion(cb) {
+    //     axios.get('lto-api/resource/region').then((result) => {
+    //             if (result.data.success) {
+    //                 cb(result.data.model)
+    //             } else {
+    //                 cb(null, result.data.errors)
+    //             }
+    //         })
+    //         .catch(err => {
+    //             cd(null, err)
+    //         })
+    // }
 
-    getRegion(cb) {
-        axios.get('lto-api/resource/region').then((result) => {
-                if (result.data.success) {
-                    cb(result.data.model)
-                } else {
-                    cb(null, result.data.errors)
-                }
-            })
-            .catch(err => {
-                cd(null, err)
-            })
-    }
+    // getProvince(cb) {
+    //     axios.get('lto-api/resource/province').then((result) => {
+    //             if (result.data.success) {
+    //                 cb(result.data.model)
+    //             } else {
+    //                 cb(null, result.data.errors)
+    //             }
+    //         })
+    //         .catch(err => {
+    //             cd(null, err)
+    //         })
+    // }
+    // getCity(cb) {
+    //     axios.get('lto-api/resource/city').then((result) => {
+    //             if (result.data.success) {
+    //                 cb(result.data.model)
+    //             } else {
+    //                 cb(null, result.data.errors)
+    //             }
+    //         })
+    //         .catch(err => {
+    //             cd(null, err)
+    //         })
+    // }
 
-    getProvince(cb) {
-        axios.get('lto-api/resource/province').then((result) => {
-                if (result.data.success) {
-                    cb(result.data.model)
-                } else {
-                    cb(null, result.data.errors)
-                }
-            })
-            .catch(err => {
-                cd(null, err)
-            })
-    }
-    getCity(cb) {
-        axios.get('lto-api/resource/city').then((result) => {
-                if (result.data.success) {
-                    cb(result.data.model)
-                } else {
-                    cb(null, result.data.errors)
-                }
-            })
-            .catch(err => {
-                cd(null, err)
-            })
-    }
-
-    getZipCode(cb) {
-        axios.get('lto-api/resource/zip-code').then((result) => {
-                if (result.data.success) {
-                    cb(result.data.model)
-                } else {
-                    cb(null, result.data.errors)
-                }
-            })
-            .catch(err => {
-                cd(null, err)
-            })
-    }
+    // getZipCode(cb) {
+    //     axios.get('lto-api/resource/zip-code').then((result) => {
+    //             if (result.data.success) {
+    //                 cb(result.data.model)
+    //             } else {
+    //                 cb(null, result.data.errors)
+    //             }
+    //         })
+    //         .catch(err => {
+    //             cd(null, err)
+    //         })
+    // }
 
 
 }

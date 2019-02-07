@@ -13,7 +13,8 @@ const state = {
     region: null,
     province: null,
     city: null,
-    zipCode: 0
+    zipCode: 0,
+    new_primary: null
 
 }
 
@@ -76,7 +77,7 @@ var actions = {
             })
         })
     },
-    ADD_PRIMARY(new_primary, context) {
+    ADD_PRIMARY(context, new_primary) {
         return new Promise((resolve, reject) => {
             console.log("store#############")
             new ProductType(context.rootState.user_session.token).addPrimary(new_primary,(data, err) => {
@@ -87,7 +88,7 @@ var actions = {
         })
 
     },
-    EDIT_PRIMARY(id, modified_primary, context) {
+    EDIT_PRIMARY(context, id, modified_primary) {
         return new Promise((resolve, reject) => {
             console.log("store#############")
             new ProductType(context.rootState.user_session.token).editPrimary(id, modified_primary, (data, err) => {

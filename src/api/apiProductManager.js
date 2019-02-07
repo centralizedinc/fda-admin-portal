@@ -39,6 +39,7 @@ export default class ProductType {
     }
 
     addPrimary(new_primary, cb) {
+        console.log("api#############" + JSON.stringify(new_primary))
         axios.post('core/primary', new_primary).then((result) => {
                 console.log("api#############" + JSON.stringify(new_primary))
             })

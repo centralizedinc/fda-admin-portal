@@ -112,6 +112,9 @@
 <script>
 export default {
   data: () => ({
+
+    products:{},
+
     dialog: false,
     dialog1: false,
     search: "",
@@ -155,6 +158,13 @@ export default {
 
   created() {
     this.initialize();
+
+    this.$store.dispatch("GET_PRODUCTS").then(result =>{
+        console.log(JSON.stringify("###############################" + this.$store.state.reference_tables.products));
+    this.products = this.$store.state.reference_tables.products
+    console.log(JSON.stringify("###############################" + this.products));
+    });
+
   },
 
   methods: {

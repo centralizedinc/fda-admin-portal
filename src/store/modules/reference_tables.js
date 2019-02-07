@@ -19,26 +19,24 @@ const state = {
 
 const mutations = {
     SET_PRODUCTS(state, data) {
-        console.log("###PRODUCT:SET###" + JSON.stringify(data))
+
         state.products = data
+        console.log("###PRODUCT:SET###" + JSON.stringify(state.products))
     },
     SET_PRIMARY(state, data) {
         console.log("###PRIMARY:SET###" + JSON.stringify(data))
         state.primary = data
     },
-    SET_SECONDARY(state, data, data_2) {
+    SET_SECONDARY(state, data, ) {
         console.log("###SECONDARY:SET###" + JSON.stringify(data))
-        state.primary = data_2
         state.secondary = data
     },
-    SET_ADDITIONAL(state, data, data_2) {
+    SET_ADDITIONAL(state, data, ) {
         console.log("###ADDITIONAL:SET###" + JSON.stringify(data))
-        state.primary = data_2
         state.additional = data
     },
-    SET_DECLARED_CAPITAL(state, data, data_2) {
+    SET_DECLARED_CAPITAL(state, data, ) {
         console.log("###DECLARED_CAPITAL:SET###" + JSON.stringify(data))
-        state.primary = data_2
         state.declaredCapital = data
     },
     // SET_REGION(state, data) {
@@ -55,33 +53,76 @@ const mutations = {
 
 var actions = {
     GET_PRODUCTS(context) {
-        new ProductType(context.rootState.user_session.token).getProduct((data, err) => {
-            console.log("####product:ACTION####" + JSON.stringify(err))
-            context.commit('SET_PRODUCTS', data)
+        return new Promise((resolve, reject) => {
+            new ProductType(context.rootState.user_session.token).getProduct((data, err) => {
+                console.log("####product:ACTION####" + JSON.stringify(data))
+                context.commit('SET_PRODUCTS', data)
+                resolve()
+            })
         })
     },
-    GET_PRIMARY(context, selectedProduct) {
-        new ProductType(context.rootState.user_session.token).getPrimary(selectedProduct, (data, err) => {
-            console.log("####primary:ACTION####" + JSON.stringify(err))
-            context.commit('SET_PRIMARY', data)
+    GET_PRIMARY(context) {
+        return new Promise((resolve, reject) => {
+            console.log("store#############")
+            new ProductType(context.rootState.user_session.token).getPrimary((data, err) => {
+                console.log("####primary:ACTION####" + JSON.stringify(data))
+                if (!err) {
+                    context.commit('SET_PRIMARY', data)
+                    resolve()
+                } else {
+                    reject(err)
+                }
+
+            })
         })
     },
-    GET_SECONDARY(context, primary) {
-        new ProductType(context.rootState.user_session.token).getSecondary(primary, (data, err) => {
-            console.log("####secondary:ACTION####" + JSON.stringify(err))
-            context.commit('SET_SECONDARY', data)
+    ADD_PRIMARY(new_primary, context) {
+        return new Promise((resolve, reject) => {
+            console.log("store#############")
+            new ProductType(context.rootState.user_session.token).addPrimary(new_primary,(data, err) => {
+                console.log("####primary:ACTION####" + JSON.stringify(data))
+                context.commit('SET_PRIMARY', data)
+                resolve()
+            })
+        })
+
+    },
+    EDIT_PRIMARY(id, modified_primary, context) {
+        return new Promise((resolve, reject) => {
+            console.log("store#############")
+            new ProductType(context.rootState.user_session.token).editPrimary(id, modified_primary, (data, err) => {
+                console.log("####primary:ACTION####" + JSON.stringify(data))
+                context.commit('SET_PRIMARY', data)
+                resolve()
+            })
+        })
+
+    },
+    GET_SECONDARY(context) {
+        return new Promise((resolve, reject) => {
+            new ProductType(context.rootState.user_session.token).getSecondary((data, err) => {
+                console.log("####secondary:ACTION####" + JSON.stringify(data))
+                context.commit('SET_SECONDARY', data)
+                resolve()
+            })
         })
     },
-    GET_ADDITIONAL(context, secondary) {
-        new ProductType(context.rootState.user_session.token).getAdditional(primary, (data, err) => {
-            console.log("####additional:ACTION####" + JSON.stringify(err))
-            context.commit('SET_ADDITIONAL', data)
+    GET_ADDITIONAL(context) {
+        return new Promise((resolve, reject) => {
+            new ProductType(context.rootState.user_session.token).getAdditional((data, err) => {
+                console.log("####additional:ACTION####" + JSON.stringify(data))
+                context.commit('SET_ADDITIONAL', data)
+                resolve()
+            })
         })
     },
     GET_DECLARED_CAPITAL(context) {
-        new ProductType(context.rootState.user_session.token).getDeclaredCapital((data, err) => {
-            console.log("####declared_capital:ACTION####" + JSON.stringify(err))
-            context.commit('SET_DECLARED_CAPITAL', data)
+        return new Promise((resolve, reject) => {
+            new ProductType(context.rootState.user_session.token).getDeclaredCapital((data, err) => {
+                console.log("####declared_capital:ACTION####" + JSON.stringify(data))
+                context.commit('SET_DECLARED_CAPITAL', data)
+                resolve()
+            })
         })
     },
     // GET_REGION(context) {

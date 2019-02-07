@@ -20,12 +20,13 @@ export default class ProductType {
                 }
             })
             .catch(err => {
-                cd(null, err)
+                cb(null, err)
             })
     }
 
-    getPrimary(selectedProduct,cb) {
-        axios.get('core/primary/' + selectedProduct).then((result) => {
+    getPrimary(cb) {
+        axios.get('core/primary').then((result) => {
+                console.log("api#############")
                 if (result.data.success) {
                     cb(result.data.model)
                 } else {
@@ -33,12 +34,31 @@ export default class ProductType {
                 }
             })
             .catch(err => {
-                cd(null, err)
+                cb(null, err)
             })
     }
 
-    getSecondary(primary,cb) {
-        axios.get('core/secondary/' + primary).then((result) => {
+    addPrimary(new_primary, cb) {
+        axios.post('core/primary', new_primary).then((result) => {
+                console.log("api#############" + JSON.stringify(new_primary))
+            })
+            .catch(err => {
+                cb(null, err)
+            })
+    }
+
+    editPrimary(id, modified_primary, cb) {
+        axios.post('core/primary/' + id, modified_primary).then((result) => {
+                console.log("api#############" + JSON.stringify(modified_primary))
+            })
+            .catch(err => {
+                cb(null, err)
+            })
+    }
+
+
+    getSecondary(cb) {
+        axios.get('core/secondary').then((result) => {
                 if (result.data.success) {
                     cb(result.data.model)
                 } else {
@@ -46,12 +66,12 @@ export default class ProductType {
                 }
             })
             .catch(err => {
-                cd(null, err)
+                cb(null, err)
             })
     }
 
-    getAdditional(primary,cb) {
-        axios.get('core/additional/' + primary).then((result) => {
+    getAdditional(cb) {
+        axios.get('core/additional').then((result) => {
                 if (result.data.success) {
                     cb(result.data.model)
                 } else {
@@ -59,12 +79,12 @@ export default class ProductType {
                 }
             })
             .catch(err => {
-                cd(null, err)
+                cb(null, err)
             })
     }
 
-    getDeclaredCapital(primary,cb) {
-        axios.get('core/declared/' + primary).then((result) => {
+    getDeclaredCapital(cb) {
+        axios.get('core/declared').then((result) => {
                 if (result.data.success) {
                     cb(result.data.model)
                 } else {
@@ -72,7 +92,7 @@ export default class ProductType {
                 }
             })
             .catch(err => {
-                cd(null, err)
+                cb(null, err)
             })
     }
 

@@ -40,8 +40,8 @@
             <v-list-tile-title class="body-1 font-weight-light">Products</v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
-        <v-list-tile
-          @click="goTo('/app/certificates')"
+        <!-- <v-list-tile
+          @click="goTo('/app/Certificates')"
           class="ma-1"
           :style="activeRoute('Certificates')"
         >
@@ -50,6 +50,18 @@
           </v-list-tile-action>
           <v-list-tile-content>
             <v-list-tile-title class="body-1 font-weight-light">Accounts</v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile> -->
+        <v-list-tile
+          @click="goTo('/app/primary')"
+          class="ma-1"
+          :style="activeRoute('primary')"
+        >
+          <v-list-tile-action>
+            <v-icon color="success">account_box</v-icon>
+          </v-list-tile-action>
+          <v-list-tile-content>
+            <v-list-tile-title class="body-1 font-weight-light">Primary</v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
         <v-list-tile @click="goTo('/app/location')" class="ma-1" :style="activeRoute('location')">

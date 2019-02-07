@@ -22,23 +22,8 @@
           <v-card-text>
             <v-container grid-list-md>
               <v-layout wrap>
-                <v-flex xs12 sm6 md4>
-                  <v-text-field v-model="editedItem.case_no" label="Case No"></v-text-field>
-                </v-flex>
-                <v-flex xs12 sm6 md4>
-                  <v-text-field v-model="editedItem.case_no" label="License No"></v-text-field>
-                </v-flex>
-                <v-flex xs12 sm6 md4>
-                  <v-text-field v-model="editedItem.application_type" label="Type"></v-text-field>
-                </v-flex>
-                <v-flex xs12 sm6 md4>
-                  <v-text-field v-model="editedItem.current_task" label="Task"></v-text-field>
-                </v-flex>
-                <v-flex xs12 sm6 md4>
-                  <v-text-field v-model="editedItem.date_created" label="Application Date"></v-text-field>
-                </v-flex>
-                <v-flex xs12 sm6 md4>
-                  <v-text-field v-model="editedItem.date_variation" label="Variation Date"></v-text-field>
+                <v-flex xs12 pa-5>
+                  <v-text-field v-model="editedItem.product_type" label="Product Type"></v-text-field>
                 </v-flex>
               </v-layout>
             </v-container>
@@ -51,45 +36,65 @@
           </v-card-actions>
         </v-card>
       </v-dialog>
-      <v-dialog v-model="dialog2" max-width="800px">
+      <v-dialog v-model="dialog1" max-width="800px">
         <v-card>
           <v-card-title
             primary-title
             class="headline"
             style="background: linear-gradient(45deg, #104B2A 0%, #b5c25a 100%)"
-          >Confirmation</v-card-title>
-          <v-divider></v-divider>
-          <div>
-            <md-table v-model="headers1" :items="product" class="elevation-1">
-              <md-table-row slot="md-table-row" slot-scope="{ defaultItem }">
-                <md-table-cell md-label="Case #">{{ defaultItem.case_no }}</md-table-cell>
-                <md-table-cell md-label="Process">{{ defaultItem.case_no }}</md-table-cell>
-                <md-table-cell md-label="Status">{{ defaultItem.application_type }}</md-table-cell>
-                <md-table-cell md-label="Country">{{ defaultItem.current_task }}</md-table-cell>
-                <md-table-cell md-label="City">{{ defaultItem.date_created }}</md-table-cell>
-                <md-table-cell md-label="City">{{ defaultItem.date_variation }}</md-table-cell>
-              </md-table-row>
-            </md-table>
-          </div>
+          >
+            <span class="headline">View Location</span>
+          </v-card-title>
+          <v-divider class="mx-3" inset vertical></v-divider>
+          <v-card-text>
+            <v-container grid-list-md>
+              <v-layout wrap>
+                <v-flex xs12 sm4 md3>
+                  <span class="text-xs-center">Product Type</span>
+                  <v-divider></v-divider>
+                  <v-card-text>{{editedItem.product_type}}</v-card-text>
+                </v-flex>
+                <v-flex xs12 sm4 md3>
+                  <span class="text-xs-center">Created By</span>
+                  <v-divider></v-divider>
+                  <v-card-text>{{editedItem.created_by}}</v-card-text>
+                </v-flex>
+                <v-flex xs12 sm4 md3>
+                  <span class="text-xs-center">Created Date</span>
+                  <v-divider></v-divider>
+                  <v-card-text>{{editedItem.date_created}}</v-card-text>
+                </v-flex>
+                <v-flex xs12 sm4 md3>
+                  <span class="text-xs-center">Modified By</span>
+                  <v-divider></v-divider>
+                  <v-card-text>{{editedItem.modified_by}}</v-card-text>
+                </v-flex>
+                 <v-flex xs12 sm4 md3>
+                  <span class="text-xs-center">Modified Date</span>
+                  <v-divider></v-divider>
+                  <v-card-text>{{editedItem.modified_date}}</v-card-text>
+                </v-flex>
+              </v-layout>
+            </v-container>
+          </v-card-text>
           <v-divider></v-divider>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn color="success" @click="dialog2=false">Close</v-btn>
+            <v-btn color="success" @click="close">Close</v-btn>
           </v-card-actions>
         </v-card>
       </v-dialog>
     </v-toolbar>
     <v-data-table :headers="headers" :items="product" :search="search" class="elevation-1">
       <template slot="items" slot-scope="props">
-        <td>{{ props.item.case_no }}</td>
-        <td>{{ props.item.case_no }}</td>
-        <td>{{ props.item.application_type }}</td>
-        <td>{{ props.item.current_task }}</td>
+        <td>{{ props.item.product_type }}</td>
+        <td>{{ props.item.created_by }}</td>
         <td>{{ props.item.date_created }}</td>
-        <td>{{ props.item.date_variation }}</td>
+        <td>{{ props.item.modified_by }}</td>
+        <td>{{ props.item.modified_date }}</td>
         <td class="justify-center layout px-0">
           <v-icon small class="mr-2" @click="editItem(props.item)" flat icon color="primary">edit</v-icon>
-          <v-icon small @click="viewItem(props.item)" flat icon color="primary">assignment</v-icon>
+          <v-icon small @click="viewItem(props.item)" flat icon color="primary">visibility</v-icon>
         </td>
       </template>
       <v-alert
@@ -108,44 +113,31 @@
 export default {
   data: () => ({
     dialog: false,
-    dialog2: false,
+    dialog1: false,
     search: "",
-    email: "",
-    rules: {
-      required: value => !!value || "Required."
-    },
-    headers1: [
-      { text: "Case No", value: "case_no" },
-      { text: "License No", value: "case_no" },
-      { text: "Type", value: "application_type" },
-      { text: "Task", value: "current_task" },
-      { text: "Application Date", value: "date_created" },
-      { text: "Variation Date", value: "date_variation" }
-    ],
     headers: [
-      { text: "Case No", value: "case_no" },
-      { text: "License No", value: "case_no" },
-      { text: "Type", value: "application_type" },
-      { text: "Task", value: "current_task" },
-      { text: "Application Date", value: "date_created" },
-      { text: "Variation Date", value: "date_variation" },
+      { text: "Product Type", value: "product_type" },
+      { text: "Created By", value: "created_by" },
+      { text: "Created Date", value: "date_created" },
+      { text: "Modified By", value: "modified_by" },
+      { text: "Modified Date", value: "modified_date" },
       { text: "Actions", value: "name", sortable: false }
     ],
     product: [],
     editedIndex: -1,
     editedItem: {
-      case_no: "00",
-      application_type: "sample application",
-      current_task: "sample task",
-      date_created: "01/01/2019",
-      date_variation: "01/01/2019"
+      product_type: "Food",
+      created_by: "Vince",
+      date_created: "November 06, 2018, 11:50 AM",
+      modified_by: "Belo",
+      modified_date: "December 06, 2018, 11:50 AM"
     },
     defaultItem: {
-      case_no: "22",
-      application_type: "Sample Text sample application",
-      current_task: "sample task",
-      date_created: "01/01/2019",
-      date_variation: "01/01/2019"
+      product_type: "",
+      created_by: "Vince",
+      date_created: "November 06, 2018, 11:50 AM",
+      modified_by: "Belo",
+      modified_date: "December 06, 2018, 11:50 AM"
     }
   }),
 
@@ -169,25 +161,25 @@ export default {
     initialize() {
       this.product = [
         {
-          case_no: "00",
-          application_type: "sample application",
-          current_task: "sample task",
-          date_created: "01/01/2019",
-          date_variation: "01/01/2019"
+          product_type: "Food",
+          created_by: "Vince",
+          date_created: "November 06, 2018, 11:50 AM",
+          modified_by: "Belo",
+          modified_date: "December 06, 2018, 11:50 AM"
         },
         {
-          case_no: "01",
-          application_type: "Text sample application",
-          current_task: "sample task",
-          date_created: "01/01/2019",
-          date_variation: "01/01/2019"
+          product_type: "Cosmetic",
+          created_by: "Vince",
+          date_created: "November 06, 2018, 11:50 AM",
+          modified_by: "Belo",
+          modified_date: "December 06, 2018, 11:50 AM"
         },
         {
-          case_no: "02",
-          application_type: "One sample application",
-          current_task: "sample task",
-          date_created: "01/01/2019",
-          date_variation: "01/01/2019"
+          product_type: "Drugs",
+          created_by: "Vince",
+          date_created: "November 06, 2018, 11:50 AM",
+          modified_by: "Belo",
+          modified_date: "December 06, 2018, 11:50 AM"
         }
       ];
     },
@@ -199,13 +191,14 @@ export default {
     },
 
     viewItem(item) {
-      this.defaultIndex = this.product.indexOf(item);
-      this.defaultItem = Object.assign({}, item);
-      this.dialog = true;
+      this.editedIndex = this.product.indexOf(item);
+      this.editedItem = Object.assign({}, item);
+      this.dialog1 = true;
     },
 
     close() {
       this.dialog = false;
+      this.dialog1 = false;
       setTimeout(() => {
         this.editedItem = Object.assign({}, this.defaultItem);
         this.editedIndex = -1;

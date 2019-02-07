@@ -32,7 +32,7 @@ export default new Router({
           component: () => import('@/views/app/reference/product.vue')
         },
         {
-          path: 'reference/primary',
+          path: 'primary',
           name: 'primary',
           component: () => import('@/views/app/reference/primary.vue')
         },

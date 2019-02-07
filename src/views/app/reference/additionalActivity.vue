@@ -24,18 +24,28 @@
               <v-layout wrap>
                 <v-flex xs12>
                   <v-select
+                    v-model="select1"
+                    :hint="`${select1.state1}`"
+                    :items="items1"
+                    item-text="state1"
+                    label="Product Type"
+                    persistent-hint
+                    return-object
+                    single-line
+                  ></v-select>
+                  <v-select
                     v-model="select"
                     :hint="`${select.state}`"
                     :items="items"
                     item-text="state"
-                    label="Product Type"
+                    label="Primary Type"
                     persistent-hint
                     return-object
                     single-line
                   ></v-select>
                 </v-flex>
                 <v-flex xs12>
-                  <v-text-field v-model="editedItem.primary_type" label="Primary Type"></v-text-field>
+                  <v-text-field v-model="editedItem.additional_activity" label="Additional Activity"></v-text-field>
                 </v-flex>
               </v-layout>
             </v-container>
@@ -61,27 +71,27 @@
           <v-card-text>
             <v-container grid-list-md>
               <v-layout wrap>
-                <v-flex xs12 md3 offset-xs1>
-                  <span class="text-xs-center">Primary Type</span>
+                <v-flex xs12 sm4 md3>
+                  <span class="text-xs-center">Additional Activity</span>
                   <v-divider></v-divider>
-                  <v-card-text>{{editedItem.primary_type}}</v-card-text>
+                  <v-card-text>{{editedItem.additional_activity}}</v-card-text>
                 </v-flex>
-                <v-flex xs12 md3 offset-xs1>
+                <v-flex xs12 sm4 md3>
                   <span class="text-xs-center">Created By</span>
                   <v-divider></v-divider>
                   <v-card-text>{{editedItem.created_by}}</v-card-text>
                 </v-flex>
-                <v-flex xs12 md3 offset-xs1>
+                <v-flex xs12 sm4 md3>
                   <span class="text-xs-center">Created Date</span>
                   <v-divider></v-divider>
                   <v-card-text>{{editedItem.date_created}}</v-card-text>
                 </v-flex>
-                <v-flex xs12 md3 offset-xs1>
+                <v-flex xs12 sm4 md3>
                   <span class="text-xs-center">Modified By</span>
                   <v-divider></v-divider>
                   <v-card-text>{{editedItem.modified_by}}</v-card-text>
                 </v-flex>
-                <v-flex xs12 md3 offset-xs1>
+                <v-flex xs12 sm4 md3>
                   <span class="text-xs-center">Modified Date</span>
                   <v-divider></v-divider>
                   <v-card-text>{{editedItem.modified_date}}</v-card-text>
@@ -99,7 +109,7 @@
     </v-toolbar>
     <v-data-table :headers="headers" :items="primary" :search="search" class="elevation-1">
       <template slot="items" slot-scope="props">
-        <td>{{ props.item.primary_type }}</td>
+        <td>{{ props.item.additional_activity }}</td>
         <td>{{ props.item.created_by }}</td>
         <td>{{ props.item.date_created }}</td>
         <td>{{ props.item.modified_by }}</td>
@@ -127,18 +137,32 @@ export default {
     dialog: false,
     dialog1: false,
     search: "",
-    select: { state: "Product Type"},
+    select: { state: "Product Type" },
+    select1: { state1: "Primary Type" },
+    items1: [
+      { state1: "Cosmetics" },
+      { state1: "Drugs" },
+      { state1: "Food" },
+      { state1: "Toy and Child Care Article" },
+      { state1: "Household/Urban Pesticide" },
+      { state1: "Medical Device" },
+      { state1: "ENNDS" }
+    ],
     items: [
-      { state: "Cosmetics"},
-      { state: "Drugs"},
-      { state: "Food"},
-      { state: "Toy and Child Care Article"},
-      { state: "Household/Urban Pesticide"},
-      { state: "Medical Device"},
-      { state: "ENNDS"}
+      { state: "Manufacturer" },
+      { state: "Packer/Repacker" },
+      { state: "Trader" },
+      { state: "Distributor" },
+      { state: "Iodize Salt Repacker" },
+      { state: "Iodize Salt Trader" },
+      { state: "Iodize Salt Distributor" },
+      { state: "Drugstore" },
+      { state: "Retail Outlet for Non-prescription Drug" },
+      { state: "Contract Research Organization" },
+      { state: "Sponsor" }
     ],
     headers: [
-      { text: "Primary Type", value: "primary_type" },
+      { text: "Additional Activity", value: "additional_activity" },
       { text: "Created By", value: "created_by" },
       { text: "Created Date", value: "date_created" },
       { text: "Modified By", value: "modified_by" },
@@ -148,7 +172,7 @@ export default {
     primary: [],
     editedIndex: -1,
     editedItem: {
-      primary_type: "Manufacturer",
+      additional_activity: "Exporter of own product",
       created_by: "Vince",
       date_created: "November 06, 2018, 11:50 AM",
       modified_by: "Belo",
@@ -156,7 +180,8 @@ export default {
     },
     defaultItem: {
       product_type: "Food",
-      primary_type: "",
+      primary_type: "Manufacturer",
+      additional_activity: "",
       created_by: "Vince",
       date_created: "November 06, 2018, 11:50 AM",
       modified_by: "Belo",
@@ -184,21 +209,21 @@ export default {
     initialize() {
       this.primary = [
         {
-          primary_type: "Manufacturer",
+          additional_activity: "Exporter of own product",
           created_by: "Vince",
           date_created: "November 06, 2018, 11:50 AM",
           modified_by: "Belo",
           modified_date: "December 06, 2018, 11:50 AM"
         },
         {
-          primary_type: "Packer/Repacker",
+          additional_activity: "Importer of Raw Materials for own use",
           created_by: "Vince",
           date_created: "November 06, 2018, 11:50 AM",
           modified_by: "Belo",
           modified_date: "December 06, 2018, 11:50 AM"
         },
         {
-          primary_type: "Traider",
+          additional_activity: "Wholesaler of own product",
           created_by: "Vince",
           date_created: "November 06, 2018, 11:50 AM",
           modified_by: "Belo",

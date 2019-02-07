@@ -32,9 +32,9 @@ export default new Router({
           component: () => import('@/views/app/reference/product.vue')
         },
         {
-          path: 'reference/apply',
-          name: 'New License Application',
-          component: () => import('@/views/app/reference/Apply.vue')
+          path: 'primary',
+          name: 'primary',
+          component: () => import('@/views/app/reference/primary.vue')
         },
         {
           path: 'certificates',

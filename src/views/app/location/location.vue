@@ -2,7 +2,13 @@
   <div>
     <v-toolbar flat color="white">
       <v-flex xs4>
-        <v-text-field hide-details prepend-icon="search" single-line label="Search"></v-text-field>
+        <v-text-field
+          hide-details
+          prepend-icon="search"
+          single-line
+          label="Search"
+          v-model="search"
+        ></v-text-field>
       </v-flex>
       <v-divider class="mx-2" inset vertical></v-divider>
       <v-btn fab medium color="fdaMed" top right absolute @click="dialog=true">
@@ -22,23 +28,60 @@
           <v-card-text>
             <v-container grid-list-md>
               <v-layout wrap>
-                <v-flex xs12 sm6 md4>
-                  <v-text-field v-model="editedItem.case_no" label="Case No"></v-text-field>
+                <v-flex xs12 sm6 md3>
+                  <v-text-field v-model="editedItem.region" label="Region"></v-text-field>
                 </v-flex>
-                <v-flex xs12 sm6 md4>
-                  <v-text-field v-model="editedItem.case_no" label="License No"></v-text-field>
+                <v-flex xs12 sm6 md3>
+                  <v-text-field v-model="editedItem.province" label="Province"></v-text-field>
                 </v-flex>
-                <v-flex xs12 sm6 md4>
-                  <v-text-field v-model="editedItem.application_type" label="Type"></v-text-field>
+                <v-flex xs12 sm6 md3>
+                  <v-text-field v-model="editedItem.cities" label="City"></v-text-field>
                 </v-flex>
-                <v-flex xs12 sm6 md4>
-                  <v-text-field v-model="editedItem.current_task" label="Task"></v-text-field>
+                <v-flex xs12 sm6 md3>
+                  <v-text-field v-model="editedItem.zipcode" label="Zipcode"></v-text-field>
                 </v-flex>
-                <v-flex xs12 sm6 md4>
-                  <v-text-field v-model="editedItem.date_created" label="Application Date"></v-text-field>
+              </v-layout>
+            </v-container>
+          </v-card-text>
+          <v-divider></v-divider>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn color="success" @click="close">Close</v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+      <v-dialog v-model="dialog1" max-width="800px">
+        <v-card>
+          <v-card-title
+            primary-title
+            class="headline"
+            style="background: linear-gradient(45deg, #104B2A 0%, #b5c25a 100%)"
+          >
+            <span class="headline">View Location</span>
+          </v-card-title>
+          <v-divider class="mx-2" inset vertical></v-divider>
+          <v-card-text>
+            <v-container grid-list-md>
+              <v-layout wrap>
+                <v-flex xs12 sm6 md3>
+                  <span class="text-xs-center">Region</span>
+                  <v-divider></v-divider>
+                  <v-card-text>{{editedItem.region}}</v-card-text>
                 </v-flex>
-                <v-flex xs12 sm6 md4>
-                  <v-text-field v-model="editedItem.date_variation" label="Variation Date"></v-text-field>
+                <v-flex xs12 sm6 md3>
+                  <span class="text-xs-center">Province</span>
+                  <v-divider></v-divider>
+                  <v-card-text>{{editedItem.province}}</v-card-text>
+                </v-flex>
+                <v-flex xs12 sm6 md3>
+                  <span class="text-xs-center">City</span>
+                  <v-divider></v-divider>
+                  <v-card-text>{{editedItem.cities}}</v-card-text>
+                </v-flex>
+                <v-flex xs12 sm6 md3>
+                  <span class="text-xs-center">Zipcode</span>
+                  <v-divider></v-divider>
+                  <v-card-text>{{editedItem.zipcode}}</v-card-text>
                 </v-flex>
               </v-layout>
             </v-container>
@@ -52,19 +95,23 @@
         </v-card>
       </v-dialog>
     </v-toolbar>
-    <v-data-table :headers="headers" :items="product" class="elevation-1">
+    <v-data-table :headers="headers" :items="location" :search="search" class="elevation-1">
       <template slot="items" slot-scope="props">
-        <td>{{ props.item.case_no }}</td>
-        <td>{{ props.item.case_no }}</td>
-        <td>{{ props.item.application_type }}</td>
-        <td>{{ props.item.current_task }}</td>
-        <td>{{ props.item.date_created }}</td>
-        <td>{{ props.item.date_variation }}</td>
+        <td>{{ props.item.region }}</td>
+        <td>{{ props.item.province }}</td>
+        <td>{{ props.item.cities }}</td>
+        <td>{{ props.item.zipcode }}</td>
         <td class="justify-center layout px-0">
           <v-icon small class="mr-2" @click="editItem(props.item)" flat icon color="primary">edit</v-icon>
-          <v-icon small @click="deleteItem(props.item)" flat icon color="primary">assignment</v-icon>
+          <v-icon small @click="viewItem(props.item)" flat icon color="primary">visibility</v-icon>
         </td>
       </template>
+      <v-alert
+        slot="no-results"
+        :value="true"
+        color="error"
+        icon="warning"
+      >Your search for "{{ search }}" found no results.</v-alert>
       <template slot="no-data">
         <v-btn color="primary" @click="initialize">Reset</v-btn>
       </template>
@@ -75,35 +122,34 @@
 export default {
   data: () => ({
     dialog: false,
+    dialog1: false,
+    search: "",
     headers: [
-      { text: "Case No", value: "case_no" },
-      { text: "License No", value: "case_no" },
-      { text: "Type", value: "application_type" },
-      { text: "Task", value: "current_task" },
-      { text: "Application Date", value: "date_created" },
-      { text: "Variation Date", value: "date_variation" },
+      { text: "Region", value: "region" },
+      { text: "Province", value: "province" },
+      { text: "City", value: "cities" },
+      { text: "Zipcode", value: "zipcode" },
       { text: "Actions", value: "name", sortable: false }
     ],
-    product: [],
+    location: [],
+    editedIndex: -1,
     editedItem: {
-      case_no: "00",
-      application_type: "sample application",
-      current_task: "sample task",
-      date_created: "01/01/2019",
-      date_variation: "01/01/2019"
+      region: "NCR",
+      province: "Manila",
+      cities: "Quezon City",
+      zipcode: "1078"
     },
     defaultItem: {
-      case_no: "00",
-      application_type: "sample application",
-      current_task: "sample task",
-      date_created: "01/01/2019",
-      date_variation: "01/01/2019"
+      region: "",
+      province: "",
+      cities: "",
+      zipcode: ""
     }
   }),
 
   computed: {
     formTitle() {
-      return this.editedIndex === -1 ? "New Item" : "Edit Item";
+      return this.editedIndex === -1 ? "Add location" : "Edit Location";
     }
   },
 
@@ -119,45 +165,43 @@ export default {
 
   methods: {
     initialize() {
-      this.product = [
+      this.location = [
         {
-          case_no: "00",
-          application_type: "sample application",
-          current_task: "sample task",
-          date_created: "01/01/2019",
-          date_variation: "01/01/2019"
+          region: "CALABARZON-4A",
+          province: "Rizal",
+          cities: "Antipolo City",
+          zipcode: "1860"
         },
         {
-          case_no: "01",
-          application_type: "sample application",
-          current_task: "sample task",
-          date_created: "01/01/2019",
-          date_variation: "01/01/2019"
+          region: "CALABARZON-4B",
+          province: "Bicol",
+          cities: "Antikan City",
+          zipcode: "1870"
         },
         {
-          case_no: "02",
-          application_type: "sample application",
-          current_task: "sample task",
-          date_created: "01/01/2019",
-          date_variation: "01/01/2019"
+          region: "NCR",
+          province: "Manila",
+          cities: "Quezon City",
+          zipcode: "1078"
         }
       ];
     },
 
     editItem(item) {
-      this.editedIndex = this.product.indexOf(item);
+      this.editedIndex = this.location.indexOf(item);
       this.editedItem = Object.assign({}, item);
       this.dialog = true;
     },
 
-    deleteItem(item) {
-      const index = this.product.indexOf(item);
-      confirm("Are you sure you want to delete this item?") &&
-        this.product.splice(index, 1);
+    viewItem(item) {
+      this.editedIndex = this.location.indexOf(item);
+      this.editedItem = Object.assign({}, item);
+      this.dialog1 = true;
     },
 
     close() {
       this.dialog = false;
+      this.dialog1 = false;
       setTimeout(() => {
         this.editedItem = Object.assign({}, this.defaultItem);
         this.editedIndex = -1;
@@ -166,9 +210,9 @@ export default {
 
     save() {
       if (this.editedIndex > -1) {
-        Object.assign(this.product[this.editedIndex], this.editedItem);
+        Object.assign(this.location[this.editedIndex], this.editedItem);
       } else {
-        this.product.push(this.editedItem);
+        this.location.push(this.editedItem);
       }
       this.close();
     }

@@ -22,8 +22,20 @@
           <v-card-text>
             <v-container grid-list-md>
               <v-layout wrap>
-                <v-flex xs12 pa-5>
-                  <v-text-field v-model="editedItem.product_type" label="Product Type"></v-text-field>
+                <v-flex xs12>
+                  <v-select
+                    v-model="select"
+                    :hint="`${select.state}`"
+                    :items="items"
+                    item-text="state"
+                    label="Select"
+                    persistent-hint
+                    return-object
+                    single-line
+                  ></v-select>
+                </v-flex>
+                <v-flex xs12>
+                  <v-text-field v-model="editedItem.primary_type" label="Primary Type"></v-text-field>
                 </v-flex>
               </v-layout>
             </v-container>
@@ -50,9 +62,9 @@
             <v-container grid-list-md>
               <v-layout wrap>
                 <v-flex xs12 sm4 md3>
-                  <span class="text-xs-center">Product Type</span>
+                  <span class="text-xs-center">Primary Type</span>
                   <v-divider></v-divider>
-                  <v-card-text>{{editedItem.product_type}}</v-card-text>
+                  <v-card-text>{{editedItem.primary_type}}</v-card-text>
                 </v-flex>
                 <v-flex xs12 sm4 md3>
                   <span class="text-xs-center">Created By</span>
@@ -69,7 +81,7 @@
                   <v-divider></v-divider>
                   <v-card-text>{{editedItem.modified_by}}</v-card-text>
                 </v-flex>
-                 <v-flex xs12 sm4 md3>
+                <v-flex xs12 sm4 md3>
                   <span class="text-xs-center">Modified Date</span>
                   <v-divider></v-divider>
                   <v-card-text>{{editedItem.modified_date}}</v-card-text>
@@ -85,9 +97,9 @@
         </v-card>
       </v-dialog>
     </v-toolbar>
-    <v-data-table :headers="headers" :items="product" :search="search" class="elevation-1">
+    <v-data-table :headers="headers" :items="primary" :search="search" class="elevation-1">
       <template slot="items" slot-scope="props">
-        <td>{{ props.item.product_type }}</td>
+        <td>{{ props.item.primary_type }}</td>
         <td>{{ props.item.created_by }}</td>
         <td>{{ props.item.date_created }}</td>
         <td>{{ props.item.modified_by }}</td>
@@ -115,25 +127,35 @@ export default {
     dialog: false,
     dialog1: false,
     search: "",
+    select: { state: "Product Type"},
+    items: [
+      { state: "Food"},
+      { state: "Cosmetics"},
+      { state: "Drugs"},
+      { state: "Toy and Child article care"},
+      { state: "New York"}
+    ],
     headers: [
       { text: "Product Type", value: "product_type" },
+      { text: "Primary Type", value: "primary_type" },
       { text: "Created By", value: "created_by" },
       { text: "Created Date", value: "date_created" },
       { text: "Modified By", value: "modified_by" },
       { text: "Modified Date", value: "modified_date" },
       { text: "Actions", value: "name", sortable: false }
     ],
-    product: [],
+    primary: [],
     editedIndex: -1,
     editedItem: {
-      product_type: "Food",
+      primary_type: "Manufacturer",
       created_by: "Vince",
       date_created: "November 06, 2018, 11:50 AM",
       modified_by: "Belo",
       modified_date: "December 06, 2018, 11:50 AM"
     },
     defaultItem: {
-      product_type: "",
+      product_type: "Food",
+      primary_type: "",
       created_by: "Vince",
       date_created: "November 06, 2018, 11:50 AM",
       modified_by: "Belo",
@@ -159,23 +181,23 @@ export default {
 
   methods: {
     initialize() {
-      this.product = [
+      this.primary = [
         {
-          product_type: "Food",
+          primary_type: "Manufacturer",
           created_by: "Vince",
           date_created: "November 06, 2018, 11:50 AM",
           modified_by: "Belo",
           modified_date: "December 06, 2018, 11:50 AM"
         },
         {
-          product_type: "Cosmetic",
+          primary_type: "Packer/Repacker",
           created_by: "Vince",
           date_created: "November 06, 2018, 11:50 AM",
           modified_by: "Belo",
           modified_date: "December 06, 2018, 11:50 AM"
         },
         {
-          product_type: "Drugs",
+          primary_type: "Traider",
           created_by: "Vince",
           date_created: "November 06, 2018, 11:50 AM",
           modified_by: "Belo",
@@ -185,13 +207,13 @@ export default {
     },
 
     editItem(item) {
-      this.editedIndex = this.product.indexOf(item);
+      this.editedIndex = this.primary.indexOf(item);
       this.editedItem = Object.assign({}, item);
       this.dialog = true;
     },
 
     viewItem(item) {
-      this.editedIndex = this.product.indexOf(item);
+      this.editedIndex = this.primary.indexOf(item);
       this.editedItem = Object.assign({}, item);
       this.dialog1 = true;
     },
@@ -207,9 +229,9 @@ export default {
 
     save() {
       if (this.editedIndex > -1) {
-        Object.assign(this.product[this.editedIndex], this.editedItem);
+        Object.assign(this.primary[this.editedIndex], this.editedItem);
       } else {
-        this.product.push(this.editedItem);
+        this.primary.push(this.editedItem);
       }
       this.close();
     }

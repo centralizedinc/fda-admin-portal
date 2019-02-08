@@ -121,6 +121,7 @@ export default class ProductType {
         console.log("api#############" + JSON.stringify(new_declared))
         axios.post('core/declared', new_declared).then((result) => {
                 console.log("api#############" + JSON.stringify(new_declared))
+                cb(result.data.model)
             })
             .catch(err => {
                 cb(null, err)
@@ -131,6 +132,7 @@ export default class ProductType {
         var id = modified_declared._id
         axios.post('core/declared/' + id, modified_declared).then((result) => {
                 console.log("api#############" + JSON.stringify(modified_declared))
+                cb(result.data.model)
             })
             .catch(err => {
                 cb(null, err)

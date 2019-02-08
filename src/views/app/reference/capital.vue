@@ -52,30 +52,15 @@
           <v-card-text>
             <v-container grid-list-md>
               <v-layout wrap>
-                <v-flex xs12 sm4 md4>
-                  <span class="text-xs-center">Declared Capital</span>
+                <v-flex xs12 sm4 md6>
+                  <span class="text-xs-center">Name</span>
                   <v-divider></v-divider>
-                  <v-card-text>{{editedItem.declared_capital}}</v-card-text>
+                  <v-card-text>{{new_declared.name}}</v-card-text>
                 </v-flex>
-                <v-flex xs12 sm4 md2>
+                <v-flex xs12 sm4 md6>
                   <span class="text-xs-center">Created By</span>
                   <v-divider></v-divider>
-                  <v-card-text>{{editedItem.date_created}}</v-card-text>
-                </v-flex>
-                <v-flex xs12 sm4 md2>
-                  <span class="text-xs-center">Created Date</span>
-                  <v-divider></v-divider>
-                  <v-card-text>{{editedItem.created_by}}</v-card-text>
-                </v-flex>
-                <v-flex xs12 sm4 md2>
-                  <span class="text-xs-center">Modified By</span>
-                  <v-divider></v-divider>
-                  <v-card-text>{{editedItem.date_modified}}</v-card-text>
-                </v-flex>
-                <v-flex xs12 sm4 md2>
-                  <span class="text-xs-center">Modified Date</span>
-                  <v-divider></v-divider>
-                  <v-card-text>{{editedItem.modified_by}}</v-card-text>
+                  <v-card-text>{{new_declared.date_created}}</v-card-text>
                 </v-flex>
               </v-layout>
             </v-container>
@@ -112,7 +97,6 @@
 export default {
   data: () => ({
     mode: 0, // 0 - create, 1 - edit
-    selected_capital: {},
     declared: {},
     new_declared: {},
     modified_declared: {},
@@ -121,30 +105,15 @@ export default {
     search: "",
     headers: [
       {
-        text: "Declared Capital",
+        text: "Name",
         align: "left",
         sortable: "true",
-        value: "declared_capital"
-      },
-      {
-        text: "Created By",
-        align: "left",
-        value: "created_by"
+        value: "name"
       },
       {
         text: "Created Date",
         align: "left",
         value: "date_created"
-      },
-      {
-        text: "Modified By",
-        align: "left",
-        value: "modified_by"
-      },
-      {
-        text: "Modified Date",
-        align: "left",
-        value: "date_modified"
       },
       {
         text: "Action",
@@ -154,11 +123,9 @@ export default {
     declared: [],
     editedIndex: -1,
     editedItem: {
+      id:"",
       name: "",
       date_created: "",
-      created_by: "",
-      date_modified: "",
-      modified_by: ""
     },
     defaultItem: {
       name: ""
@@ -170,66 +137,51 @@ export default {
       return this.mode === 0 ? "Add Declared Capital" : "Edit Declared Capital";
     }
   },
-
-  watch: {
-    dialog(val) {
-      val || this.close();
-    }
-  },
-
   created() {
-
-    //Declared Capital ######################################################################
-    this.$store.dispatch("GET_DECLARED_CAPITAL").then(result => {
-      console.log(
-        JSON.stringify(
-          "###############################" +
-            this.$store.state.reference_tables.declaredCapital
-        )
-      );
-      this.declared = this.$store.state.reference_tables.declaredCapital;
-      console.log(
-        JSON.stringify("###############################" + this.declaredCapital)
-      );
-    });
+    this.init()
   },
 
   methods: {
+    init(){
+      this.$store.dispatch("GET_DECLARED_CAPITAL").then(result => {
+        this.declared = this.$store.state.reference_tables.declaredCapital;
+      });
+    },
     addItem() {
       this.mode = 0; // Create
-      this.selected_capital = {}; // holds the filled up item
+      this.new_declared = {}; // holds the filled up item
       this.dialog = true;
     },
     editItem(item) {
       this.mode = 1; // Edit
-      this.selected_capital = item;
+      this.new_declared = null;
+      this.new_declared = item;
       this.dialog = true;
     },
 
     viewItem(item) {
-      this.selected_capital = item;
+      this.new_declared = item;
       this.dialogView = true;
     },
 
     close() {
       this.dialog = false;
-      this.dialogView = false;
-      setTimeout(() => {
-        this.editedItem = Object.assign({}, this.defaultItem);
-        this.editedIndex = -1;
-      }, 300);
+      this.dialogView = false
+      this.new_declared = {}
     },
     submit() {
       this.$store.dispatch("ADD_DECLARED", this.new_declared).then(result => {
-        console.log("added:declared");
+        console.log("added:declared: " + JSON.stringify(result));
+        this.init();
+        this.close();
       });
-      this.dialog = false
     },
     save() {
-      this.$store.dispatch("EDIT_PRIMARY", item).then(result => {
+      this.$store.dispatch("EDIT_DECLARED", this.new_declared).then(result => {
         console.log("edited");
+        this.init();
+        this.close();
       })
-      this.dialog1 = false
       // if (this.editedIndex > -1) {
       //   Object.assign(this.declared[this.editedIndex], this.editedItem);
       // } else {

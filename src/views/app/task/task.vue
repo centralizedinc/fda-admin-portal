@@ -1,52 +1,84 @@
 <template>
-  <v-layout row wrap>
-    <v-flex xs12 p1-2>
-      <v-card>
-        <v-btn fab small color="primary" top right absolute @click.native.stop="apply">
-          <v-icon>edit</v-icon>
-        </v-btn>
-        <v-data-table :headers="headers" :items="product" class="elevation-1">
-          <template slot="items" slot-scope="props">
-            <td>{{ props.item.name }}</td>
-            <td class="text-xs-right">{{ props.item.calories }}</td>
-            <td class="text-xs-right">{{ props.item.fat }}</td>
-            <td class="text-xs-right">{{ props.item.carbs }}</td>
-            <td class="text-xs-right">{{ props.item.protein }}</td>
-            <td class="text-xs-right">{{ props.item.iron }}</td>
-          </template>
-        </v-data-table>
-      </v-card>
-    </v-flex>
-  </v-layout>
+  <v-card>
+    <v-form>
+      <v-container>
+        <v-layout wrap>
+          <v-flex xs12>
+            <v-autocomplete
+              v-model="friends"
+              :items="people"
+              box
+              chips
+              color="blue-grey lighten-2"
+              label="Select"
+              item-text="name"
+              item-value="name"
+              multiple
+            >
+              <template slot="selection" slot-scope="data">
+                <v-chip
+                  :selected="data.selected"
+                  close
+                  class="chip--select-multi"
+                  @input="remove(data.item)"
+                >{{ data.item.name }}</v-chip>
+              </template>
+              <template slot="item" slot-scope="data">
+                <template v-if="typeof data.item !== 'object'">
+                  <v-list-tile-content v-text="data.item"></v-list-tile-content>
+                </template>
+                <template v-else>
+                  <v-list-tile-content>
+                    <v-list-tile-title v-html="data.item.name"></v-list-tile-title>
+                    <v-list-tile-sub-title v-html="data.item.group"></v-list-tile-sub-title>
+                  </v-list-tile-content>
+                </template>
+              </template>
+            </v-autocomplete>
+          </v-flex>
+        </v-layout>
+      </v-container>
+    </v-form>
+    <v-divider></v-divider>
+  </v-card>
 </template>
-
 <script>
 export default {
   data() {
+
     return {
-      dialog: false,
-      headers: [
-        { text: "Case No", value: "name" },
-        { text: "License No", value: "calories" },
-        { text: "Type", value: "fat" },
-        { text: "Task", value: "carbs" },
-        { text: "Application Date", value: "protein" },
-        { text: "Actions", value: "iron" }
-      ],
-      product: []
+      autoUpdate: true,
+      friends: ["Sandra Adams", "Britta Holt"],
+      isUpdating: false,
+      people: [
+        { header: "Group 1" },
+        { name: "Sandra Adams" },
+        { name: "Ali Connors" },
+        { name: "Trevor Hansen" },
+        { name: "Tucker Smith" },
+        { divider: true },
+        { header: "Group 2" },
+        { name: "Britta Holt" },
+        { name: "Jane Smith " },
+        { name: "John Smith" },
+        { name: "Sandra Williams" }
+      ]
     };
   },
-  created() {},
+
+  watch: {
+    isUpdating(val) {
+      if (val) {
+        setTimeout(() => (this.isUpdating = false), 3000);
+      }
+    }
+  },
+
   methods: {
-    init() {
-      // this.
-    },
-    apply() {
-      this.$router.push("/reference/primary");
+    remove(item) {
+      const index = this.friends.indexOf(item.name);
+      if (index >= 0) this.friends.splice(index, 1);
     }
   }
 };
 </script>
-
-<style>
-</style>

@@ -9,7 +9,7 @@
         <v-icon medium color="fdaSilver">add</v-icon>
       </v-btn>
       <v-spacer></v-spacer>
-      <v-dialog v-model="dialog" max-width="800px">
+      <v-dialog v-model="dialog" max-width="500px">
         <v-card>
           <v-card-title
             primary-title
@@ -22,7 +22,7 @@
           <v-card-text>
             <v-container grid-list-md>
               <v-layout wrap>
-                <v-flex xs12 pa-5>
+                <v-flex xs12>
                   <v-text-field v-model="editedItem.product_type" label="Product Type"></v-text-field>
                 </v-flex>
               </v-layout>

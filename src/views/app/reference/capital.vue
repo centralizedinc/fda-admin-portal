@@ -21,8 +21,8 @@
           </v-layout>
           <v-data-table
             :headers="headers"
-            :items="region"
-            :loading="isLoadingRegion"
+            :items="declared"
+            :loading="isLoadingdeclared"
             :search="search"
             class="elevation-1"
           >
@@ -71,7 +71,7 @@ export default {
     search: null,
     dialog: false,
     user: {},
-    isLoadingdeclaredCapital: false,
+    isLoadingdeclared: false,
     show_confirmation: false,
     headers: [
       {
@@ -140,10 +140,10 @@ export default {
       this.declared = this.$store.state.reference_tables.declaredCapital
       this.isLoadingUser = true;
       this.$http
-        .get("api/region/")
+        .get("core/declared")
         .then(result => {
-          this.region = result.data.model;
-          this.isLoadingdeclaredCapital = false;
+          this.declared = result.data.model;
+          this.isLoadingdeclared = false;
         })
         .catch(err => {
           this.$notifyErr(err);
@@ -194,11 +194,11 @@ export default {
         this.editedItem.date_modified = new Date();
         Object.assign(this.declared[this.editedIndex], this.editedItem);
         this.$http
-          .post("api/region/" + this.editedItem._id, this.editedItem)
+          .post("core/declared" + this.editedItem._id, this.editedItem)
           .then(result => {
             if (result.data.success) {
               this.$notify({
-                message: "Region has been successfully edited.",
+                message: "Declared Capital has been successfully edited.",
                 icon: "check_circle_outline",
                 type: "success",
                 initialMargin: 100

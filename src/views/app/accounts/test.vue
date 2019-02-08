@@ -12,11 +12,11 @@
         {{additional}}
         DECLARED
         {{declared}}
-        <!-- ADD -->
+        <!-- ADD PRIMARY-->
         <v-flex xs12 sm6 md3>
           <v-card>
             <v-card-text>
-              <v-text-field v-model="new_primary.name" label="Regular"></v-text-field>
+              <v-text-field v-model="new_primary.name" label="Primary"></v-text-field>
             </v-card-text>
             <v-card-actions>
               <v-btn color="success" @click="add_primary">add</v-btn>
@@ -24,8 +24,30 @@
           </v-card>
         </v-flex>
 
+        <!-- ADD declared-->
+        <v-flex xs12 sm6 md3>
+          <v-card>
+            <v-card-text>
+              <v-text-field v-model="new_declared.name" label="Declared Capital"></v-text-field>
+            </v-card-text>
+            <v-card-actions>
+              <v-btn color="success" @click="add_declared">add</v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-flex>
+
+        <!-- Edit Declared -->
+        <v-flex xs12 sm6 md3>
+          <v-card>
+            <v-card-text>{{modified_declared}}</v-card-text>
+            <v-card-actions>
+              <v-btn color="success" @click="edit_declared">Edit</v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-flex>
+
         <!-- edit -->
-        <v-flex xs12>
+        <!-- <v-flex xs12>
           <v-card>
             <v-data-table :headers="headers" :items="primary" :search="search" class="elevation-1">
               <template slot="items" slot-scope="props">
@@ -57,7 +79,7 @@
               </template>
             </v-data-table>
           </v-card>
-        </v-flex>
+        </v-flex>-->
       </div>
     </v-flex>
   </v-layout>
@@ -75,29 +97,45 @@ export default {
       secondary: {},
       additional: {},
       declared: {},
+      new_declared: {},
+      modified_declared: {},
       new_primary: {
         name: ""
       },
-      edit_primary:{}
+      edit_primary: {}
     };
   },
 
-methods:{
-
-  add_primary(){
-    this.$store.dispatch("ADD_PRIMARY", this.new_primary).then(result => {
-      console.log("added")
-    });
-  },
-
-  edit_primary(item){
-    this.dialog = true;
-    this.$store.dispatch("EDIT_PRIMARY",item).then(result => {
-      console.log("edited")
+  methods: {
+    // ADD_DECLARED
+    add_declared() {
+      this.$store.dispatch("ADD_DECLARED", this.new_declared).then(result => {
+        this.modified_declared = this.new_declared;
+        console.log("added:declared");
       });
-  }
+    },
 
-},
+    edit_declared(item) {
+      this.dialog = true;
+      this.$store.dispatch("EDIT_PRIMARY", item).then(result => {
+        console.log("edited");
+      });
+    },
+
+    // ADD_PRIMARY
+    add_primary() {
+      this.$store.dispatch("ADD_PRIMARY", this.new_primary).then(result => {
+        console.log("added");
+      });
+    },
+
+    edit_primary(item) {
+      this.dialog = true;
+      this.$store.dispatch("EDIT_PRIMARY", item).then(result => {
+        console.log("edited");
+      });
+    }
+  },
 
   created() {
     this.$store.dispatch("GET_PRODUCTS").then(result => {
@@ -164,11 +202,8 @@ methods:{
         JSON.stringify("###############################" + this.declaredCapital)
       );
     });
-  },
-  
-  
-}
-
+  }
+};
 </script>
 
 <style>

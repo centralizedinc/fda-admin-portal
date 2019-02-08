@@ -126,6 +126,30 @@ var actions = {
             })
         })
     },
+
+    ADD_DECLARED(context, new_declared) {
+        return new Promise((resolve, reject) => {
+            console.log("store#############")
+            new ProductType(context.rootState.user_session.token).addDeclared(new_declared,(data, err) => {
+                console.log("####primary:ACTION####" + JSON.stringify(data))
+                context.commit('SET_PRIMARY', data)
+                resolve()
+            })
+        })
+
+    },
+
+    EDIT_DECLARED(context, modified_declared) {
+        return new Promise((resolve, reject) => {
+            console.log("store#############")
+            new ProductType(context.rootState.user_session.token).editDeclared(modified_declaed, (data, err) => {
+                console.log("####primary:ACTION####" + JSON.stringify(data))
+                context.commit('SET_PRIMARY', data)
+                resolve()
+            })
+        })
+
+    },
     // GET_REGION(context) {
     //     new ProductType(context.rootState.user_session.token).getRegion((data, err) => {
 

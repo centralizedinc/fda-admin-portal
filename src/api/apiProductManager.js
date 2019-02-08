@@ -97,6 +97,27 @@ export default class ProductType {
             })
     }
 
+    addDeclared(new_declared, cb) {
+        console.log("api#############" + JSON.stringify(new_declared))
+        axios.post('core/declared', new_declared).then((result) => {
+                console.log("api#############" + JSON.stringify(new_declared))
+            })
+            .catch(err => {
+                cb(null, err)
+            })
+    }
+
+    editDeclared(modified_declared, cb) {
+        var id = modified_declared._id
+        axios.post('core/declared/' + id, modified_declared).then((result) => {
+                console.log("api#############" + JSON.stringify(modified_declared))
+            })
+            .catch(err => {
+                cb(null, err)
+            })
+    }
+
+
     // getRegion(cb) {
     //     axios.get('lto-api/resource/region').then((result) => {
     //             if (result.data.success) {

@@ -113,6 +113,12 @@
 export default {
   data: () => ({
 
+//data for declared#######################
+      declared: {},
+      new_declared: {},
+      modified_declared: {},
+
+
     products:{},
 
     dialog: false,
@@ -159,10 +165,18 @@ export default {
   created() {
     this.initialize();
 
-    this.$store.dispatch("GET_PRODUCTS").then(result =>{
-        console.log(JSON.stringify("###############################" + this.$store.state.reference_tables.products));
-    this.products = this.$store.state.reference_tables.products
-    console.log(JSON.stringify("###############################" + this.products));
+   //Declared Capital ######################################################################
+   this.$store.dispatch("GET_DECLARED_CAPITAL").then(result => {
+      console.log(
+        JSON.stringify(
+          "###############################" +
+            this.$store.state.reference_tables.declaredCapital
+        )
+      );
+      this.declared = this.$store.state.reference_tables.declaredCapital;
+      console.log(
+        JSON.stringify("###############################" + this.declaredCapital)
+      );
     });
 
   },
@@ -222,7 +236,21 @@ export default {
         this.product.push(this.editedItem);
       }
       this.close();
-    }
+    },
+
+    // ADD_DECLARED ##############################################################
+    add_declared() {
+      this.$store.dispatch("ADD_DECLARED", this.new_declared).then(result => {
+        console.log("added:declared");
+      });
+    },
+    // EDIT_DECLARED
+    edit_declared(item) {
+      this.dialog = true;
+      this.$store.dispatch("EDIT_PRIMARY", item).then(result => {
+        console.log("edited");
+      });
+    },
   }
 };
 </script>

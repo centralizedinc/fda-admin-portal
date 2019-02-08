@@ -42,6 +42,11 @@ export default new Router({
           component: () => import('@/views/app/reference/capital.vue')
         },
         {
+          path: 'declared',
+          name: 'declared',
+          component: () => import('@/views/app/reference/declared.vue')
+        },
+        {
           path: 'Activity',
           name: 'Activity',
           component: () => import('@/views/app/reference/additionalActivity.vue')

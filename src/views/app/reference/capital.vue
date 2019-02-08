@@ -1,230 +1,251 @@
 <template>
-  <div>
-    <v-toolbar flat color="white">
-      <v-flex xs4>
-        <v-text-field append-icon="search" label="Search" single-line hide-details v-model="search"></v-text-field>
-      </v-flex>
-      <v-divider class="mx-2" inset vertical></v-divider>
-      <v-btn fab medium color="fdaMed" top right absolute @click="dialog=true">
-        <v-icon medium color="fdaSilver">add</v-icon>
-      </v-btn>
-      <v-spacer></v-spacer>
-      <v-dialog v-model="dialog" max-width="500px">
-        <v-card>
-          <v-card-title
-            primary-title
-            class="headline"
-            style="background: linear-gradient(45deg, #104B2A 0%, #b5c25a 100%)"
+  <v-layout dark row wrap pa-3>
+    <v-flex xs12>
+      <md-card>
+        <md-card-content>
+          <v-layout row wrap text-xs-right>
+            <v-flex xs4 offset-xs-8 pa-2>
+              <v-text-field
+                v-model="search"
+                append-icon="search"
+                label="Search"
+                single-line
+                hide-details
+              ></v-text-field>
+            </v-flex>
+            <v-flex xs2 offset-xs6>
+              <v-btn fab medium color="fdaMed" right absolute @click="dialog=true">
+                <v-icon medium color="fdaSilver">add</v-icon>
+              </v-btn>
+            </v-flex>
+          </v-layout>
+          <v-data-table
+            :headers="headers"
+            :items="region"
+            :loading="isLoadingRegion"
+            :search="search"
+            class="elevation-1"
           >
-            <span class="headline">{{ formTitle }}</span>
-          </v-card-title>
-          <v-divider class="mx-2" inset vertical></v-divider>
-          <v-card-text>
-            <v-container grid-list-md>
-              <v-layout wrap>
-                <v-flex xs12>
-                  <v-text-field v-model="editedItem.declared_capital" label="Declared Capital"></v-text-field>
-                </v-flex>
-              </v-layout>
-            </v-container>
-          </v-card-text>
-          <v-divider></v-divider>
-          <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn color="success" @click="close">Cancel</v-btn>
-            <v-btn color="success" @click="save">Save</v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-dialog>
-      <v-dialog v-model="dialog1" max-width="800px">
-        <v-card>
-          <v-card-title
-            primary-title
-            class="headline"
-            style="background: linear-gradient(45deg, #104B2A 0%, #b5c25a 100%)"
-          >
-            <span class="headline">View Location</span>
-          </v-card-title>
-          <v-divider class="mx-3" inset vertical></v-divider>
-          <v-card-text>
-            <v-container grid-list-md>
-              <v-layout wrap>
-                <v-flex xs12 sm4 md4>
-                  <span class="text-xs-center">Declared Capital</span>
-                  <v-divider></v-divider>
-                  <v-card-text>{{editedItem.declared_capital}}</v-card-text>
-                </v-flex>
-                <v-flex xs12 sm4 md2>
-                  <span class="text-xs-center">Created By</span>
-                  <v-divider></v-divider>
-                  <v-card-text>{{editedItem.created_by}}</v-card-text>
-                </v-flex>
-                <v-flex xs12 sm4 md2>
-                  <span class="text-xs-center">Created Date</span>
-                  <v-divider></v-divider>
-                  <v-card-text>{{editedItem.date_created}}</v-card-text>
-                </v-flex>
-                <v-flex xs12 sm4 md2>
-                  <span class="text-xs-center">Modified By</span>
-                  <v-divider></v-divider>
-                  <v-card-text>{{editedItem.modified_by}}</v-card-text>
-                </v-flex>
-                 <v-flex xs12 sm4 md2>
-                  <span class="text-xs-center">Modified Date</span>
-                  <v-divider></v-divider>
-                  <v-card-text>{{editedItem.modified_date}}</v-card-text>
-                </v-flex>
-              </v-layout>
-            </v-container>
-          </v-card-text>
-          <v-divider></v-divider>
-          <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn color="success" @click="close">Close</v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-dialog>
-    </v-toolbar>
-    <v-data-table :headers="headers" :items="product" :search="search" class="elevation-1">
-      <template slot="items" slot-scope="props">
-        <td>{{ props.item.declared_capital }}</td>
-        <td>{{ props.item.created_by }}</td>
-        <td>{{ props.item.date_created }}</td>
-        <td>{{ props.item.modified_by }}</td>
-        <td>{{ props.item.modified_date }}</td>
-        <td class="justify-center layout px-0">
-          <v-icon small class="mr-2" @click="editItem(props.item)" flat icon color="primary">edit</v-icon>
-          <v-icon small @click="viewItem(props.item)" flat icon color="primary">visibility</v-icon>
-        </td>
-      </template>
-      <v-alert
-        slot="no-results"
-        :value="true"
-        color="error"
-        icon="warning"
-      >Your search for "{{ search }}" found no results.</v-alert>
-      <template slot="no-data">
-        <v-btn color="primary" @click="initialize">Reset</v-btn>
-      </template>
-    </v-data-table>
-  </div>
+            <v-progress-linear slot="progress" color="blue" height="1"></v-progress-linear>
+            <template slot="items" slot-scope="props">
+              <td>{{ props.item.name }}</td>
+              <td>{{ props.item.created_by }}</td>
+              <td>{{ formatDate(props.item.date_created) }}</td>
+              <td>{{ props.item.modified_by }}</td>
+              <td>{{ formatDate(props.item.date_modified) }}</td>
+              <td class="text-xs-left">
+                <v-btn flat icon color="blue" @click="editItem(props.item)">
+                  <i class="fas fa-pencil-alt fa-sm"></i>
+                  <md-tooltip md-direction="top">Edit</md-tooltip>
+                </v-btn>
+              </td>
+            </template>
+          </v-data-table>
+        </md-card-content>
+      </md-card>
+
+      <md-dialog :md-active.sync="dialog">
+        <md-dialog-title>{{ formTitle }}</md-dialog-title>
+
+        <md-dialog-content>
+          <v-layout wrap>
+            <v-flex xs12>
+              <v-text-field v-model="editedItem.name" label="Declared Capital"></v-text-field>
+            </v-flex>
+          </v-layout>
+        </md-dialog-content>
+
+        <md-dialog-actions>
+          <md-button class="md-danger" @click="close">Cancel</md-button>
+          <md-button class="md-primary" @click="save">Save</md-button>
+        </md-dialog-actions>
+      </md-dialog>
+    </v-flex>
+  </v-layout>
 </template>
+
 <script>
 export default {
   data: () => ({
-
-    products:{},
-
+    success: false,
+    search: null,
     dialog: false,
-    dialog1: false,
-    search: "",
+    user: {},
+    isLoadingdeclaredCapital: false,
+    show_confirmation: false,
     headers: [
-      { text: "Declared Capital", value: "declared_capital" },
-      { text: "Created By", value: "created_by" },
-      { text: "Created Date", value: "date_created" },
-      { text: "Modified By", value: "modified_by" },
-      { text: "Modified Date", value: "modified_date" },
-      { text: "Actions", value: "name", sortable: false }
+      {
+        text: "Declared Capital",
+        align: "left",
+        sortable: "true",
+        value: "name"
+      },
+      {
+        text: "Created By",
+        align: "left",
+        value: "created_by"
+      },
+      {
+        text: "Created Date",
+        align: "left",
+        value: "date_created"
+      },
+      {
+        text: "Modified By",
+        align: "left",
+        value: "modified_by"
+      },
+      {
+        text: "Modified Date",
+        align: "left",
+        value: "date_modified"
+      },
+      {
+        text: "Action",
+        value: "editStatus"
+      }
     ],
-    product: [],
+    declared: [],
+    check: 0,
     editedIndex: -1,
     editedItem: {
-      declared_capital: "250K and Below",
-      created_by: "Vince",
-      date_created: "January 05, 2018, 11:50 AM",
-      modified_by: "Belo",
-      modified_date: "December 06, 2018, 11:50 AM"
+      name: "",
+      date_created: "",
+      created_by: "",
+      date_modified: "",
+      modified_by: ""
     },
     defaultItem: {
-      declared_capital: "",
-      created_by: "Vince",
-      date_created: "February 08, 2018, 11:50 AM",
-      modified_by: "Belo",
-      modified_date: "December 07, 2018, 11:50 AM"
+      name: ""
     }
   }),
-
   computed: {
     formTitle() {
-      return this.editedIndex === -1 ? "Add Item" : "Edit Item";
+      return this.editedIndex === -1 ? "Add Declared Capital" : "Edit Declared Capital";
     }
   },
-
   watch: {
     dialog(val) {
       val || this.close();
     }
   },
-
   created() {
     this.initialize();
-
-    this.$store.dispatch("GET_PRODUCTS").then(result =>{
-        console.log(JSON.stringify("###############################" + this.$store.state.reference_tables.products));
-    this.products = this.$store.state.reference_tables.products
-    console.log(JSON.stringify("###############################" + this.products));
-    });
-
   },
-
   methods: {
-    initialize() {
-      this.product = [
-        {
-          declared_capital: "500K to Below 1M",
-          created_by: "Vince",
-          date_created: "March 06, 2018, 11:50 AM",
-          modified_by: "Belo",
-          modified_date: "December 08, 2018, 11:50 AM"
-        },
-        {
-          declared_capital: "5M to Below 5M",
-          created_by: "Vince",
-          date_created: "April 07, 2018, 11:50 AM",
-          modified_by: "Belo",
-          modified_date: "December 09, 2018, 11:50 AM"
-        },
-        {
-          declared_capital: "10M to Below 20M",
-          created_by: "Vince",
-          date_created: "May 08, 2018, 11:50 AM",
-          modified_by: "Belo",
-          modified_date: "December 10, 2018, 11:50 AM"
-        }
-      ];
+    isEmpty(str) {
+      return !str || str === null || str === "";
     },
-
+    initialize() {
+      this.declared = this.$store.state.reference_tables.declaredCapital
+      this.isLoadingUser = true;
+      this.$http
+        .get("api/region/")
+        .then(result => {
+          this.region = result.data.model;
+          this.isLoadingdeclaredCapital = false;
+        })
+        .catch(err => {
+          this.$notifyErr(err);
+          this.isLoadingdeclared = false;
+        });
+    },
     editItem(item) {
-      this.editedIndex = this.product.indexOf(item);
-      this.editedItem = Object.assign({}, item);
+      this.editedIndex = this.declared.indexOf(item);
+      this.editedItem = item;
       this.dialog = true;
     },
-
-    viewItem(item) {
-      this.editedIndex = this.product.indexOf(item);
-      this.editedItem = Object.assign({}, item);
-      this.dialog1 = true;
+    cancel() {
+      if (!this.isEmpty(this.declared)) {
+        for (let index = 0; index < this.declared.length; index++) {
+          if (this.users[index].name = !this.declared.name) {
+            break;
+          }
+        }
+      }
     },
-
     close() {
       this.dialog = false;
-      this.dialog1 = false;
-      setTimeout(() => {
-        this.editedItem = Object.assign({}, this.defaultItem);
-        this.editedIndex = -1;
-      }, 300);
+      this.editedItem = {};
+      this.editedIndex = -1;
+      this.initialize();
     },
-
     save() {
-      if (this.editedIndex > -1) {
-        Object.assign(this.product[this.editedIndex], this.editedItem);
+      this.check = 0;
+      this.declared.forEach(name => {
+        if (
+          name.name == this.editedItem.name.toUpperCase()
+        ) {
+          this.check++;
+        }
+      });
+      if (
+        this.isEmpty(this.editedItem.name)
+      ) {
+        this.$notify({
+          message: "Please fill up all the fields*",
+          icon: "error_outline",
+          type: "danger",
+          initialMargin: 100
+        });
+      } else if (this.editedIndex > -1 && this.check <= 1) {
+        this.editedItem.name = this.editedItem.name.toUpperCase();
+        this.editedItem.modified_by = this.user.username;
+        this.editedItem.date_modified = new Date();
+        Object.assign(this.declared[this.editedIndex], this.editedItem);
+        this.$http
+          .post("api/region/" + this.editedItem._id, this.editedItem)
+          .then(result => {
+            if (result.data.success) {
+              this.$notify({
+                message: "Region has been successfully edited.",
+                icon: "check_circle_outline",
+                type: "success",
+                initialMargin: 100
+              });
+              this.close();
+            } else {
+              this.$notifyValidationErr(result.data.errors);
+            }
+          })
+          .catch(err => {
+            this.$notifyErr(err);
+          });
+      } else if (this.check === 0) {
+        this.editedItem.name = this.editedItem.name.toUpperCase();
+        this.editedItem.created_by = this.user.username;
+        this.editedItem.date_created = new Date();
+        this.declared.push(this.editedItem);
+        this.$http
+          .post("core/declared", this.editedItem)
+          .then(result => {
+            if (result.data.success) {
+              this.$notify({
+                message: "Declared Capital has been successfully added.",
+                icon: "check_circle_outline",
+                type: "success",
+                initialMargin: 100
+              });
+              this.close();
+            } else {
+              this.$notifyValidationErr(result.data.errors);
+            }
+          })
+          .catch(err => {
+            this.$notifyErr(err);
+          });
       } else {
-        this.product.push(this.editedItem);
+        this.$notify({
+          message: "Declared Capital already exist.",
+          icon: "error_outline",
+          type: "danger",
+          initialMargin: 100
+        });
       }
-      this.close();
     }
   }
 };
 </script>
+
 <style>
 </style>

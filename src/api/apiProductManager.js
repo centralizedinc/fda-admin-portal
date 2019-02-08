@@ -84,6 +84,26 @@ export default class ProductType {
             })
     }
 
+    addAdditional(new_additional, cb) {
+        console.log("api#############" + JSON.stringify(new_additional))
+        axios.post('core/additional', new_additional).then((result) => {
+                console.log("api#############" + JSON.stringify(new_additional))
+            })
+            .catch(err => {
+                cb(null, err)
+            })
+    }
+
+    editAdditional(modified_additional, cb) {
+        var id = modified_additional._id
+        axios.post('core/additional/' + id, modified_additional).then((result) => {
+                console.log("api#############" + JSON.stringify(modified_additional))
+            })
+            .catch(err => {
+                cb(null, err)
+            })
+    }
+
     getDeclaredCapital(cb) {
         axios.get('core/declared').then((result) => {
                 if (result.data.success) {
@@ -97,7 +117,7 @@ export default class ProductType {
             })
     }
 
-    addDeclared(new_declared, cb) {
+    addDeclaredCapital(new_declared, cb) {
         console.log("api#############" + JSON.stringify(new_declared))
         axios.post('core/declared', new_declared).then((result) => {
                 console.log("api#############" + JSON.stringify(new_declared))
@@ -107,7 +127,7 @@ export default class ProductType {
             })
     }
 
-    editDeclared(modified_declared, cb) {
+    editDeclaredCapital(modified_declared, cb) {
         var id = modified_declared._id
         axios.post('core/declared/' + id, modified_declared).then((result) => {
                 console.log("api#############" + JSON.stringify(modified_declared))

@@ -46,6 +46,20 @@
           </v-card>
         </v-flex>
 
+        <!-- ADD ADDITIONAL-->
+        <v-flex xs12 sm6 md3>
+          <v-card>
+            <v-card-text>
+              <v-text-field v-model="new_additional.name" label="Additional Activity"></v-text-field>
+            </v-card-text>
+            <v-card-actions>
+              <v-btn color="success" @click="add_additional">add</v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-flex>
+
+         
+
         <!-- edit -->
         <!-- <v-flex xs12>
           <v-card>
@@ -99,6 +113,7 @@ export default {
       declared: {},
       new_declared: {},
       modified_declared: {},
+      new_additional:{},
       new_primary: {
         name: ""
       },
@@ -107,6 +122,21 @@ export default {
   },
 
   methods: {
+
+    // ADD_ADDITIONAL
+    add_additional() {
+      this.$store.dispatch("ADD_ADDITIONAL", this.new_additional).then(result => {
+        // this.modified_declared = this.new_declared;
+        console.log("added:additional");
+      });
+    },
+    // EDIT_ADDITIONAL
+    edit_additional(item) {
+      this.dialog = true;
+      this.$store.dispatch("EDIT_ADDITIONAL", item).then(result => {
+        console.log("edited");
+      });
+    },
     // ADD_DECLARED
     add_declared() {
       this.$store.dispatch("ADD_DECLARED", this.new_declared).then(result => {

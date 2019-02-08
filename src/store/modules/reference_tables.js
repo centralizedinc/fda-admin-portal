@@ -117,6 +117,30 @@ var actions = {
             })
         })
     },
+
+    ADD_ADDITIONAL(context, new_additional) {
+        return new Promise((resolve, reject) => {
+            console.log("store#############")
+            new ProductType(context.rootState.user_session.token).addAdditional(new_additional,(data, err) => {
+                console.log("####primary:ACTION####" + JSON.stringify(data))
+                context.commit('SET_ADDITIONAL', data)
+                resolve()
+            })
+        })
+
+    },
+
+    EDIT_ADDITIONAL(context, modified_declared) {
+        return new Promise((resolve, reject) => {
+            console.log("store#############")
+            new ProductType(context.rootState.user_session.token).editAdditional(modified_declared, (data, err) => {
+                console.log("####primary:ACTION####" + JSON.stringify(data))
+                context.commit('SET_PRIMARY', data)
+                resolve()
+            })
+        })
+
+    },
     GET_DECLARED_CAPITAL(context) {
         return new Promise((resolve, reject) => {
             new ProductType(context.rootState.user_session.token).getDeclaredCapital((data, err) => {
@@ -130,7 +154,7 @@ var actions = {
     ADD_DECLARED(context, new_declared) {
         return new Promise((resolve, reject) => {
             console.log("store#############")
-            new ProductType(context.rootState.user_session.token).addDeclared(new_declared,(data, err) => {
+            new ProductType(context.rootState.user_session.token).addDeclaredCapital(new_declared,(data, err) => {
                 console.log("####primary:ACTION####" + JSON.stringify(data))
                 context.commit('SET_PRIMARY', data)
                 resolve()
@@ -142,7 +166,7 @@ var actions = {
     EDIT_DECLARED(context, modified_declared) {
         return new Promise((resolve, reject) => {
             console.log("store#############")
-            new ProductType(context.rootState.user_session.token).editDeclared(modified_declaed, (data, err) => {
+            new ProductType(context.rootState.user_session.token).editDeclaredCapital(modified_declared, (data, err) => {
                 console.log("####primary:ACTION####" + JSON.stringify(data))
                 context.commit('SET_PRIMARY', data)
                 resolve()

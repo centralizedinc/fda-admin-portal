@@ -62,29 +62,29 @@
             <v-container grid-list-md>
               <v-layout wrap>
                 <v-flex xs12 sm4 md3>
-                  <span class="text-xs-center">Primary Type</span>
+                  <span class="text-xs-center">NAME</span>
                   <v-divider></v-divider>
-                  <v-card-text>{{editedItem.primary_type}}</v-card-text>
+                  <v-card-text>{{editedItem.name}}</v-card-text>
                 </v-flex>
                 <v-flex xs12 sm4 md3>
-                  <span class="text-xs-center">Created By</span>
+                  <span class="text-xs-center">SECONDARY ACTIVITY</span>
                   <v-divider></v-divider>
-                  <v-card-text>{{editedItem.created_by}}</v-card-text>
+                  <v-card-text>{{editedItem.secondary_activity}}</v-card-text>
                 </v-flex>
                 <v-flex xs12 sm4 md3>
-                  <span class="text-xs-center">Created Date</span>
+                  <span class="text-xs-center">ADDITIONAL ACTIVITY</span>
+                  <v-divider></v-divider>
+                  <v-card-text>{{editedItem.additional_activity}}</v-card-text>
+                </v-flex>
+                <v-flex xs12 sm4 md3>
+                  <span class="text-xs-center">DECLARED CAPITAL</span>
+                  <v-divider></v-divider>
+                  <v-card-text>{{editedItem.declared_capital}}</v-card-text>
+                </v-flex>
+                <v-flex xs12 sm4 md3>
+                  <span class="text-xs-center">DATE CREATED</span>
                   <v-divider></v-divider>
                   <v-card-text>{{editedItem.date_created}}</v-card-text>
-                </v-flex>
-                <v-flex xs12 sm4 md3>
-                  <span class="text-xs-center">Modified By</span>
-                  <v-divider></v-divider>
-                  <v-card-text>{{editedItem.modified_by}}</v-card-text>
-                </v-flex>
-                <v-flex xs12 sm4 md3>
-                  <span class="text-xs-center">Modified Date</span>
-                  <v-divider></v-divider>
-                  <v-card-text>{{editedItem.modified_date}}</v-card-text>
                 </v-flex>
               </v-layout>
             </v-container>
@@ -99,11 +99,11 @@
     </v-toolbar>
     <v-data-table :headers="headers" :items="primary" :search="search" class="elevation-1">
       <template slot="items" slot-scope="props">
-        <td>{{ props.item.primary_type }}</td>
-        <td>{{ props.item.created_by }}</td>
+        <td>{{ props.item.name }}</td>
+        <td>{{ props.item.secondary_activities }}</td>
+        <td>{{ props.item.additional_activities }}</td>
+        <td>{{ props.item.decalred_capital }}</td>
         <td>{{ props.item.date_created }}</td>
-        <td>{{ props.item.modified_by }}</td>
-        <td>{{ props.item.modified_date }}</td>
         <td class="justify-center layout px-0">
           <v-icon small class="mr-2" @click="editItem(props.item)" flat icon color="primary">edit</v-icon>
           <v-icon small @click="viewItem(props.item)" flat icon color="primary">visibility</v-icon>
@@ -127,40 +127,25 @@ export default {
     dialog: false,
     dialog1: false,
     search: "",
-    select: { state: "Product Type"},
+    select: { state: "Product Type" },
     items: [
-      { state: "Food"},
-      { state: "Cosmetics"},
-      { state: "Drugs"},
-      { state: "Toy and Child article care"},
-      { state: "New York"}
+      { state: "Food" },
+      { state: "Cosmetics" },
+      { state: "Drugs" },
+      { state: "Toy and Child article care" },
     ],
     headers: [
-      { text: "Product Type", value: "product_type" },
-      { text: "Primary Type", value: "primary_type" },
-      { text: "Created By", value: "created_by" },
-      { text: "Created Date", value: "date_created" },
-      { text: "Modified By", value: "modified_by" },
-      { text: "Modified Date", value: "modified_date" },
-      { text: "Actions", value: "name", sortable: false }
+      { text: "NAME", value: "name" },
+      { text: "SECONDARY ACTIVITY", value: "secondary_activity" },
+      { text: "ADDITIONAL ACTIVITY", value: "additional_activity" },
+      { text: "DECLARED CAPITAL", value: "declared_capital" },
+      { text: "DATE CREATED", value: "date_created" },
+      { text: "ACTIONS", value: "name", sortable: false }
     ],
     primary: [],
     editedIndex: -1,
-    editedItem: {
-      primary_type: "Manufacturer",
-      created_by: "Vince",
-      date_created: "November 06, 2018, 11:50 AM",
-      modified_by: "Belo",
-      modified_date: "December 06, 2018, 11:50 AM"
-    },
-    defaultItem: {
-      product_type: "Food",
-      primary_type: "",
-      created_by: "Vince",
-      date_created: "November 06, 2018, 11:50 AM",
-      modified_by: "Belo",
-      modified_date: "December 06, 2018, 11:50 AM"
-    }
+    editedItem: {},
+    defaultItem: {}
   }),
 
   computed: {
@@ -177,9 +162,35 @@ export default {
 
   created() {
     this.initialize();
+    // VIEW
+    this.$store.dispatch("GET_PRIMARY").then(result => {
+      console.log(
+        JSON.stringify(
+          "###############################" +
+            this.$store.state.reference_tables.primary
+        )
+      );
+      this.primary = this.$store.state.reference_tables.primary;
+      console.log(
+        JSON.stringify("###############################" + this.primary)
+      );
+    });
   },
 
   methods: {
+    add_primary() {
+      this.$store.dispatch("ADD_PRIMARY", this.new_primary).then(result => {
+        console.log("added");
+      });
+    },
+
+    edit_primary(item) {
+      this.dialog = true;
+      this.$store.dispatch("EDIT_PRIMARY", item).then(result => {
+        console.log("edited");
+      });
+    },
+// 
     initialize() {
       this.primary = [
         {

@@ -37,6 +37,16 @@ export default new Router({
           component: () => import('@/views/app/reference/primary.vue')
         },
         {
+          path: 'capital',
+          name: 'capital',
+          component: () => import('@/views/app/reference/capital.vue')
+        },
+        {
+          path: 'Activity',
+          name: 'Activity',
+          component: () => import('@/views/app/reference/additionalActivity.vue')
+        },
+        {
           path: 'certificates',
           name: 'Certificates',
           component: () => import('@/views/app/UserPortfolio.vue')
@@ -50,6 +60,16 @@ export default new Router({
           path: 'password',
           name: 'Change Password',
           component: () => import('@/views/app/passwordSettings/ChangePassword.vue')
+        },
+        {
+          path: 'city',
+          name: 'city',
+          component: () => import('@/views/app/location/city.vue')
+        },
+        {
+          path: 'region',
+          name: 'region',
+          component: () => import('@/views/app/location/region.vue')
         },
         {
           path: 'location',

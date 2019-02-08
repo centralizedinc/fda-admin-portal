@@ -28,14 +28,14 @@
                     :hint="`${select.state}`"
                     :items="items"
                     item-text="state"
-                    label="Product Type"
+                    label="Region"
                     persistent-hint
                     return-object
                     single-line
                   ></v-select>
                 </v-flex>
                 <v-flex xs12>
-                  <v-text-field v-model="editedItem.primary_type" label="Primary Type"></v-text-field>
+                  <v-text-field v-model="editedItem.city" label="City"></v-text-field>
                 </v-flex>
               </v-layout>
             </v-container>
@@ -62,29 +62,34 @@
             <v-container grid-list-md>
               <v-layout wrap>
                 <v-flex xs12 md3 offset-xs1>
-                  <span class="text-xs-center">Primary Type</span>
+                  <span class="text-xs-center">Region</span>
                   <v-divider></v-divider>
-                  <v-card-text>{{editedItem.name}}</v-card-text>
+                  <v-card-text>{{editedItem.region_code}}</v-card-text>
+                </v-flex>
+                <v-flex xs12 md3 offset-xs1>
+                  <span class="text-xs-center">City/Province</span>
+                  <v-divider></v-divider>
+                  <v-card-text>{{editedItem.city}}</v-card-text>
                 </v-flex>
                 <v-flex xs12 md3 offset-xs1>
                   <span class="text-xs-center">Created By</span>
                   <v-divider></v-divider>
-                  <v-card-text>{{editedItem.secondary_activity}}</v-card-text>
+                  <v-card-text>{{editedItem.created_by}}</v-card-text>
                 </v-flex>
                 <v-flex xs12 md3 offset-xs1>
                   <span class="text-xs-center">Created Date</span>
                   <v-divider></v-divider>
-                  <v-card-text>{{editedItem.additional_activity}}</v-card-text>
+                  <v-card-text>{{editedItem.date_created}}</v-card-text>
                 </v-flex>
                 <v-flex xs12 md3 offset-xs1>
                   <span class="text-xs-center">Modified By</span>
                   <v-divider></v-divider>
-                  <v-card-text>{{editedItem.declared_capital}}</v-card-text>
+                  <v-card-text>{{editedItem.modified_by}}</v-card-text>
                 </v-flex>
                 <v-flex xs12 md3 offset-xs1>
                   <span class="text-xs-center">Modified Date</span>
                   <v-divider></v-divider>
-                  <v-card-text>{{editedItem.date_created}}</v-card-text>
+                  <v-card-text>{{editedItem.modified_date}}</v-card-text>
                 </v-flex>
               </v-layout>
             </v-container>
@@ -99,11 +104,12 @@
     </v-toolbar>
     <v-data-table :headers="headers" :items="primary" :search="search" class="elevation-1">
       <template slot="items" slot-scope="props">
-        <td>{{ props.item.name }}</td>
-        <td>{{ props.item.secondary_activities }}</td>
-        <td>{{ props.item.additional_activities }}</td>
-        <td>{{ props.item.decalred_capital }}</td>
+        <td>{{ props.item.region_code }}</td>
+        <td>{{ props.item.city }}</td>
+        <td>{{ props.item.created_by }}</td>
         <td>{{ props.item.date_created }}</td>
+        <td>{{ props.item.modified_by }}</td>
+        <td>{{ props.item.modified_date }}</td>
         <td class="justify-center layout px-0">
           <v-icon small class="mr-2" @click="editItem(props.item)" flat icon color="primary">edit</v-icon>
           <v-icon small @click="viewItem(props.item)" flat icon color="primary">visibility</v-icon>
@@ -127,18 +133,19 @@ export default {
     dialog: false,
     dialog1: false,
     search: "",
-    select: { state: "Product Type" },
+    select: { state: "Region" },
     items: [
-      { state: "Cosmetics"},
-      { state: "Drugs"},
-      { state: "Food"},
-      { state: "Toy and Child Care Article"},
-      { state: "Household/Urban Pesticide"},
-      { state: "Medical Device"},
-      { state: "ENNDS"}
+      { state: "CAR" },
+      { state: "NCR" },
+      { state: "REGION I" },
+      { state: "REGION II" },
+      { state: "REGION IV-B" },
+      { state: "ARMM" },
+      { state: "REGION XIII" }
     ],
     headers: [
-      { text: "Primary Type", value: "primary_type" },
+      { text: "Region Name", value: "region_code" },
+      { text: "City/Province", value: "city" },
       { text: "Created By", value: "created_by" },
       { text: "Created Date", value: "date_created" },
       { text: "Modified By", value: "modified_by" },
@@ -147,8 +154,21 @@ export default {
     ],
     primary: [],
     editedIndex: -1,
-    editedItem: {},
-    defaultItem: {}
+    editedItem: {
+      region_code: "BICOL REGION",
+      created_by: "Vince",
+      date_created: "November 06, 2018, 11:50 AM",
+      modified_by: "Belo",
+      modified_date: "December 06, 2018, 11:50 AM"
+    },
+    defaultItem: {
+      region_code: "",
+      city: "",
+      created_by: "Vince",
+      date_created: "January 06, 2018, 05:50 AM",
+      modified_by: "Belo",
+      modified_date: "March 10, 2019, 11:50 AM"
+    }
   }),
 
   computed: {
@@ -165,57 +185,34 @@ export default {
 
   created() {
     this.initialize();
-    // VIEW
-    this.$store.dispatch("GET_PRIMARY").then(result => {
-      console.log(
-        JSON.stringify(
-          "###############################" +
-            this.$store.state.reference_tables.primary
-        )
-      );
-      this.primary = this.$store.state.reference_tables.primary;
-      console.log(
-        JSON.stringify("###############################" + this.primary)
-      );
-    });
   },
 
   methods: {
-    add_primary() {
-      this.$store.dispatch("ADD_PRIMARY", this.new_primary).then(result => {
-        console.log("added");
-      });
-    },
-
-    edit_primary(item) {
-      this.dialog = true;
-      this.$store.dispatch("EDIT_PRIMARY", item).then(result => {
-        console.log("edited");
-      });
-    },
-// 
     initialize() {
       this.primary = [
         {
-          primary_type: "Manufacturer",
+          region_code: "CARAGA REGION",
+          city: "TAWI-TAWI",
           created_by: "Vince",
           date_created: "November 06, 2018, 11:50 AM",
           modified_by: "Belo",
           modified_date: "December 06, 2018, 11:50 AM"
         },
         {
-          primary_type: "Packer/Repacker",
+          region_code: "CAGAYAN VALLEY",
+          city: "BASILAN",
           created_by: "Vince",
-          date_created: "November 06, 2018, 11:50 AM",
+          date_created: "October 06, 2018, 9:50 AM",
           modified_by: "Belo",
-          modified_date: "December 06, 2018, 11:50 AM"
+          modified_date: "November 10, 2018, 11:50 AM"
         },
         {
-          primary_type: "Traider",
+          region_code: "CALABARZON",
+          city: "MAGUINDANAO",
           created_by: "Vince",
-          date_created: "November 06, 2018, 11:50 AM",
+          date_created: "April 06, 2018, 11:50 AM",
           modified_by: "Belo",
-          modified_date: "December 06, 2018, 11:50 AM"
+          modified_date: "May 06, 2018, 11:50 AM"
         }
       ];
     },

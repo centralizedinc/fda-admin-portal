@@ -32,7 +32,7 @@
             <v-list-tile-title class="body-1 font-weight-light">Dashboard</v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
-        <v-list-tile @click="goTo('/app/products')" class="ma-1" :style="activeRoute('products')">
+        <v-list-tile @click="goTo('/app/products')" class="ma-1" :style="activeRoute('product')">
           <v-list-tile-action>
             <v-icon color="success">card_membership</v-icon>
           </v-list-tile-action>
@@ -51,17 +51,29 @@
           <v-list-tile-content>
             <v-list-tile-title class="body-1 font-weight-light">Accounts</v-list-tile-title>
           </v-list-tile-content>
-        </v-list-tile> -->
-        <v-list-tile
-          @click="goTo('/app/primary')"
-          class="ma-1"
-          :style="activeRoute('primary')"
-        >
+        </v-list-tile>-->
+        <v-list-tile @click="goTo('/app/primary')" class="ma-1" :style="activeRoute('primary')">
           <v-list-tile-action>
             <v-icon color="success">account_box</v-icon>
           </v-list-tile-action>
           <v-list-tile-content>
             <v-list-tile-title class="body-1 font-weight-light">Primary</v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>
+        <v-list-tile @click="goTo('/app/Activity')" class="ma-1" :style="activeRoute('Activity')">
+          <v-list-tile-action>
+            <v-icon color="success">face</v-icon>
+          </v-list-tile-action>
+          <v-list-tile-content>
+            <v-list-tile-title class="body-1 font-weight-light">Additional Activity</v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>
+        <v-list-tile @click="goTo('/app/capital')" class="ma-1" :style="activeRoute('capital')">
+          <v-list-tile-action>
+            <v-icon color="success">accessibility</v-icon>
+          </v-list-tile-action>
+          <v-list-tile-content>
+            <v-list-tile-title class="body-1 font-weight-light">Declared Capital</v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
         <v-list-tile @click="goTo('/app/location')" class="ma-1" :style="activeRoute('location')">
@@ -70,6 +82,22 @@
           </v-list-tile-action>
           <v-list-tile-content>
             <v-list-tile-title class="body-1 font-weight-light">Location</v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>
+        <v-list-tile @click="goTo('/app/region')" class="ma-1" :style="activeRoute('region')">
+          <v-list-tile-action>
+            <v-icon color="success">room</v-icon>
+          </v-list-tile-action>
+          <v-list-tile-content>
+            <v-list-tile-title class="body-1 font-weight-light">Region</v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>
+        <v-list-tile @click="goTo('/app/city')" class="ma-1" :style="activeRoute('city')">
+          <v-list-tile-action>
+            <v-icon color="success">room</v-icon>
+          </v-list-tile-action>
+          <v-list-tile-content>
+            <v-list-tile-title class="body-1 font-weight-light">City</v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
         <v-list-tile @click="goTo('/app/task')" class="ma-1" :style="activeRoute('task')">
@@ -95,7 +123,11 @@
           </v-list-tile-content>
         </v-list-tile>
 
-        <v-list-tile @click="goTo('/app/password')" class="ma-1" :style="activeRoute('password')">
+        <v-list-tile
+          @click="goTo('/app/password')"
+          class="ma-1"
+          :style="activeRoute('Change Password')"
+        >
           <v-list-tile-action>
             <v-icon color="success">lock_open</v-icon>
           </v-list-tile-action>

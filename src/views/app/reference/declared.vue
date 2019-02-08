@@ -246,7 +246,6 @@ export default {
     },
     // EDIT_DECLARED
     edit_declared(item) {
-      this.dialog = true;
       this.$store.dispatch("EDIT_PRIMARY", item).then(result => {
         console.log("edited");
       });

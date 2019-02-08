@@ -9,7 +9,7 @@
         <v-icon medium color="fdaSilver">add</v-icon>
       </v-btn>
       <v-spacer></v-spacer>
-      <v-dialog v-model="dialog" max-width="800px">
+      <v-dialog v-model="dialog" max-width="500px">
         <v-card>
           <v-card-title
             primary-title
@@ -23,39 +23,7 @@
             <v-container grid-list-md>
               <v-layout wrap>
                 <v-flex xs12>
-                  <v-select
-                    v-model="select1"
-                    :hint="`${select1.state1}`"
-                    :items="items1"
-                    item-text="state1"
-                    label="Product Type"
-                    persistent-hint
-                    return-object
-                    single-line
-                  ></v-select>
-                  <v-select
-                    v-model="select"
-                    :hint="`${select.state}`"
-                    :items="items"
-                    item-text="state"
-                    label="Primary Type"
-                    persistent-hint
-                    return-object
-                    single-line
-                  ></v-select>
-                  <v-select
-                    v-model="select2"
-                    :hint="`${select2.state2}`"
-                    :items="items2"
-                    item-text="state2"
-                    label="Declared Capital"
-                    persistent-hint
-                    return-object
-                    single-line
-                  ></v-select>
-                </v-flex>
-                <v-flex xs12>
-                  <v-text-field v-model="editedItem.additional_activity" label="Additional Activity"></v-text-field>
+                  <v-text-field v-model="editedItem.declared_capital" label="Declared Capital"></v-text-field>
                 </v-flex>
               </v-layout>
             </v-container>
@@ -81,27 +49,27 @@
           <v-card-text>
             <v-container grid-list-md>
               <v-layout wrap>
-                <v-flex xs12 sm4 md3>
+                <v-flex xs12 sm4 md4>
                   <span class="text-xs-center">Declared Capital</span>
                   <v-divider></v-divider>
                   <v-card-text>{{editedItem.declared_capital}}</v-card-text>
                 </v-flex>
-                <v-flex xs12 sm4 md3>
+                <v-flex xs12 sm4 md2>
                   <span class="text-xs-center">Created By</span>
                   <v-divider></v-divider>
                   <v-card-text>{{editedItem.created_by}}</v-card-text>
                 </v-flex>
-                <v-flex xs12 sm4 md3>
+                <v-flex xs12 sm4 md2>
                   <span class="text-xs-center">Created Date</span>
                   <v-divider></v-divider>
                   <v-card-text>{{editedItem.date_created}}</v-card-text>
                 </v-flex>
-                <v-flex xs12 sm4 md3>
+                <v-flex xs12 sm4 md2>
                   <span class="text-xs-center">Modified By</span>
                   <v-divider></v-divider>
                   <v-card-text>{{editedItem.modified_by}}</v-card-text>
                 </v-flex>
-                <v-flex xs12 sm4 md3>
+                 <v-flex xs12 sm4 md2>
                   <span class="text-xs-center">Modified Date</span>
                   <v-divider></v-divider>
                   <v-card-text>{{editedItem.modified_date}}</v-card-text>
@@ -117,7 +85,7 @@
         </v-card>
       </v-dialog>
     </v-toolbar>
-    <v-data-table :headers="headers" :items="primary" :search="search" class="elevation-1">
+    <v-data-table :headers="headers" :items="product" :search="search" class="elevation-1">
       <template slot="items" slot-scope="props">
         <td>{{ props.item.declared_capital }}</td>
         <td>{{ props.item.created_by }}</td>
@@ -144,40 +112,12 @@
 <script>
 export default {
   data: () => ({
+
+    products:{},
+
     dialog: false,
     dialog1: false,
     search: "",
-    select: { state: "Product Type" },
-    select1: { state1: "Primary Type" },
-    select2: { state2: "Additional Activity" },
-    items2: [
-      { state2: "Exporter of own product" },
-      { state2: "Importer of Raw Materials for own use" },
-      { state2: "Wholesaler of own product" },
-      { state2: "Importer of finished pharmaceutical products locally repacked/packed" }
-    ],
-    items1: [
-      { state1: "Cosmetics" },
-      { state1: "Drugs" },
-      { state1: "Food" },
-      { state1: "Toy and Child Care Article" },
-      { state1: "Household/Urban Pesticide" },
-      { state1: "Medical Device" },
-      { state1: "ENNDS" }
-    ],
-    items: [
-      { state: "Manufacturer" },
-      { state: "Packer/Repacker" },
-      { state: "Trader" },
-      { state: "Distributor" },
-      { state: "Iodize Salt Repacker" },
-      { state: "Iodize Salt Trader" },
-      { state: "Iodize Salt Distributor" },
-      { state: "Drugstore" },
-      { state: "Retail Outlet for Non-prescription Drug" },
-      { state: "Contract Research Organization" },
-      { state: "Sponsor" }
-    ],
     headers: [
       { text: "Declared Capital", value: "declared_capital" },
       { text: "Created By", value: "created_by" },
@@ -186,23 +126,21 @@ export default {
       { text: "Modified Date", value: "modified_date" },
       { text: "Actions", value: "name", sortable: false }
     ],
-    primary: [],
+    product: [],
     editedIndex: -1,
     editedItem: {
-      declared_capital: "Exporter of own product",
+      declared_capital: "250K and Below",
       created_by: "Vince",
-      date_created: "November 06, 2018, 11:50 AM",
+      date_created: "January 05, 2018, 11:50 AM",
       modified_by: "Belo",
       modified_date: "December 06, 2018, 11:50 AM"
     },
     defaultItem: {
       declared_capital: "",
-      primary_type: "Manufacturer",
-      additional_activity: "Traider",
       created_by: "Vince",
-      date_created: "November 06, 2018, 11:50 AM",
+      date_created: "February 08, 2018, 11:50 AM",
       modified_by: "Belo",
-      modified_date: "December 06, 2018, 11:50 AM"
+      modified_date: "December 07, 2018, 11:50 AM"
     }
   }),
 
@@ -220,43 +158,50 @@ export default {
 
   created() {
     this.initialize();
+
+    this.$store.dispatch("GET_PRODUCTS").then(result =>{
+        console.log(JSON.stringify("###############################" + this.$store.state.reference_tables.products));
+    this.products = this.$store.state.reference_tables.products
+    console.log(JSON.stringify("###############################" + this.products));
+    });
+
   },
 
   methods: {
     initialize() {
-      this.primary = [
+      this.product = [
         {
-          declared_capital: "Exporter of own product",
+          declared_capital: "500K to Below 1M",
           created_by: "Vince",
-          date_created: "November 06, 2018, 11:50 AM",
+          date_created: "March 06, 2018, 11:50 AM",
           modified_by: "Belo",
-          modified_date: "December 06, 2018, 11:50 AM"
+          modified_date: "December 08, 2018, 11:50 AM"
         },
         {
-          declared_capital: "Importer of Raw Materials for own use",
+          declared_capital: "5M to Below 5M",
           created_by: "Vince",
-          date_created: "November 06, 2018, 11:50 AM",
+          date_created: "April 07, 2018, 11:50 AM",
           modified_by: "Belo",
-          modified_date: "December 06, 2018, 11:50 AM"
+          modified_date: "December 09, 2018, 11:50 AM"
         },
         {
-          declared_capital: "Wholesaler of own product",
+          declared_capital: "10M to Below 20M",
           created_by: "Vince",
-          date_created: "November 06, 2018, 11:50 AM",
+          date_created: "May 08, 2018, 11:50 AM",
           modified_by: "Belo",
-          modified_date: "December 06, 2018, 11:50 AM"
+          modified_date: "December 10, 2018, 11:50 AM"
         }
       ];
     },
 
     editItem(item) {
-      this.editedIndex = this.primary.indexOf(item);
+      this.editedIndex = this.product.indexOf(item);
       this.editedItem = Object.assign({}, item);
       this.dialog = true;
     },
 
     viewItem(item) {
-      this.editedIndex = this.primary.indexOf(item);
+      this.editedIndex = this.product.indexOf(item);
       this.editedItem = Object.assign({}, item);
       this.dialog1 = true;
     },
@@ -272,9 +217,9 @@ export default {
 
     save() {
       if (this.editedIndex > -1) {
-        Object.assign(this.primary[this.editedIndex], this.editedItem);
+        Object.assign(this.product[this.editedIndex], this.editedItem);
       } else {
-        this.primary.push(this.editedItem);
+        this.product.push(this.editedItem);
       }
       this.close();
     }

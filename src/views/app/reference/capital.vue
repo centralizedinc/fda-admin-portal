@@ -6,7 +6,7 @@
       </v-flex>
       <v-divider class="mx-2" inset vertical></v-divider>
       <v-btn fab medium color="fdaMed" top right absolute @click="addItem">
-        <v-icon medium color="fdaSilver">add</v-icon>
+        <v-icon medium color="success">add</v-icon>
       </v-btn>
       <v-spacer></v-spacer>
       <!-- ADD | EDIT -->
@@ -182,12 +182,6 @@ export default {
         this.init();
         this.close();
       })
-      // if (this.editedIndex > -1) {
-      //   Object.assign(this.declared[this.editedIndex], this.editedItem);
-      // } else {
-      //   this.declared.push(this.editedItem);
-      // }
-      // this.close();
     },
     // ADD_DECLARED ##############################################################
     add_declared() {

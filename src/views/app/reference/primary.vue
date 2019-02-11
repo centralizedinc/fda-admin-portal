@@ -28,14 +28,14 @@
                 </v-flex>
                 <v-flex xs12>
                   <v-autocomplete
-                    v-model="friends"
+                    v-model="additional"
                     :disabled="isUpdating"
-                    :items="people"
+                    :items="additional_items"
                     box
                     chips
                     label="Additional Activity"
                     item-text="name"
-                    item-value="name"
+                    item-value="_id"
                     multiple
                   >
                     <template slot="selection" slot-scope="data">
@@ -162,15 +162,18 @@ export default {
     select: { state: "Additional Activity" },
     selectOne: { stateOne: "Declared Capital" },
     autoUpdate: true,
-    friends: ["Exporter of own product"],
+    additional: ["Exporter of own product"],
     friendsOne: ["Exporter of own product"],
     isUpdating: false,
-    people: [
+    additional_items: [
       { header: "Additional Activity" },
       { name: "Exporter of own product" },
       { name: "Importer of Raw Materials for own use" },
       { name: "Wholesaler of own product" },
-      { name: "Importer of finished pharmaceutical products locally repacked/packed" }
+      {
+        name:
+          "Importer of finished pharmaceutical products locally repacked/packed"
+      }
     ],
     peopleOne: [
       { headerOne: "Declared Capital" },
@@ -226,6 +229,10 @@ export default {
       console.log(
         JSON.stringify("###############################" + this.primary)
       );
+    });
+    //additional
+    this.$store.dispatch("GET_ADDITIONAL").then(result => {
+      this.additional_items = this.$store.state.reference_tables.additional;
     });
   },
 

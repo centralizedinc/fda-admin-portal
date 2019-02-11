@@ -12,6 +12,18 @@
         {{additional}}
         DECLARED
         {{declared}}
+
+        <!-- ADD PRODUCT-->
+        <v-flex xs12 sm6 md3>
+          <v-card>
+            <v-card-text>
+              <v-text-field v-model="new_product.name" label="Product"></v-text-field>
+            </v-card-text>
+            <v-card-actions>
+              <v-btn color="success" @click="add_product">add</v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-flex>
         <!-- ADD PRIMARY-->
         <v-flex xs12 sm6 md3>
           <v-card>
@@ -107,6 +119,7 @@ export default {
   data() {
     return {
       products: {},
+      new_product: {},
       primary: {},
       secondary: {},
       additional: {},
@@ -114,14 +127,20 @@ export default {
       new_declared: {},
       modified_declared: {},
       new_additional:{},
-      new_primary: {
-        name: ""
-      },
+      new_primary: {},
       edit_primary: {}
     };
   },
 
   methods: {
+
+    // ADD_PRODUCT
+    add_product() {
+      this.$store.dispatch("ADD_PRODUCTS", this.new_product).then(result => {
+        // this.modified_declared = this.new_product;
+        console.log("added:product");
+      });
+    },
 
     // ADD_ADDITIONAL
     add_additional() {
@@ -147,7 +166,7 @@ export default {
     // EDIT_DECLARED
     edit_declared(item) {
       this.dialog = true;
-      this.$store.dispatch("EDIT_PRIMARY", item).then(result => {
+      this.$store.dispatch("EDIT_DECLARED", item).then(result => {
         console.log("edited");
       });
     },

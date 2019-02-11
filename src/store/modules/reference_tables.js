@@ -45,9 +45,12 @@ const mutations = {
     //     state.city = data
     // },
 
+
 }
 
 var actions = {
+
+    // PRODUCTS
     GET_PRODUCTS(context) {
         return new Promise((resolve, reject) => {
             new ProductType(context.rootState.user_session.token).getProduct((data, err) => {
@@ -84,6 +87,8 @@ var actions = {
         })
 
     },
+
+    // PRIMARY
     GET_PRIMARY(context) {
         return new Promise((resolve, reject) => {
             new ProductType(context.rootState.user_session.token).getPrimary((data, err) => {
@@ -121,6 +126,8 @@ var actions = {
         })
 
     },
+
+    //SECONDARY
     GET_SECONDARY(context) {
         return new Promise((resolve, reject) => {
             new ProductType(context.rootState.user_session.token).getSecondary((data, err) => {
@@ -133,6 +140,8 @@ var actions = {
             })
         })
     },
+
+    //ADDITIONAL
     GET_ADDITIONAL(context) {
         return new Promise((resolve, reject) => {
             new ProductType(context.rootState.user_session.token).getAdditional((data, err) => {
@@ -171,6 +180,8 @@ var actions = {
         })
 
     },
+
+    //DECLARE CAPITAL
     GET_DECLARED_CAPITAL(context) {
         return new Promise((resolve, reject) => {
             new ProductType(context.rootState.user_session.token).getDeclaredCapital((data, err) => {

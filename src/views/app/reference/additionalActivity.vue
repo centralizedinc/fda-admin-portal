@@ -155,7 +155,6 @@ export default {
     },
     editItem(item) {
       this.mode = 1; // Edit
-      this.new_declared = null;
       this.new_additional = JSON.parse(JSON.stringify(item));
       this.dialog = true;
     },

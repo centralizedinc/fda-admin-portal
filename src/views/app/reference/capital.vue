@@ -153,8 +153,7 @@ export default {
     },
     editItem(item) {
       this.mode = 1; // Edit
-      this.new_declared = null;
-      this.new_declared = item;
+      this.new_declared = JSON.parse(JSON.stringify(item));
       this.dialog = true;
     },
 
@@ -176,13 +175,11 @@ export default {
       });
     },
     save() {
-      this.$store
-        .dispatch("EDIT_DECLARED", this.new_declared)
-        .then(result => {
-          console.log("edited");
-          this.init();
-          this.close();
-        });
+      this.$store.dispatch("EDIT_DECLARED", this.new_declared).then(result => {
+        console.log("edited");
+        this.init();
+        this.close();
+      });
     }
   }
 };

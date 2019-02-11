@@ -219,7 +219,7 @@ export default {
 
     editItem(item) {
       this.mode = 1; // Edit
-      this.new_product = item;
+      this.new_product = JSON.parse(JSON.stringify(item));
       this.dialog = true;
     },
 

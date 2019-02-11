@@ -116,6 +116,7 @@ export default class ProductType {
     }
 
     editAdditional(modified_additional, cb) {
+        console.log("#############" + JSON.stringify(modified_additional))
         var id = modified_additional._id
         axios.post('core/additional/' + id, modified_additional).then((result) => {
                 console.log("api#############" + JSON.stringify(modified_additional))

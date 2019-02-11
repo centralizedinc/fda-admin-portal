@@ -120,7 +120,6 @@ export default {
         value: "editStatus"
       }
     ],
-    additional: [],
     editedIndex: -1,
     editedItem: {
       id: "",
@@ -157,7 +156,7 @@ export default {
     editItem(item) {
       this.mode = 1; // Edit
       this.new_declared = null;
-      this.new_additional = item;
+      this.new_additional = JSON.parse(JSON.stringify(item));
       this.dialog = true;
     },
 
@@ -181,13 +180,14 @@ export default {
         });
     },
     save() {
+      console.log("###############" + JSON.stringify(this.new_additional))
       this.$store
         .dispatch("EDIT_ADDITIONAL", this.new_additional)
         .then(result => {
           console.log("edited");
           this.init();
-          this.close();
         });
+        this.close();
     }
   }
 };

@@ -120,7 +120,6 @@ export default {
         value: "editStatus"
       }
     ],
-    declared: [],
     editedIndex: -1,
     editedItem: {
       id: "",

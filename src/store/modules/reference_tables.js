@@ -185,8 +185,12 @@ var actions = {
     GET_DECLARED_CAPITAL(context) {
         return new Promise((resolve, reject) => {
             new ProductType(context.rootState.user_session.token).getDeclaredCapital((data, err) => {
+                if (err) {
+                    reject(err)
+                } else {
                 context.commit('SET_DECLARED_CAPITAL', data)
-                resolve()
+                resolve(data)
+                }
             })
         })
     },

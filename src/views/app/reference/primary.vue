@@ -24,7 +24,7 @@
             <v-container grid-list-md>
               <v-layout wrap>
                 <v-flex xs12>
-                  <v-text-field v-model="editedItem.primary_type" label="Name"></v-text-field>
+                  <v-text-field v-model="new_primary.primary_type" label="Name"></v-text-field>
                 </v-flex>
                 <v-flex xs12>
                   <v-autocomplete
@@ -96,12 +96,14 @@
           <v-divider></v-divider>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn color="success" @click="close">Cancel</v-btn>
-            <v-btn color="success" @click="save">Save</v-btn>
+           <v-btn color="success" @click="close">Cancel</v-btn>
+            <v-btn color="success" v-if="mode==0" @click="submit">Submit</v-btn>
+            <v-btn color="success" v-else @click="save">Save</v-btn>
           </v-card-actions>
         </v-card>
       </v-dialog>
-      <v-dialog v-model="dialog1" max-width="800px">
+      <!-- VIEW -->
+      <v-dialog v-model="dialogView" max-width="800px">
         <v-card>
           <v-card-title
             primary-title
@@ -117,12 +119,12 @@
                 <v-flex xs12 md3 offset-xs1>
                   <span class="text-xs-center">Primary Type</span>
                   <v-divider></v-divider>
-                  <v-card-text>{{editedItem.name}}</v-card-text>
+                  <v-card-text>{{primary.name}}</v-card-text>
                 </v-flex>
                 <v-flex xs12 md3 offset-xs1>
                   <span class="text-xs-center">Date Created</span>
                   <v-divider></v-divider>
-                  <v-card-text>{{editedItem.date_created}}</v-card-text>
+                  <v-card-text>{{primary.date_created}}</v-card-text>
                 </v-flex>
               </v-layout>
             </v-container>
@@ -156,13 +158,15 @@
 <script>
 export default {
   data: () => ({
+    mode: 0,
     dialog: false,
-    dialog1: false,
+    dialogView: false,
     search: "",
     select_additional: { state: "Additional Activity" },
     select_declared: { state: "Declared Capital" },
     autoUpdate: true,
     additional: [],
+    new_primary: [],
     declared: [],
     isUpdating: false,
     additional_items: [],
@@ -174,13 +178,19 @@ export default {
     ],
     primary: [],
     editedIndex: -1,
-    editedItem: {},
-    defaultItem: {}
+    editedItem: {
+      id: "",
+      name: "",
+      date_created: ""
+    },
+    defaultItem: {
+      name: ""
+    }
   }),
 
   computed: {
     formTitle() {
-      return this.editedIndex === -1 ? "Add Item" : "Edit Item";
+      return this.editedIndex === 0 ? "Add Primary Type" : "Edit Primary Type";
     }
   },
 
@@ -197,32 +207,39 @@ export default {
   },
 
   created() {
-    this.initialize();
-    // VIEW
-    this.$store.dispatch("GET_PRIMARY").then(result => {
-      console.log(
-        JSON.stringify(
-          "###############################" +
-            this.$store.state.reference_tables.primary
-        )
-      );
-      this.primary = this.$store.state.reference_tables.primary;
-      console.log(
-        JSON.stringify("###############################" + this.primary)
-      );
-    });
-    //additional
-    this.$store.dispatch("GET_ADDITIONAL").then(result => {
-      this.additional_items = this.$store.state.reference_tables.additional;
-    });
-
-    //declared
-    this.$store.dispatch("GET_DECLARED_CAPITAL").then(result => {
-      this.declared_items = this.$store.state.reference_tables.declaredCapital;
-    });
+    this.init();
   },
 
   methods: {
+    init() {
+      // VIEW
+      this.$store.dispatch("GET_PRIMARY").then(result => {
+        console.log(
+          JSON.stringify(
+            "###############################" +
+              this.$store.state.reference_tables.primary
+          )
+        );
+        this.primary = this.$store.state.reference_tables.primary;
+        console.log(
+          JSON.stringify("###############################" + this.primary)
+        );
+      });
+      //additional
+      this.$store.dispatch("GET_ADDITIONAL").then(result => {
+        this.additional_items = this.$store.state.reference_tables.additional;
+      });
+
+      //declared
+      this.$store.dispatch("GET_DECLARED_CAPITAL").then(result => {
+        this.declared_items = this.$store.state.reference_tables.declaredCapital;
+      });
+    },
+    addItem() {
+      this.mode = 0; // Create
+      this.new_primary = {}; // holds the filled up item
+      this.dialog = true;
+    },
     removeAdditional(item) {
       const index = this.additional.indexOf(item.name);
       if (index >= 0) this.additional.splice(index, 1);
@@ -241,7 +258,7 @@ export default {
 
     edit_primary(item) {
       this.dialog = true;
-      this.$store.dispatch("EDIT_PRIMARY", item).then(result => {
+      this.$store.dispatch("EDIT_PRIMARY", new_primary).then(result => {
         console.log("edited");
       });
     },
@@ -252,33 +269,35 @@ export default {
     },
 
     editItem(item) {
-      this.editedIndex = this.primary.indexOf(item);
-      this.editedItem = Object.assign({}, item);
+      this.mode = 1; // Edit
+      this.new_primary = item;
       this.dialog = true;
     },
 
     viewItem(item) {
-      this.editedIndex = this.primary.indexOf(item);
-      this.editedItem = Object.assign({}, item);
-      this.dialog1 = true;
+      this.new_primary = item;
+      this.dialogView = true;
     },
 
     close() {
       this.dialog = false;
-      this.dialog1 = false;
-      setTimeout(() => {
-        this.editedItem = Object.assign({}, this.defaultItem);
-        this.editedIndex = -1;
-      }, 300);
+      this.dialogView = false;
+      this.new_primary = {};
     },
 
+    submit() {
+      this.$store.dispatch("ADD_PRIMARY", this.new_primary).then(result => {
+        console.log("added:primary: " + JSON.stringify(result));
+        this.init();
+        this.close();
+      });
+    },
     save() {
-      if (this.editedIndex > -1) {
-        Object.assign(this.primary[this.editedIndex], this.editedItem);
-      } else {
-        this.primary.push(this.editedItem);
-      }
-      this.close();
+      this.$store.dispatch("EDIT_PRIMARY", this.new_primary).then(result => {
+        console.log("edited:primary: " + JSON.stringify(result));
+        this.init();
+        this.close();
+      });
     }
   }
 };

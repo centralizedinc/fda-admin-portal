@@ -24,6 +24,25 @@ export default class ProductType {
             })
     }
 
+    addProduct(new_product, cb) {
+        console.log("api#############" + JSON.stringify(new_product))
+        axios.post('core/products', new_product).then((result) => {
+                console.log("api#############" + JSON.stringify(new_product))
+            })
+            .catch(err => {
+                cb(null, err)
+            })
+    }
+
+    editProduct(id, modified_product, cb) {
+        axios.post('core/products/' + id, modified_product).then((result) => {
+                console.log("api#############" + JSON.stringify(modified_product))
+            })
+            .catch(err => {
+                cb(null, err)
+            })
+    }
+
     getPrimary(cb) {
         axios.get('core/primary').then((result) => {
                 console.log("api#############")

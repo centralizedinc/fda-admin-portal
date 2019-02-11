@@ -62,6 +62,28 @@ var actions = {
             })
         })
     },
+    ADD_PRODUCTS(context, new_primary) {
+        return new Promise((resolve, reject) => {
+            console.log("store#############")
+            new ProductType(context.rootState.user_session.token).addPrimary(new_primary,(data, err) => {
+                console.log("####primary:ACTION####" + JSON.stringify(data))
+                context.commit('SET_PRIMARY', data)
+                resolve()
+            })
+        })
+
+    },
+    EDIT_PRODUCTS(context, id, modified_primary) {
+        return new Promise((resolve, reject) => {
+            console.log("store#############")
+            new ProductType(context.rootState.user_session.token).editPrimary(id, modified_primary, (data, err) => {
+                console.log("####primary:ACTION####" + JSON.stringify(data))
+                context.commit('SET_PRIMARY', data)
+                resolve()
+            })
+        })
+
+    },
     GET_PRIMARY(context) {
         return new Promise((resolve, reject) => {
             console.log("store#############")

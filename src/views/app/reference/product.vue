@@ -33,7 +33,7 @@
                     :items="people"
                     box
                     chips
-                    label="Additional Activity"
+                    label="Primary Type"
                     item-text="name"
                     item-value="name"
                     multiple
@@ -127,19 +127,25 @@ export default {
     dialog: false,
     dialog1: false,
     search: "",
-    select: { state: "Additional Activity" },
+    select: { state: "Primary Type" },
     autoUpdate: true,
-    friends: ["Exporter of own product"],
+    friends: ["Manufacturer"],
     isUpdating: false,
     people: [
       { header: "Primary Type" },
-      { name: "Exporter of own product" },
-      { name: "Importer of Raw Materials for own use" },
-      { name: "Wholesaler of own product" },
-      { name: "Importer of finished pharmaceutical products locally repacked/packed" }
+      { name: "Manufacturer" },
+      { name: "Packer/Repacker" },
+      { name: "Trader" },
+      { name: "Distributor" },
+      { name: "Iodize Salt Repacker" },
+      { name: "Iodize Salt Trader" },
+      { name: "Iodize Salt Distributor" },
+      { name: "Drugstore" },
+      { name: "Retail Outlet for Non-prescription Drug" },
+      { name: "Contract Research Organization" }
     ],
     headers: [
-      { text: "Primary Activity", value: "primary_type" },
+      { text: "Product Type", value: "primary_type" },
       { text: "Date Created", value: "date_created" },
       { text: "Actions", value: "name", sortable: false }
     ],

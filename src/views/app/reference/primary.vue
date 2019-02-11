@@ -66,23 +66,23 @@
                   <v-divider></v-divider>
                   <v-card-text>{{editedItem.name}}</v-card-text>
                 </v-flex>
-                <v-flex xs12 md3 offset-xs1>
+                <!-- <v-flex xs12 md3 offset-xs1>
                   <span class="text-xs-center">Created By</span>
                   <v-divider></v-divider>
                   <v-card-text>{{editedItem.secondary_activity}}</v-card-text>
-                </v-flex>
+                </v-flex> -->
                 <v-flex xs12 md3 offset-xs1>
-                  <span class="text-xs-center">Created Date</span>
+                  <span class="text-xs-center">Additional Activity</span>
                   <v-divider></v-divider>
                   <v-card-text>{{editedItem.additional_activity}}</v-card-text>
                 </v-flex>
                 <v-flex xs12 md3 offset-xs1>
-                  <span class="text-xs-center">Modified By</span>
+                  <span class="text-xs-center">Declared Capital</span>
                   <v-divider></v-divider>
                   <v-card-text>{{editedItem.declared_capital}}</v-card-text>
                 </v-flex>
                 <v-flex xs12 md3 offset-xs1>
-                  <span class="text-xs-center">Modified Date</span>
+                  <span class="text-xs-center">Date Created</span>
                   <v-divider></v-divider>
                   <v-card-text>{{editedItem.date_created}}</v-card-text>
                 </v-flex>
@@ -100,9 +100,9 @@
     <v-data-table :headers="headers" :items="primary" :search="search" class="elevation-1">
       <template slot="items" slot-scope="props">
         <td>{{ props.item.name }}</td>
-        <td>{{ props.item.secondary_activities }}</td>
-        <td>{{ props.item.additional_activities }}</td>
-        <td>{{ props.item.decalred_capital }}</td>
+        <!-- <td>{{ props.item.secondary_activities }}</td> -->
+        <!-- <td>{{ props.item.additional_activities }}</td> -->
+        <!-- <td>{{ props.item.decalred_capital }}</td> -->
         <td>{{ props.item.date_created }}</td>
         <td class="justify-center layout px-0">
           <v-icon small class="mr-2" @click="editItem(props.item)" flat icon color="primary">edit</v-icon>
@@ -138,11 +138,11 @@ export default {
       { state: "ENNDS"}
     ],
     headers: [
-      { text: "Primary Type", value: "primary_type" },
-      { text: "Created By", value: "created_by" },
-      { text: "Created Date", value: "date_created" },
-      { text: "Modified By", value: "modified_by" },
-      { text: "Modified Date", value: "modified_date" },
+      { text: "Primary Activity", value: "primary_type" },
+      // { text: "Created By", value: "created_by" },
+      // { text: "Additional Activity", value: "additional_activity" },
+      // { text: "Declared Capital", value: "declared_capital" },
+      { text: "Date Created", value: "date_created" },
       { text: "Actions", value: "name", sortable: false }
     ],
     primary: [],

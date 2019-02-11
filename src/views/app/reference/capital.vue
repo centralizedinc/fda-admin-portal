@@ -105,7 +105,7 @@ export default {
     search: "",
     headers: [
       {
-        text: "Name",
+        text: "Declared Capital",
         align: "left",
         sortable: "true",
         value: "name"

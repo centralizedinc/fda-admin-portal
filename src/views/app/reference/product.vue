@@ -88,9 +88,9 @@
     <v-data-table :headers="headers" :items="product" :search="search" class="elevation-1">
       <template slot="items" slot-scope="props">
         <td>{{ props.item.product_type }}</td>
-        <td>{{ props.item.created_by }}</td>
-        <td>{{ props.item.date_created }}</td>
-        <td>{{ props.item.modified_by }}</td>
+        <!-- <td>{{ props.item.created_by }}</td> -->
+        <!-- <td>{{ props.item.date_created }}</td> -->
+        <!-- <td>{{ props.item.modified_by }}</td> -->
         <td>{{ props.item.modified_date }}</td>
         <td class="justify-center layout px-0">
           <v-icon small class="mr-2" @click="editItem(props.item)" flat icon color="primary">edit</v-icon>
@@ -120,9 +120,9 @@ export default {
     search: "",
     headers: [
       { text: "Product Type", value: "product_type" },
-      { text: "Created By", value: "created_by" },
-      { text: "Created Date", value: "date_created" },
-      { text: "Modified By", value: "modified_by" },
+      // { text: "Created By", value: "created_by" },
+      // { text: "Created Date", value: "date_created" },
+      // { text: "Modified By", value: "modified_by" },
       { text: "Modified Date", value: "modified_date" },
       { text: "Actions", value: "name", sortable: false }
     ],

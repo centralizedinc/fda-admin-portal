@@ -9,6 +9,7 @@
         <v-icon medium color="fdaSilver">add</v-icon>
       </v-btn>
       <v-spacer></v-spacer>
+      <!-- ADD | EDIT -->
       <v-dialog v-model="dialog" max-width="800px">
         <v-card>
           <v-card-title
@@ -23,19 +24,39 @@
             <v-container grid-list-md>
               <v-layout wrap>
                 <v-flex xs12>
-                  <v-select
-                    v-model="select"
-                    :hint="`${select.state}`"
-                    :items="items"
-                    item-text="state"
-                    label="Product Type"
-                    persistent-hint
-                    return-object
-                    single-line
-                  ></v-select>
+                  <v-text-field v-model="editedItem.primary_type" label="Name"></v-text-field>
                 </v-flex>
                 <v-flex xs12>
-                  <v-text-field v-model="editedItem.primary_type" label="Primary Type"></v-text-field>
+                  <v-autocomplete
+                    v-model="friends"
+                    :disabled="isUpdating"
+                    :items="people"
+                    box
+                    chips
+                    label="Additional Activity"
+                    item-text="name"
+                    item-value="name"
+                    multiple
+                  >
+                    <template slot="selection" slot-scope="data">
+                      <v-chip
+                        :selected="data.selected"
+                        close
+                        class="chip--select-multi"
+                        @input="remove(data.item)"
+                      >{{ data.item.name }}</v-chip>
+                    </template>
+                    <template slot="item" slot-scope="data">
+                      <template v-if="typeof data.item !== 'object'">
+                        <v-list-tile-content v-text="data.item"></v-list-tile-content>
+                      </template>
+                      <template v-else>
+                        <v-list-tile-content>
+                          <v-list-tile-title v-html="data.item.name"></v-list-tile-title>
+                        </v-list-tile-content>
+                      </template>
+                    </template>
+                  </v-autocomplete>
                 </v-flex>
               </v-layout>
             </v-container>
@@ -66,21 +87,6 @@
                   <v-divider></v-divider>
                   <v-card-text>{{editedItem.name}}</v-card-text>
                 </v-flex>
-                <!-- <v-flex xs12 md3 offset-xs1>
-                  <span class="text-xs-center">Created By</span>
-                  <v-divider></v-divider>
-                  <v-card-text>{{editedItem.secondary_activity}}</v-card-text>
-                </v-flex> -->
-                <v-flex xs12 md3 offset-xs1>
-                  <span class="text-xs-center">Additional Activity</span>
-                  <v-divider></v-divider>
-                  <v-card-text>{{editedItem.additional_activity}}</v-card-text>
-                </v-flex>
-                <v-flex xs12 md3 offset-xs1>
-                  <span class="text-xs-center">Declared Capital</span>
-                  <v-divider></v-divider>
-                  <v-card-text>{{editedItem.declared_capital}}</v-card-text>
-                </v-flex>
                 <v-flex xs12 md3 offset-xs1>
                   <span class="text-xs-center">Date Created</span>
                   <v-divider></v-divider>
@@ -100,9 +106,6 @@
     <v-data-table :headers="headers" :items="primary" :search="search" class="elevation-1">
       <template slot="items" slot-scope="props">
         <td>{{ props.item.name }}</td>
-        <!-- <td>{{ props.item.secondary_activities }}</td> -->
-        <!-- <td>{{ props.item.additional_activities }}</td> -->
-        <!-- <td>{{ props.item.decalred_capital }}</td> -->
         <td>{{ props.item.date_created }}</td>
         <td class="justify-center layout px-0">
           <v-icon small class="mr-2" @click="editItem(props.item)" flat icon color="primary">edit</v-icon>
@@ -115,9 +118,6 @@
         color="error"
         icon="warning"
       >Your search for "{{ search }}" found no results.</v-alert>
-      <template slot="no-data">
-        <v-btn color="primary" @click="initialize">Reset</v-btn>
-      </template>
     </v-data-table>
   </div>
 </template>
@@ -127,21 +127,19 @@ export default {
     dialog: false,
     dialog1: false,
     search: "",
-    select: { state: "Product Type" },
-    items: [
-      { state: "Cosmetics"},
-      { state: "Drugs"},
-      { state: "Food"},
-      { state: "Toy and Child Care Article"},
-      { state: "Household/Urban Pesticide"},
-      { state: "Medical Device"},
-      { state: "ENNDS"}
+    select: { state: "Additional Activity" },
+    autoUpdate: true,
+    friends: ["Exporter of own product"],
+    isUpdating: false,
+    people: [
+      { header: "Primary Type" },
+      { name: "Exporter of own product" },
+      { name: "Importer of Raw Materials for own use" },
+      { name: "Wholesaler of own product" },
+      { name: "Importer of finished pharmaceutical products locally repacked/packed" }
     ],
     headers: [
       { text: "Primary Activity", value: "primary_type" },
-      // { text: "Created By", value: "created_by" },
-      // { text: "Additional Activity", value: "additional_activity" },
-      // { text: "Declared Capital", value: "declared_capital" },
       { text: "Date Created", value: "date_created" },
       { text: "Actions", value: "name", sortable: false }
     ],
@@ -158,6 +156,12 @@ export default {
   },
 
   watch: {
+    isUpdating(val) {
+      if (val) {
+        setTimeout(() => (this.isUpdating = false), 3000);
+      }
+    },
+
     dialog(val) {
       val || this.close();
     }
@@ -181,6 +185,11 @@ export default {
   },
 
   methods: {
+    remove(item) {
+      const index = this.friends.indexOf(item.name);
+      if (index >= 0) this.friends.splice(index, 1);
+    },
+
     add_primary() {
       this.$store.dispatch("ADD_PRIMARY", this.new_primary).then(result => {
         console.log("added");
@@ -193,31 +202,9 @@ export default {
         console.log("edited");
       });
     },
-// 
+    //
     initialize() {
-      this.primary = [
-        {
-          primary_type: "Manufacturer",
-          created_by: "Vince",
-          date_created: "November 06, 2018, 11:50 AM",
-          modified_by: "Belo",
-          modified_date: "December 06, 2018, 11:50 AM"
-        },
-        {
-          primary_type: "Packer/Repacker",
-          created_by: "Vince",
-          date_created: "November 06, 2018, 11:50 AM",
-          modified_by: "Belo",
-          modified_date: "December 06, 2018, 11:50 AM"
-        },
-        {
-          primary_type: "Traider",
-          created_by: "Vince",
-          date_created: "November 06, 2018, 11:50 AM",
-          modified_by: "Belo",
-          modified_date: "December 06, 2018, 11:50 AM"
-        }
-      ];
+      this.primary = [];
     },
 
     editItem(item) {

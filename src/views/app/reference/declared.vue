@@ -9,7 +9,8 @@
         <v-icon medium color="fdaSilver">add</v-icon>
       </v-btn>
       <v-spacer></v-spacer>
-      <v-dialog v-model="dialog" max-width="500px">
+      <!-- ADD | EDIT -->
+      <v-dialog v-model="dialog" max-width="800px">
         <v-card>
           <v-card-title
             primary-title
@@ -23,7 +24,39 @@
             <v-container grid-list-md>
               <v-layout wrap>
                 <v-flex xs12>
-                  <v-text-field v-model="editedItem.declared_capital" label="Declared Capital"></v-text-field>
+                  <v-text-field v-model="editedItem.primary_type" label="Name"></v-text-field>
+                </v-flex>
+                <v-flex xs12>
+                  <v-autocomplete
+                    v-model="friends"
+                    :disabled="isUpdating"
+                    :items="people"
+                    box
+                    chips
+                    label="Primary Type"
+                    item-text="name"
+                    item-value="name"
+                    multiple
+                  >
+                    <template slot="selection" slot-scope="data">
+                      <v-chip
+                        :selected="data.selected"
+                        close
+                        class="chip--select-multi"
+                        @input="remove(data.item)"
+                      >{{ data.item.name }}</v-chip>
+                    </template>
+                    <template slot="item" slot-scope="data">
+                      <template v-if="typeof data.item !== 'object'">
+                        <v-list-tile-content v-text="data.item"></v-list-tile-content>
+                      </template>
+                      <template v-else>
+                        <v-list-tile-content>
+                          <v-list-tile-title v-html="data.item.name"></v-list-tile-title>
+                        </v-list-tile-content>
+                      </template>
+                    </template>
+                  </v-autocomplete>
                 </v-flex>
               </v-layout>
             </v-container>
@@ -49,30 +82,15 @@
           <v-card-text>
             <v-container grid-list-md>
               <v-layout wrap>
-                <v-flex xs12 sm4 md4>
-                  <span class="text-xs-center">Declared Capital</span>
+                <v-flex xs12 md3 offset-xs1>
+                  <span class="text-xs-center">Primary Type</span>
                   <v-divider></v-divider>
-                  <v-card-text>{{editedItem.declared_capital}}</v-card-text>
+                  <v-card-text>{{editedItem.name}}</v-card-text>
                 </v-flex>
-                <v-flex xs12 sm4 md2>
-                  <span class="text-xs-center">Created By</span>
-                  <v-divider></v-divider>
-                  <v-card-text>{{editedItem.created_by}}</v-card-text>
-                </v-flex>
-                <v-flex xs12 sm4 md2>
-                  <span class="text-xs-center">Created Date</span>
+                <v-flex xs12 md3 offset-xs1>
+                  <span class="text-xs-center">Date Created</span>
                   <v-divider></v-divider>
                   <v-card-text>{{editedItem.date_created}}</v-card-text>
-                </v-flex>
-                <v-flex xs12 sm4 md2>
-                  <span class="text-xs-center">Modified By</span>
-                  <v-divider></v-divider>
-                  <v-card-text>{{editedItem.modified_by}}</v-card-text>
-                </v-flex>
-                 <v-flex xs12 sm4 md2>
-                  <span class="text-xs-center">Modified Date</span>
-                  <v-divider></v-divider>
-                  <v-card-text>{{editedItem.modified_date}}</v-card-text>
                 </v-flex>
               </v-layout>
             </v-container>
@@ -85,13 +103,10 @@
         </v-card>
       </v-dialog>
     </v-toolbar>
-    <v-data-table :headers="headers" :items="product" :search="search" class="elevation-1">
+    <v-data-table :headers="headers" :items="primary" :search="search" class="elevation-1">
       <template slot="items" slot-scope="props">
-        <td>{{ props.item.declared_capital }}</td>
-        <td>{{ props.item.created_by }}</td>
+        <td>{{ props.item.name }}</td>
         <td>{{ props.item.date_created }}</td>
-        <td>{{ props.item.modified_by }}</td>
-        <td>{{ props.item.modified_date }}</td>
         <td class="justify-center layout px-0">
           <v-icon small class="mr-2" @click="editItem(props.item)" flat icon color="primary">edit</v-icon>
           <v-icon small @click="viewItem(props.item)" flat icon color="primary">visibility</v-icon>
@@ -103,51 +118,44 @@
         color="error"
         icon="warning"
       >Your search for "{{ search }}" found no results.</v-alert>
-      <template slot="no-data">
-        <v-btn color="primary" @click="initialize">Reset</v-btn>
-      </template>
     </v-data-table>
   </div>
 </template>
 <script>
 export default {
   data: () => ({
-
-//data for declared#######################
-      declared: {},
-      new_declared: {},
-      modified_declared: {},
-
-
-    products:{},
-
     dialog: false,
     dialog1: false,
     search: "",
+    select: { state: "Additional Activity" },
+    autoUpdate: true,
+    friends: ["Sandra Adams", "Britta Holt"],
+    isUpdating: false,
+    people: [
+      { header: "Primary Type" },
+      { name: "Sandra Adams" },
+      { name: "Ali Connors" },
+      { name: "Trevor Hansen" },
+      { name: "Tucker Smith" }
+    ],
+    items: [
+      { state: "Cosmetics" },
+      { state: "Drugs" },
+      { state: "Food" },
+      { state: "Toy and Child Care Article" },
+      { state: "Household/Urban Pesticide" },
+      { state: "Medical Device" },
+      { state: "ENNDS" }
+    ],
     headers: [
-      { text: "Declared Capital", value: "declared_capital" },
-      { text: "Created By", value: "created_by" },
-      { text: "Created Date", value: "date_created" },
-      { text: "Modified By", value: "modified_by" },
-      { text: "Modified Date", value: "modified_date" },
+      { text: "Primary Activity", value: "primary_type" },
+      { text: "Date Created", value: "date_created" },
       { text: "Actions", value: "name", sortable: false }
     ],
-    product: [],
+    primary: [],
     editedIndex: -1,
-    editedItem: {
-      declared_capital: "250K and Below",
-      created_by: "Vince",
-      date_created: "January 05, 2018, 11:50 AM",
-      modified_by: "Belo",
-      modified_date: "December 06, 2018, 11:50 AM"
-    },
-    defaultItem: {
-      declared_capital: "",
-      created_by: "Vince",
-      date_created: "February 08, 2018, 11:50 AM",
-      modified_by: "Belo",
-      modified_date: "December 07, 2018, 11:50 AM"
-    }
+    editedItem: {},
+    defaultItem: {}
   }),
 
   computed: {
@@ -157,6 +165,12 @@ export default {
   },
 
   watch: {
+    isUpdating(val) {
+      if (val) {
+        setTimeout(() => (this.isUpdating = false), 3000);
+      }
+    },
+
     dialog(val) {
       val || this.close();
     }
@@ -164,58 +178,52 @@ export default {
 
   created() {
     this.initialize();
-
-   //Declared Capital ######################################################################
-   this.$store.dispatch("GET_DECLARED_CAPITAL").then(result => {
+    // VIEW
+    this.$store.dispatch("GET_PRIMARY").then(result => {
       console.log(
         JSON.stringify(
           "###############################" +
-            this.$store.state.reference_tables.declaredCapital
+            this.$store.state.reference_tables.primary
         )
       );
-      this.declared = this.$store.state.reference_tables.declaredCapital;
+      this.primary = this.$store.state.reference_tables.primary;
       console.log(
-        JSON.stringify("###############################" + this.declaredCapital)
+        JSON.stringify("###############################" + this.primary)
       );
     });
-
   },
 
   methods: {
+    remove(item) {
+      const index = this.friends.indexOf(item.name);
+      if (index >= 0) this.friends.splice(index, 1);
+    },
+
+    add_primary() {
+      this.$store.dispatch("ADD_PRIMARY", this.new_primary).then(result => {
+        console.log("added");
+      });
+    },
+
+    edit_primary(item) {
+      this.dialog = true;
+      this.$store.dispatch("EDIT_PRIMARY", item).then(result => {
+        console.log("edited");
+      });
+    },
+    //
     initialize() {
-      this.product = [
-        {
-          declared_capital: "500K to Below 1M",
-          created_by: "Vince",
-          date_created: "March 06, 2018, 11:50 AM",
-          modified_by: "Belo",
-          modified_date: "December 08, 2018, 11:50 AM"
-        },
-        {
-          declared_capital: "5M to Below 5M",
-          created_by: "Vince",
-          date_created: "April 07, 2018, 11:50 AM",
-          modified_by: "Belo",
-          modified_date: "December 09, 2018, 11:50 AM"
-        },
-        {
-          declared_capital: "10M to Below 20M",
-          created_by: "Vince",
-          date_created: "May 08, 2018, 11:50 AM",
-          modified_by: "Belo",
-          modified_date: "December 10, 2018, 11:50 AM"
-        }
-      ];
+      this.primary = [];
     },
 
     editItem(item) {
-      this.editedIndex = this.product.indexOf(item);
+      this.editedIndex = this.primary.indexOf(item);
       this.editedItem = Object.assign({}, item);
       this.dialog = true;
     },
 
     viewItem(item) {
-      this.editedIndex = this.product.indexOf(item);
+      this.editedIndex = this.primary.indexOf(item);
       this.editedItem = Object.assign({}, item);
       this.dialog1 = true;
     },
@@ -231,25 +239,12 @@ export default {
 
     save() {
       if (this.editedIndex > -1) {
-        Object.assign(this.product[this.editedIndex], this.editedItem);
+        Object.assign(this.primary[this.editedIndex], this.editedItem);
       } else {
-        this.product.push(this.editedItem);
+        this.primary.push(this.editedItem);
       }
       this.close();
-    },
-
-    // ADD_DECLARED ##############################################################
-    add_declared() {
-      this.$store.dispatch("ADD_DECLARED", this.new_declared).then(result => {
-        console.log("added:declared");
-      });
-    },
-    // EDIT_DECLARED
-    edit_declared(item) {
-      this.$store.dispatch("EDIT_PRIMARY", item).then(result => {
-        console.log("edited");
-      });
-    },
+    }
   }
 };
 </script>

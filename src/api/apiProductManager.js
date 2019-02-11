@@ -35,6 +35,7 @@ export default class ProductType {
     }
 
     editProduct(id, modified_product, cb) {
+        var id = modified_product._id
         axios.post('core/products/' + id, modified_product).then((result) => {
                 console.log("api#############" + JSON.stringify(modified_product))
             })
@@ -68,6 +69,7 @@ export default class ProductType {
     }
 
     editPrimary(id, modified_primary, cb) {
+        var id = modified_primary._id
         axios.post('core/primary/' + id, modified_primary).then((result) => {
                 console.log("api#############" + JSON.stringify(modified_primary))
             })

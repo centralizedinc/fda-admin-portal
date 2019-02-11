@@ -75,9 +75,9 @@ var actions = {
         })
 
     },
-    EDIT_PRODUCTS(context, id, modified_primary) {
+    EDIT_PRODUCTS(context, id, modified_product) {
         return new Promise((resolve, reject) => {
-            new ProductType(context.rootState.user_session.token).editPrimary(id, modified_primary, (data, err) => {
+            new ProductType(context.rootState.user_session.token).editPrimary(id, modified_product, (data, err) => {
                 if (err) {
                     reject(err)
                 } else {
@@ -168,9 +168,9 @@ var actions = {
 
     },
 
-    EDIT_ADDITIONAL(context, modified_declared) {
+    EDIT_ADDITIONAL(context, modified_additional) {
         return new Promise((resolve, reject) => {
-            new ProductType(context.rootState.user_session.token).editAdditional(modified_declared, (data, err) => {
+            new ProductType(context.rootState.user_session.token).editAdditional(modified_additional, (data, err) => {
                 if (err) {
                     reject(err)
                 } else {

@@ -24,18 +24,18 @@
             <v-container grid-list-md>
               <v-layout wrap>
                 <v-flex xs12>
-                  <v-text-field v-model="editedItem.primary_type" label="Name"></v-text-field>
+                  <v-text-field v-model="editedItem.products" label="Name"></v-text-field>
                 </v-flex>
                 <v-flex xs12>
                   <v-autocomplete
-                    v-model="friends"
+                    v-model="primary"
                     :disabled="isUpdating"
-                    :items="people"
+                    :items="primary_items"
                     box
                     chips
                     label="Primary Type"
                     item-text="name"
-                    item-value="name"
+                    item-value="_id"
                     multiple
                   >
                     <template slot="selection" slot-scope="data">
@@ -103,7 +103,7 @@
         </v-card>
       </v-dialog>
     </v-toolbar>
-    <v-data-table :headers="headers" :items="primary" :search="search" class="elevation-1">
+    <v-data-table :headers="headers" :items="products" :search="search" class="elevation-1">
       <template slot="items" slot-scope="props">
         <td>{{ props.item.name }}</td>
         <td>{{ props.item.date_created }}</td>
@@ -131,25 +131,14 @@ export default {
     autoUpdate: true,
     friends: ["Manufacturer"],
     isUpdating: false,
-    people: [
-      { header: "Primary Type" },
-      { name: "Manufacturer" },
-      { name: "Packer/Repacker" },
-      { name: "Trader" },
-      { name: "Distributor" },
-      { name: "Iodize Salt Repacker" },
-      { name: "Iodize Salt Trader" },
-      { name: "Iodize Salt Distributor" },
-      { name: "Drugstore" },
-      { name: "Retail Outlet for Non-prescription Drug" },
-      { name: "Contract Research Organization" }
+    primary_items: [
     ],
     headers: [
-      { text: "Product Type", value: "primary_type" },
+      { text: "Product Type", value: "product_type" },
       { text: "Date Created", value: "date_created" },
       { text: "Actions", value: "name", sortable: false }
     ],
-    primary: [],
+    products: [],
     editedIndex: -1,
     editedItem: {},
     defaultItem: {}
@@ -176,24 +165,29 @@ export default {
   created() {
     this.initialize();
     // VIEW
-    this.$store.dispatch("GET_PRIMARY").then(result => {
+    this.$store.dispatch("GET_PRODUCTS").then(result => {
       console.log(
         JSON.stringify(
           "###############################" +
-            this.$store.state.reference_tables.primary
+            this.$store.state.reference_tables.products
         )
       );
-      this.primary = this.$store.state.reference_tables.primary;
+      this.products = this.$store.state.reference_tables.products;
       console.log(
-        JSON.stringify("###############################" + this.primary)
+        JSON.stringify("###############################" + this.products)
       );
+    });
+
+    // PRIMARY
+    this.$store.dispatch("GET_PRIMARY").then(result => {
+      this.primary_items = this.$store.state.reference_tables.primary;
     });
   },
 
   methods: {
     remove(item) {
-      const index = this.friends.indexOf(item.name);
-      if (index >= 0) this.friends.splice(index, 1);
+      const index = this.primary.indexOf(item.name);
+      if (index >= 0) this.primary.splice(index, 1);
     },
 
     add_primary() {
@@ -210,7 +204,9 @@ export default {
     },
     //
     initialize() {
+      this.products = [];
       this.primary = [];
+      
     },
 
     editItem(item) {
@@ -236,9 +232,9 @@ export default {
 
     save() {
       if (this.editedIndex > -1) {
-        Object.assign(this.primary[this.editedIndex], this.editedItem);
+        Object.assign(this.products[this.editedIndex], this.editedItem);
       } else {
-        this.primary.push(this.editedItem);
+        this.products.push(this.editedItem);
       }
       this.close();
     }

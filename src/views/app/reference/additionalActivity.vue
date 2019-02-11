@@ -122,9 +122,9 @@ export default {
     ],
     editedIndex: -1,
     editedItem: {
-      id:"",
+      id: "",
       name: "",
-      date_created: "",
+      date_created: ""
     },
     defaultItem: {
       name: ""
@@ -133,15 +133,17 @@ export default {
 
   computed: {
     formTitle() {
-      return this.mode === 0 ? "Add Additional Activity" : "Edit Additional Activity";
+      return this.mode === 0
+        ? "Add Additional Activity"
+        : "Edit Additional Activity";
     }
   },
   created() {
-    this.init()
+    this.init();
   },
 
   methods: {
-    init(){
+    init() {
       this.$store.dispatch("GET_ADDITIONAL").then(result => {
         this.additional = this.$store.state.reference_tables.additional;
       });
@@ -153,7 +155,6 @@ export default {
     },
     editItem(item) {
       this.mode = 1; // Edit
-      this.new_additional = null;
       this.new_additional = item;
       this.dialog = true;
     },
@@ -165,32 +166,38 @@ export default {
 
     close() {
       this.dialog = false;
-      this.dialogView = false
-      this.new_additional = {}
+      this.dialogView = false;
+      this.new_additional = {};
     },
     submit() {
-      this.$store.dispatch("ADD_ADDITIONAL", this.new_additional).then(result => {
-        console.log("added:declared: " + JSON.stringify(result));
-        this.init();
-        this.close();
-      });
+      this.$store
+        .dispatch("ADD_ADDITIONAL", this.new_additional)
+        .then(result => {
+          console.log("added:declared: " + JSON.stringify(result));
+          this.init();
+          this.close();
+        });
     },
     save() {
-      this.$store.dispatch("EDIT_ADDITIONAL", this.new_additional).then(result => {
-        console.log("edited");
-        this.init();
-        this.close();
-      })
+      this.$store
+        .dispatch("EDIT_ADDITIONAL", this.new_additional)
+        .then(result => {
+          console.log("edited");
+          this.init();
+          this.close();
+        });
     },
-    // ADD_ADDITIONAL 
+    // ADD_ADDITIONAL
     add_additional() {
-      this.$store.dispatch("ADD_ADDITIONAL", this.new_additional).then(result => {
-        console.log("added:declared");
-      });
+      this.$store
+        .dispatch("ADD_ADDITIONAL", this.new_additional)
+        .then(result => {
+          console.log("added:declared");
+        });
     },
     // EDIT_ADDITIONAL
     edit_additional(item) {
-      this.$store.dispatch("EDIT_PRIMARY", item).then(result => {
+      this.$store.dispatch("EDIT_PRIMARY", new_additional).then(result => {
         console.log("edited");
       });
     }

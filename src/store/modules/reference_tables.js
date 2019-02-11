@@ -17,7 +17,7 @@ const state = {
 const mutations = {
     SET_PRODUCTS(state, data) {
         state.products = data
-        console.log("###PRODUCT:SET###" + JSON.stringify(state.products))
+        console.log("###PRODUCT:SET###" + JSON.stringify(data))
     },
     SET_PRIMARY(state, data) {
         console.log("###PRIMARY:SET###" + JSON.stringify(data))

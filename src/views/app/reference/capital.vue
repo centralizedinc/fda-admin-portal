@@ -191,7 +191,7 @@ export default {
     },
     // EDIT_DECLARED
     edit_declared(item) {
-      this.$store.dispatch("EDIT_PRIMARY", item).then(result => {
+      this.$store.dispatch("EDIT_PRIMARY", new_declared).then(result => {
         console.log("edited");
       });
     }

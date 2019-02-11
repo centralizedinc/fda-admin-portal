@@ -24,7 +24,7 @@
             <v-container grid-list-md>
               <v-layout wrap>
                 <v-flex xs12>
-                  <v-text-field v-model="editedItem.products" label="Name"></v-text-field>
+                  <v-text-field v-model="new_product.products" label="Name"></v-text-field>
                 </v-flex>
                 <v-flex xs12>
                   <v-autocomplete
@@ -65,11 +65,13 @@
           <v-card-actions>
             <v-spacer></v-spacer>
             <v-btn color="success" @click="close">Cancel</v-btn>
-            <v-btn color="success" @click="save">Save</v-btn>
+            <v-btn color="success" v-if="mode==0" @click="submit">Submit</v-btn>
+            <v-btn color="success" v-else @click="save">Save</v-btn>
           </v-card-actions>
         </v-card>
       </v-dialog>
-      <v-dialog v-model="dialog1" max-width="800px">
+      <!-- VIEW -->
+      <v-dialog v-model="dialogView" max-width="800px">
         <v-card>
           <v-card-title
             primary-title
@@ -85,12 +87,12 @@
                 <v-flex xs12 md3 offset-xs1>
                   <span class="text-xs-center">Primary Type</span>
                   <v-divider></v-divider>
-                  <v-card-text>{{editedItem.name}}</v-card-text>
+                  <v-card-text>{{new_product.name}}</v-card-text>
                 </v-flex>
                 <v-flex xs12 md3 offset-xs1>
                   <span class="text-xs-center">Date Created</span>
                   <v-divider></v-divider>
-                  <v-card-text>{{editedItem.date_created}}</v-card-text>
+                  <v-card-text>{{new_product.date_created}}</v-card-text>
                 </v-flex>
               </v-layout>
             </v-container>
@@ -124,28 +126,50 @@
 <script>
 export default {
   data: () => ({
+    mode: 0,
     dialog: false,
-    dialog1: false,
+    dialogView: false,
     search: "",
-    select: { state: "Primary Type" },
+    select: { state: "Product Type" },
     autoUpdate: true,
-    friends: ["Manufacturer"],
+    primary: [],
     isUpdating: false,
     primary_items: [],
+    new_product: [],
+    products_items: [],
+    modified_product: [],
     headers: [
-      { text: "Product Type", value: "product_type" },
-      { text: "Date Created", value: "date_created" },
-      { text: "Actions", value: "name", sortable: false }
+      {
+        text: "Product Type",
+        align: "left",
+        sortable: "true",
+        value: "name"
+      },
+      {
+        text: "Created Date",
+        align: "left",
+        value: "date_created"
+      },
+      {
+        text: "Action",
+        value: "editStatus"
+      }
     ],
     products: [],
     editedIndex: -1,
-    editedItem: {},
-    defaultItem: {}
+    editedItem: {
+      id: "",
+      name: "",
+      date_created: ""
+    },
+    defaultItem: {
+      name: ""
+    }
   }),
 
   computed: {
     formTitle() {
-      return this.editedIndex === -1 ? "Add Item" : "Edit Item";
+      return this.editedIndex === 0 ? "Add Product Type" : "Product Type";
     }
   },
 
@@ -162,45 +186,41 @@ export default {
   },
 
   created() {
-    this.initialize();
-    // VIEW
-    this.$store.dispatch("GET_PRODUCTS").then(result => {
-      console.log(
-        JSON.stringify(
-          "###############################" +
-            this.$store.state.reference_tables.products
-        )
-      );
-      this.products = this.$store.state.reference_tables.products;
-      console.log(
-        JSON.stringify("###############################" + this.products)
-      );
-    });
-
-    // PRIMARY
-    this.$store.dispatch("GET_PRIMARY").then(result => {
-      this.primary_items = this.$store.state.reference_tables.primary;
-    });
+    this.init();
   },
 
   methods: {
+    init() {
+      // VIEW
+      this.$store.dispatch("GET_PRODUCTS").then(result => {
+        console.log(
+          JSON.stringify(
+            "###############################" +
+              this.$store.state.reference_tables.products
+          )
+        );
+        this.products = this.$store.state.reference_tables.products;
+        console.log(
+          JSON.stringify("###############################" + this.products)
+        );
+      });
+
+      // PRIMARY
+      this.$store.dispatch("GET_PRIMARY").then(result => {
+        this.primary_items = this.$store.state.reference_tables.primary;
+      });
+    },
     remove(item) {
-      const index = this.primary.indexOf(item.name);
-      if (index >= 0) this.primary.splice(index, 1);
+      const index = this.products.indexOf(item.name);
+      if (index >= 0) this.products.splice(index, 1);
     },
 
-    add_product() {
-      this.$store.dispatch("ADD_PRODUCT", this.new_product).then(result => {
-        console.log("added");
-      });
-    },
-
-    edit_product(item) {
+    addItem() {
+      this.mode = 0; // Create
+      this.new_product = {}; // holds the filled up item
       this.dialog = true;
-      this.$store.dispatch("EDIT_PRODUCT", item).then(result => {
-        console.log("edited");
-      });
     },
+
     //
     initialize() {
       this.products = [];
@@ -208,40 +228,37 @@ export default {
     },
 
     editItem(item) {
-      this.editedIndex = this.primary.indexOf(item);
-      this.editedItem = Object.assign({}, item);
+      this.mode = 1; // Edit
+      this.new_product = item;
       this.dialog = true;
     },
 
     viewItem(item) {
-      this.editedIndex = this.primary.indexOf(item);
-      this.editedItem = Object.assign({}, item);
-      this.dialog1 = true;
+      this.new_primary = item;
+      this.dialogView = true;
     },
 
     close() {
       this.dialog = false;
-      this.dialog1 = false;
-      setTimeout(() => {
-        this.editedItem = Object.assign({}, this.defaultItem);
-        this.editedIndex = -1;
-      }, 300);
+      this.dialogView = false;
+      this.new_product = {};
     },
-    save() {
-      this.$store.dispatch("EDIT_PRODUCTS", this.products).then(result => {
-        console.log("edited");
+    submit() {
+      this.$store.dispatch("ADD_PRODUCTS", this.new_product).then(result => {
+        console.log("added:product: " + JSON.stringify(result));
         this.init();
         this.close();
       });
+    },
+    save() {
+      this.$store
+        .dispatch("EDIT_PRODUCTS", this.modified_product)
+        .then(result => {
+          console.log("edited:primary: " + JSON.stringify(result));
+          this.init();
+          this.close();
+        });
     }
-    // save() {
-    //   if (this.editedIndex > -1) {
-    //     Object.assign(this.products[this.editedIndex], this.editedItem);
-    //   } else {
-    //     this.products.push(this.editedItem);
-    //   }
-    //   this.close();
-    // }
   }
 };
 </script>

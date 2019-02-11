@@ -123,9 +123,9 @@ export default {
     declared: [],
     editedIndex: -1,
     editedItem: {
-      id:"",
+      id: "",
       name: "",
-      date_created: "",
+      date_created: ""
     },
     defaultItem: {
       name: ""
@@ -138,11 +138,11 @@ export default {
     }
   },
   created() {
-    this.init()
+    this.init();
   },
 
   methods: {
-    init(){
+    init() {
       this.$store.dispatch("GET_DECLARED_CAPITAL").then(result => {
         this.declared = this.$store.state.reference_tables.declaredCapital;
       });
@@ -166,8 +166,8 @@ export default {
 
     close() {
       this.dialog = false;
-      this.dialogView = false
-      this.new_declared = {}
+      this.dialogView = false;
+      this.new_declared = {};
     },
     submit() {
       this.$store.dispatch("ADD_DECLARED", this.new_declared).then(result => {
@@ -177,23 +177,13 @@ export default {
       });
     },
     save() {
-      this.$store.dispatch("EDIT_DECLARED", this.new_declared).then(result => {
-        console.log("edited");
-        this.init();
-        this.close();
-      })
-    },
-    // ADD_DECLARED ##############################################################
-    add_declared() {
-      this.$store.dispatch("ADD_DECLARED", this.new_declared).then(result => {
-        console.log("added:declared");
-      });
-    },
-    // EDIT_DECLARED
-    edit_declared(item) {
-      this.$store.dispatch("EDIT_PRIMARY", new_declared).then(result => {
-        console.log("edited");
-      });
+      this.$store
+        .dispatch("EDIT_DECLARED", this.modified_declared)
+        .then(result => {
+          console.log("edited");
+          this.init();
+          this.close();
+        });
     }
   }
 };

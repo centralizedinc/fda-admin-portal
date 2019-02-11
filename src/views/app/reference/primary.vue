@@ -96,7 +96,7 @@
           <v-divider></v-divider>
           <v-card-actions>
             <v-spacer></v-spacer>
-           <v-btn color="success" @click="close">Cancel</v-btn>
+            <v-btn color="success" @click="close">Cancel</v-btn>
             <v-btn color="success" v-if="mode==0" @click="submit">Submit</v-btn>
             <v-btn color="success" v-else @click="save">Save</v-btn>
           </v-card-actions>
@@ -167,14 +167,27 @@ export default {
     autoUpdate: true,
     additional: [],
     new_primary: [],
+    modified_primary: {},
     declared: [],
     isUpdating: false,
     additional_items: [],
     declared_items: [],
     headers: [
-      { text: "Primary Activity", value: "primary_type" },
-      { text: "Date Created", value: "date_created" },
-      { text: "Actions", value: "name", sortable: false }
+      {
+        text: "Primary Type",
+        align: "left",
+        sortable: "true",
+        value: "name"
+      },
+      {
+        text: "Created Date",
+        align: "left",
+        value: "date_created"
+      },
+      {
+        text: "Action",
+        value: "editStatus"
+      }
     ],
     primary: [],
     editedIndex: -1,
@@ -249,19 +262,6 @@ export default {
       const index = this.declared.indexOf(item.name);
       if (index >= 0) this.declared.splice(index, 1);
     },
-
-    add_primary() {
-      this.$store.dispatch("ADD_PRIMARY", this.new_primary).then(result => {
-        console.log("added");
-      });
-    },
-
-    edit_primary(item) {
-      this.dialog = true;
-      this.$store.dispatch("EDIT_PRIMARY", new_primary).then(result => {
-        console.log("edited");
-      });
-    },
     //
     initialize() {
       this.primary = [];
@@ -293,11 +293,13 @@ export default {
       });
     },
     save() {
-      this.$store.dispatch("EDIT_PRIMARY", this.new_primary).then(result => {
-        console.log("edited:primary: " + JSON.stringify(result));
-        this.init();
-        this.close();
-      });
+      this.$store
+        .dispatch("EDIT_PRIMARY", this.modified_primary)
+        .then(result => {
+          console.log("edited:primary: " + JSON.stringify(result));
+          this.init();
+          this.close();
+        });
     }
   }
 };

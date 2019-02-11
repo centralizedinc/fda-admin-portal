@@ -180,26 +180,12 @@ export default {
     },
     save() {
       this.$store
-        .dispatch("EDIT_ADDITIONAL", this.new_additional)
+        .dispatch("EDIT_ADDITIONAL", this.modified_additional)
         .then(result => {
           console.log("edited");
           this.init();
           this.close();
         });
-    },
-    // ADD_ADDITIONAL
-    add_additional() {
-      this.$store
-        .dispatch("ADD_ADDITIONAL", this.new_additional)
-        .then(result => {
-          console.log("added:declared");
-        });
-    },
-    // EDIT_ADDITIONAL
-    edit_additional(item) {
-      this.$store.dispatch("EDIT_PRIMARY", new_additional).then(result => {
-        console.log("edited");
-      });
     }
   }
 };

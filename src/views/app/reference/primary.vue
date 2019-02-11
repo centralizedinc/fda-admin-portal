@@ -43,7 +43,7 @@
                         :selected="data.selected"
                         close
                         class="chip--select-multi"
-                        @input="remove(data.item)"
+                        @input="removeAdditional(data.item)"
                       >{{ data.item.name }}</v-chip>
                     </template>
                     <template slot="item" slot-scope="data">
@@ -60,14 +60,14 @@
                 </v-flex>
                 <v-flex xs12>
                   <v-autocomplete
-                    v-model="friendsOne"
+                    v-model="declared"
                     :disabled="isUpdating"
-                    :items="peopleOne"
+                    :items="declared_items"
                     box
                     chips
                     label="Declared Capital"
-                    item-text="nameOne"
-                    item-value="nameOne"
+                    item-text="name"
+                    item-value="_id"
                     multiple
                   >
                     <template slot="selection" slot-scope="data">
@@ -75,8 +75,8 @@
                         :selected="data.selected"
                         close
                         class="chip--select-multi"
-                        @input="removeOne(data.item)"
-                      >{{ data.item.nameOne }}</v-chip>
+                        @input="removeDeclared(data.item)"
+                      >{{ data.item.name }}</v-chip>
                     </template>
                     <template slot="item" slot-scope="data">
                       <template v-if="typeof data.item !== 'object'">
@@ -84,7 +84,7 @@
                       </template>
                       <template v-else>
                         <v-list-tile-content>
-                          <v-list-tile-title v-html="data.item.nameOne"></v-list-tile-title>
+                          <v-list-tile-title v-html="data.item.name"></v-list-tile-title>
                         </v-list-tile-content>
                       </template>
                     </template>
@@ -159,24 +159,14 @@ export default {
     dialog: false,
     dialog1: false,
     search: "",
-    select: { state: "Additional Activity" },
-    selectOne: { stateOne: "Declared Capital" },
+    select_additional: { state: "Additional Activity" },
+    select_declared: { state: "Declared Capital" },
     autoUpdate: true,
     additional: [],
-    friendsOne: [],
+    declared: [],
     isUpdating: false,
     additional_items: [],
-    peopleOne: [
-      { headerOne: "Declared Capital" },
-      { nameOne: "Not Applicable" },
-      { nameOne: "250K and Below" },
-      { nameOne: "Over 250K and Below 500K" },
-      { nameOne: "500K to Below 1M" },
-      { nameOne: "5M to Below 5M" },
-      { nameOne: "10M to Below 20M" },
-      { nameOne: "20M to Below 50M" },
-      { nameOne: "50M and Above" }
-    ],
+    declared_items: [],
     headers: [
       { text: "Primary Activity", value: "primary_type" },
       { text: "Date Created", value: "date_created" },
@@ -225,17 +215,22 @@ export default {
     this.$store.dispatch("GET_ADDITIONAL").then(result => {
       this.additional_items = this.$store.state.reference_tables.additional;
     });
+
+    //declared
+    this.$store.dispatch("GET_DECLARED_CAPITAL").then(result => {
+      this.declared_items = this.$store.state.reference_tables.declaredCapital;
+    });
   },
 
   methods: {
-    remove(item) {
-      const index = this.friends.indexOf(item.name);
-      if (index >= 0) this.friends.splice(index, 1);
+    removeAdditional(item) {
+      const index = this.additional.indexOf(item.name);
+      if (index >= 0) this.additional.splice(index, 1);
     },
 
-    removeOne(item) {
-      const index = this.friendsOne.indexOf(item.nameOne);
-      if (index >= 0) this.friendsOne.splice(index, 1);
+    removeDeclared(item) {
+      const index = this.declared.indexOf(item.nameOne);
+      if (index >= 0) this.declared.splice(index, 1);
     },
 
     add_primary() {
@@ -253,6 +248,7 @@ export default {
     //
     initialize() {
       this.primary = [];
+      this.declared = [];
     },
 
     editItem(item) {

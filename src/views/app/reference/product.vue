@@ -131,8 +131,7 @@ export default {
     autoUpdate: true,
     friends: ["Manufacturer"],
     isUpdating: false,
-    primary_items: [
-    ],
+    primary_items: [],
     headers: [
       { text: "Product Type", value: "product_type" },
       { text: "Date Created", value: "date_created" },
@@ -190,15 +189,15 @@ export default {
       if (index >= 0) this.primary.splice(index, 1);
     },
 
-    add_primary() {
-      this.$store.dispatch("ADD_PRIMARY", this.new_primary).then(result => {
+    add_product() {
+      this.$store.dispatch("ADD_PRODUCT", this.new_product).then(result => {
         console.log("added");
       });
     },
 
-    edit_primary(item) {
+    edit_product(item) {
       this.dialog = true;
-      this.$store.dispatch("EDIT_PRIMARY", item).then(result => {
+      this.$store.dispatch("EDIT_PRODUCT", item).then(result => {
         console.log("edited");
       });
     },
@@ -206,7 +205,6 @@ export default {
     initialize() {
       this.products = [];
       this.primary = [];
-      
     },
 
     editItem(item) {
@@ -229,15 +227,21 @@ export default {
         this.editedIndex = -1;
       }, 300);
     },
-
     save() {
-      if (this.editedIndex > -1) {
-        Object.assign(this.products[this.editedIndex], this.editedItem);
-      } else {
-        this.products.push(this.editedItem);
-      }
-      this.close();
+      this.$store.dispatch("EDIT_PRODUCTS", this.products).then(result => {
+        console.log("edited");
+        this.init();
+        this.close();
+      });
     }
+    // save() {
+    //   if (this.editedIndex > -1) {
+    //     Object.assign(this.products[this.editedIndex], this.editedItem);
+    //   } else {
+    //     this.products.push(this.editedItem);
+    //   }
+    //   this.close();
+    // }
   }
 };
 </script>

@@ -62,22 +62,24 @@ var actions = {
     },
     ADD_PRODUCTS(context, new_primary) {
         return new Promise((resolve, reject) => {
-            console.log("store#############")
-            new ProductType(context.rootState.user_session.token).addPrimary(new_primary,(data, err) => {
-                console.log("####primary:ACTION####" + JSON.stringify(data))
-                context.commit('SET_PRIMARY', data)
-                resolve()
+            new ProductType(context.rootState.user_session.token).addPrimary(new_primary, (data, err) => {
+                if (err) {
+                    reject(err)
+                } else {
+                    resolve(data)
+                }
             })
         })
 
     },
     EDIT_PRODUCTS(context, id, modified_primary) {
         return new Promise((resolve, reject) => {
-            console.log("store#############")
             new ProductType(context.rootState.user_session.token).editPrimary(id, modified_primary, (data, err) => {
-                console.log("####primary:ACTION####" + JSON.stringify(data))
-                context.commit('SET_PRIMARY', data)
-                resolve()
+                if (err) {
+                    reject(err)
+                } else {
+                    resolve(data)
+                }
             })
         })
 

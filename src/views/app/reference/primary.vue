@@ -58,6 +58,38 @@
                     </template>
                   </v-autocomplete>
                 </v-flex>
+                <v-flex xs12>
+                  <v-autocomplete
+                    v-model="friendsOne"
+                    :disabled="isUpdating"
+                    :items="peopleOne"
+                    box
+                    chips
+                    label="Declared Capital"
+                    item-text="nameOne"
+                    item-value="nameOne"
+                    multiple
+                  >
+                    <template slot="selection" slot-scope="data">
+                      <v-chip
+                        :selected="data.selected"
+                        close
+                        class="chip--select-multi"
+                        @input="remove(data.item)"
+                      >{{ data.item.nameOne }}</v-chip>
+                    </template>
+                    <template slot="item" slot-scope="data">
+                      <template v-if="typeof data.item !== 'object'">
+                        <v-list-tile-content v-text="data.item"></v-list-tile-content>
+                      </template>
+                      <template v-else>
+                        <v-list-tile-content>
+                          <v-list-tile-title v-html="data.item.nameOne"></v-list-tile-title>
+                        </v-list-tile-content>
+                      </template>
+                    </template>
+                  </v-autocomplete>
+                </v-flex>
               </v-layout>
             </v-container>
           </v-card-text>
@@ -128,15 +160,28 @@ export default {
     dialog1: false,
     search: "",
     select: { state: "Additional Activity" },
+    selectOne: { stateOne: "Declared Capital" },
     autoUpdate: true,
     friends: ["Exporter of own product"],
+    friendsOne: ["Exporter of own product"],
     isUpdating: false,
     people: [
-      { header: "Primary Type" },
+      { header: "Additional Activity" },
       { name: "Exporter of own product" },
       { name: "Importer of Raw Materials for own use" },
       { name: "Wholesaler of own product" },
       { name: "Importer of finished pharmaceutical products locally repacked/packed" }
+    ],
+    peopleOne: [
+      { headerOne: "Declared Capital" },
+      { nameOne: "Not Applicable" },
+      { nameOne: "250K and Below" },
+      { nameOne: "Over 250K and Below 500K" },
+      { nameOne: "500K to Below 1M" },
+      { nameOne: "5M to Below 5M" },
+      { nameOne: "10M to Below 20M" },
+      { nameOne: "20M to Below 50M" },
+      { nameOne: "50M and Above" }
     ],
     headers: [
       { text: "Primary Activity", value: "primary_type" },
@@ -188,6 +233,11 @@ export default {
     remove(item) {
       const index = this.friends.indexOf(item.name);
       if (index >= 0) this.friends.splice(index, 1);
+    },
+
+    remove(item) {
+      const index = this.friendsOne.indexOf(item.nameOne);
+      if (index >= 0) this.friendsOne.splice(index, 1);
     },
 
     add_primary() {

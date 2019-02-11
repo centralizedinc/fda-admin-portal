@@ -5,7 +5,7 @@
         <v-text-field append-icon="search" label="Search" single-line hide-details v-model="search"></v-text-field>
       </v-flex>
       <v-divider class="mx-2" inset vertical></v-divider>
-      <v-btn fab medium color="fdaMed" top right absolute @click="dialog=true">
+      <v-btn fab medium color="fdaMed" top right absolute @click="addItem">
         <v-icon medium color="fdaSilver">add</v-icon>
       </v-btn>
       <v-spacer></v-spacer>
@@ -24,7 +24,7 @@
             <v-container grid-list-md>
               <v-layout wrap>
                 <v-flex xs12>
-                  <v-text-field v-model="new_primary.primary_type" label="Name"></v-text-field>
+                  <v-text-field v-model="new_primary.name" label="Name"></v-text-field>
                 </v-flex>
                 <v-flex xs12>
                   <v-autocomplete
@@ -227,16 +227,7 @@ export default {
     init() {
       // VIEW
       this.$store.dispatch("GET_PRIMARY").then(result => {
-        console.log(
-          JSON.stringify(
-            "###############################" +
-              this.$store.state.reference_tables.primary
-          )
-        );
         this.primary = this.$store.state.reference_tables.primary;
-        console.log(
-          JSON.stringify("###############################" + this.primary)
-        );
       });
       //additional
       this.$store.dispatch("GET_ADDITIONAL").then(result => {
@@ -294,7 +285,7 @@ export default {
     },
     save() {
       this.$store
-        .dispatch("EDIT_PRIMARY", this.modified_primary)
+        .dispatch("EDIT_PRIMARY", this.new_primary)
         .then(result => {
           console.log("edited:primary: " + JSON.stringify(result));
           this.init();

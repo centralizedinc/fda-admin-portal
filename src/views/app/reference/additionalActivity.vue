@@ -97,7 +97,7 @@
 export default {
   data: () => ({
     mode: 0, // 0 - create, 1 - edit
-    additional: [],
+    additional: {},
     new_additional: {},
     modified_additional: {},
     dialog: false,
@@ -120,6 +120,7 @@ export default {
         value: "editStatus"
       }
     ],
+    additional: [],
     editedIndex: -1,
     editedItem: {
       id: "",
@@ -155,6 +156,7 @@ export default {
     },
     editItem(item) {
       this.mode = 1; // Edit
+      this.new_declared = null;
       this.new_additional = item;
       this.dialog = true;
     },
@@ -173,7 +175,7 @@ export default {
       this.$store
         .dispatch("ADD_ADDITIONAL", this.new_additional)
         .then(result => {
-          console.log("added:declared: " + JSON.stringify(result));
+          console.log("added:additional: " + JSON.stringify(result));
           this.init();
           this.close();
         });

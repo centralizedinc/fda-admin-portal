@@ -178,7 +178,7 @@ export default {
     },
     save() {
       this.$store
-        .dispatch("EDIT_DECLARED", this.modified_declared)
+        .dispatch("EDIT_DECLARED", this.new_declared)
         .then(result => {
           console.log("edited");
           this.init();

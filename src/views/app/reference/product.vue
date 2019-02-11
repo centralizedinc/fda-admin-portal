@@ -5,7 +5,7 @@
         <v-text-field append-icon="search" label="Search" single-line hide-details v-model="search"></v-text-field>
       </v-flex>
       <v-divider class="mx-2" inset vertical></v-divider>
-      <v-btn fab medium color="fdaMed" top right absolute @click="dialog=true">
+      <v-btn fab medium color="fdaMed" top right absolute @click="addItem">
         <v-icon medium color="fdaSilver">add</v-icon>
       </v-btn>
       <v-spacer></v-spacer>
@@ -24,7 +24,7 @@
             <v-container grid-list-md>
               <v-layout wrap>
                 <v-flex xs12>
-                  <v-text-field v-model="new_product.products" label="Name"></v-text-field>
+                  <v-text-field v-model="new_product.name" label="Name"></v-text-field>
                 </v-flex>
                 <v-flex xs12>
                   <v-autocomplete
@@ -193,18 +193,8 @@ export default {
     init() {
       // VIEW
       this.$store.dispatch("GET_PRODUCTS").then(result => {
-        console.log(
-          JSON.stringify(
-            "###############################" +
-              this.$store.state.reference_tables.products
-          )
-        );
         this.products = this.$store.state.reference_tables.products;
-        console.log(
-          JSON.stringify("###############################" + this.products)
-        );
       });
-
       // PRIMARY
       this.$store.dispatch("GET_PRIMARY").then(result => {
         this.primary_items = this.$store.state.reference_tables.primary;
@@ -251,13 +241,11 @@ export default {
       });
     },
     save() {
-      this.$store
-        .dispatch("EDIT_PRODUCTS", this.modified_product)
-        .then(result => {
-          console.log("edited:primary: " + JSON.stringify(result));
-          this.init();
-          this.close();
-        });
+      this.$store.dispatch("EDIT_PRODUCTS", this.new_product).then(result => {
+        console.log("edited:primary: " + JSON.stringify(result));
+        this.init();
+        this.close();
+      });
     }
   }
 };

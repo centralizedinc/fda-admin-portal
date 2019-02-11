@@ -75,7 +75,7 @@
                         :selected="data.selected"
                         close
                         class="chip--select-multi"
-                        @input="remove(data.item)"
+                        @input="removeOne(data.item)"
                       >{{ data.item.nameOne }}</v-chip>
                     </template>
                     <template slot="item" slot-scope="data">
@@ -162,8 +162,8 @@ export default {
     select: { state: "Additional Activity" },
     selectOne: { stateOne: "Declared Capital" },
     autoUpdate: true,
-    friends: ["Exporter of own product"],
-    friendsOne: ["Exporter of own product"],
+    friends: [],
+    friendsOne: [],
     isUpdating: false,
     people: [
       { header: "Additional Activity" },
@@ -235,7 +235,7 @@ export default {
       if (index >= 0) this.friends.splice(index, 1);
     },
 
-    remove(item) {
+    removeOne(item) {
       const index = this.friendsOne.indexOf(item.nameOne);
       if (index >= 0) this.friendsOne.splice(index, 1);
     },

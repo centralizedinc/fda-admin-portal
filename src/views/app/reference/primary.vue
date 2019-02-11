@@ -280,17 +280,15 @@ export default {
       this.$store.dispatch("ADD_PRIMARY", this.new_primary).then(result => {
         console.log("added:primary: " + JSON.stringify(result));
         this.init();
-        this.close();
       });
+      this.close();
     },
     save() {
-      this.$store
-        .dispatch("EDIT_PRIMARY", this.new_primary)
-        .then(result => {
-          console.log("edited:primary: " + JSON.stringify(result));
-          this.init();
-          this.close();
-        });
+      this.$store.dispatch("EDIT_PRIMARY", this.new_primary).then(result => {
+        console.log("edited:primary: " + JSON.stringify(result));
+        this.init();
+      });
+      this.close();
     }
   }
 };

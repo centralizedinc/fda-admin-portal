@@ -237,15 +237,15 @@ export default {
       this.$store.dispatch("ADD_PRODUCTS", this.new_product).then(result => {
         console.log("added:product: " + JSON.stringify(result));
         this.init();
-        this.close();
       });
+      this.close();
     },
     save() {
       this.$store.dispatch("EDIT_PRODUCTS", this.new_product).then(result => {
         console.log("edited:product: " + JSON.stringify(result));
         this.init();
-        this.close();
       });
+      this.close();
     }
   }
 };

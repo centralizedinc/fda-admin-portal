@@ -175,18 +175,18 @@ export default {
         .then(result => {
           console.log("added:additional: " + JSON.stringify(result));
           this.init();
-          this.close();
         });
+      this.close();
     },
     save() {
-      console.log("###############" + JSON.stringify(this.new_additional))
+      console.log("###############" + JSON.stringify(this.new_additional));
       this.$store
         .dispatch("EDIT_ADDITIONAL", this.new_additional)
         .then(result => {
           console.log("edited");
           this.init();
         });
-        this.close();
+      this.close();
     }
   }
 };

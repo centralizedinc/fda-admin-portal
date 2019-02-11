@@ -242,7 +242,7 @@ export default {
     },
     save() {
       this.$store.dispatch("EDIT_PRODUCTS", this.new_product).then(result => {
-        console.log("edited:primary: " + JSON.stringify(result));
+        console.log("edited:product: " + JSON.stringify(result));
         this.init();
         this.close();
       });

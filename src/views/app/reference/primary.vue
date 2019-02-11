@@ -229,7 +229,7 @@ export default {
     },
 
     removeDeclared(item) {
-      const index = this.declared.indexOf(item.nameOne);
+      const index = this.declared.indexOf(item.name);
       if (index >= 0) this.declared.splice(index, 1);
     },
 

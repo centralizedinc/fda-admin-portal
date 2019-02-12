@@ -11,7 +11,7 @@ export default class RegionType {
     getRegion(cb) {
 
         axios.get('core/region').then((result) => {
-                console.log("###API###")
+                console.log("###API:REGION###")
                 if (result.data.success) {
                     cb(result.data.errors, result.data.model)
                 } else {

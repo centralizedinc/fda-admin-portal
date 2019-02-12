@@ -1,14 +1,14 @@
-import ProductType from '../../api/apiRegional';
+import RegionType from '../../api/apiRegional';
 
 const state = {
 
-    region: []
+    regions: {}
 
 }
 
 const mutations = {
     SET_REGION(state, data) {
-        state.region = data
+        state.regions = data
         console.log("###PREGION:SET###" + JSON.stringify(data))
     }
 

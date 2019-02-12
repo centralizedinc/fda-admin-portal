@@ -2,7 +2,7 @@
   <v-layout row wrap>
     <v-flex xs12>
       <div>
-        PRODUCTS
+        <!-- PRODUCTS
         {{products}}
         PRIMARY
         {{primary}}
@@ -11,7 +11,9 @@
         ADDITIONAL
         {{additional}}
         DECLARED
-        {{declared}}
+        {{declared}} -->
+
+        {{regions}}
 
         <!-- ADD PRODUCT-->
         <v-flex xs12 sm6 md3>
@@ -119,6 +121,7 @@ export default {
   data() {
     return {
       products: {},
+      regions:{},
       new_product: {},
       primary: {},
       secondary: {},
@@ -187,6 +190,20 @@ export default {
   },
 
   created() {
+
+    this.$store.dispatch("GET_REGION").then(result => {
+      console.log(
+        JSON.stringify(
+          "###############################" +
+            this.$store.state.regional_tables.regions
+        )
+      );
+      this.regions = this.$store.state.regional_tables.regions;
+      console.log(
+        JSON.stringify("###############################" + this.regions)
+      );
+    });
+
     this.$store.dispatch("GET_PRODUCTS").then(result => {
       console.log(
         JSON.stringify(

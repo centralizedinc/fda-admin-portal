@@ -47,9 +47,9 @@ export default new Router({
           component: () => import('@/views/app/reference/additionalActivity.vue')
         },
         {
-          path: 'certificates',
-          name: 'Certificates',
-          component: () => import('@/views/app/UserPortfolio.vue')
+          path: 'profile',
+          name: 'profile',
+          component: () => import('@/views/app/accounts/profile.vue')
         },
         {
           path: 'payments',

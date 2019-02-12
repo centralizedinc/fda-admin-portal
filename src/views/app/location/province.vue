@@ -84,27 +84,27 @@
           <v-card-text>
             <v-container grid-list-md>
               <v-layout wrap>
-                <v-flex xs12 sm4 md6>
+                <v-flex xs12 sm4 md2>
                   <span class="text-xs-center">Province Name</span>
                   <v-divider></v-divider>
                   <v-card-text>{{new_province.name}}</v-card-text>
                 </v-flex>
-                <v-flex xs12 sm4 md6>
+                <v-flex xs12 sm4 md2>
                   <span class="text-xs-center">Created By</span>
                   <v-divider></v-divider>
                   <v-card-text>{{new_province.created_by}}</v-card-text>
                 </v-flex>
-                <v-flex xs12 sm4 md6>
+                <v-flex xs12 sm4 md2>
                   <span class="text-xs-center">Created Date</span>
                   <v-divider></v-divider>
                   <v-card-text>{{new_province.date_created}}</v-card-text>
                 </v-flex>
-                <v-flex xs12 sm4 md6>
+                <v-flex xs12 sm4 md2>
                   <span class="text-xs-center">Modified By</span>
                   <v-divider></v-divider>
                   <v-card-text>{{new_province.date_modified}}</v-card-text>
                 </v-flex>
-                <v-flex xs12 sm4 md6>
+                <v-flex xs12 sm4 md2>
                   <span class="text-xs-center">Modified Date</span>
                   <v-divider></v-divider>
                   <v-card-text>{{new_province.date_modified}}</v-card-text>

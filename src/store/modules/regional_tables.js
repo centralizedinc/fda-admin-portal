@@ -41,7 +41,7 @@ var actions = {
         })
 
     },
-    EDIT_PRODUCTS(context, modified_region) {
+    EDIT_REGION(context, modified_region) {
         return new Promise((resolve, reject) => {
             new RegionType(context.rootState.user_session.token).editRegion(modified_region, (err, data) => {
                 if (err) {

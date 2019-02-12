@@ -24,7 +24,7 @@ export default class RegionType {
     }
 
     addRegion(new_region, cb) {
-        console.log("api#############" + JSON.stringify(new_pregion))
+        console.log("api#############" + JSON.stringify(new_region))
         axios.post('core/region', new_region).then((result) => {
                 console.log("api#############")
                 cb(result.data.errors, result.data.model)
@@ -34,7 +34,7 @@ export default class RegionType {
             })
     }
 
-    editProduct(modified_region, cb) {
+    editRegion(modified_region, cb) {
         var id = modified_region._id
         axios.post('core/region/' + id, modified_region).then((result) => {
                 console.log("api#############" + JSON.stringify(modified_region))

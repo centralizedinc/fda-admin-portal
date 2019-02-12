@@ -28,7 +28,7 @@
                 </v-flex>
                 <v-flex xs12>
                   <v-autocomplete
-                    v-model="new_product.primary"
+                    v-model="new_product.primary_activity"
                     :disabled="isUpdating"
                     :items="primary_items"
                     box

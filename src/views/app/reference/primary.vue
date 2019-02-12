@@ -188,7 +188,7 @@ export default {
         value: "editStatus"
       }
     ],
-    primary: {},
+    primary: [],
     editedIndex: -1,
     editedItem: {
       id: "",

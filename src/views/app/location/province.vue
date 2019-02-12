@@ -25,12 +25,12 @@
               <v-layout wrap>
                 <v-flex xs12>
                   <v-autocomplete
-                    v-model="new_city.province"
+                    v-model="new_province.region"
                     :disabled="isUpdating"
-                    :items="city_items"
+                    :items="province_items"
                     box
                     chips
-                    label="Province"
+                    label="Region"
                     item-text="name"
                     item-value="_id"
                     multiple
@@ -56,7 +56,7 @@
                   </v-autocomplete>
                 </v-flex>
                 <v-flex xs12>
-                  <v-text-field v-model="new_city.name" label="Name"></v-text-field>
+                  <v-text-field v-model="new_province.name" label="Name"></v-text-field>
                 </v-flex>
               </v-layout>
             </v-container>
@@ -85,29 +85,29 @@
             <v-container grid-list-md>
               <v-layout wrap>
                 <v-flex xs12 sm4 md6>
-                  <span class="text-xs-center">City Name</span>
+                  <span class="text-xs-center">Province Name</span>
                   <v-divider></v-divider>
-                  <v-card-text>{{new_city.name}}</v-card-text>
+                  <v-card-text>{{new_province.name}}</v-card-text>
                 </v-flex>
                 <v-flex xs12 sm4 md6>
                   <span class="text-xs-center">Created By</span>
                   <v-divider></v-divider>
-                  <v-card-text>{{new_city.created_by}}</v-card-text>
+                  <v-card-text>{{new_province.created_by}}</v-card-text>
                 </v-flex>
                 <v-flex xs12 sm4 md6>
                   <span class="text-xs-center">Created Date</span>
                   <v-divider></v-divider>
-                  <v-card-text>{{new_city.date_created}}</v-card-text>
+                  <v-card-text>{{new_province.date_created}}</v-card-text>
                 </v-flex>
                 <v-flex xs12 sm4 md6>
                   <span class="text-xs-center">Modified By</span>
                   <v-divider></v-divider>
-                  <v-card-text>{{new_city.date_modified}}</v-card-text>
+                  <v-card-text>{{new_province.date_modified}}</v-card-text>
                 </v-flex>
                 <v-flex xs12 sm4 md6>
                   <span class="text-xs-center">Modified Date</span>
                   <v-divider></v-divider>
-                  <v-card-text>{{new_city.date_modified}}</v-card-text>
+                  <v-card-text>{{new_province.date_modified}}</v-card-text>
                 </v-flex>
               </v-layout>
             </v-container>
@@ -120,7 +120,7 @@
         </v-card>
       </v-dialog>
     </v-toolbar>
-    <v-data-table :headers="headers" :items="city" :search="search" class="elevation-1">
+    <v-data-table :headers="headers" :items="province" :search="search" class="elevation-1">
       <template slot="items" slot-scope="props">
          <td>{{ props.item.name }}</td>
         <td>{{ props.item.created_by }}</td>
@@ -145,16 +145,16 @@
 export default {
   data: () => ({
     mode: 0, // 0 - create, 1 - edit
-    province: {},
-    city_items: [],
-    new_city: {},
-    modified_city: {},
+    region: {},
+    province_items: [],
+    new_province: {},
+    modified_province: {},
     dialog: false,
     dialogView: false,
     search: "",
     headers: [
       {
-        text: "City Name",
+        text: "Province Name",
         align: "left",
         sortable: "true",
         value: "name"
@@ -184,12 +184,13 @@ export default {
         value: "editStatus"
       }
     ],
-    city: [],
+    province: [],
     editedIndex: -1,
     editedItem: {
       id: "",
-      province:"",
+      region:"",
       name: "",
+      region_code: "",
       created_by: "",
       date_created: "",
       modified_by: "",
@@ -202,7 +203,7 @@ export default {
 
   computed: {
     formTitle() {
-      return this.mode === 0 ? "Add City" : "Edit City";
+      return this.mode === 0 ? "Add Province" : "Edit Province";
     }
   },
   created() {
@@ -211,40 +212,40 @@ export default {
 
   methods: {
     init() {
-      this.$store.dispatch("GET_CITY").then(result => {
-        this.city = this.$store.state.reference_tables.city;
+      this.$store.dispatch("GET_PROVINCE").then(result => {
+        this.province = this.$store.state.reference_tables.province;
       });
     },
     addItem() {
       this.mode = 0; // Create
-      this.new_city = {}; // holds the filled up item
+      this.new_province = {}; // holds the filled up item
       this.dialog = true;
     },
     editItem(item) {
       this.mode = 1; // Edit
-      this.new_city = JSON.parse(JSON.stringify(item));
+      this.new_province = JSON.parse(JSON.stringify(item));
       this.dialog = true;
     },
 
     viewItem(item) {
-      this.new_city = item;
+      this.new_province = item;
       this.dialogView = true;
     },
 
     close() {
       this.dialog = false;
       this.dialogView = false;
-      this.new_city = {};
+      this.new_province = {};
     },
     submit() {
-      this.$store.dispatch("ADD_CITY", this.new_city).then(result => {
+      this.$store.dispatch("ADD_PROVINCE", this.new_province).then(result => {
         console.log("added:declared: " + JSON.stringify(result));
         this.init();
         this.close();
       });
     },
     save() {
-      this.$store.dispatch("EDIT_CITY", this.new_city).then(result => {
+      this.$store.dispatch("EDIT_PROVINCE", this.new_province).then(result => {
         console.log("edited");
         this.init();
         this.close();

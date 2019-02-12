@@ -72,9 +72,9 @@ export default new Router({
           component: () => import('@/views/app/location/region.vue')
         },
         {
-          path: 'location',
-          name: 'location',
-          component: () => import('@/views/app/location/location.vue')
+          path: 'province',
+          name: 'province',
+          component: () => import('@/views/app/location/province.vue')
         },
         {
           path: 'task',

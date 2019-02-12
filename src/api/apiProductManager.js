@@ -11,36 +11,37 @@ export default class ProductType {
     getProduct(cb) {
 
         axios.get('core/products').then((result) => {
+                console.log("###API###")
                 if (result.data.success) {
-
-                    console.log("###API###" + JSON.stringify(result.data.model))
-                    cb(result.data.model)
+                    cb(result.data.errors, result.data.model)
                 } else {
-                    cb(null, result.data.errors)
+                    cb(result.data.errors)
                 }
             })
             .catch(err => {
-                cb(null, err)
+                cb(err)
             })
     }
 
     addProduct(new_product, cb) {
         console.log("api#############" + JSON.stringify(new_product))
         axios.post('core/products', new_product).then((result) => {
-                console.log("api#############" + JSON.stringify(new_product))
+                console.log("api#############")
+                cb(result.data.errors, result.data.model)
             })
             .catch(err => {
-                cb(null, err)
+                cb(err)
             })
     }
 
-    editProduct(id, modified_product, cb) {
+    editProduct(modified_product, cb) {
         var id = modified_product._id
         axios.post('core/products/' + id, modified_product).then((result) => {
                 console.log("api#############" + JSON.stringify(modified_product))
+                cb(result.data.errors, result.data.model)
             })
             .catch(err => {
-                cb(null, err)
+                cb(err)
             })
     }
 
@@ -48,33 +49,32 @@ export default class ProductType {
         axios.get('core/primary').then((result) => {
                 console.log("api#############")
                 if (result.data.success) {
-                    cb(result.data.model)
+                    cb(result.data.errors, result.data.model)
                 } else {
-                    cb(null, result.data.errors)
+                    cb(result.data.errors)
                 }
             })
             .catch(err => {
-                cb(null, err)
+                cb(err)
             })
     }
 
     addPrimary(new_primary, cb) {
-        console.log("api#############" + JSON.stringify(new_primary))
         axios.post('core/primary', new_primary).then((result) => {
-                console.log("api#############" + JSON.stringify(new_primary))
+                cb(result.data.errors, result.data.model)
             })
             .catch(err => {
-                cb(null, err)
+                cb(err)
             })
     }
 
-    editPrimary(id, modified_primary, cb) {
+    editPrimary(modified_primary, cb) {
         var id = modified_primary._id
         axios.post('core/primary/' + id, modified_primary).then((result) => {
-                console.log("api#############" + JSON.stringify(modified_primary))
+                cb(result.data.errors, result.data.model)
             })
             .catch(err => {
-                cb(null, err)
+                cb(err)
             })
     }
 
@@ -109,9 +109,10 @@ export default class ProductType {
         console.log("api#############" + JSON.stringify(new_additional))
         axios.post('core/additional', new_additional).then((result) => {
                 console.log("api#############" + JSON.stringify(new_additional))
+                cb(result.data.errors, result.data.model)
             })
             .catch(err => {
-                cb(null, err)
+                cb(err)
             })
     }
 
@@ -120,9 +121,10 @@ export default class ProductType {
         var id = modified_additional._id
         axios.post('core/additional/' + id, modified_additional).then((result) => {
                 console.log("api#############" + JSON.stringify(modified_additional))
+                cb(result.data.errors, result.data.model)
             })
             .catch(err => {
-                cb(null, err)
+                cb(err)
             })
     }
 
@@ -143,10 +145,10 @@ export default class ProductType {
         console.log("api#############" + JSON.stringify(new_declared))
         axios.post('core/declared', new_declared).then((result) => {
                 console.log("api#############" + JSON.stringify(new_declared))
-                cb(result.data.model)
+                cb(result.data.errors, result.data.model)
             })
             .catch(err => {
-                cb(null, err)
+                cb(err)
             })
     }
 
@@ -154,10 +156,10 @@ export default class ProductType {
         var id = modified_declared._id
         axios.post('core/declared/' + id, modified_declared).then((result) => {
                 console.log("api#############" + JSON.stringify(modified_declared))
-                cb(result.data.model)
+                cb(result.data.errors, result.data.model)
             })
             .catch(err => {
-                cb(null, err)
+                cb(err)
             })
     }
 

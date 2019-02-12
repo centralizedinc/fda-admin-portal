@@ -28,7 +28,7 @@
                 </v-flex>
                 <v-flex xs12>
                   <v-autocomplete
-                    v-model="additional"
+                    v-model="new_primary.additional_activities"
                     :disabled="isUpdating"
                     :items="additional_items"
                     box
@@ -60,7 +60,7 @@
                 </v-flex>
                 <v-flex xs12>
                   <v-autocomplete
-                    v-model="declared"
+                    v-model="new_primary.declared_capital"
                     :disabled="isUpdating"
                     :items="declared_items"
                     box
@@ -119,12 +119,12 @@
                 <v-flex xs12 md3 offset-xs1>
                   <span class="text-xs-center">Primary Type</span>
                   <v-divider></v-divider>
-                  <v-card-text>{{primary.name}}</v-card-text>
+                  <v-card-text>{{new_primary.name}}</v-card-text>
                 </v-flex>
                 <v-flex xs12 md3 offset-xs1>
                   <span class="text-xs-center">Date Created</span>
                   <v-divider></v-divider>
-                  <v-card-text>{{primary.date_created}}</v-card-text>
+                  <v-card-text>{{new_primary.date_created}}</v-card-text>
                 </v-flex>
               </v-layout>
             </v-container>
@@ -166,8 +166,7 @@ export default {
     select_declared: { state: "Declared Capital" },
     autoUpdate: true,
     additional: [],
-    new_primary: [],
-    modified_primary: {},
+    new_primary: {},
     declared: [],
     isUpdating: false,
     additional_items: [],
@@ -189,7 +188,7 @@ export default {
         value: "editStatus"
       }
     ],
-    primary: [],
+    primary: {},
     editedIndex: -1,
     editedItem: {
       id: "",
@@ -255,7 +254,7 @@ export default {
     },
     //
     initialize() {
-      this.primary = [];
+      this.primary = {};
       this.declared = [];
     },
 
@@ -277,18 +276,20 @@ export default {
     },
 
     submit() {
+      // console.log('new_primary: ' + JSON.stringify(this.new_primary));
       this.$store.dispatch("ADD_PRIMARY", this.new_primary).then(result => {
         console.log("added:primary: " + JSON.stringify(result));
         this.init();
+        this.close();
       });
-      this.close();
     },
     save() {
+      //  console.log('new_primary: ' + JSON.stringify(this.new_primary));
       this.$store.dispatch("EDIT_PRIMARY", this.new_primary).then(result => {
         console.log("edited:primary: " + JSON.stringify(result));
         this.init();
+        this.close();
       });
-      this.close();
     }
   }
 };

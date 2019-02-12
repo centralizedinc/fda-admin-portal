@@ -28,7 +28,7 @@
                 </v-flex>
                 <v-flex xs12>
                   <v-autocomplete
-                    v-model="primary"
+                    v-model="new_product.primary_activity"
                     :disabled="isUpdating"
                     :items="primary_items"
                     box
@@ -132,12 +132,11 @@ export default {
     search: "",
     select: { state: "Product Type" },
     autoUpdate: true,
-    primary: [],
+    primary: {},
     isUpdating: false,
     primary_items: [],
-    new_product: [],
-    products_items: [],
-    modified_product: [],
+    new_product: {},
+    modified_product: {},
     headers: [
       {
         text: "Product Type",
@@ -224,7 +223,7 @@ export default {
     },
 
     viewItem(item) {
-      this.new_primary = item;
+      this.new_product = item;
       this.dialogView = true;
     },
 
@@ -234,18 +233,19 @@ export default {
       this.new_product = {};
     },
     submit() {
+      // console.log(JSON.stringify(this.new_product));
       this.$store.dispatch("ADD_PRODUCTS", this.new_product).then(result => {
         console.log("added:product: " + JSON.stringify(result));
         this.init();
+        this.close();
       });
-      this.close();
     },
     save() {
       this.$store.dispatch("EDIT_PRODUCTS", this.new_product).then(result => {
         console.log("edited:product: " + JSON.stringify(result));
         this.init();
+         this.close();
       });
-      this.close();
     }
   }
 };

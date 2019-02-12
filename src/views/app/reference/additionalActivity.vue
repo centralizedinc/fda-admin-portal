@@ -97,7 +97,7 @@
 export default {
   data: () => ({
     mode: 0, // 0 - create, 1 - edit
-    additional: {},
+    additional: [],
     new_additional: {},
     modified_additional: {},
     dialog: false,
@@ -175,8 +175,8 @@ export default {
         .then(result => {
           console.log("added:additional: " + JSON.stringify(result));
           this.init();
+          this.close();
         });
-      this.close();
     },
     save() {
       console.log("###############" + JSON.stringify(this.new_additional));
@@ -185,8 +185,8 @@ export default {
         .then(result => {
           console.log("edited");
           this.init();
+          this.close();
         });
-      this.close();
     }
   }
 };

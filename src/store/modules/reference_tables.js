@@ -53,7 +53,7 @@ var actions = {
     // PRODUCTS
     GET_PRODUCTS(context) {
         return new Promise((resolve, reject) => {
-            new ProductType(context.rootState.user_session.token).getProduct((data, err) => {
+            new ProductType(context.rootState.user_session.token).getProduct((err, data) => {
                 if (err) {
                     reject(err)
                 } else {
@@ -63,9 +63,9 @@ var actions = {
             })
         })
     },
-    ADD_PRODUCTS(context, new_primary) {
+    ADD_PRODUCTS(context, new_product) {
         return new Promise((resolve, reject) => {
-            new ProductType(context.rootState.user_session.token).addPrimary(new_primary, (data, err) => {
+            new ProductType(context.rootState.user_session.token).addProduct(new_product, (err, data) => {
                 if (err) {
                     reject(err)
                 } else {
@@ -77,7 +77,7 @@ var actions = {
     },
     EDIT_PRODUCTS(context, modified_product) {
         return new Promise((resolve, reject) => {
-            new ProductType(context.rootState.user_session.token).editPrimary(modified_product, (data, err) => {
+            new ProductType(context.rootState.user_session.token).editProduct(modified_product, (err, data) => {
                 if (err) {
                     reject(err)
                 } else {
@@ -91,12 +91,12 @@ var actions = {
     // PRIMARY
     GET_PRIMARY(context) {
         return new Promise((resolve, reject) => {
-            new ProductType(context.rootState.user_session.token).getPrimary((data, err) => {
-                if (!err) {
-                    context.commit('SET_PRIMARY', data)
-                    resolve()
-                } else {
+            new ProductType(context.rootState.user_session.token).getPrimary((err, data) => {
+                if (err) {
                     reject(err)
+                } else {
+                    context.commit('SET_PRIMARY', data)
+                    resolve(data)
                 }
 
             })
@@ -104,7 +104,7 @@ var actions = {
     },
     ADD_PRIMARY(context, new_primary) {
         return new Promise((resolve, reject) => {
-            new ProductType(context.rootState.user_session.token).addPrimary(new_primary, (data, err) => {
+            new ProductType(context.rootState.user_session.token).addPrimary(new_primary, (err, data) => {
                 if (err) {
                     reject(err)
                 } else {
@@ -116,7 +116,7 @@ var actions = {
     },
     EDIT_PRIMARY(context, modified_primary) {
         return new Promise((resolve, reject) => {
-            new ProductType(context.rootState.user_session.token).editPrimary(modified_primary, (data, err) => {
+            new ProductType(context.rootState.user_session.token).editPrimary(modified_primary, (err, data) => {
                 if (err) {
                     reject(err)
                 } else {
@@ -157,7 +157,7 @@ var actions = {
 
     ADD_ADDITIONAL(context, new_additional) {
         return new Promise((resolve, reject) => {
-            new ProductType(context.rootState.user_session.token).addAdditional(new_additional, (data, err) => {
+            new ProductType(context.rootState.user_session.token).addAdditional(new_additional, (err, data) => {
                 if (err) {
                     reject(err)
                 } else {
@@ -170,7 +170,7 @@ var actions = {
 
     EDIT_ADDITIONAL(context, modified_additional) {
         return new Promise((resolve, reject) => {
-            new ProductType(context.rootState.user_session.token).editAdditional(modified_additional, (data, err) => {
+            new ProductType(context.rootState.user_session.token).editAdditional(modified_additional, (err, data) => {
                 if (err) {
                     reject(err)
                 } else {
@@ -188,8 +188,8 @@ var actions = {
                 if (err) {
                     reject(err)
                 } else {
-                context.commit('SET_DECLARED_CAPITAL', data)
-                resolve(data)
+                    context.commit('SET_DECLARED_CAPITAL', data)
+                    resolve(data)
                 }
             })
         })
@@ -197,7 +197,7 @@ var actions = {
 
     ADD_DECLARED(context, new_declared) {
         return new Promise((resolve, reject) => {
-            new ProductType(context.rootState.user_session.token).addDeclaredCapital(new_declared, (data, err) => {
+            new ProductType(context.rootState.user_session.token).addDeclaredCapital(new_declared, (err, data) => {
                 if (err) {
                     reject(err)
                 } else {
@@ -210,7 +210,7 @@ var actions = {
 
     EDIT_DECLARED(context, modified_declared) {
         return new Promise((resolve, reject) => {
-            new ProductType(context.rootState.user_session.token).editDeclaredCapital(modified_declared, (data, err) => {
+            new ProductType(context.rootState.user_session.token).editDeclaredCapital(modified_declared, (err, data) => {
                 if (err) {
                     reject(err)
                 } else {

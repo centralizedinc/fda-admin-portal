@@ -97,7 +97,7 @@
       </v-dialog>
     </v-toolbar>
     <!-- TABLE -->
-    <v-data-table :headers="headers" :items="region" :search="search" class="elevation-1">
+    <v-data-table :headers="headers" :items="regions" :search="search" class="elevation-1">
       <template slot="items" slot-scope="props">
         <td>{{ props.item.name }}</td>
         <td>{{ props.item.region_code }}</td>
@@ -167,7 +167,7 @@ export default {
         value: "editStatus"
       }
     ],
-    region: [],
+    regions: [],
     editedIndex: -1,
     editedItem: {
       id: "",
@@ -196,7 +196,7 @@ export default {
   methods: {
     init() {
       this.$store.dispatch("GET_REGION").then(result => {
-        this.region = this.$store.state.regional_tables.region;
+        this.regions = this.$store.state.regional_tables.regions;
       });
     },
     addItem() {

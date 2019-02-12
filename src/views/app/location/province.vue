@@ -25,7 +25,7 @@
               <v-layout wrap>
                 <v-flex xs12>
                   <v-autocomplete
-                    v-model="new_province.region"
+                    v-model="new_province.regions"
                     :disabled="isUpdating"
                     :items="province_items"
                     box
@@ -120,7 +120,7 @@
         </v-card>
       </v-dialog>
     </v-toolbar>
-    <v-data-table :headers="headers" :items="province" :search="search" class="elevation-1">
+    <v-data-table :headers="headers" :items="provinces" :search="search" class="elevation-1">
       <template slot="items" slot-scope="props">
          <td>{{ props.item.name }}</td>
         <td>{{ props.item.created_by }}</td>
@@ -145,7 +145,7 @@
 export default {
   data: () => ({
     mode: 0, // 0 - create, 1 - edit
-    region: {},
+    regions: {},
     province_items: [],
     new_province: {},
     modified_province: {},
@@ -184,7 +184,7 @@ export default {
         value: "editStatus"
       }
     ],
-    province: [],
+    provinces: [],
     editedIndex: -1,
     editedItem: {
       id: "",
@@ -213,7 +213,7 @@ export default {
   methods: {
     init() {
       this.$store.dispatch("GET_PROVINCE").then(result => {
-        this.province = this.$store.state.regional_tables.province;
+        this.provinces = this.$store.state.regional_tables.provinces;
       });
     },
     addItem() {

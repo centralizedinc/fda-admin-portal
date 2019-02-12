@@ -95,13 +95,13 @@ export default class ProductType {
     getAdditional(cb) {
         axios.get('core/additional').then((result) => {
                 if (result.data.success) {
-                    cb(result.data.model)
+                    cb(result.data.errors, result.data.model)
                 } else {
-                    cb(null, result.data.errors)
+                    cb(result.data.errors)
                 }
             })
             .catch(err => {
-                cb(null, err)
+                cb(err)
             })
     }
 
@@ -131,13 +131,13 @@ export default class ProductType {
     getDeclaredCapital(cb) {
         axios.get('core/declared').then((result) => {
                 if (result.data.success) {
-                    cb(result.data.model)
+                    cb(result.data.errors, result.data.model)
                 } else {
-                    cb(null, result.data.errors)
+                    cb(result.data.errors)
                 }
             })
             .catch(err => {
-                cb(null, err)
+                cb(err)
             })
     }
 

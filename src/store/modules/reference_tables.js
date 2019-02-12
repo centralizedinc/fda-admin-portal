@@ -35,16 +35,6 @@ const mutations = {
         console.log("###DECLARED_CAPITAL:SET###" + JSON.stringify(data))
         state.declaredCapital = data
     },
-    // SET_REGION(state, data) {
-    //     state.region = data
-    // },
-    // SET_PROVINCE(state, data) {
-    //     state.region = data
-    // },
-    // SET_CITY(state, data) {
-    //     state.city = data
-    // },
-
 
 }
 
@@ -144,7 +134,7 @@ var actions = {
     //ADDITIONAL
     GET_ADDITIONAL(context) {
         return new Promise((resolve, reject) => {
-            new ProductType(context.rootState.user_session.token).getAdditional((data, err) => {
+            new ProductType(context.rootState.user_session.token).getAdditional((err, data) => {
                 if (err) {
                     reject(err)
                 } else {
@@ -184,7 +174,7 @@ var actions = {
     //DECLARE CAPITAL
     GET_DECLARED_CAPITAL(context) {
         return new Promise((resolve, reject) => {
-            new ProductType(context.rootState.user_session.token).getDeclaredCapital((data, err) => {
+            new ProductType(context.rootState.user_session.token).getDeclaredCapital((err, data) => {
                 if (err) {
                     reject(err)
                 } else {

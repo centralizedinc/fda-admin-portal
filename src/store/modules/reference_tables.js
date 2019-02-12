@@ -9,8 +9,7 @@ const state = {
     region: null,
     province: null,
     city: null,
-    zipCode: 0,
-    new_primary: null
+    zipCode: 0
 
 }
 

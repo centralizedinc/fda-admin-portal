@@ -212,7 +212,7 @@ export default {
   methods: {
     init() {
       this.$store.dispatch("GET_CITY").then(result => {
-        this.city = this.$store.state.reference_tables.city;
+        this.city = this.$store.state.regional_tables.city;
       });
     },
     addItem() {
@@ -238,14 +238,14 @@ export default {
     },
     submit() {
       this.$store.dispatch("ADD_CITY", this.new_city).then(result => {
-        console.log("added:declared: " + JSON.stringify(result));
+        console.log("added:city: " + JSON.stringify(result));
         this.init();
         this.close();
       });
     },
     save() {
       this.$store.dispatch("EDIT_CITY", this.new_city).then(result => {
-        console.log("edited");
+        console.log("edited:city: " + JSON.stringify(result));
         this.init();
         this.close();
       });

@@ -183,7 +183,7 @@ export default {
       this.$store
         .dispatch("EDIT_ADDITIONAL", this.new_additional)
         .then(result => {
-          console.log("edited");
+          console.log("edited:additional: " + JSON.stringify(result));
           this.init();
           this.close();
         });

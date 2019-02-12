@@ -213,7 +213,7 @@ export default {
   methods: {
     init() {
       this.$store.dispatch("GET_PROVINCE").then(result => {
-        this.province = this.$store.state.reference_tables.province;
+        this.province = this.$store.state.regional_tables.province;
       });
     },
     addItem() {
@@ -239,14 +239,14 @@ export default {
     },
     submit() {
       this.$store.dispatch("ADD_PROVINCE", this.new_province).then(result => {
-        console.log("added:declared: " + JSON.stringify(result));
+        console.log("added:province: " + JSON.stringify(result));
         this.init();
         this.close();
       });
     },
     save() {
       this.$store.dispatch("EDIT_PROVINCE", this.new_province).then(result => {
-        console.log("edited");
+        console.log("edited:province: " + JSON.stringify(result));
         this.init();
         this.close();
       });

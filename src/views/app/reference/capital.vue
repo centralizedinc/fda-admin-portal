@@ -175,7 +175,7 @@ export default {
     },
     save() {
       this.$store.dispatch("EDIT_DECLARED", this.new_declared).then(result => {
-        console.log("edited");
+        console.log("edited:declared: " + JSON.stringify(result));
         this.init();
         this.close();
       });

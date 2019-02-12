@@ -196,7 +196,7 @@ export default {
   methods: {
     init() {
       this.$store.dispatch("GET_REGION").then(result => {
-        this.region = this.$store.state.reference_tables.region;
+        this.region = this.$store.state.regional_tables.region;
       });
     },
     addItem() {
@@ -222,14 +222,14 @@ export default {
     },
     submit() {
       this.$store.dispatch("ADD_REGION", this.new_region).then(result => {
-        console.log("added:declared: " + JSON.stringify(result));
+        console.log("added:region: " + JSON.stringify(result));
         this.init();
         this.close();
       });
     },
     save() {
       this.$store.dispatch("EDIT_REGION", this.new_region).then(result => {
-        console.log("edited");
+        console.log("edited:region: " + JSON.stringify(result));
         this.init();
         this.close();
       });

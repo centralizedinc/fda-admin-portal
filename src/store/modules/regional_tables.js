@@ -84,6 +84,8 @@ var actions = {
     },
     ADD_PROVINCE(context, new_province) {
         return new Promise((resolve, reject) => {
+            console.log('new_province: ' + JSON.stringify(new_province));
+
             new RegionType(context.rootState.user_session.token).addProvince(new_province, (err, data) => {
                 if (err) {
                     reject(err)
@@ -133,18 +135,18 @@ var actions = {
         })
 
     },
-    EDIT_PROVINCE(context, modified_city) {
-        return new Promise((resolve, reject) => {
-            new RegionType(context.rootState.user_session.token).editCity(modified_city, (err, data) => {
-                if (err) {
-                    reject(err)
-                } else {
-                    resolve(data)
-                }
-            })
-        })
+    // EDIT_PROVINCE(context, modified_city) {
+    //     return new Promise((resolve, reject) => {
+    //         new RegionType(context.rootState.user_session.token).editCity(modified_city, (err, data) => {
+    //             if (err) {
+    //                 reject(err)
+    //             } else {
+    //                 resolve(data)
+    //             }
+    //         })
+    //     })
 
-    }
+    // }
 
 }
 

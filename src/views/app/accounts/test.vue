@@ -123,6 +123,7 @@ export default {
       groups: {},
       provinces:{},
       products: {},
+      cities:{},
       regions:{},
       new_product: {},
       primary: {},

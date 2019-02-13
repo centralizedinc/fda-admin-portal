@@ -85,6 +85,11 @@
             <v-container grid-list-md>
               <v-layout wrap>
                 <v-flex xs12 sm4 md2>
+                  <span class="text-xs-center">Region Name</span>
+                  <v-divider></v-divider>
+                  <v-card-text>{{new_province.regions}}</v-card-text>
+                </v-flex>
+                <v-flex xs12 sm4 md2>
                   <span class="text-xs-center">Province Name</span>
                   <v-divider></v-divider>
                   <v-card-text>{{new_province.province}}</v-card-text>
@@ -154,6 +159,12 @@ export default {
     search: "",
     headers: [
       {
+        text: "Region Name",
+        align: "left",
+        sortable: "true",
+        value: "regions"
+      },
+      {
         text: "Province Name",
         align: "left",
         sortable: "true",
@@ -212,7 +223,7 @@ export default {
 
   methods: {
     init() {
-      this.$store.dispatch("GET_PROVINCE").then(result => {
+      this.$store.dispatch("SET_PROVINCE").then(result => {
         this.provinces = this.$store.state.regional_tables.provinces;
       });
     },

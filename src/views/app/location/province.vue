@@ -27,7 +27,7 @@
                   <v-autocomplete
                     v-model="new_province.regions"
                     :disabled="isUpdating"
-                    :items="province_items"
+                    :items="regions_items"
                     box
                     chips
                     label="Region"
@@ -127,8 +127,8 @@
     </v-toolbar>
     <v-data-table :headers="headers" :items="provinces" :search="search" class="elevation-1">
       <template slot="items" slot-scope="props">
-        <td>{{ props.item.regions }}</td>
-         <td>{{ props.item.name }}</td>
+        <td>{{ getRegion(props.item.region) }}</td>
+        <td>{{ props.item.name }}</td>
         <td>{{ props.item.created_by }}</td>
         <td>{{ props.item.date_created }}</td>
         <td>{{ props.item.modified_by }}</td>
@@ -152,7 +152,7 @@ export default {
   data: () => ({
     mode: 0, // 0 - create, 1 - edit
     regions: {},
-    province_items: [],
+    regions_items: [],
     new_province: {},
     modified_province: {},
     dialog: false,
@@ -201,7 +201,7 @@ export default {
     editedIndex: -1,
     editedItem: {
       province: "",
-      region:"",
+      region: "",
       region_code: "",
       created_by: "",
       date_created: "",
@@ -209,7 +209,7 @@ export default {
       date_modified: ""
     },
     defaultItem: {
-      name: "",
+      name: ""
     }
   }),
 
@@ -223,13 +223,27 @@ export default {
   },
 
   methods: {
+    isEmpty(str) {
+      return !str || str === null || str === "";
+    },
     init() {
-      this.$store.dispatch("GET_PROVINCE").then(result => {
-        this.provinces = this.$store.state.regional_tables.provinces;
+      this.$store
+        .dispatch("GET_PROVINCE")
+        .then(result => {
+          this.provinces = this.$store.state.regional_tables.provinces;
+          return this.$store.dispatch("GET_REGION");
+        })
+        .then(result => { // GET region data
+          this.regions_items = this.$store.state.regional_tables.regions;
+        });
+    },
+    getRegion(region_id) {
+      region_id = region_id[0].toString(); // commit kapag hindi na nakaset sa array
+      var region = null;
+      region = this.regions_items.find(r => {
+        return r._id.toString() === region_id;
       });
-       this.$store.dispatch("GET_REGION").then(result => {
-        this.regions = this.$store.state.regional_tables.regions;
-      });
+      return region ? region.region_code + ' - ' + region.name : "";
     },
     addItem() {
       this.mode = 0; // Create

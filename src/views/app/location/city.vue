@@ -224,8 +224,14 @@ export default {
 
   methods: {
     init() {
-      this.$store.dispatch("SET_CITY").then(result => {
+      this.$store.dispatch("GET_CITY").then(result => {
         this.cities = this.$store.state.regional_tables.cities;
+      });
+      this.$store.dispatch("GET_PROVINCE").then(result => {
+        this.provinces = this.$store.state.regional_tables.provinces;
+      });
+       this.$store.dispatch("GET_REGION").then(result => {
+        this.regions = this.$store.state.regional_tables.regions;
       });
     },
     addItem() {

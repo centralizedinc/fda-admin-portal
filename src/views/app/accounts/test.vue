@@ -13,7 +13,7 @@
         DECLARED
         {{declared}} -->
 
-        {{regions}}
+        {{provinces}}
 
         <!-- ADD PRODUCT-->
         <v-flex xs12 sm6 md3>
@@ -120,6 +120,7 @@ export default {
   // }),
   data() {
     return {
+      provinces:{},
       products: {},
       regions:{},
       new_product: {},
@@ -190,6 +191,18 @@ export default {
   },
 
   created() {
+this.$store.dispatch("GET_PROVINCE").then(result => {
+      console.log(
+        JSON.stringify(
+          "###############################" +
+            this.$store.state.regional_tables.provinces
+        )
+      );
+      this.regions = this.$store.state.regional_tables.provinces;
+      console.log(
+        JSON.stringify("###############################" + this.provinces)
+      );
+    });
 
     this.$store.dispatch("GET_REGION").then(result => {
       console.log(

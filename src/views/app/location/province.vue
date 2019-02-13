@@ -41,7 +41,7 @@
                         close
                         class="chip--select-multi"
                         @input="remove(data.item)"
-                      >{{ data.item.name }}</v-chip>
+                      >{{ data.item.province }}</v-chip>
                     </template>
                     <template slot="item" slot-scope="data">
                       <template v-if="typeof data.item !== 'object'">
@@ -49,14 +49,14 @@
                       </template>
                       <template v-else>
                         <v-list-tile-content>
-                          <v-list-tile-title v-html="data.item.name"></v-list-tile-title>
+                          <v-list-tile-title v-html="data.item.province"></v-list-tile-title>
                         </v-list-tile-content>
                       </template>
                     </template>
                   </v-autocomplete>
                 </v-flex>
                 <v-flex xs12>
-                  <v-text-field v-model="new_province.name" label="Name"></v-text-field>
+                  <v-text-field v-model="new_province.province" label="Name"></v-text-field>
                 </v-flex>
               </v-layout>
             </v-container>
@@ -87,7 +87,7 @@
                 <v-flex xs12 sm4 md2>
                   <span class="text-xs-center">Province Name</span>
                   <v-divider></v-divider>
-                  <v-card-text>{{new_province.name}}</v-card-text>
+                  <v-card-text>{{new_province.province}}</v-card-text>
                 </v-flex>
                 <v-flex xs12 sm4 md2>
                   <span class="text-xs-center">Created By</span>
@@ -122,7 +122,7 @@
     </v-toolbar>
     <v-data-table :headers="headers" :items="provinces" :search="search" class="elevation-1">
       <template slot="items" slot-scope="props">
-         <td>{{ props.item.name }}</td>
+         <td>{{ props.item.province }}</td>
         <td>{{ props.item.created_by }}</td>
         <td>{{ props.item.date_created }}</td>
         <td>{{ props.item.modified_by }}</td>
@@ -189,7 +189,7 @@ export default {
     editedItem: {
       id: "",
       region:"",
-      name: "",
+      province: "",
       region_code: "",
       created_by: "",
       date_created: "",
@@ -197,7 +197,7 @@ export default {
       date_modified: ""
     },
     defaultItem: {
-      name: "",
+      province: "",
     }
   }),
 

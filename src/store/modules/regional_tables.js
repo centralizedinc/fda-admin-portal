@@ -2,9 +2,9 @@ import RegionType from '../../api/apiRegional';
 
 const state = {
 
-    regions: {},
-    provinces: {},
-    cities: {}
+    regions: [],
+    provinces: [],
+    cities: []
 
 }
 

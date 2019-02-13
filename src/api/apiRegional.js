@@ -10,7 +10,7 @@ export default class RegionType {
 
     //REGION
     getRegion(cb) {
-        axios.get('core/region').then((result) => {
+        axios.get('core/regions').then((result) => {
                 console.log("###API:REGION###")
                 if (result.data.success) {
                     cb(result.data.errors, result.data.model)
@@ -25,7 +25,7 @@ export default class RegionType {
 
     addRegion(new_region, cb) {
         console.log("api#############" + JSON.stringify(new_region))
-        axios.post('core/region', new_region).then((result) => {
+        axios.post('core/regions', new_region).then((result) => {
                 console.log("api#############")
                 cb(result.data.errors, result.data.model)
             })
@@ -36,7 +36,7 @@ export default class RegionType {
 
     editRegion(modified_region, cb) {
         var id = modified_region._id
-        axios.post('core/region/' + id, modified_region).then((result) => {
+        axios.post('core/regions/' + id, modified_region).then((result) => {
                 console.log("api#############" + JSON.stringify(modified_region))
                 cb(result.data.errors, result.data.model)
             })
@@ -48,7 +48,7 @@ export default class RegionType {
     //PROVINCE
 
     getProvince(cb) {
-        axios.get('core/province').then((result) => {
+        axios.get('core/provinces').then((result) => {
                 console.log("###API:PROVINCE###")
                 if (result.data.success) {
                     cb(result.data.errors, result.data.model)
@@ -63,7 +63,7 @@ export default class RegionType {
 
     addProvince(new_province, cb) {
         console.log("api#############" + JSON.stringify(new_province))
-        axios.post('core/province', new_province).then((result) => {
+        axios.post('core/provinces', new_province).then((result) => {
                 console.log("api#############")
                 cb(result.data.errors, result.data.model)
             })
@@ -74,7 +74,7 @@ export default class RegionType {
 
     editProvince(modified_province, cb) {
         var id = modified_province._id
-        axios.post('core/province/' + id, modified_province).then((result) => {
+        axios.post('core/provinces/' + id, modified_province).then((result) => {
                 console.log("api#############" + JSON.stringify(modified_region))
                 cb(result.data.errors, result.data.model)
             })
@@ -85,7 +85,7 @@ export default class RegionType {
     //CITY
 
     getCity(cb) {
-        axios.get('core/city').then((result) => {
+        axios.get('core/cities').then((result) => {
                 console.log("###API:CITY###")
                 if (result.data.success) {
                     cb(result.data.errors, result.data.model)
@@ -100,7 +100,7 @@ export default class RegionType {
 
     addCity(new_city, cb) {
         console.log("api#############" + JSON.stringify(new_city))
-        axios.post('core/city', new_city).then((result) => {
+        axios.post('core/cities', new_city).then((result) => {
                 console.log("api#############")
                 cb(result.data.errors, result.data.model)
             })
@@ -111,7 +111,7 @@ export default class RegionType {
 
     editCity(modified_city, cb) {
         var id = modified_city._id
-        axios.post('core/city/' + id, modified_city).then((result) => {
+        axios.post('core/cities/' + id, modified_city).then((result) => {
                 console.log("api#############" + JSON.stringify(modified_city))
                 cb(result.data.errors, result.data.model)
             })

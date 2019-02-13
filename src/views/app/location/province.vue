@@ -85,6 +85,11 @@
             <v-container grid-list-md>
               <v-layout wrap>
                 <v-flex xs12 sm4 md2>
+                  <span class="text-xs-center">Region Name</span>
+                  <v-divider></v-divider>
+                  <v-card-text>{{new_province.regions}}</v-card-text>
+                </v-flex>
+                <v-flex xs12 sm4 md2>
                   <span class="text-xs-center">Province Name</span>
                   <v-divider></v-divider>
                   <v-card-text>{{new_province.name}}</v-card-text>
@@ -122,6 +127,7 @@
     </v-toolbar>
     <v-data-table :headers="headers" :items="provinces" :search="search" class="elevation-1">
       <template slot="items" slot-scope="props">
+        <td>{{ props.item.regions }}</td>
          <td>{{ props.item.name }}</td>
         <td>{{ props.item.created_by }}</td>
         <td>{{ props.item.date_created }}</td>
@@ -153,6 +159,12 @@ export default {
     dialogView: false,
     search: "",
     headers: [
+      {
+        text: "Region Name",
+        align: "left",
+        sortable: "true",
+        value: "regions"
+      },
       {
         text: "Province Name",
         align: "left",
@@ -190,7 +202,6 @@ export default {
       id: "",
       region:"",
       name: "",
-      region_code: "",
       created_by: "",
       date_created: "",
       modified_by: "",
@@ -212,7 +223,7 @@ export default {
 
   methods: {
     init() {
-      this.$store.dispatch("GET_PROVINCE").then(result => {
+      this.$store.dispatch("SET_PROVINCE").then(result => {
         this.provinces = this.$store.state.regional_tables.provinces;
       });
     },

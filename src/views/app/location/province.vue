@@ -25,7 +25,7 @@
               <v-layout wrap>
                 <v-flex xs12>
                   <v-autocomplete
-                    v-model="new_province.regions"
+                    v-model="new_province.region"
                     :disabled="isUpdating"
                     :items="regions_items"
                     box
@@ -197,6 +197,7 @@ export default {
         value: "editStatus"
       }
     ],
+    region: [],
     provinces: [],
     editedIndex: -1,
     editedItem: {
@@ -234,7 +235,6 @@ export default {
     }
   },
 
-
   methods: {
     isEmpty(str) {
       return !str || str === null || str === "";
@@ -249,6 +249,10 @@ export default {
         .then(result => { // GET region data
           this.regions_items = this.$store.state.regional_tables.regions;
         });
+    },
+    remove(item) {
+      const index = this.region.indexOf(item.name);
+      if (index >= 0) this.region.splice(index, 1);
     },
     getRegion(region_id) {
       region_id = region_id[0].toString(); // commit kapag hindi na nakaset sa array
@@ -287,6 +291,7 @@ export default {
       });
     },
     save() {
+      // console.log('###########edited:province: ' + JSON.stringify(this.new_province));
       this.$store.dispatch("EDIT_PROVINCE", this.new_province).then(result => {
         console.log("edited:province: " + JSON.stringify(result));
         this.init();

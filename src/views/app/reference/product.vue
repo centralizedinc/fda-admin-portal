@@ -171,6 +171,9 @@ export default {
       return this.mode === 0 ? "Add Product Type" : "Product Type";
     }
   },
+  created() {
+    this.init();
+  },
 
   watch: {
     isUpdating(val) {
@@ -182,10 +185,6 @@ export default {
     dialog(val) {
       val || this.close();
     }
-  },
-
-  created() {
-    this.init();
   },
 
   methods: {
@@ -244,7 +243,7 @@ export default {
       this.$store.dispatch("EDIT_PRODUCTS", this.new_product).then(result => {
         console.log("edited:product: " + JSON.stringify(result));
         this.init();
-         this.close();
+        this.close();
       });
     }
   }

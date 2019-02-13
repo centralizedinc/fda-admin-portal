@@ -56,7 +56,7 @@
                   </v-autocomplete>
                 </v-flex>
                 <v-flex xs12>
-                  <v-text-field v-model="new_province.province" label="Name"></v-text-field>
+                  <v-text-field v-model="new_province.name" label="Name"></v-text-field>
                 </v-flex>
               </v-layout>
             </v-container>
@@ -92,7 +92,7 @@
                 <v-flex xs12 sm4 md2>
                   <span class="text-xs-center">Province Name</span>
                   <v-divider></v-divider>
-                  <v-card-text>{{new_province.province}}</v-card-text>
+                  <v-card-text>{{new_province.name}}</v-card-text>
                 </v-flex>
                 <v-flex xs12 sm4 md2>
                   <span class="text-xs-center">Created By</span>
@@ -128,7 +128,7 @@
     <v-data-table :headers="headers" :items="provinces" :search="search" class="elevation-1">
       <template slot="items" slot-scope="props">
         <td>{{ props.item.regions }}</td>
-         <td>{{ props.item.province }}</td>
+         <td>{{ props.item.name }}</td>
         <td>{{ props.item.created_by }}</td>
         <td>{{ props.item.date_created }}</td>
         <td>{{ props.item.modified_by }}</td>
@@ -157,6 +157,7 @@ export default {
     modified_province: {},
     dialog: false,
     dialogView: false,
+    isUpdating: false,
     search: "",
     headers: [
       {
@@ -169,7 +170,7 @@ export default {
         text: "Province Name",
         align: "left",
         sortable: "true",
-        value: "province"
+        value: "name"
       },
       {
         text: "Created By",

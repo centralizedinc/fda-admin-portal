@@ -151,6 +151,7 @@ export default {
     modified_city: {},
     dialog: false,
     dialogView: false,
+    isUpdating: false,
     search: "",
     headers: [
       {
@@ -158,6 +159,18 @@ export default {
         align: "left",
         sortable: "true",
         value: "name"
+      },
+      {
+        text: "Region Name",
+        align: "left",
+        sortable: "true",
+        value: "regions"
+      },
+      {
+        text: "Province Name",
+        align: "left",
+        sortable: "true",
+        value: "province"
       },
       {
         text: "Created By",

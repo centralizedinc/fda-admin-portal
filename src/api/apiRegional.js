@@ -8,8 +8,8 @@ export default class RegionType {
         axios.defaults.headers.common['Content-Type'] = 'application/json'
     }
 
+    //REGION
     getRegion(cb) {
-
         axios.get('core/region').then((result) => {
                 console.log("###API:REGION###")
                 if (result.data.success) {
@@ -38,6 +38,81 @@ export default class RegionType {
         var id = modified_region._id
         axios.post('core/region/' + id, modified_region).then((result) => {
                 console.log("api#############" + JSON.stringify(modified_region))
+                cb(result.data.errors, result.data.model)
+            })
+            .catch(err => {
+                cb(err)
+            })
+    }
+
+    //PROVINCE
+
+    getProvince(cb) {
+        axios.get('core/province').then((result) => {
+                console.log("###API:PROVINCE###")
+                if (result.data.success) {
+                    cb(result.data.errors, result.data.model)
+                } else {
+                    cb(result.data.errors)
+                }
+            })
+            .catch(err => {
+                cb(err)
+            })
+    }
+
+    addProvince(new_province, cb) {
+        console.log("api#############" + JSON.stringify(new_province))
+        axios.post('core/province', new_province).then((result) => {
+                console.log("api#############")
+                cb(result.data.errors, result.data.model)
+            })
+            .catch(err => {
+                cb(err)
+            })
+    }
+
+    editProvince(modified_province, cb) {
+        var id = modified_province._id
+        axios.post('core/province/' + id, modified_province).then((result) => {
+                console.log("api#############" + JSON.stringify(modified_region))
+                cb(result.data.errors, result.data.model)
+            })
+            .catch(err => {
+                cb(err)
+            })
+    }
+    //CITY
+
+    getCity(cb) {
+        axios.get('core/city').then((result) => {
+                console.log("###API:CITY###")
+                if (result.data.success) {
+                    cb(result.data.errors, result.data.model)
+                } else {
+                    cb(result.data.errors)
+                }
+            })
+            .catch(err => {
+                cb(err)
+            })
+    }
+
+    addCity(new_city, cb) {
+        console.log("api#############" + JSON.stringify(new_city))
+        axios.post('core/city', new_city).then((result) => {
+                console.log("api#############")
+                cb(result.data.errors, result.data.model)
+            })
+            .catch(err => {
+                cb(err)
+            })
+    }
+
+    editCity(modified_city, cb) {
+        var id = modified_city._id
+        axios.post('core/city/' + id, modified_city).then((result) => {
+                console.log("api#############" + JSON.stringify(modified_city))
                 cb(result.data.errors, result.data.model)
             })
             .catch(err => {

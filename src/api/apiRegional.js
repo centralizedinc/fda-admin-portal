@@ -64,7 +64,7 @@ export default class RegionType {
     addProvince(new_province, cb) {
         console.log("api#############" + JSON.stringify(new_province))
         axios.post('core/provinces', new_province).then((result) => {
-                console.log("api#############")
+                console.log("api#############new_province: " + JSON.stringify(result.data))
                 cb(result.data.errors, result.data.model)
             })
             .catch(err => {
@@ -75,7 +75,7 @@ export default class RegionType {
     editProvince(modified_province, cb) {
         var id = modified_province._id
         axios.post('core/provinces/' + id, modified_province).then((result) => {
-                console.log("api#############" + JSON.stringify(modified_province))
+                console.log("api#############sss" + JSON.stringify(result.data))
                 cb(result.data.errors, result.data.model)
             })
             .catch(err => {

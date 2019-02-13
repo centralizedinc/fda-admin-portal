@@ -32,9 +32,7 @@
                     chips
                     label="Region"
                     item-text="name"
-                    item-value="province"
-                    multiple
-                  >
+                    item-value="_id">
                     <template slot="selection" slot-scope="data">
                       <v-chip
                         :selected="data.selected"

@@ -222,6 +222,19 @@ export default {
     this.init();
   },
 
+  watch: {
+    isUpdating(val) {
+      if (val) {
+        setTimeout(() => (this.isUpdating = false), 3000);
+      }
+    },
+
+    dialog(val) {
+      val || this.close();
+    }
+  },
+
+
   methods: {
     isEmpty(str) {
       return !str || str === null || str === "";

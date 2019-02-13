@@ -209,30 +209,6 @@ var actions = {
         })
 
     },
-    // GET_REGION(context) {
-    //     new ProductType(context.rootState.user_session.token).getRegion((data, err) => {
-
-    //         context.commit('SET_REGION', data)
-    //     })
-    // },
-    // GET_PROVINCE(context) {
-    //     new ProductType(context.rootState.user_session.token).getProvince((data, err) => {
-
-    //         context.commit('SET_PROVINCE', data)
-    //     })
-    // },
-    // GET_CITY(context) {
-    //     new ProductType(context.rootState.user_session.token).getCity((data, err) => {
-
-    //         context.commit('SET_CITY', data)
-    //     })
-    // },
-    // GET_ZIP_CODE(context) {
-    //     new ProductType(context.rootState.user_session.token).getZipCode((data, err) => {
-
-    //         context.commit('SET_ZIP_CODE', data)
-    //     })
-    // },
 }
 
 

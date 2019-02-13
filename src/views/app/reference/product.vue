@@ -168,7 +168,7 @@ export default {
 
   computed: {
     formTitle() {
-      return this.editedIndex === 0 ? "Add Product Type" : "Product Type";
+      return this.mode === 0 ? "Add Product Type" : "Product Type";
     }
   },
 

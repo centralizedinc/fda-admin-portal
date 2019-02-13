@@ -32,7 +32,7 @@
                     chips
                     label="Region"
                     item-text="name"
-                    item-value="_id"
+                    item-value="province"
                     multiple
                   >
                     <template slot="selection" slot-scope="data">
@@ -41,7 +41,7 @@
                         close
                         class="chip--select-multi"
                         @input="remove(data.item)"
-                      >{{ data.item.province }}</v-chip>
+                      >{{ data.item.name }}</v-chip>
                     </template>
                     <template slot="item" slot-scope="data">
                       <template v-if="typeof data.item !== 'object'">
@@ -49,7 +49,7 @@
                       </template>
                       <template v-else>
                         <v-list-tile-content>
-                          <v-list-tile-title v-html="data.item.province"></v-list-tile-title>
+                          <v-list-tile-title v-html="data.item.name"></v-list-tile-title>
                         </v-list-tile-content>
                       </template>
                     </template>
@@ -200,9 +200,8 @@ export default {
     provinces: [],
     editedIndex: -1,
     editedItem: {
-      id: "",
-      region:"",
       province: "",
+      region:"",
       region_code: "",
       created_by: "",
       date_created: "",
@@ -210,7 +209,7 @@ export default {
       date_modified: ""
     },
     defaultItem: {
-      province: "",
+      name: "",
     }
   }),
 

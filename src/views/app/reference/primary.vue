@@ -202,7 +202,7 @@ export default {
 
   computed: {
     formTitle() {
-      return this.editedIndex === 0 ? "Add Primary Type" : "Edit Primary Type";
+      return this.mode === 0 ? "Add Primary Type" : "Edit Primary Type";
     }
   },
 

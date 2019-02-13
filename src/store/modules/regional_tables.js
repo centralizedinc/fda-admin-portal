@@ -123,7 +123,19 @@ var actions = {
     },
     ADD_CITY(context, new_city) {
         return new Promise((resolve, reject) => {
-            new RegionType(context.rootState.user_session.token).addRCity(new_city, (err, data) => {
+            new RegionType(context.rootState.user_session.token).addCity(new_city, (err, data) => {
+                if (err) {
+                    reject(err)
+                } else {
+                    resolve(data)
+                }
+            })
+        })
+
+    },
+    EDIT_PROVINCE(context, modified_city) {
+        return new Promise((resolve, reject) => {
+            new RegionType(context.rootState.user_session.token).editCity(modified_city, (err, data) => {
                 if (err) {
                     reject(err)
                 } else {

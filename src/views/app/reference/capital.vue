@@ -96,7 +96,7 @@
 export default {
   data: () => ({
     mode: 0, // 0 - create, 1 - edit
-    declared: {},
+    declared: [],
     new_declared: {},
     modified_declared: {},
     dialog: false,

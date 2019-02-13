@@ -127,6 +127,7 @@
     </v-toolbar>
     <v-data-table :headers="headers" :items="provinces" :search="search" class="elevation-1">
       <template slot="items" slot-scope="props">
+        <td>{{ props.item.regions }}</td>
          <td>{{ props.item.province }}</td>
         <td>{{ props.item.created_by }}</td>
         <td>{{ props.item.date_created }}</td>
@@ -168,7 +169,7 @@ export default {
         text: "Province Name",
         align: "left",
         sortable: "true",
-        value: "name"
+        value: "province"
       },
       {
         text: "Created By",

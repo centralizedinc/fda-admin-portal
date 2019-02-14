@@ -112,7 +112,7 @@ export default class RegionType {
     editCity(modified_city, cb) {
         var id = modified_city._id
         axios.post('core/cities/' + id, modified_city).then((result) => {
-                console.log("api#############" + JSON.stringify(modified_city))
+                console.log("api#############" + JSON.stringify(result.data))
                 cb(result.data.errors, result.data.model)
             })
             .catch(err => {

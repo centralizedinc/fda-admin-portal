@@ -27,7 +27,7 @@
                   <v-autocomplete
                     v-model="new_city.provinces"
                     :disabled="isUpdating"
-                    :items="city_items"
+                    :items="provinces_items"
                     box
                     chips
                     label="Province"
@@ -40,7 +40,7 @@
                         :selected="data.selected"
                         close
                         class="chip--select-multi"
-                        @input="remove(data.item)"
+                        @input="removeProvince(data.item)"
                       >{{ data.item.name }}</v-chip>
                     </template>
                     <template slot="item" slot-scope="data">
@@ -146,7 +146,8 @@ export default {
   data: () => ({
     mode: 0, // 0 - create, 1 - edit
     provinces: {},
-    city_items: [],
+    regions_items: [],
+    provinces_items: [],
     new_city: {},
     modified_city: {},
     dialog: false,
@@ -155,7 +156,7 @@ export default {
     search: "",
     headers: [
       {
-        text: "City Name",
+        text: "City/Municipility",
         align: "left",
         sortable: "true",
         value: "name"
@@ -170,7 +171,7 @@ export default {
         text: "Province Name",
         align: "left",
         sortable: "true",
-        value: "province"
+        value: "provinces"
       },
       {
         text: "Created By",
@@ -201,7 +202,8 @@ export default {
     editedIndex: -1,
     editedItem: {
       id: "",
-      province:"",
+      provinces: "",
+      regions: "",
       name: "",
       created_by: "",
       date_created: "",
@@ -228,11 +230,23 @@ export default {
         this.cities = this.$store.state.regional_tables.cities;
       });
       this.$store.dispatch("GET_PROVINCE").then(result => {
-        this.provinces = this.$store.state.regional_tables.provinces;
+        this.provinces_items = this.$store.state.regional_tables.provinces;
       });
        this.$store.dispatch("GET_REGION").then(result => {
-        this.regions = this.$store.state.regional_tables.regions;
+        this.regions_items = this.$store.state.regional_tables.regions;
       });
+    },
+    removeRegion(item) {
+      const index = this.region.indexOf(item.name);
+      if (index >= 0) this.region.splice(index, 1);
+    },
+    removeProvince(item) {
+      const index = this.provinces.indexOf(item.name);
+      if (index >= 0) this.provinces.splice(index, 1);
+    },
+    initialize() {
+      this.cities = {};
+      this.regions = [];
     },
     addItem() {
       this.mode = 0; // Create

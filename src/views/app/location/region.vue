@@ -55,32 +55,22 @@
           <v-card-text>
             <v-container grid-list-md>
               <v-layout wrap>
-                <v-flex xs12 sm4 md2>
+                <v-flex xs12 sm4 md3>
                   <span class="text-xs-center">Region Name</span>
                   <v-divider></v-divider>
                   <v-card-text>{{new_region.name}}</v-card-text>
                 </v-flex>
-                <v-flex xs12 sm4 md2>
+                <v-flex xs12 sm4 md3>
                   <span class="text-xs-center">Region Code</span>
                   <v-divider></v-divider>
                   <v-card-text>{{new_region.region_code}}</v-card-text>
                 </v-flex>
-                 <v-flex xs12 sm4 md2>
-                  <span class="text-xs-center">Created By</span>
-                  <v-divider></v-divider>
-                  <v-card-text>{{new_region.created_by}}</v-card-text>
-                </v-flex>
-                 <v-flex xs12 sm4 md2>
+                 <v-flex xs12 sm4 md3>
                   <span class="text-xs-center">Created Date</span>
                   <v-divider></v-divider>
                   <v-card-text>{{new_region.date_created}}</v-card-text>
                 </v-flex>
-                 <v-flex xs12 sm4 md2>
-                  <span class="text-xs-center">Modified By</span>
-                  <v-divider></v-divider>
-                  <v-card-text>{{new_region.date_modified}}</v-card-text>
-                </v-flex>
-                 <v-flex xs12 sm4 md2>
+                 <v-flex xs12 sm4 md3>
                   <span class="text-xs-center">Modified Date</span>
                   <v-divider></v-divider>
                   <v-card-text>{{new_region.date_modified}}</v-card-text>
@@ -101,9 +91,7 @@
       <template slot="items" slot-scope="props">
         <td>{{ props.item.name }}</td>
         <td>{{ props.item.region_code }}</td>
-        <td>{{ props.item.created_by }}</td>
         <td>{{ props.item.date_created }}</td>
-        <td>{{ props.item.modified_by }}</td>
         <td>{{ props.item.date_modified }}</td>
         <td class="justify-center layout px-0">
           <v-icon small class="mr-2" @click="editItem(props.item)" flat icon color="primary">edit</v-icon>
@@ -143,19 +131,9 @@ export default {
         value: "region_code"
       },
       {
-        text: "Created By",
-        align: "left",
-        value: "created_by"
-      },
-      {
         text: "Created Date",
         align: "left",
         value: "date_created"
-      },
-      {
-        text: "Modified By",
-        align: "left",
-        value: "modified_by"
       },
       {
         text: "Modified Date",
@@ -173,9 +151,7 @@ export default {
       id: "",
       name: "",
       region_code: "",
-      created_by: "",
       date_created: "",
-      modified_by: "",
       date_modified: ""
     },
     defaultItem: {

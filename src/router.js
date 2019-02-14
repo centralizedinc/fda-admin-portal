@@ -87,6 +87,11 @@ export default new Router({
           component: () => import('@/views/app/UserPortfolio.vue')
         },
         {
+          path: 'clients',
+          name: 'client',
+          component: () => import('@/views/app/accounts/client.vue')
+        },
+        {
           path: 'test',
           name: 'test',
           component: () => import('@/views/app/accounts/test.vue')

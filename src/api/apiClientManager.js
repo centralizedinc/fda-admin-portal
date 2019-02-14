@@ -10,7 +10,7 @@ export default class ClientType {
 
     getClient(cb) {
 
-        axios.get('secured/accounts').then((result) => {
+        axios.get('secured/accounts/').then((result) => {
                 console.log("###API### GET CLIENTS")
                 if (result.data.success) {
                     cb(result.data.errors, result.data.model)

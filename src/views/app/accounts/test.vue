@@ -13,7 +13,7 @@
         DECLARED
         {{declared}} -->
 
-        {{cities}}
+        {{clients}}
 
         <!-- ADD PRODUCT-->
         <v-flex xs12 sm6 md3>

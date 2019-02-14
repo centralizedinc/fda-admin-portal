@@ -52,6 +52,11 @@ export default new Router({
           component: () => import('@/views/app/accounts/profile.vue')
         },
         {
+          path: 'group',
+          name: 'group',
+          component: () => import('@/views/app/accounts/group.vue')
+        },
+        {
           path: 'payments',
           name: 'Payments',
           component: () => import('@/views/app/UserPortfolio.vue')

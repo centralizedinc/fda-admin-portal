@@ -9,7 +9,7 @@ const mutations = {
 
     SET_GROUP(state, data) {
         state.groups = data
-        console.log("###PRODUCT:SET###" + JSON.stringify(data))
+        console.log("###GROUPS:SET###" + JSON.stringify(data))
     }
 
 }

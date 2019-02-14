@@ -13,7 +13,7 @@
         DECLARED
         {{declared}} -->
 
-        {{clients}}
+        {{cities}}
 
         <!-- ADD PRODUCT-->
         <v-flex xs12 sm6 md3>
@@ -124,7 +124,7 @@ export default {
       groups: {},
       provinces:{},
       products: {},
-      cities:{},
+      city:{},
       regions:{},
       new_product: {},
       primary: {},
@@ -195,6 +195,10 @@ export default {
   },
 
   created() {
+
+    this.$store.dispatch("GET_CITY").then(result =>
+  this.city = this.$store.state.region_table.city
+)
 this.$store.dispatch("GET_CLIENT").then(result =>
   this.clients = this.$store.state.client_table.clients
 )

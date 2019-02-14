@@ -85,7 +85,7 @@ export default class RegionType {
     //CITY
 
     getCity(cb) {
-        axios.get('core/cities').then((result) => {
+        axios.get('core/city').then((result) => {
                 console.log("###API:CITY###")
                 if (result.data.success) {
                     cb(result.data.errors, result.data.model)
@@ -100,7 +100,7 @@ export default class RegionType {
 
     addCity(new_city, cb) {
         console.log("api#############" + JSON.stringify(new_city))
-        axios.post('core/cities', new_city).then((result) => {
+        axios.post('core/city', new_city).then((result) => {
                 console.log("api#############")
                 cb(result.data.errors, result.data.model)
             })
@@ -111,8 +111,13 @@ export default class RegionType {
 
     editCity(modified_city, cb) {
         var id = modified_city._id
+<<<<<<< HEAD
         axios.post('core/cities/' + id, modified_city).then((result) => {
                 console.log("api#############" + JSON.stringify(result.data))
+=======
+        axios.post('core/city/' + id, modified_city).then((result) => {
+                console.log("api#############" + JSON.stringify(modified_city))
+>>>>>>> 14855cdb8b448300352dcbc3dc32afe2226fce01
                 cb(result.data.errors, result.data.model)
             })
             .catch(err => {

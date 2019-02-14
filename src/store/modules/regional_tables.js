@@ -4,7 +4,7 @@ const state = {
 
     regions: [],
     provinces: [],
-    cities: []
+    city: []
 
 }
 
@@ -21,7 +21,7 @@ const mutations = {
     },
     //SET CITY
     SET_CITY(state, data) {
-        state.cities = data
+        state.city = data
         console.log("###CITY:SET###" + JSON.stringify(data))
     },
 

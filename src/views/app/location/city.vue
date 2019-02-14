@@ -225,7 +225,7 @@ export default {
   methods: {
     init() {
       this.$store.dispatch("GET_CITY").then(result => {
-        this.cities = this.$store.state.regional_tables.cities;
+        this.cities = this.$store.state.regional_tables.city;
       });
       this.$store.dispatch("GET_PROVINCE").then(result => {
         this.provinces = this.$store.state.regional_tables.provinces;

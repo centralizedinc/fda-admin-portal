@@ -27,7 +27,29 @@ export default {
                     } else {
                         return null
                     }
-                }
+                },
+                status(stat) {
+                    if (stat === 0) {
+                      return "Registered (Awaiting Confirmation)";
+                    } else if (stat === 1) {
+                      return "Confirmed (Active but no active FDA License)";
+                    } else if (stat === 2) {
+                      return "Active";
+                    } else if (stat === 3) {
+                      return "Suspended";
+                    } else if (stat === 4) {
+                      return "Inactive (For Deletion)";
+                    }
+                  },
+                  formatDate(dte) {
+                    if (!dte) return null;
+                    else {
+                      var date = new Date(dte);
+                      var month = date.getMonth() + 1;
+                      var newDte = month + "-" + date.getDate() + "-" + date.getFullYear();
+                      return newDte;
+                    }
+                  }
             }
         })
     }

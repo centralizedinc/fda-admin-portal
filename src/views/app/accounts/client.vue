@@ -97,21 +97,12 @@ export default {
         value: "status"
       }
     ],
-    // editedIndex: -1,
-    // editedItem: {
-    //   id: "",
-    //   name: "",
-    //   date_created: ""
-    // },
-    defaultItem: {
+    Item: {
       name: ""
     }
   }),
 
   computed: {
-    // formTitle() {
-    //   return this.mode === 0 ? "Add Declared Capital" : "Edit Declared Capital";
-    // }
   },
   created() {
     this.init();
@@ -123,83 +114,6 @@ export default {
         this.clients = this.$store.state.client_table.clients;
       });
     },
-    status(stat) {
-      console.log(stat);
-
-      if (stat === 0) {
-        return "Registered (Awaiting Confirmation)";
-      } else if (stat === 1) {
-        return "Confirmed (Active but no active FDA License)";
-      } else if (stat === 2) {
-        return "Active";
-      } else if (stat === 3) {
-        return "Suspended";
-      } else if (stat === 4) {
-        return "Inactive (For Deletion)";
-      }
-    },
-
-    // formatDate (date) {
-    //     if (!date) return null
-
-    //     const [year, month, day] = date.split('-')
-    //     console.log("day: " + `${day}`);
-
-    //     return `${month}/${day}/${year}`
-    //   }
-
-    formatDate(dte) {
-      if (!dte) return null;
-      else {
-        var date = new Date(dte);
-        var month = date.getMonth() + 1;
-        var newDte = month + "-" + date.getDate() + "-" + date.getFullYear();
-        return newDte;
-      }
-    }
-
-    /**
-     *  0 - Registered (Awaiting Confirmation)
-     *  1 - Confirmed (Active but no active FDA License)
-     *  2 - Active
-     *  3 - Suspended
-     *  4 - Inactive (For Deletion)
-     */
-    // addItem() {
-    //   this.mode = 0; // Create
-    //   this.new_declared = {}; // holds the filled up item
-    //   this.dialog = true;
-    // },
-    // editItem(item) {
-    //   this.mode = 1; // Edit
-    //   this.new_declared = JSON.parse(JSON.stringify(item));
-    //   this.dialog = true;
-    // },
-
-    // viewItem(item) {
-    //   this.client = item;
-    //   this.dialogView = true;
-    // },
-
-    // close() {
-    //   this.dialog = false;
-    //   this.dialogView = false;
-    //   this.new_declared = {};
-    // },
-    // submit() {
-    //   this.$store.dispatch("ADD_DECLARED", this.new_declared).then(result => {
-    //     console.log("added:declared: " + JSON.stringify(result));
-    //     this.init();
-    //     this.close();
-    //   });
-    // },
-    // save() {
-    //   this.$store.dispatch("EDIT_DECLARED", this.new_declared).then(result => {
-    //     console.log("edited:declared: " + JSON.stringify(result));
-    //     this.init();
-    //     this.close();
-    //   });
-    // }
   }
 };
 </script>

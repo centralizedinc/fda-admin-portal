@@ -25,7 +25,7 @@
               <v-layout wrap>
                 <v-flex xs12>
                   <v-autocomplete
-                    v-model="new_city.provinces"
+                    v-model="new_city.province"
                     :disabled="isUpdating"
                     :items="provinces_items"
                     box
@@ -33,7 +33,6 @@
                     label="Province"
                     item-text="name"
                     item-value="_id"
-                    multiple
                   >
                     <template slot="selection" slot-scope="data">
                       <v-chip
@@ -85,24 +84,24 @@
             <v-container grid-list-md>
               <v-layout wrap>
                 <v-flex xs12 sm4 md2>
-                  <span class="text-xs-center">City Name</span>
+                  <span class="text-xs-center">City/Municipility</span>
                   <v-divider></v-divider>
                   <v-card-text>{{new_city.name}}</v-card-text>
                 </v-flex>
                 <v-flex xs12 sm4 md2>
-                  <span class="text-xs-center">Created By</span>
+                  <span class="text-xs-center">Region Name</span>
                   <v-divider></v-divider>
-                  <v-card-text>{{new_city.created_by}}</v-card-text>
+                  <v-card-text>{{ getRegion(new_city.region) }}</v-card-text>
+                </v-flex>
+                <v-flex xs12 sm4 md2>
+                  <span class="text-xs-center">Province Name</span>
+                  <v-divider></v-divider>
+                  <v-card-text>{{ getProvince(new_city.province) }}</v-card-text>
                 </v-flex>
                 <v-flex xs12 sm4 md2>
                   <span class="text-xs-center">Created Date</span>
                   <v-divider></v-divider>
                   <v-card-text>{{new_city.date_created}}</v-card-text>
-                </v-flex>
-                <v-flex xs12 sm4 md2>
-                  <span class="text-xs-center">Modified By</span>
-                  <v-divider></v-divider>
-                  <v-card-text>{{new_city.date_modified}}</v-card-text>
                 </v-flex>
                 <v-flex xs12 sm4 md2>
                   <span class="text-xs-center">Modified Date</span>
@@ -122,10 +121,10 @@
     </v-toolbar>
     <v-data-table :headers="headers" :items="cities" :search="search" class="elevation-1">
       <template slot="items" slot-scope="props">
-         <td>{{ props.item.name }}</td>
-        <td>{{ props.item.created_by }}</td>
+        <td>{{ props.item.name }}</td>
+        <td>{{ getRegion(props.item.region) }}</td>
+        <td>{{ getProvince(props.item.province) }}</td>
         <td>{{ props.item.date_created }}</td>
-        <td>{{ props.item.modified_by }}</td>
         <td>{{ props.item.date_modified }}</td>
         <td class="justify-center layout px-0">
           <v-icon small class="mr-2" @click="editItem(props.item)" flat icon color="primary">edit</v-icon>
@@ -145,7 +144,7 @@
 export default {
   data: () => ({
     mode: 0, // 0 - create, 1 - edit
-    provinces: {},
+    regions: {},
     regions_items: [],
     provinces_items: [],
     new_city: {},
@@ -174,19 +173,9 @@ export default {
         value: "provinces"
       },
       {
-        text: "Created By",
-        align: "left",
-        value: "created_by"
-      },
-      {
         text: "Created Date",
         align: "left",
         value: "date_created"
-      },
-      {
-        text: "Modified By",
-        align: "left",
-        value: "modified_by"
       },
       {
         text: "Modified Date",
@@ -198,20 +187,21 @@ export default {
         value: "editStatus"
       }
     ],
+    region: [],
+    provinces: [],
     cities: [],
     editedIndex: -1,
     editedItem: {
       id: "",
-      provinces: "",
-      regions: "",
-      name: "",
+      province: "",
+      region: "",
       created_by: "",
       date_created: "",
       modified_by: "",
       date_modified: ""
     },
     defaultItem: {
-      name: "",
+      name: ""
     }
   }),
 
@@ -224,7 +214,22 @@ export default {
     this.init();
   },
 
+  watch: {
+    isUpdating(val) {
+      if (val) {
+        setTimeout(() => (this.isUpdating = false), 3000);
+      }
+    },
+
+    dialog(val) {
+      val || this.close();
+    }
+  },
+
   methods: {
+    isEmpty(str) {
+      return !str || str === null || str === "";
+    },
     init() {
       this.$store.dispatch("GET_CITY").then(result => {
         this.cities = this.$store.state.regional_tables.city;
@@ -232,7 +237,7 @@ export default {
       this.$store.dispatch("GET_PROVINCE").then(result => {
         this.provinces_items = this.$store.state.regional_tables.provinces;
       });
-       this.$store.dispatch("GET_REGION").then(result => {
+      this.$store.dispatch("GET_REGION").then(result => {
         this.regions_items = this.$store.state.regional_tables.regions;
       });
     },
@@ -241,12 +246,27 @@ export default {
       if (index >= 0) this.region.splice(index, 1);
     },
     removeProvince(item) {
-      const index = this.provinces.indexOf(item.name);
-      if (index >= 0) this.provinces.splice(index, 1);
+      const index = this.province.indexOf(item.name);
+      if (index >= 0) this.province.splice(index, 1);
     },
     initialize() {
       this.cities = {};
+      this.provinces = [];
       this.regions = [];
+    },
+    getRegion(region_id) {
+      var region = null;
+      region = this.regions_items.find(r => {
+        return r._id.toString() === region_id;
+      });
+      return region ? region.name : "";
+    },
+    getProvince(province_id) {
+      var province = null;
+      province = this.provinces_items.find(r => {
+        return r._id.toString() === province_id;
+      });
+      return province ? province.name : "";
     },
     addItem() {
       this.mode = 0; // Create

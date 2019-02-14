@@ -11,7 +11,7 @@ export default class GroupType {
     getGroup(cb) {
 
         axios.get('secured/accounts/admin/fda/group').then((result) => {
-                console.log("###API###")
+                console.log("###API### GET GROUP")
                 if (result.data.success) {
                     cb(result.data.errors, result.data.model)
                 } else {

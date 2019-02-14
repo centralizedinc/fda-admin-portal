@@ -13,7 +13,7 @@
         DECLARED
         {{declared}} -->
 
-        {{groups}}
+        {{clients}}
 
         <!-- ADD PRODUCT-->
         <v-flex xs12 sm6 md3>
@@ -120,6 +120,7 @@ export default {
   // }),
   data() {
     return {
+      clients: {},
       groups: {},
       provinces:{},
       products: {},
@@ -194,7 +195,9 @@ export default {
   },
 
   created() {
-
+this.$store.dispatch("GET_CLIENT").then(result =>
+  this.clients = this.$store.state.client_table.clients
+)
 
 this.$store.dispatch("GET_GROUP").then(result =>
   this.groups = this.$store.state.group_table.groups

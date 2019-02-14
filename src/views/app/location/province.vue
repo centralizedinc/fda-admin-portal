@@ -253,12 +253,13 @@ export default {
       if (index >= 0) this.region.splice(index, 1);
     },
     getRegion(region_id) {
-      region_id = region_id[0].toString(); // commit kapag hindi na nakaset sa array
+      // region_id = region_id[0].toString(); // commit kapag hindi na nakaset sa array
       var region = null;
       region = this.regions_items.find(r => {
         return r._id.toString() === region_id;
       });
-      return region ? region.region_code + ' - ' + region.name : "";
+      // return region ? region.region_code + ' - ' + region.name : "";
+      return region ? region.name : "";
     },
     addItem() {
       this.mode = 0; // Create

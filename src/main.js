@@ -3,6 +3,7 @@ import './plugins/vuetify'
 import App from './App.vue'
 import router from './router'
 import store from './store'
+import mixins from './plugins/mixins';
 import './registerServiceWorker'
 import 'roboto-fontface/css/roboto/roboto-fontface.css'
 import 'material-design-icons-iconfont/dist/material-design-icons.css'
@@ -12,6 +13,8 @@ import NProgress from 'nprogress';
 import '../node_modules/nprogress/nprogress.css' 
 
 Vue.config.productionTip = false
+Vue.use(mixins);
+
 NProgress.configure({ showSpinner: false, trickleRate: 0.5, trickleSpeed: 800 });
 router.beforeResolve((to, from, next) => {
   if (to.name) {

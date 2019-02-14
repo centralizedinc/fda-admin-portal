@@ -116,12 +116,12 @@
           <v-card-text>
             <v-container grid-list-md>
               <v-layout wrap>
-                <v-flex xs12 md3 offset-xs1>
+                <v-flex xs12 sm4 md6>
                   <span class="text-xs-center">Primary Type</span>
                   <v-divider></v-divider>
                   <v-card-text>{{new_primary.name}}</v-card-text>
                 </v-flex>
-                <v-flex xs12 md3 offset-xs1>
+                <v-flex xs12 sm4 md6>
                   <span class="text-xs-center">Date Created</span>
                   <v-divider></v-divider>
                   <v-card-text>{{new_primary.date_created}}</v-card-text>

@@ -32,7 +32,8 @@
                     chips
                     label="Region"
                     item-text="name"
-                    item-value="_id">
+                    item-value="_id"
+                  >
                     <template slot="selection" slot-scope="data">
                       <v-chip
                         :selected="data.selected"
@@ -85,7 +86,7 @@
                 <v-flex xs12 sm4 md3>
                   <span class="text-xs-center">Region Name</span>
                   <v-divider></v-divider>
-                  <v-card-text>{{ getRegion(new_province.region) }}</v-card-text>
+                  <v-card-text>{{ region_details(new_province.region) }}</v-card-text>
                 </v-flex>
                 <v-flex xs12 sm4 md3>
                   <span class="text-xs-center">Province Name</span>
@@ -115,7 +116,7 @@
     </v-toolbar>
     <v-data-table :headers="headers" :items="provinces" :search="search" class="elevation-1">
       <template slot="items" slot-scope="props">
-        <td>{{ getRegion(props.item.region) }}</td>
+        <td>{{ region_details(props.item.region) }}</td>
         <td>{{ props.item.name }}</td>
         <td>{{ props.item.date_created }}</td>
         <td>{{ props.item.date_modified }}</td>
@@ -210,6 +211,9 @@ export default {
   },
 
   methods: {
+    region_details(region_id) {
+      return this.getRegion(region_id) ? this.getRegion(region_id).name : "";
+    },
     isEmpty(str) {
       return !str || str === null || str === "";
     },
@@ -220,22 +224,14 @@ export default {
           this.provinces = this.$store.state.regional_tables.provinces;
           return this.$store.dispatch("GET_REGION");
         })
-        .then(result => { // GET region data
+        .then(result => {
+          // GET region data
           this.regions_items = this.$store.state.regional_tables.regions;
         });
     },
     remove(item) {
       const index = this.region.indexOf(item.name);
       if (index >= 0) this.region.splice(index, 1);
-    },
-    getRegion(region_id) {
-      // region_id = region_id[0].toString(); // commit kapag hindi na nakaset sa array
-      var region = null;
-      region = this.regions_items.find(r => {
-        return r._id.toString() === region_id;
-      });
-      // return region ? region.region_code + ' - ' + region.name : "";
-      return region ? region.name : "";
     },
     addItem() {
       this.mode = 0; // Create

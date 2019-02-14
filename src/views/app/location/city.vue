@@ -70,7 +70,7 @@
         </v-card>
       </v-dialog>
       <!-- VIEW -->
-      <v-dialog v-model="dialogView" max-width="800px">
+      <v-dialog v-model="dialogView" max-width="700px">
         <v-card>
           <v-card-title
             primary-title
@@ -83,7 +83,7 @@
           <v-card-text>
             <v-container grid-list-md>
               <v-layout wrap>
-                <v-flex xs12 sm4 md2>
+                <v-flex xs12 sm4 md3>
                   <span class="text-xs-center">City/Municipility</span>
                   <v-divider></v-divider>
                   <v-card-text>{{new_city.name}}</v-card-text>
@@ -91,12 +91,12 @@
                 <v-flex xs12 sm4 md2>
                   <span class="text-xs-center">Region Name</span>
                   <v-divider></v-divider>
-                  <v-card-text>{{ getRegion(new_city.region) }}</v-card-text>
+                  <v-card-text>{{ region_details(new_city.province) }}</v-card-text>
                 </v-flex>
                 <v-flex xs12 sm4 md2>
                   <span class="text-xs-center">Province Name</span>
                   <v-divider></v-divider>
-                  <v-card-text>{{ getProvince(new_city.province) }}</v-card-text>
+                  <v-card-text>{{ province_details(new_city.province) }}</v-card-text>
                 </v-flex>
                 <v-flex xs12 sm4 md2>
                   <span class="text-xs-center">Created Date</span>
@@ -122,8 +122,8 @@
     <v-data-table :headers="headers" :items="cities" :search="search" class="elevation-1">
       <template slot="items" slot-scope="props">
         <td>{{ props.item.name }}</td>
-        <td>{{ getRegion(props.item.region) }}</td>
-        <td>{{ getProvince(props.item.province) }}</td>
+        <td>{{ region_details(props.item.province) }}</td>
+        <td>{{ province_details(props.item.province) }}</td>
         <td>{{ props.item.date_created }}</td>
         <td>{{ props.item.date_modified }}</td>
         <td class="justify-center layout px-0">
@@ -145,7 +145,6 @@ export default {
   data: () => ({
     mode: 0, // 0 - create, 1 - edit
     regions: {},
-    regions_items: [],
     provinces_items: [],
     new_city: {},
     modified_city: {},
@@ -227,19 +226,32 @@ export default {
   },
 
   methods: {
+    region_details(province_id) {
+      var region_id = this.getProvince(province_id)
+        ? this.getProvince(province_id).region
+        : "";
+      return this.getRegion(region_id) ? this.getRegion(region_id).name : "";
+    },
+    province_details(province_id) {
+      return this.getProvince(province_id)
+        ? this.getProvince(province_id).name
+        : "";
+    },
     isEmpty(str) {
       return !str || str === null || str === "";
     },
     init() {
-      this.$store.dispatch("GET_CITY").then(result => {
-        this.cities = this.$store.state.regional_tables.city;
-      });
-      this.$store.dispatch("GET_PROVINCE").then(result => {
-        this.provinces_items = this.$store.state.regional_tables.provinces;
-      });
-      this.$store.dispatch("GET_REGION").then(result => {
-        this.regions_items = this.$store.state.regional_tables.regions;
-      });
+      this.$store
+        .dispatch("GET_CITY")
+        .then(result => {
+          this.cities = this.$store.state.regional_tables.city;
+          console.log("######cities: " + JSON.stringify(this.cities));
+          return this.$store.dispatch("GET_PROVINCE");
+        })
+        .then(result => {
+          this.provinces_items = this.$store.state.regional_tables.provinces;
+          return this.$store.dispatch("GET_REGION");
+        });
     },
     removeRegion(item) {
       const index = this.region.indexOf(item.name);
@@ -253,20 +265,6 @@ export default {
       this.cities = {};
       this.provinces = [];
       this.regions = [];
-    },
-    getRegion(region_id) {
-      var region = null;
-      region = this.regions_items.find(r => {
-        return r._id.toString() === region_id;
-      });
-      return region ? region.name : "";
-    },
-    getProvince(province_id) {
-      var province = null;
-      province = this.provinces_items.find(r => {
-        return r._id.toString() === province_id;
-      });
-      return province ? province.name : "";
     },
     addItem() {
       this.mode = 0; // Create

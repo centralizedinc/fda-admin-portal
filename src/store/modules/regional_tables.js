@@ -135,18 +135,18 @@ var actions = {
         })
 
     },
-    // EDIT_PROVINCE(context, modified_city) {
-    //     return new Promise((resolve, reject) => {
-    //         new RegionType(context.rootState.user_session.token).editCity(modified_city, (err, data) => {
-    //             if (err) {
-    //                 reject(err)
-    //             } else {
-    //                 resolve(data)
-    //             }
-    //         })
-    //     })
+    EDIT_CITY(context, modified_city) {
+        return new Promise((resolve, reject) => {
+            new RegionType(context.rootState.user_session.token).editCity(modified_city, (err, data) => {
+                if (err) {
+                    reject(err)
+                } else {
+                    resolve(data)
+                }
+            })
+        })
 
-    // }
+    }
 
 }
 

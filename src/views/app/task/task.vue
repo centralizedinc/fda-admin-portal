@@ -222,10 +222,7 @@ export default {
   },
 
   methods: {
-    group_details(group_id) {
-      return this.getGroup(group_id) ? this.getGroup(group_id).name : "";
-    },
-    isEmpty(str) {
+   isEmpty(str) {
       return !str || str === null || str === "";
     },
     init() {
@@ -239,6 +236,9 @@ export default {
           // GET region data
           this.groups_items = this.$store.state.group_table.groups;
         });
+    },
+    group_details(group_id) {
+      return this.getGroup(group_id) ? this.getGroup(group_id).name : "";
     },
     remove(item) {
       const index = this.group.indexOf(item.name);

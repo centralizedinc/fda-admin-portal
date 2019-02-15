@@ -26,37 +26,6 @@
                 <v-flex xs12>
                   <v-text-field label="Group Name" v-model="new_group.name"></v-text-field>
                 </v-flex>
-                <v-flex xs12>
-                  <v-autocomplete
-                    v-model="groups.application"
-                    :disabled="isUpdating"
-                    :items="groups"
-                    box
-                    chips
-                    label="Applications"
-                    item-text="name"
-                    item-value="_id"
-                  >
-                    <template slot="selection" slot-scope="data">
-                      <v-chip
-                        :selected="data.selected"
-                        close
-                        class="chip--select-multi"
-                        @input="remove(data.item)"
-                      >{{ data.item.name }}</v-chip>
-                    </template>
-                    <template slot="item" slot-scope="data">
-                      <template v-if="typeof data.item !== 'object'">
-                        <v-list-tile-content v-text="data.item"></v-list-tile-content>
-                      </template>
-                      <template v-else>
-                        <v-list-tile-content>
-                          <v-list-tile-title v-html="data.item.name"></v-list-tile-title>
-                        </v-list-tile-content>
-                      </template>
-                    </template>
-                  </v-autocomplete>
-                </v-flex>
               </v-layout>
             </v-container>
           </v-card-text>
@@ -83,7 +52,7 @@
           <v-card-text>
             <v-container grid-list-md>
               <v-layout wrap>
-                <v-flex xs12 sm4 md2>
+                <v-flex xs12 sm4 md3>
                   <span class="text-xs-center">Group Name</span>
                   <v-divider></v-divider>
                   <v-card-text>{{new_group.name}}</v-card-text>
@@ -94,20 +63,10 @@
                   <v-card-text>{{new_group.status}}</v-card-text>
                 </v-flex>
                 <v-flex xs12 sm4 md2>
-                  <span class="text-xs-center">Application</span>
-                  <v-divider></v-divider>
-                  <v-card-text>{{new_group.application}}</v-card-text>
-                </v-flex>
-                <v-flex xs12 sm4 md2>
-                  <span class="text-xs-center">Users</span>
-                  <v-divider></v-divider>
-                  <v-card-text>{{new_group.users}}</v-card-text>
-                </v-flex>
-                <!-- <v-flex xs12 sm4 md2>
                   <span class="text-xs-center">Created By</span>
                   <v-divider></v-divider>
                   <v-card-text>{{new_group.created_by}}</v-card-text>
-                </v-flex>-->
+                </v-flex>
                 <v-flex xs12 sm4 md2>
                   <span class="text-xs-center">Created Date</span>
                   <v-divider></v-divider>
@@ -134,8 +93,7 @@
       <template slot="items" slot-scope="props">
         <td>{{ props.item.name }}</td>
         <td>{{ props.item.status }}</td>
-        <td>{{ props.item.application }}</td>
-        <td>{{ props.item.users }}</td>
+        <td>{{ props.item.created_by }}</td>
         <td>{{ formatDate(props.item.date_created) }}</td>
         <td>{{ formatDate(props.item.date_modified) }}</td>
         <td class="justify-center layout px-0">
@@ -176,22 +134,10 @@ export default {
         value: "status"
       },
       {
-        text: "Application",
+        text: "Created By",
         align: "left",
-        sortable: "true",
-        value: "application"
+        value: "created_by"
       },
-      {
-        text: "Users",
-        align: "left",
-        sortable: "true",
-        value: "users"
-      },
-      //   {
-      //     text: "Created By",
-      //     align: "left",
-      //     value: "created_by"
-      //   },
       {
         text: "Created Date",
         align: "left",
@@ -213,14 +159,13 @@ export default {
       id: "",
       name: "",
       status: "",
-      application: "",
-      users: "",
-      created_by: "",
+      created_by: "Kris",
       date_created: "",
       date_modified: ""
     },
     defaultItem: {
-      name: ""
+      name: "",
+      created_by: "Kris"
     }
   }),
 
@@ -250,19 +195,6 @@ export default {
       this.$store.dispatch("GET_GROUP").then(result => {
         this.groups = this.$store.state.group_table.groups;
       });
-    },
-    group_details(group_id) {
-      var group_id = this.getGroup(group_id)
-        ? this.getGroup(group_id).groups
-        : "";
-      return this.getGroup(group_id) ? this.getGroup(group_id).application : "";
-    },
-    isEmpty(str) {
-      return !str || str === null || str === "";
-    },
-    remove(item) {
-      const index = this.groups.indexOf(item.name);
-      if (index >= 0) this.groups.splice(index, 1);
     },
     addItem() {
       this.mode = 0; // Create

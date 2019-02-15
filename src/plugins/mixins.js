@@ -29,7 +29,7 @@ export default {
                     }
                 },
                 getGroup(group_id) {
-                    if (!this.isEmpty(this.$store.state.group_table.group)) {
+                    if (!this.isEmpty(this.$store.state.group_table.groups)) {
                         var group = null;
                         group = this.$store.state.group_table.groups.find(r => {
                             return r._id.toString() === group_id;

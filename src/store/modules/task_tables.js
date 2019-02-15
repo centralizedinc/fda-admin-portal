@@ -9,7 +9,7 @@ const mutations = {
 
     SET_TASK(state, data) {
         state.tasks = data
-        console.log("###CLIENT:SET###" + JSON.stringify(data))
+        console.log("###TASK:SET###" + JSON.stringify(data))
     }
 
 }

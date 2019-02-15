@@ -24,7 +24,7 @@ export default class TaskType {
     }
 
     addTask(new_task, cb) {
-        console.log("api############# add group" + JSON.stringify(new_task))
+        console.log("api############# add Task" + JSON.stringify(new_task))
         axios.post('core/tasks', new_task).then((result) => {
                 console.log("api############# ADD TASK")
                 cb(result.data.errors, result.data.model)
@@ -37,7 +37,7 @@ export default class TaskType {
     editTask(modified_task, cb) {
         var id = modified_task._id
         axios.post('core/tasks/' + id, modified_task).then((result) => {
-                console.log("api############# addgroup" + JSON.stringify(modified_task))
+                console.log("api############# EditTask" + JSON.stringify(modified_task))
                 cb(result.data.errors, result.data.model)
             })
             .catch(err => {

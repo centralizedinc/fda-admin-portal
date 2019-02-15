@@ -93,7 +93,7 @@ export default new Router({
         },
         {
           path: 'clients',
-          name: 'client',
+          name: 'Clients',
           component: () => import('@/views/app/accounts/client.vue')
         },
         {

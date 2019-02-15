@@ -28,28 +28,39 @@ export default {
                         return null
                     }
                 },
+                getGroup(group_id) {
+                    if (!this.isEmpty(this.$store.state.group_table.group)) {
+                        var group = null;
+                        group = this.$store.state.group_table.groups.find(r => {
+                            return r._id.toString() === group_id;
+                        });
+                        return group ? group : null;
+                    } else {
+                        return null
+                    }
+                },
                 status(stat) {
                     if (stat === 0) {
-                      return "Registered (Awaiting Confirmation)";
+                        return "Registered (Awaiting Confirmation)";
                     } else if (stat === 1) {
-                      return "Confirmed (Active but no active FDA License)";
+                        return "Confirmed (Active but no active FDA License)";
                     } else if (stat === 2) {
-                      return "Active";
+                        return "Active";
                     } else if (stat === 3) {
-                      return "Suspended";
+                        return "Suspended";
                     } else if (stat === 4) {
-                      return "Inactive (For Deletion)";
+                        return "Inactive (For Deletion)";
                     }
-                  },
-                  formatDate(dte) {
+                },
+                formatDate(dte) {
                     if (!dte) return null;
                     else {
-                      var date = new Date(dte);
-                      var month = date.getMonth() + 1;
-                      var newDte = month + "-" + date.getDate() + "-" + date.getFullYear();
-                      return newDte;
+                        var date = new Date(dte);
+                        var month = date.getMonth() + 1;
+                        var newDte = month + "-" + date.getDate() + "-" + date.getFullYear();
+                        return newDte;
                     }
-                  }
+                }
             }
         })
     }

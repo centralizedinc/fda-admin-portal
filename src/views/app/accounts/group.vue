@@ -23,11 +23,14 @@
           <v-card-text>
             <v-container grid-list-md>
               <v-layout wrap>
-                  <v-flex xs12>
+                <v-flex xs12>
+                  <v-text-field label="Group Name" v-model="new_group.name"></v-text-field>
+                </v-flex>
+                <v-flex xs12>
                   <v-autocomplete
-                    v-model="new_group.application"
+                    v-model="groups.application"
                     :disabled="isUpdating"
-                    :items="application_items"
+                    :items="groups"
                     box
                     chips
                     label="Applications"
@@ -53,9 +56,6 @@
                       </template>
                     </template>
                   </v-autocomplete>
-                </v-flex>
-                <v-flex xs12>
-                  <v-text-field label="Group Name" v-model="new_group.name"></v-text-field>
                 </v-flex>
               </v-layout>
             </v-container>
@@ -107,7 +107,7 @@
                   <span class="text-xs-center">Created By</span>
                   <v-divider></v-divider>
                   <v-card-text>{{new_group.created_by}}</v-card-text>
-                </v-flex> -->
+                </v-flex>-->
                 <v-flex xs12 sm4 md2>
                   <span class="text-xs-center">Created Date</span>
                   <v-divider></v-divider>
@@ -136,8 +136,8 @@
         <td>{{ props.item.status }}</td>
         <td>{{ props.item.application }}</td>
         <td>{{ props.item.users }}</td>
-        <td>{{ props.item.date_created }}</td>
-        <td>{{ props.item.date_modified }}</td>
+        <td>{{ formatDate(props.item.date_created) }}</td>
+        <td>{{ formatDate(props.item.date_modified) }}</td>
         <td class="justify-center layout px-0">
           <v-icon small class="mr-2" @click="editItem(props.item)" flat icon color="primary">edit</v-icon>
           <v-icon small @click="viewItem(props.item)" flat icon color="primary">visibility</v-icon>
@@ -157,7 +157,6 @@ export default {
   data: () => ({
     mode: 0, // 0 - create, 1 - edit
     new_group: {},
-    application_items: [],
     modified_group: {},
     dialog: false,
     dialogView: false,
@@ -188,11 +187,11 @@ export default {
         sortable: "true",
         value: "users"
       },
-    //   {
-    //     text: "Created By",
-    //     align: "left",
-    //     value: "created_by"
-    //   },
+      //   {
+      //     text: "Created By",
+      //     align: "left",
+      //     value: "created_by"
+      //   },
       {
         text: "Created Date",
         align: "left",
@@ -234,7 +233,7 @@ export default {
     this.init();
   },
 
-   watch: {
+  watch: {
     isUpdating(val) {
       if (val) {
         setTimeout(() => (this.isUpdating = false), 3000);
@@ -252,9 +251,18 @@ export default {
         this.groups = this.$store.state.group_table.groups;
       });
     },
+    group_details(group_id) {
+      var group_id = this.getGroup(group_id)
+        ? this.getGroup(group_id).groups
+        : "";
+      return this.getGroup(group_id) ? this.getGroup(group_id).application : "";
+    },
+    isEmpty(str) {
+      return !str || str === null || str === "";
+    },
     remove(item) {
-      const index = this.application.indexOf(item.name);
-      if (index >= 0) this.application.splice(index, 1);
+      const index = this.groups.indexOf(item.name);
+      if (index >= 0) this.groups.splice(index, 1);
     },
     addItem() {
       this.mode = 0; // Create

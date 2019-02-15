@@ -112,6 +112,14 @@
             <v-list-tile-title class="body-1 font-weight-light">Clients</v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
+        <v-list-tile @click="goTo('/app/approver')" class="ma-1" :style="activeRoute('approver')">
+          <v-list-tile-action>
+            <v-icon color="success">account_box</v-icon>
+          </v-list-tile-action>
+          <v-list-tile-content>
+            <v-list-tile-title class="body-1 font-weight-light">Approver</v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>
         <v-divider></v-divider>
 
         <v-list-tile

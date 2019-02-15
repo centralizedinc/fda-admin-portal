@@ -28,17 +28,17 @@ export default new Router({
         },
         {
           path: 'products',
-          name: 'product',
+          name: 'Product',
           component: () => import('@/views/app/reference/product.vue')
         },
         {
           path: 'primary',
-          name: 'primary',
+          name: 'Primary',
           component: () => import('@/views/app/reference/primary.vue')
         },
         {
           path: 'capital',
-          name: 'capital',
+          name: 'Capital',
           component: () => import('@/views/app/reference/capital.vue')
         },
         {
@@ -48,12 +48,12 @@ export default new Router({
         },
         {
           path: 'profile',
-          name: 'profile',
+          name: 'Profile',
           component: () => import('@/views/app/accounts/profile.vue')
         },
         {
           path: 'group',
-          name: 'group',
+          name: 'Group',
           component: () => import('@/views/app/accounts/group.vue')
         },
         {
@@ -68,28 +68,33 @@ export default new Router({
         },
         {
           path: 'city',
-          name: 'city',
+          name: 'City',
           component: () => import('@/views/app/location/city.vue')
         },
         {
           path: 'region',
-          name: 'region',
+          name: 'Region',
           component: () => import('@/views/app/location/region.vue')
         },
         {
           path: 'province',
-          name: 'province',
+          name: 'Province',
           component: () => import('@/views/app/location/province.vue')
         },
         {
           path: 'task',
-          name: 'task',
+          name: 'Task',
           component: () => import('@/views/app/task/task.vue')
         },
         {
           path: 'logout',
           name: 'Logout',
           component: () => import('@/views/app/UserPortfolio.vue')
+        },
+        {
+          path: 'approver',
+          name: 'Approver',
+          component: () => import('@/views/app/accounts/approver.vue')
         },
         {
           path: 'clients',

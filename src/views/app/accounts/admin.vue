@@ -24,17 +24,17 @@
             <v-container grid-list-md>
               <v-layout wrap>
                 <v-flex xs12>
-                  <v-text-field v-model="new_approver.name" label="Approver Name"></v-text-field>
+                  <v-text-field v-model="new_admin.name" label="Approver Name"></v-text-field>
                 </v-flex>
                 <v-flex xs12>
-                  <v-text-field v-model="new_approver.username" label="Userame"></v-text-field>
+                  <v-text-field v-model="new_admin.username" label="Userame"></v-text-field>
                 </v-flex>
                 <v-flex xs12>
-                  <v-text-field v-model="new_approver.password" label="Password"></v-text-field>
+                  <v-text-field v-model="new_admin.password" label="Password"></v-text-field>
                 </v-flex>
                 <v-flex xs12>
                   <v-autocomplete
-                    v-model="new_approver.group"
+                    v-model="new_admin.group"
                     :disabled="isUpdating"
                     :items="groups_items"
                     box
@@ -123,32 +123,32 @@
                 <v-flex xs12 sm4 md3>
                   <span class="text-xs-center">Approver Name</span>
                   <v-divider></v-divider>
-                  <v-card-text>{{new_approver.name}}</v-card-text>
+                  <v-card-text>{{new_admin.name}}</v-card-text>
                 </v-flex>
                 <v-flex xs12 sm4 md2>
                   <span class="text-xs-center">Group Name</span>
                   <v-divider></v-divider>
-                  <v-card-text>{{ group_details(new_approver.group) }}</v-card-text>
+                  <v-card-text>{{ group_details(new_admin.group) }}</v-card-text>
                 </v-flex>
                 <v-flex xs12 sm4 md2>
                   <span class="text-xs-center">Username</span>
                   <v-divider></v-divider>
-                  <v-card-text>{{new_approver.username}}</v-card-text>
+                  <v-card-text>{{new_admin.username}}</v-card-text>
                 </v-flex>
                 <v-flex xs12 sm4 md2>
                   <span class="text-xs-center">Created By</span>
                   <v-divider></v-divider>
-                  <v-card-text>{{new_approver.created_by}}</v-card-text>
+                  <v-card-text>{{new_admin.created_by}}</v-card-text>
                 </v-flex>
                 <v-flex xs12 sm4 md2>
                   <span class="text-xs-center">Created Date</span>
                   <v-divider></v-divider>
-                  <v-card-text>{{new_approver.date_created}}</v-card-text>
+                  <v-card-text>{{new_admin.date_created}}</v-card-text>
                 </v-flex>
                 <v-flex xs12 sm4 md2>
                   <span class="text-xs-center">Modified Date</span>
                   <v-divider></v-divider>
-                  <v-card-text>{{new_approver.date_modified}}</v-card-text>
+                  <v-card-text>{{new_admin.date_modified}}</v-card-text>
                 </v-flex>
               </v-layout>
             </v-container>
@@ -163,14 +163,16 @@
     </v-toolbar>
     <v-data-table :headers="headers" :items="approver" :search="search" class="elevation-1">
       <template slot="items" slot-scope="props">
-        <td>{{ props.item.name }}</td>
+        <td>{{ props.item.first_name }}</td>
+        <td>{{ props.item.last_name }}</td>
         <td>{{ group_details(props.item.group) }}</td>
         <td>{{ props.item.username }}</td>
-        <td>{{ props.item.password }}</td>
+        <td>{{ props.item.email }}</td>
         <td>{{ props.item.role }}</td>
         <td>{{ props.item.created_by }}</td>
         <td>{{ formatDate(props.item.date_created) }}</td>
         <td>{{ formatDate(props.item.date_modified) }}</td>
+        <td>{{ (props.item.status) }}</td>
         <td class="justify-center layout px-0">
           <v-icon small class="mr-2" @click="editItem(props.item)" flat icon color="primary">edit</v-icon>
           <v-icon small @click="viewItem(props.item)" flat icon color="primary">visibility</v-icon>
@@ -191,7 +193,7 @@ export default {
     mode: 0, // 0 - create, 1 - edit
     groups: {},
     groups_items: [],
-    new_approver: {},
+    new_admin: {},
     modified_approver: {},
     dialog: false,
     dialogView: false,
@@ -292,9 +294,9 @@ export default {
     },
     init() {
       this.$store
-        .dispatch("SET_APPROVER")
+        .dispatch("GET_ADMIN")
         .then(result => {
-          this.approver = this.$store.state.approver_tables.tasks;
+          this.approver = this.$store.state.admin_tables.admins;
           return this.$store.dispatch("GET_GROUP");
         })
         .then(result => {
@@ -311,35 +313,35 @@ export default {
     },
     addItem() {
       this.mode = 0; // Create
-      this.new_approver = {}; // holds the filled up item
+      this.new_admin = {}; // holds the filled up item
       this.dialog = true;
     },
     editItem(item) {
       this.mode = 1; // Edit
-      this.new_approver = JSON.parse(JSON.stringify(item));
+      this.new_admin = JSON.parse(JSON.stringify(item));
       this.dialog = true;
     },
 
     viewItem(item) {
-      this.new_approver = item;
+      this.new_admin = item;
       this.dialogView = true;
     },
 
     close() {
       this.dialog = false;
       this.dialogView = false;
-      this.new_approver = {};
+      this.new_admin = {};
     },
     submit() {
-      this.$store.dispatch("ADD_APPROVER", this.new_approver).then(result => {
+      this.$store.dispatch("ADD_ADMIN", this.new_admin).then(result => {
         console.log("added:task: " + JSON.stringify(result));
         this.init();
         this.close();
       });
     },
     save() {
-      // console.log('###########edited:approver: ' + JSON.stringify(this.new_approver));
-      this.$store.dispatch("EDIT_APPROVER", this.new_approver).then(result => {
+      // console.log('###########edited:approver: ' + JSON.stringify(this.new_admin));
+      this.$store.dispatch("EDIT_ADMIN", this.new_admin).then(result => {
         console.log("edited:task: " + JSON.stringify(result));
         this.init();
         this.close();

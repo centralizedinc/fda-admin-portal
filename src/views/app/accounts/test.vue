@@ -12,8 +12,14 @@
         {{additional}}
         DECLARED
         {{declared}} -->
+ADMIN
+<v-spacer></v-spacer>
+        {{admins}}
 
-        {{clients}}
+<!-- <v-spacer></v-spacer>
+ROLES -->
+
+        <!-- {{roles}} -->
 
         <!-- ADD PRODUCT-->
         <v-flex xs12 sm6 md3>
@@ -120,6 +126,9 @@ export default {
   // }),
   data() {
     return {
+      admins: {},
+      roles: {},
+      tasks: {},
       clients: {},
       groups: {},
       provinces:{},
@@ -196,6 +205,18 @@ export default {
 
   created() {
 
+this.$store.dispatch("GET_ADMIN").then(result =>
+  this.admins = this.$store.state.admin_tables.admins
+)
+
+// this.$store.dispatch("GET_ROLE").then(result =>
+//   this.roles = this.$store.state.admin_tables.roles
+// )
+
+
+this.$store.dispatch("GET_TASK").then(result =>
+  this.tasks = this.$store.state.task_table.tasks
+)
     this.$store.dispatch("GET_CITY").then(result =>
   this.city = this.$store.state.region_table.city
 )

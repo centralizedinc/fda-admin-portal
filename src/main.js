@@ -10,10 +10,12 @@ import 'material-design-icons-iconfont/dist/material-design-icons.css'
 import '@fortawesome/fontawesome-free/css/all.css'
 
 import NProgress from 'nprogress';
-import '../node_modules/nprogress/nprogress.css' 
+import '../node_modules/nprogress/nprogress.css'
+import notify from "@/plugins/notify"; 
 
 Vue.config.productionTip = false
 Vue.use(mixins);
+Vue.use(notify, store)
 
 NProgress.configure({ showSpinner: false, trickleRate: 0.5, trickleSpeed: 800 });
 router.beforeResolve((to, from, next) => {

@@ -16,7 +16,14 @@ export default new Router({
         name: 'Login',
         component: () => import('@/views/Login.vue')
       }]
-
+      // auto redirect to dashboard if session exists
+      // beforeEnter: (to, from, next) => {
+      //   if (store.state.user_session.isAuthenticated) {
+      //     next("/app/dashboard");
+      //   } else {
+      //     next();
+      //   }
+      // }
     },
     {
       path: '/app',

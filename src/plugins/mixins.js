@@ -2,6 +2,10 @@ export default {
     install(Vue) {
         Vue.mixin({
             methods: {
+                setHeaders: token => {
+                    instance.defaults.headers.common['access_token'] = token
+                    Vue.prototype.$http = instance
+                },
                 isEmpty(str) {
                     return !str || str.length === 0;
                 },

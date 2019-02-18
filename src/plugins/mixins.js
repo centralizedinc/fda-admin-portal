@@ -52,15 +52,23 @@ export default {
                         return "Inactive (For Deletion)";
                     }
                 },
-                formatDate(dte) {
-                    if (!dte) return null;
-                    else {
-                        var date = new Date(dte);
-                        var month = date.getMonth() + 1;
-                        var newDte = month + "-" + date.getDate() + "-" + date.getFullYear();
-                        return newDte;
+                formatDate: (date, type) => {
+                    if (!date) {
+                        return ''
                     }
-                }
+                    var format = {
+                        hour12: true,
+                        year: 'numeric',
+                        month: 'long',
+                        day: '2-digit'
+                    }
+                    if (!type) {
+                        format.hour = '2-digit'
+                        format.minute = '2-digit'
+                    }
+                    var dt = new Date(date).toLocaleString('en-US', format)
+                    return dt
+                },
             }
         })
     }

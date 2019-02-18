@@ -11,7 +11,7 @@
             name="name"
             label="Username"
             id="id"
-            prepend-icon="how_to_reg"
+            prepend-icon="account_circle"
             @keypress.enter="login"
             v-model="admin.username"
           ></v-text-field>

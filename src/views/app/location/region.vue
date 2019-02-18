@@ -65,12 +65,12 @@
                   <v-divider></v-divider>
                   <v-card-text>{{new_region.region_code}}</v-card-text>
                 </v-flex>
-                 <v-flex xs12 sm4 md3>
+                <v-flex xs12 sm4 md3>
                   <span class="text-xs-center">Created Date</span>
                   <v-divider></v-divider>
                   <v-card-text>{{new_region.date_created}}</v-card-text>
                 </v-flex>
-                 <v-flex xs12 sm4 md3>
+                <v-flex xs12 sm4 md3>
                   <span class="text-xs-center">Modified Date</span>
                   <v-divider></v-divider>
                   <v-card-text>{{new_region.date_modified}}</v-card-text>
@@ -91,8 +91,8 @@
       <template slot="items" slot-scope="props">
         <td>{{ props.item.name }}</td>
         <td>{{ props.item.region_code }}</td>
-        <td>{{ props.item.date_created }}</td>
-        <td>{{ props.item.date_modified }}</td>
+        <td>{{ formatDate(props.item.date_created) }}</td>
+        <td>{{ formatDate(props.item.date_modified) }}</td>
         <td class="justify-center layout px-0">
           <v-icon small class="mr-2" @click="editItem(props.item)" flat icon color="primary">edit</v-icon>
           <v-icon small @click="viewItem(props.item)" flat icon color="primary">visibility</v-icon>
@@ -156,7 +156,7 @@ export default {
     },
     defaultItem: {
       name: "",
-      region_code: "",
+      region_code: ""
     }
   }),
 

@@ -108,7 +108,7 @@
     <v-data-table :headers="headers" :items="products" :search="search" class="elevation-1">
       <template slot="items" slot-scope="props">
         <td>{{ props.item.name }}</td>
-        <td>{{ props.item.date_created }}</td>
+        <td>{{ formatDate(props.item.date_created) }}</td>
         <td class="justify-center layout px-0">
           <v-icon small class="mr-2" @click="editItem(props.item)" flat icon color="primary">edit</v-icon>
           <v-icon small @click="viewItem(props.item)" flat icon color="primary">visibility</v-icon>

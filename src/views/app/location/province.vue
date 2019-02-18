@@ -118,8 +118,8 @@
       <template slot="items" slot-scope="props">
         <td>{{ region_details(props.item.region) }}</td>
         <td>{{ props.item.name }}</td>
-        <td>{{ props.item.date_created }}</td>
-        <td>{{ props.item.date_modified }}</td>
+        <td>{{ formatDate(props.item.date_created) }}</td>
+        <td>{{ formatDate(props.item.date_modified) }}</td>
         <td class="justify-center layout px-0">
           <v-icon small class="mr-2" @click="editItem(props.item)" flat icon color="primary">edit</v-icon>
           <v-icon small @click="viewItem(props.item)" flat icon color="primary">visibility</v-icon>

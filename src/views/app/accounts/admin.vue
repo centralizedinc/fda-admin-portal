@@ -27,10 +27,13 @@
                   <v-text-field v-model="new_admin.name" label="Approver Name"></v-text-field>
                 </v-flex>
                 <v-flex xs12>
-                  <v-text-field v-model="new_admin.username" label="Userame"></v-text-field>
+                  <v-text-field v-model="new_admin.username" label="Username"></v-text-field>
+                </v-flex>
+                 <v-flex xs12>
+                  <v-text-field v-model="new_admin.password" label="Password"></v-text-field>
                 </v-flex>
                 <v-flex xs12>
-                  <v-text-field v-model="new_admin.password" label="Password"></v-text-field>
+                  <v-text-field v-model="new_admin.email" label="Email Address"></v-text-field>
                 </v-flex>
                 <v-flex xs12>
                   <v-autocomplete
@@ -120,7 +123,7 @@
           <v-card-text>
             <v-container grid-list-md>
               <v-layout wrap>
-                <v-flex xs12 sm4 md3>
+                <v-flex xs12 sm4 md2>
                   <span class="text-xs-center">Approver Name</span>
                   <v-divider></v-divider>
                   <v-card-text>{{new_admin.name}}</v-card-text>
@@ -136,19 +139,19 @@
                   <v-card-text>{{new_admin.username}}</v-card-text>
                 </v-flex>
                 <v-flex xs12 sm4 md2>
-                  <span class="text-xs-center">Created By</span>
+                  <span class="text-xs-center">Status</span>
                   <v-divider></v-divider>
-                  <v-card-text>{{new_admin.created_by}}</v-card-text>
+                  <v-card-text>{{new_admin.status}}</v-card-text>
                 </v-flex>
                 <v-flex xs12 sm4 md2>
-                  <span class="text-xs-center">Created Date</span>
+                  <span class="text-xs-center">Email Address</span>
                   <v-divider></v-divider>
-                  <v-card-text>{{new_admin.date_created}}</v-card-text>
+                  <v-card-text>{{new_admin.email}}</v-card-text>
                 </v-flex>
                 <v-flex xs12 sm4 md2>
-                  <span class="text-xs-center">Modified Date</span>
+                  <span class="text-xs-center">Roles</span>
                   <v-divider></v-divider>
-                  <v-card-text>{{new_admin.date_modified}}</v-card-text>
+                  <v-card-text>{{new_admin.role}}</v-card-text>
                 </v-flex>
               </v-layout>
             </v-container>
@@ -161,18 +164,18 @@
         </v-card>
       </v-dialog>
     </v-toolbar>
-    <v-data-table :headers="headers" :items="approver" :search="search" class="elevation-1">
+    <v-data-table :headers="headers" :items="admins" :search="search" class="elevation-1">
       <template slot="items" slot-scope="props">
         <td>{{ props.item.first_name }}</td>
         <td>{{ props.item.last_name }}</td>
         <td>{{ group_details(props.item.group) }}</td>
+        <td>{{ (props.item.status) }}</td>
         <td>{{ props.item.username }}</td>
         <td>{{ props.item.email }}</td>
         <td>{{ props.item.role }}</td>
-        <td>{{ props.item.created_by }}</td>
+        <!-- <td>{{ props.item.created_by }}</td>
         <td>{{ formatDate(props.item.date_created) }}</td>
-        <td>{{ formatDate(props.item.date_modified) }}</td>
-        <td>{{ (props.item.status) }}</td>
+        <td>{{ formatDate(props.item.date_modified) }}</td> -->
         <td class="justify-center layout px-0">
           <v-icon small class="mr-2" @click="editItem(props.item)" flat icon color="primary">edit</v-icon>
           <v-icon small @click="viewItem(props.item)" flat icon color="primary">visibility</v-icon>
@@ -194,7 +197,7 @@ export default {
     groups: {},
     groups_items: [],
     new_admin: {},
-    modified_approver: {},
+    modified_admin: {},
     dialog: false,
     dialogView: false,
     isUpdating: false,
@@ -206,7 +209,13 @@ export default {
         text: "Approver Name",
         align: "left",
         sortable: "true",
-        value: "approver"
+        value: "name"
+      },
+      {
+        text: "Last name",
+        align: "left",
+        sortable: "true",
+        value: "last_name"
       },
       {
         text: "Group Name",
@@ -215,16 +224,22 @@ export default {
         value: "groups"
       },
       {
+        text: "Status",
+        align: "left",
+        sortable: "true",
+        value: "status"
+      },
+      {
         text: "Username",
         align: "left",
         sortable: "true",
         value: "username"
       },
       {
-        text: "Password",
+        text: "Email",
         align: "left",
         sortable: "true",
-        value: "password"
+        value: "email"
       },
       {
         text: "Role",
@@ -232,27 +247,12 @@ export default {
         value: "role"
       },
       {
-        text: "Created By",
-        align: "left",
-        value: "created_by"
-      },
-      {
-        text: "Created Date",
-        align: "left",
-        value: "date_created"
-      },
-      {
-        text: "Modified Date",
-        align: "left",
-        value: "date_modified"
-      },
-      {
         text: "Action",
         value: "editStatus"
       }
     ],
     group: [],
-    tasks: [],
+    admins: [],
     editedIndex: -1,
     editedItem: {
       id: "",
@@ -296,11 +296,11 @@ export default {
       this.$store
         .dispatch("GET_ADMIN")
         .then(result => {
-          this.approver = this.$store.state.admin_tables.admins;
+          this.admins = this.$store.state.admin_tables.admins;
           return this.$store.dispatch("GET_GROUP");
         })
         .then(result => {
-          // GET region data
+          // GET group data
           this.groups_items = this.$store.state.group_table.groups;
         });
     },

@@ -37,8 +37,9 @@ export default {
   methods: {
     login() {
       // :rules="[() => ('The email and password you entered don\'t match')]"
-      this.$store.commit("API_INSTANCE", "my_sample_api_token");
-      this.$router.push("/app");
+      var auth = {username: this.username ,passwrod: this.password}
+      this.$store.commit("LOGIN", auth);
+      // this.$router.push("/app");
     }
   }
 };

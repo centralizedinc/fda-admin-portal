@@ -92,9 +92,9 @@ export default new Router({
           component: () => import('@/views/app/UserPortfolio.vue')
         },
         {
-          path: 'approver',
-          name: 'Approver',
-          component: () => import('@/views/app/accounts/approver.vue')
+          path: 'admin',
+          name: 'Admin Accounts',
+          component: () => import('@/views/app/accounts/admin.vue')
         },
         {
           path: 'clients',

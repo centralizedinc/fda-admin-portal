@@ -27,6 +27,12 @@
                   <v-text-field v-model="new_approver.name" label="Approver Name"></v-text-field>
                 </v-flex>
                 <v-flex xs12>
+                  <v-text-field v-model="new_approver.username" label="Userame"></v-text-field>
+                </v-flex>
+                <v-flex xs12>
+                  <v-text-field v-model="new_approver.password" label="Password"></v-text-field>
+                </v-flex>
+                <v-flex xs12>
                   <v-autocomplete
                     v-model="new_approver.group"
                     :disabled="isUpdating"
@@ -36,6 +42,37 @@
                     label="Group name"
                     item-text="name"
                     item-value="_id"
+                  >
+                    <template slot="selection" slot-scope="data">
+                      <v-chip
+                        :selected="data.selected"
+                        close
+                        class="chip--select-multi"
+                        @input="remove(data.item)"
+                      >{{ data.item.name }}</v-chip>
+                    </template>
+                    <template slot="item" slot-scope="data">
+                      <template v-if="typeof data.item !== 'object'">
+                        <v-list-tile-content v-text="data.item"></v-list-tile-content>
+                      </template>
+                      <template v-else>
+                        <v-list-tile-content>
+                          <v-list-tile-title v-html="data.item.name"></v-list-tile-title>
+                        </v-list-tile-content>
+                      </template>
+                    </template>
+                  </v-autocomplete>
+                </v-flex>
+                <v-flex xs12>
+                  <v-autocomplete
+                    v-model="role"
+                    :disabled="isUpdating"
+                    :items="roles"
+                    box
+                    chips
+                    label="Role name"
+                    item-text="name"
+                    item-value="name"
                   >
                     <template slot="selection" slot-scope="data">
                       <v-chip
@@ -93,7 +130,7 @@
                   <v-divider></v-divider>
                   <v-card-text>{{ group_details(new_approver.group) }}</v-card-text>
                 </v-flex>
-                 <v-flex xs12 sm4 md2>
+                <v-flex xs12 sm4 md2>
                   <span class="text-xs-center">Username</span>
                   <v-divider></v-divider>
                   <v-card-text>{{new_approver.username}}</v-card-text>
@@ -130,6 +167,7 @@
         <td>{{ group_details(props.item.group) }}</td>
         <td>{{ props.item.username }}</td>
         <td>{{ props.item.password }}</td>
+        <td>{{ props.item.role }}</td>
         <td>{{ props.item.created_by }}</td>
         <td>{{ formatDate(props.item.date_created) }}</td>
         <td>{{ formatDate(props.item.date_modified) }}</td>
@@ -159,6 +197,8 @@ export default {
     dialogView: false,
     isUpdating: false,
     search: "",
+    role: ["Approver"],
+    roles: [{ name: "Approver" }, { name: "Admin" }],
     headers: [
       {
         text: "Approver Name",
@@ -173,7 +213,7 @@ export default {
         value: "groups"
       },
       {
-        text: "username",
+        text: "Username",
         align: "left",
         sortable: "true",
         value: "username"
@@ -183,6 +223,11 @@ export default {
         align: "left",
         sortable: "true",
         value: "password"
+      },
+      {
+        text: "Role",
+        align: "left",
+        value: "role"
       },
       {
         text: "Created By",
@@ -211,6 +256,7 @@ export default {
       id: "",
       approver: "",
       group: "",
+      role: "",
       date_created: "",
       date_modified: ""
     },

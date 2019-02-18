@@ -32,7 +32,7 @@
                 <v-flex xs12>
                   <v-text-field v-model="new_admin.username" label="Username"></v-text-field>
                 </v-flex>
-                 <v-flex xs12>
+                <v-flex xs12>
                   <v-text-field v-model="new_admin.password" label="Password"></v-text-field>
                 </v-flex>
                 <v-flex xs12>
@@ -71,9 +71,9 @@
                 </v-flex>
                 <v-flex xs12>
                   <v-autocomplete
-                    v-model="role"
+                    v-model="new_admin.role"
                     :disabled="isUpdating"
-                    :items="roles"
+                    :items="roles_items"
                     box
                     chips
                     label="Role name"
@@ -178,7 +178,7 @@
         <td>{{ props.item.role }}</td>
         <!-- <td>{{ props.item.created_by }}</td>
         <td>{{ formatDate(props.item.date_created) }}</td>
-        <td>{{ formatDate(props.item.date_modified) }}</td> -->
+        <td>{{ formatDate(props.item.date_modified) }}</td>-->
         <td class="justify-center layout px-0">
           <v-icon small class="mr-2" @click="editItem(props.item)" flat icon color="primary">edit</v-icon>
           <v-icon small @click="viewItem(props.item)" flat icon color="primary">visibility</v-icon>
@@ -205,8 +205,8 @@ export default {
     dialogView: false,
     isUpdating: false,
     search: "",
-    role: ["Approver"],
-    roles: [{ name: "Approver" }, { name: "Admin" }],
+    role: [],
+    roles_items: [{ name: "Approver" }, { name: "Admin" }],
     headers: [
       {
         text: "Approver Name",

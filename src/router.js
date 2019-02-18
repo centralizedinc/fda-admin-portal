@@ -28,6 +28,14 @@ export default new Router({
     {
       path: '/app',
       component: UserLayout,
+      // beforeEnter: (to, from, next) => {
+      //   if (store.state.user_session.isAuthenticated) {
+      //     next()
+      //   } else {
+      //     store.commit('LOGOUT')
+      //     next('/')
+      //   }
+      // },
       children: [{
           path: '',
           name: 'Dashboard',

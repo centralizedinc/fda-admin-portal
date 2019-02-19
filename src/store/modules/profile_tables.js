@@ -1,37 +1,38 @@
-import TaskType from '../../api/apiApproverAccounts';
+import ProfileType from '../../api/apiProfileManagement';
 
 const state = {
-    tasks: []
+    profile: [],
+    tasks: [],
+    groups: [],
+    roles: []
 
 }
 
 const mutations = {
 
-    SET_APPROVER(state, data) {
-        state.approver = data
-        console.log("###APPROVER:SET###" + JSON.stringify(data))
+    SET_PROFILE(state, data) {
+        state.profile = data
+        console.log("###PROFILE:SET###" + JSON.stringify(data))
     }
-
 }
 
 var actions = {
-
-    GET_APPROVER(context) {
+//admin / approver
+    GET_PROFILE(context) {
         return new Promise((resolve, reject) => {
-            new ApproverType(context.rootState.user_session.token).getApprover((err, data) => {
+            new ProfileType(context.rootState.user_session.token).getProfile((err, data) => {
                 if (err) {
                     reject(err)
                 } else {
-                    context.commit('SET_APPROVER', data)
+                    context.commit('SET_PROFILE', data)
                     resolve(data)
                 }
             })
         })
     },
-    
-    ADD_APPROVER(context, new_approver) {
+    ADD_PROFILE(context, new_profile) {
         return new Promise((resolve, reject) => {
-            new TaskType(context.rootState.user_session.token).addApprover(new_approver, (err, data) => {
+            new ProfileType(context.rootState.user_session.token).addProfile(new_profile, (err, data) => {
                 if (err) {
                     reject(err)
                 } else {
@@ -39,11 +40,11 @@ var actions = {
                 }
             })
         })
-    },
 
-    EDIT_APPROVER(context, modified_approver) {
+    },
+    EDIT_PROFILE(context, modified_profile) {
         return new Promise((resolve, reject) => {
-            new TaskType(context.rootState.user_session.token).editApprover(modified_approver, (err, data) => {
+            new ProfileType(context.rootState.user_session.token).editProfile(modified_profile, (err, data) => {
                 if (err) {
                     reject(err)
                 } else {
@@ -53,9 +54,8 @@ var actions = {
         })
 
     }
-    }
 
-
+}
 
 export default {
     state,

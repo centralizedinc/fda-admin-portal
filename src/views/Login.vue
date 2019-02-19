@@ -66,41 +66,20 @@ export default {
   },
   methods: {
     login() {
-      this.loading = true;
-      this.$http
-        .post("secured/accounts/auth/", this.admin)
-        .then(result => {
-          if (result.data.success && result.data.model.isMatch) {
-            this.$notify({
-              message:
-                "Welcome to FDA Admin Portal. You are logged in as " +
-                this.admin.username,
-              icon: "check_circle_outline",
-              initialMargin: 100
-            });
-
-            this.$store.commit("LOGIN", result.data.model);
-            // this.$store.commit("CHECK_SESSION");
-            this.setHeaders(result.data.model.token);
-            this.$router.push("/app");
-          } else {
-            this.$notify({
-              message:
-                "Invalid Credentials. Please check your Username and Password.",
-              icon: "add_alert",
-              type: "warning",
-              horizontalAlign: "center",
-              initialMargin: 100
-            });
-          }
-          this.loading = false;
-        })
-        .catch(err => {
-          // this.$notifyErr(err);
-          this.loading = false;
-        });
-    },
-    forgotPassword() {}
+      // :rules="[() => ('The email and password you entered don\'t match')]"
+      var auth = {
+        username: this.admin.username,
+        password: this.admin.password
+      };
+      this.$store.dispatch("LOGIN", auth).then((result) => {
+        console.log('JSON.stringify(result) :', JSON.stringify(this.$store.state.user_session.isAuthenticated));
+        this.$router.push('/app');
+      }).catch((err) => {
+        
+      });
+      console.log(auth);
+      // this.$router.push("/app");
+    }
   }
 };
 </script>

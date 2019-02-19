@@ -24,15 +24,12 @@
             <v-container grid-list-md>
               <v-layout wrap>
                 <v-flex xs12>
-                  <v-text-field v-model="new_admin.first_name" label="Approver Name"></v-text-field>
-                </v-flex>
-                <v-flex xs12>
-                  <v-text-field v-model="new_admin.last_name" label="Last Name"></v-text-field>
+                  <v-text-field v-model="new_admin.name" label="Approver Name"></v-text-field>
                 </v-flex>
                 <v-flex xs12>
                   <v-text-field v-model="new_admin.username" label="Username"></v-text-field>
                 </v-flex>
-                <v-flex xs12>
+                 <v-flex xs12>
                   <v-text-field v-model="new_admin.password" label="Password"></v-text-field>
                 </v-flex>
                 <v-flex xs12>
@@ -71,9 +68,9 @@
                 </v-flex>
                 <v-flex xs12>
                   <v-autocomplete
-                    v-model="new_admin.role"
+                    v-model="role"
                     :disabled="isUpdating"
-                    :items="roles_items"
+                    :items="roles"
                     box
                     chips
                     label="Role name"
@@ -129,7 +126,7 @@
                 <v-flex xs12 sm4 md2>
                   <span class="text-xs-center">Approver Name</span>
                   <v-divider></v-divider>
-                  <v-card-text>{{new_admin.first_name}}</v-card-text>
+                  <v-card-text>{{new_admin.name}}</v-card-text>
                 </v-flex>
                 <v-flex xs12 sm4 md2>
                   <span class="text-xs-center">Group Name</span>
@@ -178,7 +175,7 @@
         <td>{{ props.item.role }}</td>
         <!-- <td>{{ props.item.created_by }}</td>
         <td>{{ formatDate(props.item.date_created) }}</td>
-        <td>{{ formatDate(props.item.date_modified) }}</td>-->
+        <td>{{ formatDate(props.item.date_modified) }}</td> -->
         <td class="justify-center layout px-0">
           <v-icon small class="mr-2" @click="editItem(props.item)" flat icon color="primary">edit</v-icon>
           <v-icon small @click="viewItem(props.item)" flat icon color="primary">visibility</v-icon>
@@ -205,14 +202,14 @@ export default {
     dialogView: false,
     isUpdating: false,
     search: "",
-    role: [],
-    roles_items: [{ name: "Approver" }, { name: "Admin" }],
+    role: ["Approver"],
+    roles: [{ name: "Approver" }, { name: "Admin" }],
     headers: [
       {
         text: "Approver Name",
         align: "left",
         sortable: "true",
-        value: "first_name"
+        value: "name"
       },
       {
         text: "Last name",
@@ -259,12 +256,11 @@ export default {
     editedIndex: -1,
     editedItem: {
       id: "",
-      first_name: "",
+      approver: "",
       group: "",
       role: "",
-      username: "",
-      password: "",
-      email: ""
+      date_created: "",
+      date_modified: ""
     },
     defaultItem: {
       name: ""
@@ -338,7 +334,7 @@ export default {
     },
     submit() {
       this.$store.dispatch("ADD_ADMIN", this.new_admin).then(result => {
-        console.log("added:admin: " + JSON.stringify(result));
+        console.log("added:task: " + JSON.stringify(result));
         this.init();
         this.close();
       });
@@ -346,7 +342,7 @@ export default {
     save() {
       // console.log('###########edited:approver: ' + JSON.stringify(this.new_admin));
       this.$store.dispatch("EDIT_ADMIN", this.new_admin).then(result => {
-        console.log("edited:admin: " + JSON.stringify(result));
+        console.log("edited:task: " + JSON.stringify(result));
         this.init();
         this.close();
       });

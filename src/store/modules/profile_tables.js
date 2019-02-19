@@ -11,16 +11,19 @@ const state = {
 const mutations = {
 
     SET_PROFILE(state, data) {
-        state.profile = data
         console.log("###PROFILE:SET###" + JSON.stringify(data))
+        state.profile = data
+        
     }
 }
 
 var actions = {
 //admin / approver
-    GET_PROFILE(context) {
+    GET_PROFILE(context, profile_id) {
         return new Promise((resolve, reject) => {
-            new ProfileType(context.rootState.user_session.token).getProfile((err, data) => {
+            console.log("##STORE #########" + JSON.stringify(profile_id))
+            new ProfileType(context.rootState.user_session.token).getProfilebyId(profile_id,(data, err) => {
+                console.log("#####DATA" + data)
                 if (err) {
                     reject(err)
                 } else {

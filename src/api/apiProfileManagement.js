@@ -8,14 +8,14 @@ export default class ProfileType {
         axios.defaults.headers.common['Content-Type'] = 'application/json'
     }
 //Profile
-    getProfilebyId(cb) {
-        var id = profile._id
-        axios.get('secured/accounts/admin/' + id).then((result) => {
-                console.log("###API### GET PROFILE")
+    getProfilebyId(profile_id, cb) {
+        console.log("##########GETPROFILEID" + profile_id )
+        axios.get('secured/accounts/admin/' + profile_id).then((result) => {
+                console.log("###API### GET PROFILE" + JSON.stringify(result.data))
                 if (result.data.success) {
-                    cb(result.data.errors, result.data.model)
+                    cb(result.data.model)
                 } else {
-                    cb(result.data.errors)
+                    cb(err)
                 }
             })
             .catch(err => {

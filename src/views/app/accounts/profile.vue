@@ -6,27 +6,31 @@
           <v-card-text>
             <v-text-field
               label="First Name"
+              v-model="admin.first_name"
               required
               :rules="[() => !!first_name || 'This field is required']"
             ></v-text-field>
             <v-text-field
               label="Last Name"
+              v-model="admin.last_name"
               required
               :rules="[() => !!last_name || 'This field is required']"
             ></v-text-field>
             <v-text-field
               label="Username"
+              v-model="admin.username"
               required
               :rules="[() => !!username || 'This field is required']"
             ></v-text-field>
             <v-text-field
               label="Email Address"
+              v-model="admin.email"
               required
               :rules="[() => !!email || 'This field is required']"
             ></v-text-field>
             <v-flex xs12>
               <v-autocomplete
-                v-model="new_admin.task"
+                v-model="admin.task"
                 :disabled="isUpdating"
                 :items="tasks_items"
                 box
@@ -57,7 +61,7 @@
             </v-flex>
             <v-flex xs12>
               <v-autocomplete
-                v-model="new_admin.group"
+                v-model="admin.group"
                 :disabled="isUpdating"
                 :items="groups_items"
                 box
@@ -88,7 +92,7 @@
             </v-flex>
             <v-flex xs12>
               <v-autocomplete
-                v-model="new_admin.role"
+                v-model="admin.role"
                 :disabled="isUpdating"
                 :items="roles_items"
                 box
@@ -144,7 +148,7 @@ export default {
     role: [],
     roles_items: [{ name: "Approver" }, { name: "Admin" }],
     group: [],
-    admins: [],
+    admin: [],
     tasks: [],
     first_name: null,
     last_name: null,
@@ -152,12 +156,9 @@ export default {
     email: null
   }),
 
-  computed: {
     created() {
       this.init();
-    }
-  },
-
+    },
   watch: {
     isUpdating(val) {
       if (val) {
@@ -175,10 +176,12 @@ export default {
       return !str || str === null || str === "";
     },
     init() {
+      console.log("##########STORE" + this.$store.state.user_session.user._id)
       this.$store
-        .dispatch("GET_ADMIN")
+        .dispatch("GET_PROFILE", this.$store.state.user_session.user._id)
         .then(result => {
-          this.admins = this.$store.state.admin_tables.admins;
+          this.admin = result;
+          console.log("LOGS GET PROFILE" + JSON.stringify(this.admin))
           return this.$store.dispatch("GET_GROUP");
         })
         .then(result => {

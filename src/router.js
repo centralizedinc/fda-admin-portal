@@ -97,6 +97,11 @@ export default new Router({
           component: () => import('@/views/app/location/province.vue')
         },
         {
+          path: 'UserProfile',
+          name: 'User Profile',
+          component: () => import('@/views/app/userProfile/UserProfile.vue')
+        },
+        {
           path: 'task',
           name: 'Task',
           component: () => import('@/views/app/task/task.vue')

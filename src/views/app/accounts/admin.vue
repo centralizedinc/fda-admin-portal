@@ -73,7 +73,7 @@
                   <v-autocomplete
                     v-model="new_admin.role"
                     :disabled="isUpdating"
-                    :items="roles_items"
+                    :items="rol(roles)"
                     box
                     chips
                     label="Role name"

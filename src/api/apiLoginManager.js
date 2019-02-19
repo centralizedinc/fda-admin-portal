@@ -10,7 +10,7 @@ export default class LoginType {
 
     getLogin(cb) {
 
-        axios.get('public/accounts/active').then((result) => {
+        axios.get('public/accounts/auth/active').then((result) => {
                 console.log("###API### GET ADMIN ACTIVE AUTH")
                 if (result.data.success) {
                     cb(result.data.errors, result.data.model)
@@ -23,9 +23,10 @@ export default class LoginType {
             })
     }
 
-    login(cb) {
-        axios.post('public/accounts/admin').then((result) => {
-                console.log("##POST API### POST USERNAME AND PASSWORD")
+    login(credentials, cb) {
+        console.log('JSON.stringify(credentials) :', JSON.stringify(credentials));
+        axios.post('public/accounts/auth/admin/', credentials).then((result) => {
+                console.log('JSON.stringify(result.data) :', JSON.stringify(result.data));
                 if (result.data.success) {
                     cb(result.data.errors, result.data.model)
                 } else {

@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import UserLayout from '@/layout/UserLayout'
 import MainLayout from '@/layout/MainLayout'
+import store from './store';
 
 
 Vue.use(Router)
@@ -11,23 +12,33 @@ export default new Router({
       path: '/',
       name: 'Main',
       component: MainLayout,
+      // auto redirect to dashboard if session exists
+      beforeEnter: (to, from, next) => {
+        console.log('isAuth2 :', store.state.user_session.isAuthenticated);
+        if (store.state.user_session.isAuthenticated) {
+          next("/app");
+        } else {
+          next();
+        }
+      },
       children: [{
         path: '',
         name: 'Login',
         component: () => import('@/views/Login.vue')
       }]
-      // auto redirect to dashboard if session exists
-      // beforeEnter: (to, from, next) => {
-      //   if (store.state.user_session.isAuthenticated) {
-      //     next("/app/dashboard");
-      //   } else {
-      //     next();
-      //   }
-      // }
     },
     {
       path: '/app',
       component: UserLayout,
+      beforeEnter: (to, from, next) => {
+        console.log('isAuth :', store.state.user_session.isAuthenticated);
+        if (store.state.user_session.isAuthenticated) {
+          next()
+        } else {
+          store.commit('LOGOUT')
+          next('/')
+        }
+      },
       children: [{
           path: '',
           name: 'Dashboard',

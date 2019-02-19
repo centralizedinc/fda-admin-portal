@@ -48,6 +48,7 @@
                     label="Group name"
                     item-text="name"
                     item-value="_id"
+                    multiple
                   >
                     <template slot="selection" slot-scope="data">
                       <v-chip

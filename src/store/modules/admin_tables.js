@@ -42,6 +42,7 @@ var actions = {
     },
     EDIT_ADMIN(context, modified_admin) {
         return new Promise((resolve, reject) => {
+            console.log("#####################"+ JSON.stringify(modified_admin))
             new AdminType(context.rootState.user_session.token).editAdmin(modified_admin, (err, data) => {
                 if (err) {
                     reject(err)

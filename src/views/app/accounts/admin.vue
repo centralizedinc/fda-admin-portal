@@ -24,7 +24,7 @@
             <v-container grid-list-md>
               <v-layout wrap>
                 <v-flex xs12>
-                  <v-text-field v-model="new_admin.name" label="Approver Name"></v-text-field>
+                  <v-text-field v-model="new_admin.first_name" label="Approver Name"></v-text-field>
                 </v-flex>
                 <v-flex xs12>
                   <v-text-field v-model="new_admin.username" label="Username"></v-text-field>
@@ -83,7 +83,7 @@
                         close
                         class="chip--select-multi"
                         @input="remove(data.item)"
-                      >{{ data.item.name }}</v-chip>
+                      >{{ rol(data.item.name) }}</v-chip>
                     </template>
                     <template slot="item" slot-scope="data">
                       <template v-if="typeof data.item !== 'object'">
@@ -91,7 +91,7 @@
                       </template>
                       <template v-else>
                         <v-list-tile-content>
-                          <v-list-tile-title v-html="data.item.name"></v-list-tile-title>
+                          <v-list-tile-title v-html="rol(data.item.name)"></v-list-tile-title>
                         </v-list-tile-content>
                       </template>
                     </template>
@@ -151,7 +151,7 @@
                 <v-flex xs12 sm4 md2>
                   <span class="text-xs-center">Roles</span>
                   <v-divider></v-divider>
-                  <v-card-text>{{new_admin.role}}</v-card-text>
+                  <v-card-text>{{rol(new_admin.role)}}</v-card-text>
                 </v-flex>
               </v-layout>
             </v-container>
@@ -169,10 +169,10 @@
         <td>{{ props.item.first_name }}</td>
         <td>{{ props.item.last_name }}</td>
         <td>{{ group_details(props.item.group) }}</td>
-        <td>{{ (props.item.status) }}</td>
+        <td>{{ props.item.status }}</td>
         <td>{{ props.item.username }}</td>
         <td>{{ props.item.email }}</td>
-        <td>{{ props.item.role }}</td>
+        <td>{{ rol(props.item.role) }}</td>
         <!-- <td>{{ props.item.created_by }}</td>
         <td>{{ formatDate(props.item.date_created) }}</td>
         <td>{{ formatDate(props.item.date_modified) }}</td> -->
@@ -202,8 +202,8 @@ export default {
     dialogView: false,
     isUpdating: false,
     search: "",
-    role: ["Approver"],
-    roles: [{ name: "Approver" }, { name: "Admin" }],
+    role: "",
+    roles: [{name:"0"}, {name:"1"}],
     headers: [
       {
         text: "Approver Name",
@@ -340,8 +340,9 @@ export default {
       });
     },
     save() {
-      // console.log('###########edited:approver: ' + JSON.stringify(this.new_admin));
+      console.log('###########edited:approver: ' + JSON.stringify(this.new_admin.role));
       this.$store.dispatch("EDIT_ADMIN", this.new_admin).then(result => {
+        
         console.log("edited:task: " + JSON.stringify(result));
         this.init();
         this.close();

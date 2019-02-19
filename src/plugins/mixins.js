@@ -73,6 +73,18 @@ export default {
                     var dt = new Date(date).toLocaleString('en-US', format)
                     return dt
                 },
+
+                rol(role) {
+                    if (role === "0") {
+                        return "Admin";
+                    } else if (role === "1") {
+                        return "Approver";
+                    }
+                }
+
+
+
+
             }
         })
     }

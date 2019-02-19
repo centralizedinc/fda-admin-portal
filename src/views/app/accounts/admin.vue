@@ -45,9 +45,11 @@
                     :items="groups_items"
                     box
                     chips
+                    color="blue-grey lighten-2"
                     label="Group name"
                     item-text="name"
                     item-value="_id"
+                    multiple
                   >
                     <template slot="selection" slot-scope="data">
                       <v-chip
@@ -206,7 +208,7 @@ export default {
     isUpdating: false,
     search: "",
     role: "",
-    roles: [{name:"0"}, {name:"1"}],
+    roles: [{ name: "0" }, { name: "1" }],
     headers: [
       {
         text: "Approver Name",
@@ -306,14 +308,15 @@ export default {
         .then(result => {
           // GET group data
           this.groups_items = this.$store.state.group_table.groups;
+          console.log('JSON.stringify(this.groups_items) :', JSON.stringify(this.groups_items));
         });
     },
     group_details(group_id) {
       return this.getGroup(group_id) ? this.getGroup(group_id).name : "";
     },
     remove(item) {
-      const index = this.group.indexOf(item.name);
-      if (index >= 0) this.group.splice(index, 1);
+      const index = this.groups.indexOf(item.name);
+      if (index >= 0) this.groups.splice(index, 1);
     },
     addItem() {
       this.mode = 0; // Create
@@ -322,7 +325,8 @@ export default {
     },
     editItem(item) {
       this.mode = 1; // Edit
-      this.new_admin = JSON.parse(JSON.stringify(item));
+      this.new_admin = item;
+      this.new_admin.group = [this.new_admin.group]
       this.dialog = true;
     },
 
@@ -344,7 +348,9 @@ export default {
       });
     },
     save() {
-      console.log('###########edited:approver: ' + JSON.stringify(this.new_admin.role));
+      console.log(
+        "###########EDITED:ROLE: " + JSON.stringify(this.new_admin.role)
+      );
       this.$store.dispatch("EDIT_ADMIN", this.new_admin).then(result => {
         console.log("edited:admin: " + JSON.stringify(result));
         this.init();

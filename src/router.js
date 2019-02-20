@@ -45,6 +45,11 @@ export default new Router({
           component: () => import('@/views/app/UserPortfolio.vue')
         },
         {
+          path: 'productLine',
+          name: 'Product Line',
+          component: () => import('@/views/app/reference/productLine.vue')
+        },
+        {
           path: 'products',
           name: 'Product',
           component: () => import('@/views/app/reference/product.vue')

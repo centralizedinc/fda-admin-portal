@@ -2,9 +2,9 @@
   <v-layout row wrap>
     <v-flex xs12>
       <div>
-        <!-- PRODUCTS
-        {{products}}
-        PRIMARY
+         PRODUCTS
+        {{productLine}}
+        <!--PRIMARY
         {{primary}}
         SECONDARY
         {{secondary}}
@@ -12,9 +12,9 @@
         {{additional}}
         DECLARED
         {{declared}} -->
-ADMIN
+<!-- ADMIN
 <v-spacer></v-spacer>
-        {{admins}}
+        {{admins}} -->
 
 <!-- <v-spacer></v-spacer>
 ROLES -->
@@ -133,6 +133,7 @@ export default {
       groups: {},
       provinces:{},
       products: {},
+      productLine:{},
       city:{},
       regions:{},
       new_product: {},
@@ -257,16 +258,16 @@ this.$store.dispatch("GET_PROVINCE").then(result => {
       );
     });
 
-    this.$store.dispatch("GET_PRODUCTS").then(result => {
+    this.$store.dispatch("GET_PRODUCT_LINE").then(result => {
       console.log(
         JSON.stringify(
           "###############################" +
-            this.$store.state.reference_tables.products
+            this.$store.state.product_line_tables.productLine
         )
       );
-      this.products = this.$store.state.reference_tables.products;
+      this.productLine = this.$store.state.product_line_tables.productLine;
       console.log(
-        JSON.stringify("###############################" + this.products)
+        JSON.stringify("###############################" + this.productLine)
       );
     });
 

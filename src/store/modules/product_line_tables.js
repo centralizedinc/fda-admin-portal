@@ -1,7 +1,8 @@
 import ProductLine from '../../api/apiProductLineManager';
 
 const state = {
-    productLine: []
+    productLine: [],
+    products: []
     
 
 }

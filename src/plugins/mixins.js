@@ -44,9 +44,9 @@ export default {
                     }
                 },
                 getProduct(product_id) {
-                    if (!this.isEmpty(this.$store.state.reference_tables.products)) {
+                    if (!this.isEmpty(this.$store.state.product_line_tables.productLine)) {
                         var product = null;
-                        product = this.$store.state.reference_tables.products.find(r => {
+                        product = this.$store.state.product_line_tables.productLine.find(r => {
                             return r._id.toString() === product_id;
                         });
                         return product ? product.name : "";

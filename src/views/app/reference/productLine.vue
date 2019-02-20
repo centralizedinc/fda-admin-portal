@@ -109,7 +109,7 @@
         </v-card>
       </v-dialog>
     </v-toolbar>
-    <v-data-table :headers="headers" :items="productLine" :search="search" class="elevation-1">
+    <v-data-table :headers="headers" :items="product_line" :search="search" class="elevation-1">
       <template slot="items" slot-scope="props">
         <td>{{ props.item.name }}</td>
         <td>{{ product_details(props.item.product) }}</td>
@@ -164,7 +164,7 @@ export default {
       }
     ],
     product: [],
-    productLine: [],
+    product_line: [],
     editedIndex: -1,
     editedItem: {
       id: "",
@@ -201,7 +201,9 @@ export default {
 
   methods: {
     product_details(product_id) {
-      return this.getProduct(product_id) ? this.getProduct(product_id).name : "";
+      return this.getProduct(product_id)
+        ? this.getProduct(product_id).name
+        : "";
     },
     isEmpty(str) {
       return !str || str === null || str === "";
@@ -210,7 +212,7 @@ export default {
       this.$store
         .dispatch("GET_PRODUCT_LINE")
         .then(result => {
-          this.productLine = this.$store.state.product_line_tables.productLine;
+          this.product_line = this.$store.state.product_line_tables.productLine;
           return this.$store.dispatch("GET_PRODUCTS");
         })
         .then(result => {
@@ -248,10 +250,11 @@ export default {
       this.$store
         .dispatch("ADD_PRODUCT_LINE", this.new_product_line)
         .then(result => {
-          console.log("added:product_line: " + JSON.stringify(result));
-          this.init();
-          this.close();
+          console.log("added:product_line: ");
+          
         });
+        this.init();
+          this.close();
     },
     save() {
       // console.log('###########edited:province: ' + JSON.stringify(this.new_product_line));

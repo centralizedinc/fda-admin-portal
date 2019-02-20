@@ -4,6 +4,7 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import mixins from './plugins/mixins';
+import notify from "@/plugins/notify";
 import './registerServiceWorker'
 import 'roboto-fontface/css/roboto/roboto-fontface.css'
 import 'material-design-icons-iconfont/dist/material-design-icons.css'
@@ -12,7 +13,6 @@ import setAuthToken from './axios-config.js'
 
 import NProgress from 'nprogress';
 import '../node_modules/nprogress/nprogress.css'
-import notify from "@/plugins/notify";
 
 const instance = setAuthToken(store.state.user_session.token)
 Vue.prototype.$http = instance

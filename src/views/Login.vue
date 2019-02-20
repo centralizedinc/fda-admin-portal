@@ -66,17 +66,27 @@ export default {
   },
   methods: {
     login() {
-      // :rules="[() => ('The email and password you entered don\'t match')]"
       var auth = {
         username: this.admin.username,
         password: this.admin.password
       };
-      this.$store.dispatch("LOGIN", auth).then((result) => {
-        console.log('JSON.stringify(result) :', JSON.stringify(this.$store.state.user_session.isAuthenticated));
-        this.$router.push('/app');
-      }).catch((err) => {
-        
-      });
+      this.$store
+        .dispatch("LOGIN", auth)
+        .then(result => {
+          console.log(
+            "JSON.stringify(result) :",
+            JSON.stringify(this.$store.state.user_session.isAuthenticated)
+          );
+          {
+            this.$notify({
+              message: "Welcome to FDA Portal.",
+              icon: "check_circle_outline",
+              color: "primary"
+            });
+          }
+          this.$router.push("/app");
+        })
+        .catch(err => {});
       console.log(auth);
       // this.$router.push("/app");
     }

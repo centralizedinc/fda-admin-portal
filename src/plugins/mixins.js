@@ -32,27 +32,16 @@ export default {
                         return null
                     }
                 },
-                // getGroup(group_id) {
-                //     if (!this.isEmpty(this.$store.state.group_table.groups)) {
-                //         var group = null;
-                //         group = this.$store.state.group_table.groups.find(r => {
-                //             return r._id.toString() === group_id;
-                //         });
-                //         return group ? group.name : "";
-                //     } else {
-                //         return null
-                //     }
-                // },
-                getGroup(group_list) {
-                    console.log("GROUP_LIST: " + JSON.stringify(group_list));
-                    var list = "";
-                    group_list.forEach(item => {
-                        var match = this.groups_items.find(r => {
-                            return r._id.toString() === item;
+                getGroup(group_id) {
+                    if (!this.isEmpty(this.$store.state.group_table.groups)) {
+                        var group = null;
+                        group = this.$store.state.group_table.groups.find(r => {
+                            return r._id.toString() === group_id;
                         });
-                        list = list + match.name + " , ";
-                    });
-                    return list;
+                        return group ? group.name : "";
+                    } else {
+                        return null
+                    }
                 },
                 status(stat) {
                     if (stat === 0) {
@@ -84,18 +73,17 @@ export default {
                     var dt = new Date(date).toLocaleString('en-US', format)
                     return dt
                 },
-
                 rol(role) {
                     if (role === "0") {
                         return "Admin";
                     } else if (role === "1") {
                         return "Approver";
                     }
+                },
+                logout: () => {
+                    this.$store.commit('LOGOUT')
+                    this.$router.push('/')
                 }
-
-
-
-
             }
         })
     }

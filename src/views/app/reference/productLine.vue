@@ -86,17 +86,17 @@
                 <v-flex xs12 sm4 md4>
                   <span class="text-xs-center">Product Line Name</span>
                   <v-divider></v-divider>
-                  <v-card-text>{{ new_product_line.region }}</v-card-text>
+                  <v-card-text>{{ new_product_line.name }}</v-card-text>
                 </v-flex>
                 <v-flex xs12 sm4 md4>
                   <span class="text-xs-center">Product Type</span>
                   <v-divider></v-divider>
-                  <v-card-text>{{new_product_line.name}}</v-card-text>
+                  <v-card-text>{{product_details(new_product_line.product)}}</v-card-text>
                 </v-flex>
                 <v-flex xs12 sm4 md4>
                   <span class="text-xs-center">Status</span>
                   <v-divider></v-divider>
-                  <v-card-text>{{new_product_line.date_created}}</v-card-text>
+                  <v-card-text>{{new_product_line.status}}</v-card-text>
                 </v-flex>
               </v-layout>
             </v-container>
@@ -112,7 +112,7 @@
     <v-data-table :headers="headers" :items="productLine" :search="search" class="elevation-1">
       <template slot="items" slot-scope="props">
         <td>{{ props.item.name }}</td>
-        <td>{{ props.item.product_type }}</td>
+        <td>{{ product_details(props.item.product) }}</td>
         <td>{{ props.item.status }}</td>
         <td class="justify-center layout px-0">
           <v-icon small class="mr-2" @click="editItem(props.item)" flat icon color="primary">edit</v-icon>
@@ -151,7 +151,7 @@ export default {
         text: "Product Type",
         align: "left",
         sortable: "true",
-        value: "prductLine"
+        value: "product"
       },
       {
         text: "Status",
@@ -164,6 +164,7 @@ export default {
       }
     ],
     product: [],
+    productLine: [],
     editedIndex: -1,
     editedItem: {
       id: "",
@@ -199,10 +200,23 @@ export default {
   },
 
   methods: {
+    product_details(product_id) {
+      return this.getProduct(product_id) ? this.getProduct(product_id).name : "";
+    },
+    isEmpty(str) {
+      return !str || str === null || str === "";
+    },
     init() {
-      this.$store.dispatch("GET_PRODUCTS").then(result => {
-        this.product_type = this.$store.state.reference_tables.products;
-      });
+      this.$store
+        .dispatch("GET_PRODUCT_LINE")
+        .then(result => {
+          this.productLine = this.$store.state.product_line_tables.productLine;
+          return this.$store.dispatch("GET_PRODUCTS");
+        })
+        .then(result => {
+          // GET region data
+          this.product_type = this.$store.state.reference_tables.products;
+        });
     },
     remove(item) {
       const index = this.product_type.indexOf(item.name);
@@ -214,8 +228,9 @@ export default {
       this.dialog = true;
     },
     editItem(item) {
+      console.log("PRODUCT_LINE: " + JSON.stringify(item.products));
       this.mode = 1; // Edit
-      this.new_product_line = JSON.parse(JSON.stringify(item));
+      this.new_product_line = item;
       this.dialog = true;
     },
 

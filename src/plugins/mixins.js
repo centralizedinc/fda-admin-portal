@@ -43,6 +43,17 @@ export default {
                         return null
                     }
                 },
+                getProduct(product_id) {
+                    if (!this.isEmpty(this.$store.state.reference_tables.products)) {
+                        var product = null;
+                        product = this.$store.state.reference_tables.products.find(r => {
+                            return r._id.toString() === product_id;
+                        });
+                        return product ? product.name : "";
+                    } else {
+                        return null
+                    }
+                },
                 status(stat) {
                     if (stat === 0) {
                         return "Registered (Awaiting Confirmation)";

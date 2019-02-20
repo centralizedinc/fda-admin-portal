@@ -32,16 +32,27 @@ export default {
                         return null
                     }
                 },
-                getGroup(group_id) {
-                    if (!this.isEmpty(this.$store.state.group_table.groups)) {
-                        var group = null;
-                        group = this.$store.state.group_table.groups.find(r => {
-                            return r._id.toString() === group_id;
+                // getGroup(group_id) {
+                //     if (!this.isEmpty(this.$store.state.group_table.groups)) {
+                //         var group = null;
+                //         group = this.$store.state.group_table.groups.find(r => {
+                //             return r._id.toString() === group_id;
+                //         });
+                //         return group ? group.name : "";
+                //     } else {
+                //         return null
+                //     }
+                // },
+                getGroup(group_list) {
+                    console.log("GROUP_LIST: " + JSON.stringify(group_list));
+                    var list = "";
+                    group_list.forEach(item => {
+                        var match = this.groups_items.find(r => {
+                            return r._id.toString() === item;
                         });
-                        return group ? group : null;
-                    } else {
-                        return null
-                    }
+                        list = list + match.name + " , ";
+                    });
+                    return list;
                 },
                 status(stat) {
                     if (stat === 0) {

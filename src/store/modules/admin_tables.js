@@ -2,6 +2,8 @@ import AdminType from '../../api/apiAdminManager';
 
 const state = {
     admins: [],
+    tasks: [],
+    groups: [],
     roles: []
 
 }

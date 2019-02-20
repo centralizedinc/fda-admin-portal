@@ -136,7 +136,7 @@
                 <v-flex xs12 sm4 md2>
                   <span class="text-xs-center">Group Name</span>
                   <v-divider></v-divider>
-                  <v-card-text>{{ group_details(new_admin.group) }}</v-card-text>
+                  <v-card-text>{{new_admin.group}}</v-card-text>
                 </v-flex>
                 <v-flex xs12 sm4 md2>
                   <span class="text-xs-center">Username</span>
@@ -173,7 +173,7 @@
       <template slot="items" slot-scope="props">
         <td>{{ props.item.first_name }}</td>
         <td>{{ props.item.last_name }}</td>
-        <td>{{ group_details(props.item.group) }}</td>
+        <td>{{ getGroup(props.item.group) }}</td>
         <td>{{ props.item.status }}</td>
         <td>{{ props.item.username }}</td>
         <td>{{ props.item.email }}</td>
@@ -308,15 +308,26 @@ export default {
         .then(result => {
           // GET group data
           this.groups_items = this.$store.state.group_table.groups;
-          console.log('JSON.stringify(this.groups_items) :', JSON.stringify(this.groups_items));
+          console.log(
+            "JSON.stringify(this.groups_items) :",
+            JSON.stringify(this.groups_items)
+          );
         });
     },
-    group_details(group_id) {
-      return this.getGroup(group_id) ? this.getGroup(group_id).name : "";
+    getGroup(group_list) {
+      console.log("GROUP_LIST: " + JSON.stringify(group_list));
+      var list = "";
+      group_list.forEach(item => {
+        var match = this.groups_items.find(r => {
+          return r._id.toString() === item;
+        });
+        list = list + match.name + " , ";
+      });
+      return list;
     },
     remove(item) {
-      const index = this.groups.indexOf(item.name);
-      if (index >= 0) this.groups.splice(index, 1);
+      const index = this.group.indexOf(item.name);
+      if (index >= 0) this.group.splice(index, 1);
     },
     addItem() {
       this.mode = 0; // Create
@@ -324,9 +335,9 @@ export default {
       this.dialog = true;
     },
     editItem(item) {
+      console.log("GROUP: " + JSON.stringify(item.group));
       this.mode = 1; // Edit
       this.new_admin = item;
-      this.new_admin.group = [this.new_admin.group]
       this.dialog = true;
     },
 
@@ -348,9 +359,7 @@ export default {
       });
     },
     save() {
-      console.log(
-        "###########EDITED:ROLE: " + JSON.stringify(this.new_admin.role)
-      );
+      console.log("###########EDITED:ROLE: " + JSON.stringify(this.new_admin));
       this.$store.dispatch("EDIT_ADMIN", this.new_admin).then(result => {
         console.log("edited:admin: " + JSON.stringify(result));
         this.init();

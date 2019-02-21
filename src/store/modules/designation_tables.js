@@ -1,4 +1,3 @@
-
 import DesignationType from '../../api/apiDesignation';
 
 const state = {

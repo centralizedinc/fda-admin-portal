@@ -24,7 +24,7 @@
             <v-container grid-list-md>
               <v-layout wrap>
                 <v-flex xs12>
-                  <v-text-field label="Identification Type" v-model="new_identifications.name"></v-text-field>
+                  <v-text-field label="Identification Type" v-model="new_identification.name"></v-text-field>
                 </v-flex>
               </v-layout>
             </v-container>
@@ -55,12 +55,12 @@
                 <v-flex xs12 sm4 md6>
                   <span class="text-xs-center">Designation Name</span>
                   <v-divider></v-divider>
-                  <v-card-text>{{new_identifications.name}}</v-card-text>
+                  <v-card-text>{{new_identification.name}}</v-card-text>
                 </v-flex>
                 <v-flex xs12 sm4 md6>
                   <span class="text-xs-center">Created Date</span>
                   <v-divider></v-divider>
-                  <v-card-text>{{new_identifications.date_created}}</v-card-text>
+                  <v-card-text>{{new_identification.date_created}}</v-card-text>
                 </v-flex>
               </v-layout>
             </v-container>
@@ -74,7 +74,7 @@
       </v-dialog>
     </v-toolbar>
     <!-- TABLE -->
-    <v-data-table :headers="headers" :items="identifications" :search="search" class="elevation-1">
+    <v-data-table :headers="headers" :items="identification" :search="search" class="elevation-1">
       <template slot="items" slot-scope="props">
         <td>{{ props.item.name }}</td>
         <td>{{ formatDate(props.item.date_created) }}</td>
@@ -96,8 +96,8 @@
 export default {
   data: () => ({
     mode: 0, // 0 - create, 1 - edit
-    new_identifications: {},
-    modified_identifications: {},
+    new_identification: {},
+    modified_identification: {},
     dialog: false,
     dialogView: false,
     search: "",
@@ -118,7 +118,7 @@ export default {
         value: "editStatus"
       }
     ],
-    identifications: [],
+    identification: [],
     editedIndex: -1,
     editedItem: {
       id: "",
@@ -141,45 +141,45 @@ export default {
 
   methods: {
     init() {
-      this.$store.dispatch("GET_IDENTIFICATIONS").then(result => {
-        this.identifications = this.$store.state.identifications_tables.identifications;
+      this.$store.dispatch("GET_IDENTIFICATION").then(result => {
+        this.identification = this.$store.state.identification_tables.identification;
       });
     },
     addItem() {
       this.mode = 0; // Create
-      this.new_identifications = {}; // holds the filled up item
+      this.new_identification = {}; // holds the filled up item
       this.dialog = true;
     },
     editItem(item) {
       this.mode = 1; // Edit
-      this.new_identifications = JSON.parse(JSON.stringify(item));
+      this.new_identification = JSON.parse(JSON.stringify(item));
       this.dialog = true;
     },
 
     viewItem(item) {
-      this.new_identifications = item;
+      this.new_identification = item;
       this.dialogView = true;
     },
 
     close() {
       this.dialog = false;
       this.dialogView = false;
-      this.new_identifications = {};
+      this.new_identification = {};
     },
     submit() {
       this.$store
-        .dispatch("ADD_IDENTIFICATIONS", this.new_identifications)
+        .dispatch("ADD_IDENTIFICATION", this.new_identification)
         .then(result => {
-          console.log("added:designation: " + JSON.stringify(result));
+          console.log("added:identification: " + JSON.stringify(result));
           this.init();
           this.close();
         });
     },
     save() {
       this.$store
-        .dispatch("EDIT_IDENTIFICATIONS", this.new_identifications)
+        .dispatch("EDIT_IDENTIFICATION", this.new_identification)
         .then(result => {
-          console.log("edited:designation: " + JSON.stringify(result));
+          console.log("edited:identification: " + JSON.stringify(result));
           this.init();
           this.close();
         });

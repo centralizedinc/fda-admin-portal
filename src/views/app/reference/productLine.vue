@@ -24,11 +24,11 @@
             <v-container grid-list-md>
               <v-layout wrap>
                 <v-flex xs12>
-                  <v-text-field v-model="new_product_line.name" label="Name"></v-text-field>
+                  <v-text-field v-model="new_product_line.name" label="Product Line"></v-text-field>
                 </v-flex>
                 <v-flex xs12>
                   <v-autocomplete
-                    v-model="new_product_line.product"
+                    v-model="new_product_line.product_type"
                     :disabled="isUpdating"
                     :items="product_type"
                     box
@@ -84,14 +84,14 @@
             <v-container grid-list-md>
               <v-layout wrap>
                 <v-flex xs12 sm4 md4>
-                  <span class="text-xs-center">Product Line Name</span>
+                  <span class="text-xs-center">Product Line</span>
                   <v-divider></v-divider>
-                  <v-card-text>{{ new_product_line.name }}</v-card-text>
+                  <v-card-text>{{new_product_line.name}}</v-card-text>
                 </v-flex>
                 <v-flex xs12 sm4 md4>
                   <span class="text-xs-center">Product Type</span>
                   <v-divider></v-divider>
-                  <v-card-text>{{product_details(new_product_line.product)}}</v-card-text>
+                  <v-card-text>{{ product_details(new_product_line.product_type) }}</v-card-text>
                 </v-flex>
                 <v-flex xs12 sm4 md4>
                   <span class="text-xs-center">Status</span>
@@ -109,10 +109,10 @@
         </v-card>
       </v-dialog>
     </v-toolbar>
-    <v-data-table :headers="headers" :items="product_line" :search="search" class="elevation-1">
+    <v-data-table :headers="headers" :items="productLine" :search="search" class="elevation-1">
       <template slot="items" slot-scope="props">
         <td>{{ props.item.name }}</td>
-        <td>{{ product_details(props.item.product) }}</td>
+        <td>{{ product_details(props.item.product_type) }}</td>
         <td>{{ props.item.status }}</td>
         <td class="justify-center layout px-0">
           <v-icon small class="mr-2" @click="editItem(props.item)" flat icon color="primary">edit</v-icon>
@@ -142,7 +142,7 @@ export default {
     search: "",
     headers: [
       {
-        text: "Product Line Name",
+        text: "Product Line",
         align: "left",
         sortable: "true",
         value: "name"
@@ -163,13 +163,13 @@ export default {
         value: "editStatus"
       }
     ],
-    product: [],
-    product_line: [],
+    product_type: [],
+    productLine: [],
     editedIndex: -1,
     editedItem: {
       id: "",
       name: "",
-      product: "",
+      product_type: "",
       prductLine: "",
       status: ""
     },
@@ -212,7 +212,7 @@ export default {
       this.$store
         .dispatch("GET_PRODUCT_LINE")
         .then(result => {
-          this.product_line = this.$store.state.product_line_tables.productLine;
+          this.productLine = this.$store.state.product_line_tables.productLine;
           return this.$store.dispatch("GET_PRODUCTS");
         })
         .then(result => {
@@ -221,8 +221,8 @@ export default {
         });
     },
     remove(item) {
-      const index = this.product_type.indexOf(item.name);
-      if (index >= 0) this.product_type.splice(index, 1);
+      const index = this.product.indexOf(item.name);
+      if (index >= 0) this.product.splice(index, 1);
     },
     addItem() {
       this.mode = 0; // Create
@@ -230,9 +230,8 @@ export default {
       this.dialog = true;
     },
     editItem(item) {
-      console.log("PRODUCT_LINE: " + JSON.stringify(item.products));
       this.mode = 1; // Edit
-      this.new_product_line = item;
+      this.new_product_line = JSON.parse(JSON.stringify(item));
       this.dialog = true;
     },
 
@@ -247,17 +246,17 @@ export default {
       this.new_product_line = {};
     },
     submit() {
+      // console.log('###########added:product_line: ' + JSON.stringify(this.new_product_line));
       this.$store
         .dispatch("ADD_PRODUCT_LINE", this.new_product_line)
         .then(result => {
-          console.log("added:product_line: ");
-          
-        });
-        this.init();
+          console.log("added:product_line: " + JSON.stringify(result));
+          this.init();
           this.close();
+        });
     },
     save() {
-      // console.log('###########edited:province: ' + JSON.stringify(this.new_product_line));
+      // console.log('###########edited:product_line: ' + JSON.stringify(this.new_product_line));
       this.$store
         .dispatch("EDIT_PRODUCT_LINE", this.new_product_line)
         .then(result => {

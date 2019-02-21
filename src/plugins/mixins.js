@@ -38,18 +38,20 @@ export default {
                         group = this.$store.state.group_table.groups.find(r => {
                             return r._id.toString() === group_id;
                         });
-                        return group ? group.name : "";
+                        // return region ? region.region_code + ' - ' + region.name : "";
+                        return group ? group : null;
                     } else {
                         return null
                     }
                 },
                 getProduct(product_id) {
-                    if (!this.isEmpty(this.$store.state.product_line_tables.productLine)) {
+                    if (!this.isEmpty(this.$store.state.reference_tables.products)) {
                         var product = null;
-                        product = this.$store.state.product_line_tables.productLine.find(r => {
+                        product = this.$store.state.reference_tables.products.find(r => {
                             return r._id.toString() === product_id;
                         });
-                        return product ? product.name : "";
+                        // return region ? region.region_code + ' - ' + region.name : "";
+                        return product ? product : null;
                     } else {
                         return null
                     }

@@ -35,7 +35,7 @@ export default class ProductLine {
     }
 
     editProductLine(modified_product_line, cb) {
-        var id = modified_product_Line._id
+        var id = modified_product_line._id
         axios.post('core/productLine/' + id, modified_product_line).then((result) => {
                 console.log("api#############:Edited" + JSON.stringify(modified_product_line))
                 cb(result.data.errors, result.data.model)

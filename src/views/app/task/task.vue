@@ -28,11 +28,110 @@
                 </v-flex>
                 <v-flex xs12>
                   <v-autocomplete
-                    v-model="new_task.group"
+                    v-model="new_task.tasks"
                     :disabled="isUpdating"
-                    :items="groups_items"
+                    :items="tasks"
                     box
                     chips
+                    label="Approval"
+                    item-text="name"
+                    item-value="_id"
+                  >
+                    <template slot="selection" slot-scope="data">
+                      <v-chip
+                        :selected="data.selected"
+                        close
+                        class="chip--select-multi"
+                        @input="remove(data.item)"
+                      >{{ data.item.name }}</v-chip>
+                    </template>
+                    <template slot="item" slot-scope="data">
+                      <template v-if="typeof data.item !== 'object'">
+                        <v-list-tile-content v-text="data.item"></v-list-tile-content>
+                      </template>
+                      <template v-else>
+                        <v-list-tile-content>
+                          <v-list-tile-title v-html="data.item.name"></v-list-tile-title>
+                        </v-list-tile-content>
+                      </template>
+                    </template>
+                  </v-autocomplete>
+                </v-flex>
+                <v-flex xs12>
+                  <v-autocomplete
+                    v-model="new_task.tasks"
+                    :disabled="isUpdating"
+                    :items="tasks"
+                    box
+                    chips
+                    label="Denied"
+                    item-text="name"
+                    item-value="_id"
+                  >
+                    <template slot="selection" slot-scope="data">
+                      <v-chip
+                        :selected="data.selected"
+                        close
+                        class="chip--select-multi"
+                        @input="remove(data.item)"
+                      >{{ data.item.name }}</v-chip>
+                    </template>
+                    <template slot="item" slot-scope="data">
+                      <template v-if="typeof data.item !== 'object'">
+                        <v-list-tile-content v-text="data.item"></v-list-tile-content>
+                      </template>
+                      <template v-else>
+                        <v-list-tile-content>
+                          <v-list-tile-title v-html="data.item.name"></v-list-tile-title>
+                        </v-list-tile-content>
+                      </template>
+                    </template>
+                  </v-autocomplete>
+                </v-flex>
+                <v-flex xs12>
+                  <v-autocomplete
+                    v-model="new_task.groups"
+                    :disabled="isUpdating"
+                    :items="groups"
+                    box
+                    chips
+                    color="blue-grey lighten-2"
+                    label="Recommends"
+                    item-text="name"
+                    item-value="_id"
+                    multiple
+                  >
+                    <template slot="selection" slot-scope="data">
+                      <v-chip
+                        :selected="data.selected"
+                        close
+                        class="chip--select-multi"
+                        @input="remove(data.item)"
+                      >{{ data.item.name }}</v-chip>
+                    </template>
+                    <template slot="item" slot-scope="data">
+                      <template v-if="typeof data.item !== 'object'">
+                        <v-list-tile-content v-text="data.item"></v-list-tile-content>
+                      </template>
+                      <template v-else>
+                        <v-list-tile-content>
+                          <v-list-tile-title v-html="data.item.name"></v-list-tile-title>
+                        </v-list-tile-content>
+                      </template>
+                    </template>
+                  </v-autocomplete>
+                </v-flex>
+                <v-flex xs12>
+                  <v-textarea v-model="new_task.condition" auto-grow box color="deep-purple" label="Condition" rows="1"></v-textarea>
+                </v-flex>
+                <v-flex xs12>
+                  <v-autocomplete
+                    v-model="new_task.groups"
+                    :disabled="isUpdating"
+                    :items="groups"
+                    box
+                    chips
+                    color="blue-grey lighten-2"
                     label="Group name"
                     item-text="name"
                     item-value="_id"
@@ -83,30 +182,15 @@
           <v-card-text>
             <v-container grid-list-md>
               <v-layout wrap>
-                <v-flex xs12 sm4 md3>
-                  <span class="text-xs-center">Task Name</span>
+                <v-flex xs12 sm4 md6>
+                  <span class="text-xs-center">Approver Name</span>
                   <v-divider></v-divider>
                   <v-card-text>{{new_task.name}}</v-card-text>
                 </v-flex>
-                <v-flex xs12 sm4 md2>
+                <v-flex xs12 sm4 md6>
                   <span class="text-xs-center">Group Name</span>
                   <v-divider></v-divider>
-                  <v-card-text>{{ group_details(new_task.group) }}</v-card-text>
-                </v-flex>
-                <v-flex xs12 sm4 md2>
-                  <span class="text-xs-center">Created By</span>
-                  <v-divider></v-divider>
-                  <v-card-text>{{new_task.created_by}}</v-card-text>
-                </v-flex>
-                <v-flex xs12 sm4 md2>
-                  <span class="text-xs-center">Created Date</span>
-                  <v-divider></v-divider>
-                  <v-card-text>{{new_task.date_created}}</v-card-text>
-                </v-flex>
-                <v-flex xs12 sm4 md2>
-                  <span class="text-xs-center">Modified Date</span>
-                  <v-divider></v-divider>
-                  <v-card-text>{{new_task.date_modified}}</v-card-text>
+                  <v-card-text>{{new_task.groups}}</v-card-text>
                 </v-flex>
               </v-layout>
             </v-container>
@@ -122,16 +206,13 @@
     <v-data-table :headers="headers" :items="tasks" :search="search" class="elevation-1">
       <template slot="items" slot-scope="props">
         <td>{{ props.item.name }}</td>
-        <td>{{ task_detail(props.item.approval) }}</td>
-        <td>{{ task_detail(props.item.denied) }}</td>
-        <td>{{ task_details(props.item.recommends) }}</td>
+        <td>{{ props.item.approval }}</td>
+        <td>{{ props.item.denied }}</td>
+        <td>{{ props.item.recommends }}</td>
         <td>{{ props.item.isCompliance }}</td>
         <td>{{props.item.start_process }}</td>
         <td>{{props.item.end_process }}</td>
-        <td>{{ (props.item.groups) }}</td>
-        <!-- <td>{{ props.item.created_by }}</td> -->
-        <!-- <td>{{ formatDate(props.item.date_created) }}</td>
-        <td>{{ formatDate(props.item.date_modified) }}</td>-->
+        <td>{{ getGroup(props.item.groups) }}</td>
         <td class="justify-center layout px-0">
           <v-icon small class="mr-2" @click="editItem(props.item)" flat icon color="primary">edit</v-icon>
           <v-icon small @click="viewItem(props.item)" flat icon color="primary">visibility</v-icon>
@@ -151,7 +232,6 @@ export default {
   data: () => ({
     mode: 0, // 0 - create, 1 - edit
     groups: {},
-    groups_items: [],
     new_task: {},
     modified_task: {},
     dialog: false,
@@ -207,35 +287,20 @@ export default {
         sortable: "true",
         value: "groups"
       },
-      // {
-      //   text: "Created By",
-      //   align: "left",
-      //   value: "created_by"
-      // },
-      // {
-      //   text: "Created Date",
-      //   align: "left",
-      //   value: "date_created"
-      // },
-      // {
-      //   text: "Modified Date",
-      //   align: "left",
-      //   value: "date_modified"
-      // },
       {
         text: "Action",
         value: "editStatus"
       }
     ],
-    group: [],
     tasks: [],
     editedIndex: -1,
     editedItem: {
       id: "",
-      task: "",
+      first_name: "",
       group: "",
-      date_created: "",
-      date_modified: ""
+      role: "",
+      username: "",
+      email: ""
     },
     defaultItem: {
       name: ""
@@ -244,7 +309,7 @@ export default {
 
   computed: {
     formTitle() {
-      return this.mode === 0 ? "Add Task" : "Edit Task";
+      return this.mode === 0 ? "Add Approver" : "Edit Approver";
     }
   },
   created() {
@@ -275,28 +340,28 @@ export default {
           return this.$store.dispatch("GET_GROUP");
         })
         .then(result => {
-          // GET region data
-          this.groups_items = this.$store.state.group_table.groups;
+          // GET group data
+          this.groups = this.$store.state.group_table.groups;
+          console.log(
+            "JSON.stringify(this.groups) :",
+            JSON.stringify(this.groups)
+          );
         });
     },
-    group_details(group_id) {
-    return this.getGroup(group_id) ? this.getGroup(group_id).name : "";
-    },
-    task_details(task_id) {
-      var tasksTable = [];
-      task_id.forEach(taskName => {
-        tasksTable.push(
-          this.getTask(taskName) ? this.getTask(taskName).name : ""
-        );
+    getGroup(group_list) {
+      console.log("GROUP_LIST: " + JSON.stringify(group_list));
+      var list = "";
+      group_list.forEach(item => {
+        var match = this.groups.find(r => {
+          return r._id.toString() === item;
+        });
+        list = list + match.name + " , ";
       });
-      return tasksTable.toString();
-    },
-    task_detail(task_id) {
-      return this.getTask(task_id) ? this.getTask(task_id).name : "";
+      return list;
     },
     remove(item) {
-      const index = this.group.indexOf(item.name);
-      if (index >= 0) this.group.splice(index, 1);
+      const index = this.groups.indexOf(item.name);
+      if (index >= 0) this.groups.splice(index, 1);
     },
     addItem() {
       this.mode = 0; // Create
@@ -304,8 +369,9 @@ export default {
       this.dialog = true;
     },
     editItem(item) {
+      console.log("GROUP: " + JSON.stringify(item.groups));
       this.mode = 1; // Edit
-      this.new_task = JSON.parse(JSON.stringify(item));
+      this.new_task = item;
       this.dialog = true;
     },
 
@@ -327,7 +393,7 @@ export default {
       });
     },
     save() {
-      // console.log('###########edited:province: ' + JSON.stringify(this.new_province));
+      // console.log('###########edited:task: ' + JSON.stringify(this.new_province));
       this.$store.dispatch("EDIT_TASK", this.new_task).then(result => {
         console.log("edited:task: " + JSON.stringify(result));
         this.init();

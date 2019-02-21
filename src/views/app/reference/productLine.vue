@@ -216,7 +216,7 @@ export default {
           return this.$store.dispatch("GET_PRODUCTS");
         })
         .then(result => {
-          // GET region data
+          // GET product data
           this.product_type = this.$store.state.reference_tables.products;
         });
     },

@@ -23,7 +23,7 @@
           <v-card-text>
             <v-container grid-list-md>
               <v-layout wrap>
-                 <v-flex xs12>
+                <v-flex xs12>
                   <v-text-field v-model="new_task.name" label="Task Name"></v-text-field>
                 </v-flex>
                 <v-flex xs12>
@@ -121,11 +121,17 @@
     </v-toolbar>
     <v-data-table :headers="headers" :items="tasks" :search="search" class="elevation-1">
       <template slot="items" slot-scope="props">
-       <td>{{ props.item.name }}</td>
-        <td>{{ group_details(props.item.group) }}</td>
-        <td>{{ props.item.created_by }}</td>
-        <td>{{ formatDate(props.item.date_created) }}</td>
-        <td>{{ formatDate(props.item.date_modified) }}</td>
+        <td>{{ props.item.name }}</td>
+        <td>{{ task_detail(props.item.approval) }}</td>
+        <td>{{ task_detail(props.item.denied) }}</td>
+        <td>{{ task_details(props.item.recommends) }}</td>
+        <!-- <td>{{ props.item.isCompliance }}</td> -->
+        <td>{{props.item.start_process }}</td>
+        <td>{{props.item.end_process }}</td>
+        <td>{{ (props.item.groups) }}</td>
+        <!-- <td>{{ props.item.created_by }}</td> -->
+        <!-- <td>{{ formatDate(props.item.date_created) }}</td>
+        <td>{{ formatDate(props.item.date_modified) }}</td>-->
         <td class="justify-center layout px-0">
           <v-icon small class="mr-2" @click="editItem(props.item)" flat icon color="primary">edit</v-icon>
           <v-icon small @click="viewItem(props.item)" flat icon color="primary">visibility</v-icon>
@@ -154,32 +160,68 @@ export default {
     search: "",
     headers: [
       {
-        text: "Task Name",
+        text: "Task",
         align: "left",
         sortable: "true",
         value: "tasks"
       },
       {
-        text: "Group Name",
+        text: "Approval",
+        align: "left",
+        sortable: "true",
+        value: "approval"
+      },
+      {
+        text: "Denied",
+        align: "left",
+        sortable: "true",
+        value: "denied"
+      },
+      {
+        text: "Recommends",
+        align: "left",
+        sortable: "true",
+        value: "recommends"
+      },
+      // {
+      //   text: "Compliance",
+      //   align: "left",
+      //   sortable: "true",
+      //   value: "isCompliance"
+      // },
+      {
+        text: "Start Process",
+        align: "left",
+        sortable: "true",
+        value: "start_process"
+      },
+      {
+        text: "End Process",
+        align: "left",
+        sortable: "true",
+        value: "end_process"
+      },
+      {
+        text: "Group",
         align: "left",
         sortable: "true",
         value: "groups"
       },
-      {
-        text: "Created By",
-        align: "left",
-        value: "created_by"
-      },
-      {
-        text: "Created Date",
-        align: "left",
-        value: "date_created"
-      },
-      {
-        text: "Modified Date",
-        align: "left",
-        value: "date_modified"
-      },
+      // {
+      //   text: "Created By",
+      //   align: "left",
+      //   value: "created_by"
+      // },
+      // {
+      //   text: "Created Date",
+      //   align: "left",
+      //   value: "date_created"
+      // },
+      // {
+      //   text: "Modified Date",
+      //   align: "left",
+      //   value: "date_modified"
+      // },
       {
         text: "Action",
         value: "editStatus"
@@ -222,7 +264,7 @@ export default {
   },
 
   methods: {
-   isEmpty(str) {
+    isEmpty(str) {
       return !str || str === null || str === "";
     },
     init() {
@@ -238,7 +280,19 @@ export default {
         });
     },
     group_details(group_id) {
-      return this.getGroup(group_id) ? this.getGroup(group_id).name : "";
+    return this.getGroup(group_id) ? this.getGroup(group_id).name : "";
+    },
+    task_details(task_id) {
+      var tasksTable = [];
+      task_id.forEach(taskName => {
+        tasksTable.push(
+          this.getTask(taskName) ? this.getTask(taskName).name : ""
+        );
+      });
+      return tasksTable.toString();
+    },
+    task_detail(task_id) {
+      return this.getTask(task_id) ? this.getTask(task_id).name : "";
     },
     remove(item) {
       const index = this.group.indexOf(item.name);

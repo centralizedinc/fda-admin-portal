@@ -8,7 +8,7 @@ const state = {
 const mutations = {
 
     SET_CHECKLIST(state, data) {
-        state.tasks = data
+        state.checklist = data
         console.log("###CHECKLIST:SET###" + JSON.stringify(data))
     }
 

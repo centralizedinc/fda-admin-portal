@@ -30,7 +30,7 @@
                   <v-autocomplete
                     v-model="new_checklist.task"
                     :disabled="isUpdating"
-                    :items="tasks_items"
+                    :items="task"
                     box
                     chips
                     label="Task name"
@@ -88,22 +88,17 @@
                   <v-divider></v-divider>
                   <v-card-text>{{new_checklist.description}}</v-card-text>
                 </v-flex>
-                <v-flex xs12 sm4 md2>
+                <v-flex xs12 sm4 md3>
                   <span class="text-xs-center">Task Name</span>
                   <v-divider></v-divider>
                   <v-card-text>{{ task_details(new_checklist.task) }}</v-card-text>
                 </v-flex>
-                <v-flex xs12 sm4 md2>
-                  <span class="text-xs-center">Created By</span>
-                  <v-divider></v-divider>
-                  <v-card-text>{{new_checklist.created_by}}</v-card-text>
-                </v-flex>
-                <v-flex xs12 sm4 md2>
+                <v-flex xs12 sm4 md3>
                   <span class="text-xs-center">Modified Date</span>
                   <v-divider></v-divider>
                   <v-card-text>{{new_checklist.date_modified}}</v-card-text>
                 </v-flex>
-                <v-flex xs12 sm4 md2>
+                <v-flex xs12 sm4 md3>
                   <span class="text-xs-center">Created Date</span>
                   <v-divider></v-divider>
                   <v-card-text>{{new_checklist.date_created}}</v-card-text>
@@ -228,7 +223,7 @@ export default {
         })
         .then(result => {
           // GET region data
-          this.tasks_items = this.$store.state.task_tables.tasks;
+          this.task = this.$store.state.task_tables.tasks;
         });
     },
     task_details(task_id) {

@@ -74,7 +74,7 @@
       </v-dialog>
     </v-toolbar>
     <!-- TABLE -->
-    <v-data-table :headers="headers" :items="designations" :search="search" class="elevation-1">
+    <v-data-table :headers="headers" :items="designation" :search="search" class="elevation-1">
       <template slot="items" slot-scope="props">
         <td>{{ props.item.name }}</td>
         <td>{{ formatDate(props.item.date_created) }}</td>
@@ -118,7 +118,7 @@ export default {
         value: "editStatus"
       }
     ],
-    designations: [],
+    designation: [],
     editedIndex: -1,
     editedItem: {
       id: "",
@@ -142,7 +142,7 @@ export default {
   methods: {
     init() {
       this.$store.dispatch("GET_DESIGNATION").then(result => {
-        this.designations = this.$store.state.designations_tables.designations;
+        this.designation = this.$store.state.designation_tables.designation;
       });
     },
     addItem() {

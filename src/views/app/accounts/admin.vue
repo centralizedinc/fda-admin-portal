@@ -133,7 +133,7 @@
                 <v-flex xs12 sm4 md2>
                   <span class="text-xs-center">Group Name</span>
                   <v-divider></v-divider>
-                  <v-card-text>{{getGroup(new_admin.group)}}</v-card-text>
+                  <v-card-text>{{new_admin.group}}</v-card-text>
                 </v-flex>
                 <v-flex xs12 sm4 md2>
                   <span class="text-xs-center">Username</span>
@@ -175,6 +175,9 @@
         <td>{{ props.item.username }}</td>
         <td>{{ props.item.email }}</td>
         <td>{{ rol(props.item.role) }}</td>
+        <!-- <td>{{ props.item.created_by }}</td>
+        <td>{{ formatDate(props.item.date_created) }}</td>
+        <td>{{ formatDate(props.item.date_modified) }}</td>-->
         <td class="justify-center layout px-0">
           <v-icon small class="mr-2" @click="editItem(props.item)" flat icon color="primary">edit</v-icon>
           <v-icon small @click="viewItem(props.item)" flat icon color="primary">visibility</v-icon>
@@ -259,7 +262,6 @@ export default {
       group: "",
       role: "",
       username: "",
-      password: "",
       email: ""
     },
     defaultItem: {
@@ -269,7 +271,7 @@ export default {
 
   computed: {
     formTitle() {
-      return this.mode === 0 ? "Add Admin" : "Edit Admin";
+      return this.mode === 0 ? "Add Approver" : "Edit Approver";
     }
   },
   created() {
@@ -308,8 +310,16 @@ export default {
           );
         });
     },
-    group_details(group_id) {
-      return this.getGroup(group_id) ? this.getGroup(group_id).name : "";
+    getGroup(group_list) {
+      console.log("GROUP_LIST: " + JSON.stringify(group_list));
+      var list = "";
+      group_list.forEach(item => {
+        var match = this.groups_items.find(r => {
+          return r._id.toString() === item;
+        });
+        list = list + match.name + " , ";
+      });
+      return list;
     },
     remove(item) {
       const index = this.group.indexOf(item.name);
@@ -321,8 +331,9 @@ export default {
       this.dialog = true;
     },
     editItem(item) {
+      console.log("GROUP: " + JSON.stringify(item.group));
       this.mode = 1; // Edit
-      this.new_admin = JSON.parse(JSON.stringify(item));
+      this.new_admin = item;
       this.dialog = true;
     },
 
@@ -334,7 +345,7 @@ export default {
     close() {
       this.dialog = false;
       this.dialogView = false;
-      this.new_task = {};
+      this.new_admin = {};
     },
     submit() {
       this.$store.dispatch("ADD_ADMIN", this.new_admin).then(result => {
@@ -344,7 +355,7 @@ export default {
       });
     },
     save() {
-      console.log("###########EDITED:ADMIN: " + JSON.stringify(this.new_admin));
+      console.log("###########EDITED:ROLE: " + JSON.stringify(this.new_admin));
       this.$store.dispatch("EDIT_ADMIN", this.new_admin).then(result => {
         console.log("edited:admin: " + JSON.stringify(result));
         this.init();

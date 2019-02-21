@@ -125,6 +125,11 @@ export default new Router({
           component: () => import('@/views/app/task/task.vue')
         },
         {
+          path: 'checklist',
+          name: 'Checklist',
+          component: () => import('@/views/app/task/checklist.vue')
+        },
+        {
           path: 'logout',
           name: 'Logout',
           component: () => import('@/views/app/UserPortfolio.vue')

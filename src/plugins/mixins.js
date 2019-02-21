@@ -38,7 +38,6 @@ export default {
                         group = this.$store.state.group_table.groups.find(r => {
                             return r._id.toString() === group_id;
                         });
-                        // return region ? region.region_code + ' - ' + region.name : "";
                         return group ? group : null;
                     } else {
                         return null
@@ -62,8 +61,18 @@ export default {
                         product = this.$store.state.reference_tables.products.find(r => {
                             return r._id.toString() === product_id;
                         });
-                        // return region ? region.region_code + ' - ' + region.name : "";
                         return product ? product : null;
+                    } else {
+                        return null
+                    }
+                },
+                getTask(task_id) {
+                    if (!this.isEmpty(this.$store.state.task_tables.tasks)) {
+                        var task = null;
+                        task = this.$store.state.task_tables.tasks.find(r => {
+                            return r._id.toString() === task_id;
+                        });
+                        return task ? task : null;
                     } else {
                         return null
                     }

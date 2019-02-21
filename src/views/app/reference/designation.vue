@@ -24,10 +24,7 @@
             <v-container grid-list-md>
               <v-layout wrap>
                 <v-flex xs12>
-                  <v-text-field label="Region Code" v-model="new_region.name"></v-text-field>
-                </v-flex>
-                <v-flex xs12>
-                  <v-text-field label="Region Name" v-model="new_region.region_code"></v-text-field>
+                  <v-text-field label="Designation name" v-model="new_designation.name"></v-text-field>
                 </v-flex>
               </v-layout>
             </v-container>
@@ -55,25 +52,15 @@
           <v-card-text>
             <v-container grid-list-md>
               <v-layout wrap>
-                <v-flex xs12 sm4 md3>
-                  <span class="text-xs-center">Region Name</span>
+                <v-flex xs12 sm4 md6>
+                  <span class="text-xs-center">Designation Name</span>
                   <v-divider></v-divider>
-                  <v-card-text>{{new_region.name}}</v-card-text>
+                  <v-card-text>{{new_designation.name}}</v-card-text>
                 </v-flex>
-                <v-flex xs12 sm4 md3>
-                  <span class="text-xs-center">Region Code</span>
-                  <v-divider></v-divider>
-                  <v-card-text>{{new_region.region_code}}</v-card-text>
-                </v-flex>
-                <v-flex xs12 sm4 md3>
+                <v-flex xs12 sm4 md6>
                   <span class="text-xs-center">Created Date</span>
                   <v-divider></v-divider>
-                  <v-card-text>{{new_region.date_created}}</v-card-text>
-                </v-flex>
-                <v-flex xs12 sm4 md3>
-                  <span class="text-xs-center">Modified Date</span>
-                  <v-divider></v-divider>
-                  <v-card-text>{{new_region.date_modified}}</v-card-text>
+                  <v-card-text>{{new_designation.date_created}}</v-card-text>
                 </v-flex>
               </v-layout>
             </v-container>
@@ -87,12 +74,10 @@
       </v-dialog>
     </v-toolbar>
     <!-- TABLE -->
-    <v-data-table :headers="headers" :items="regions" :search="search" class="elevation-1">
+    <v-data-table :headers="headers" :items="designations" :search="search" class="elevation-1">
       <template slot="items" slot-scope="props">
         <td>{{ props.item.name }}</td>
-        <td>{{ props.item.region_code }}</td>
         <td>{{ formatDate(props.item.date_created) }}</td>
-        <td>{{ formatDate(props.item.date_modified) }}</td>
         <td class="justify-center layout px-0">
           <v-icon small class="mr-2" @click="editItem(props.item)" flat icon color="primary">edit</v-icon>
           <v-icon small @click="viewItem(props.item)" flat icon color="primary">visibility</v-icon>
@@ -111,24 +96,17 @@
 export default {
   data: () => ({
     mode: 0, // 0 - create, 1 - edit
-    region_code: {},
-    new_region: {},
-    modified_region: {},
+    new_designation: {},
+    modified_designation: {},
     dialog: false,
     dialogView: false,
     search: "",
     headers: [
       {
-        text: "Region Name",
+        text: "Designation Name",
         align: "left",
         sortable: "true",
         value: "name"
-      },
-      {
-        text: "Region Code",
-        align: "left",
-        sortable: "true",
-        value: "region_code"
       },
       {
         text: "Created Date",
@@ -136,33 +114,25 @@ export default {
         value: "date_created"
       },
       {
-        text: "Modified Date",
-        align: "left",
-        value: "date_modified"
-      },
-      {
         text: "Action",
         value: "editStatus"
       }
     ],
-    regions: [],
+    designations: [],
     editedIndex: -1,
     editedItem: {
       id: "",
       name: "",
-      region_code: "",
-      date_created: "",
-      date_modified: ""
+      date_created: ""
     },
     defaultItem: {
-      name: "",
-      region_code: ""
+      name: ""
     }
   }),
 
   computed: {
     formTitle() {
-      return this.mode === 0 ? "Add Region" : "Edit Region";
+      return this.mode === 0 ? "Add Designation" : "Edit Designation";
     }
   },
   created() {
@@ -171,41 +141,41 @@ export default {
 
   methods: {
     init() {
-      this.$store.dispatch("GET_REGION").then(result => {
-        this.regions = this.$store.state.regional_tables.regions;
+      this.$store.dispatch("GET_DESIGNATION").then(result => {
+        this.designations = this.$store.state.designations_tables.designations;
       });
     },
     addItem() {
       this.mode = 0; // Create
-      this.new_region = {}; // holds the filled up item
+      this.new_designation = {}; // holds the filled up item
       this.dialog = true;
     },
     editItem(item) {
       this.mode = 1; // Edit
-      this.new_region = JSON.parse(JSON.stringify(item));
+      this.new_designation = JSON.parse(JSON.stringify(item));
       this.dialog = true;
     },
 
     viewItem(item) {
-      this.new_region = item;
+      this.new_designation = item;
       this.dialogView = true;
     },
 
     close() {
       this.dialog = false;
       this.dialogView = false;
-      this.new_region = {};
+      this.new_designation = {};
     },
     submit() {
-      this.$store.dispatch("ADD_REGION", this.new_region).then(result => {
-        console.log("added:region: " + JSON.stringify(result));
+      this.$store.dispatch("ADD_DESIGNATION", this.new_designation).then(result => {
+        console.log("added:designation: " + JSON.stringify(result));
         this.init();
         this.close();
       });
     },
     save() {
-      this.$store.dispatch("EDIT_REGION", this.new_region).then(result => {
-        console.log("edited:region: " + JSON.stringify(result));
+      this.$store.dispatch("EDIT_DESIGNATION", this.new_designation).then(result => {
+        console.log("edited:designation: " + JSON.stringify(result));
         this.init();
         this.close();
       });

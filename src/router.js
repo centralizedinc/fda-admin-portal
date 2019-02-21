@@ -55,9 +55,9 @@ export default new Router({
           component: () => import('@/views/app/reference/designation.vue')
         },
         {
-          path: 'idType',
-          name: 'ID Type',
-          component: () => import('@/views/app/reference/idType.vue')
+          path: 'identification',
+          name: 'Identification',
+          component: () => import('@/views/app/reference/identification.vue')
         },
         {
           path: 'products',

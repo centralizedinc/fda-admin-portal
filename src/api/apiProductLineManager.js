@@ -26,7 +26,7 @@ export default class ProductLine {
     addProductLine(new_product_line, cb) {
         console.log("api#############" + JSON.stringify(new_product_line))
         axios.post('core/productLine', new_product_line).then((result) => {
-                console.log("api#############111")
+                console.log("api#############:Added:")
                 cb(result.data.errors, result.data.model)
             })
             .catch(err => {
@@ -37,7 +37,7 @@ export default class ProductLine {
     editProductLine(modified_product_line, cb) {
         var id = modified_product_Line._id
         axios.post('core/productLine/' + id, modified_product_line).then((result) => {
-                console.log("api#############" + JSON.stringify(modified_product_line))
+                console.log("api#############:Edited" + JSON.stringify(modified_product_line))
                 cb(result.data.errors, result.data.model)
             })
             .catch(err => {

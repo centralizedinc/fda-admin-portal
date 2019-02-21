@@ -24,29 +24,18 @@
             <v-container grid-list-md>
               <v-layout wrap>
                 <v-flex xs12>
-                  <v-text-field v-model="new_admin.first_name" label="Approver Name"></v-text-field>
-                </v-flex>
-                <v-flex xs12>
-                  <v-text-field v-model="new_admin.last_name" label="Last Name"></v-text-field>
-                </v-flex>
-                <v-flex xs12>
-                  <v-text-field v-model="new_admin.username" label="Username"></v-text-field>
-                </v-flex>
-                <v-flex xs12>
-                  <v-text-field v-model="new_admin.email" label="Email Address"></v-text-field>
+                  <v-text-field v-model="new_checklist.description" label="Checklist Name"></v-text-field>
                 </v-flex>
                 <v-flex xs12>
                   <v-autocomplete
-                    v-model="new_admin.group"
+                    v-model="new_checklist.task"
                     :disabled="isUpdating"
-                    :items="groups_items"
+                    :items="tasks_items"
                     box
                     chips
-                    color="blue-grey lighten-2"
-                    label="Group name"
+                    label="Task name"
                     item-text="name"
                     item-value="_id"
-                    multiple
                   >
                     <template slot="selection" slot-scope="data">
                       <v-chip
@@ -63,37 +52,6 @@
                       <template v-else>
                         <v-list-tile-content>
                           <v-list-tile-title v-html="data.item.name"></v-list-tile-title>
-                        </v-list-tile-content>
-                      </template>
-                    </template>
-                  </v-autocomplete>
-                </v-flex>
-                <v-flex xs12>
-                  <v-autocomplete
-                    v-model="new_admin.role"
-                    :disabled="isUpdating"
-                    :items="roles"
-                    box
-                    chips
-                    label="Role name"
-                    item-text="name"
-                    item-value="name"
-                  >
-                    <template slot="selection" slot-scope="data">
-                      <v-chip
-                        :selected="data.selected"
-                        close
-                        class="chip--select-multi"
-                        @input="remove(data.item)"
-                      >{{ rol(data.item.name) }}</v-chip>
-                    </template>
-                    <template slot="item" slot-scope="data">
-                      <template v-if="typeof data.item !== 'object'">
-                        <v-list-tile-content v-text="data.item"></v-list-tile-content>
-                      </template>
-                      <template v-else>
-                        <v-list-tile-content>
-                          <v-list-tile-title v-html="rol(data.item.name)"></v-list-tile-title>
                         </v-list-tile-content>
                       </template>
                     </template>
@@ -125,35 +83,30 @@
           <v-card-text>
             <v-container grid-list-md>
               <v-layout wrap>
-                <v-flex xs12 sm4 md2>
-                  <span class="text-xs-center">Approver Name</span>
+                <v-flex xs12 sm4 md3>
+                  <span class="text-xs-center">Checklist Name</span>
                   <v-divider></v-divider>
-                  <v-card-text>{{new_admin.first_name}}</v-card-text>
+                  <v-card-text>{{new_checklist.description}}</v-card-text>
                 </v-flex>
                 <v-flex xs12 sm4 md2>
-                  <span class="text-xs-center">Group Name</span>
+                  <span class="text-xs-center">Task Name</span>
                   <v-divider></v-divider>
-                  <v-card-text>{{new_admin.group}}</v-card-text>
+                  <v-card-text>{{ task_details(new_checklist.task) }}</v-card-text>
                 </v-flex>
                 <v-flex xs12 sm4 md2>
-                  <span class="text-xs-center">Username</span>
+                  <span class="text-xs-center">Created By</span>
                   <v-divider></v-divider>
-                  <v-card-text>{{new_admin.username}}</v-card-text>
+                  <v-card-text>{{new_checklist.created_by}}</v-card-text>
                 </v-flex>
                 <v-flex xs12 sm4 md2>
-                  <span class="text-xs-center">Status</span>
+                  <span class="text-xs-center">Modified Date</span>
                   <v-divider></v-divider>
-                  <v-card-text>{{new_admin.status}}</v-card-text>
+                  <v-card-text>{{new_checklist.date_modified}}</v-card-text>
                 </v-flex>
                 <v-flex xs12 sm4 md2>
-                  <span class="text-xs-center">Email Address</span>
+                  <span class="text-xs-center">Created Date</span>
                   <v-divider></v-divider>
-                  <v-card-text>{{new_admin.email}}</v-card-text>
-                </v-flex>
-                <v-flex xs12 sm4 md2>
-                  <span class="text-xs-center">Roles</span>
-                  <v-divider></v-divider>
-                  <v-card-text>{{rol(new_admin.role)}}</v-card-text>
+                  <v-card-text>{{new_checklist.date_created}}</v-card-text>
                 </v-flex>
               </v-layout>
             </v-container>
@@ -166,18 +119,12 @@
         </v-card>
       </v-dialog>
     </v-toolbar>
-    <v-data-table :headers="headers" :items="admins" :search="search" class="elevation-1">
+    <v-data-table :headers="headers" :items="checklist" :search="search" class="elevation-1">
       <template slot="items" slot-scope="props">
-        <td>{{ props.item.first_name }}</td>
-        <td>{{ props.item.last_name }}</td>
-        <td>{{ getGroup(props.item.group) }}</td>
-        <td>{{ props.item.status }}</td>
-        <td>{{ props.item.username }}</td>
-        <td>{{ props.item.email }}</td>
-        <td>{{ rol(props.item.role) }}</td>
-        <!-- <td>{{ props.item.created_by }}</td>
+        <td>{{ props.item.description }}</td>
+        <td>{{ task_details(props.item.task) }}</td>
+        <td>{{ formatDate(props.item.date_modified) }}</td>
         <td>{{ formatDate(props.item.date_created) }}</td>
-        <td>{{ formatDate(props.item.date_modified) }}</td>-->
         <td class="justify-center layout px-0">
           <v-icon small class="mr-2" @click="editItem(props.item)" flat icon color="primary">edit</v-icon>
           <v-icon small @click="viewItem(props.item)" flat icon color="primary">visibility</v-icon>
@@ -196,82 +143,60 @@
 export default {
   data: () => ({
     mode: 0, // 0 - create, 1 - edit
-    groups: {},
-    groups_items: [],
-    new_admin: {},
-    modified_admin: {},
+    tasks: {},
+    tasks_items: [],
+    new_checklist: {},
+    modified_checklist: {},
     dialog: false,
     dialogView: false,
     isUpdating: false,
     search: "",
-    role: "",
-    roles: [{ name: "0" }, { name: "1" }],
     headers: [
       {
-        text: "Approver Name",
+        text: "Description",
         align: "left",
         sortable: "true",
-        value: "first_name"
+        value: "description"
       },
       {
-        text: "Last name",
+        text: "Task Name",
         align: "left",
         sortable: "true",
-        value: "last_name"
+        value: "tasks"
       },
       {
-        text: "Group Name",
+        text: "Modified Date",
         align: "left",
-        sortable: "true",
-        value: "groups"
+        value: "date_modified"
       },
       {
-        text: "Status",
+        text: "Created Date",
         align: "left",
-        sortable: "true",
-        value: "status"
-      },
-      {
-        text: "Username",
-        align: "left",
-        sortable: "true",
-        value: "username"
-      },
-      {
-        text: "Email",
-        align: "left",
-        sortable: "true",
-        value: "email"
-      },
-      {
-        text: "Role",
-        align: "left",
-        value: "role"
+        value: "date_created"
       },
       {
         text: "Action",
         value: "editStatus"
       }
     ],
-    group: [],
-    admins: [],
+    task: [],
+    checklist: [],
     editedIndex: -1,
     editedItem: {
       id: "",
-      first_name: "",
-      group: "",
-      role: "",
-      username: "",
-      email: ""
+      description: "",
+      task: "",
+      date_created: "",
+      date_modified: ""
     },
     defaultItem: {
-      name: ""
+      description: ""
     }
   }),
 
   computed: {
     formTitle() {
-      return this.mode === 0 ? "Add Approver" : "Edit Approver";
+      return this.mode === 0 ? "Add Checklist" : "Edit Checklist";
     }
   },
   created() {
@@ -296,71 +221,60 @@ export default {
     },
     init() {
       this.$store
-        .dispatch("GET_ADMIN")
+        .dispatch("GET_CHECKLIST")
         .then(result => {
-          this.admins = this.$store.state.admin_tables.admins;
-          return this.$store.dispatch("GET_GROUP");
+          this.checklist = this.$store.state.checklist_tables.checklist;
+          return this.$store.dispatch("GET_TASK");
         })
         .then(result => {
-          // GET group data
-          this.groups_items = this.$store.state.group_table.groups;
-          console.log(
-            "JSON.stringify(this.groups_items) :",
-            JSON.stringify(this.groups_items)
-          );
+          // GET region data
+          this.tasks_items = this.$store.state.task_tables.tasks;
         });
     },
-    getGroup(group_list) {
-      console.log("GROUP_LIST: " + JSON.stringify(group_list));
-      var list = "";
-      group_list.forEach(item => {
-        var match = this.groups_items.find(r => {
-          return r._id.toString() === item;
-        });
-        list = list + match.name + " , ";
-      });
-      return list;
+    task_details(task_id) {
+      return this.getTask(task_id) ? this.getTask(task_id).name : "";
     },
     remove(item) {
-      const index = this.group.indexOf(item.name);
-      if (index >= 0) this.group.splice(index, 1);
+      const index = this.task.indexOf(item.name);
+      if (index >= 0) this.task.splice(index, 1);
     },
     addItem() {
       this.mode = 0; // Create
-      this.new_admin = {}; // holds the filled up item
+      this.new_checklist = {}; // holds the filled up item
       this.dialog = true;
     },
     editItem(item) {
-      console.log("GROUP: " + JSON.stringify(item.group));
       this.mode = 1; // Edit
-      this.new_admin = item;
+      this.new_checklist = JSON.parse(JSON.stringify(item));
       this.dialog = true;
     },
 
     viewItem(item) {
-      this.new_admin = item;
+      this.new_checklist = item;
       this.dialogView = true;
     },
 
     close() {
       this.dialog = false;
       this.dialogView = false;
-      this.new_admin = {};
+      this.new_checklist = {};
     },
     submit() {
-      this.$store.dispatch("ADD_ADMIN", this.new_admin).then(result => {
-        console.log("added:admin: " + JSON.stringify(result));
+      this.$store.dispatch("ADD_CHECKLIST", this.new_checklist).then(result => {
+        console.log("added:checklist: " + JSON.stringify(result));
         this.init();
         this.close();
       });
     },
     save() {
-      console.log("###########EDITED:ROLE: " + JSON.stringify(this.new_admin));
-      this.$store.dispatch("EDIT_ADMIN", this.new_admin).then(result => {
-        console.log("edited:admin: " + JSON.stringify(result));
-        this.init();
-        this.close();
-      });
+      // console.log('###########edited:province: ' + JSON.stringify(this.new_province));
+      this.$store
+        .dispatch("EDIT_CHECKLIST", this.new_checklist)
+        .then(result => {
+          console.log("edited:checklist: " + JSON.stringify(result));
+          this.init();
+          this.close();
+        });
     }
   }
 };

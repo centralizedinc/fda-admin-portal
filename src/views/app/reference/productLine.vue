@@ -28,7 +28,7 @@
                 </v-flex>
                 <v-flex xs12>
                   <v-autocomplete
-                    v-model="new_product_line.product"
+                    v-model="new_product_line.product_type"
                     :disabled="isUpdating"
                     :items="product_type"
                     box
@@ -163,13 +163,13 @@ export default {
         value: "editStatus"
       }
     ],
-    product: [],
+    product_type: [],
     productLine: [],
     editedIndex: -1,
     editedItem: {
       id: "",
       name: "",
-      product: "",
+      product_type: "",
       prductLine: "",
       status: ""
     },

@@ -125,7 +125,7 @@
         <td>{{ task_detail(props.item.approval) }}</td>
         <td>{{ task_detail(props.item.denied) }}</td>
         <td>{{ task_details(props.item.recommends) }}</td>
-        <!-- <td>{{ props.item.isCompliance }}</td> -->
+        <td>{{ props.item.isCompliance }}</td>
         <td>{{props.item.start_process }}</td>
         <td>{{props.item.end_process }}</td>
         <td>{{ (props.item.groups) }}</td>
@@ -183,12 +183,12 @@ export default {
         sortable: "true",
         value: "recommends"
       },
-      // {
-      //   text: "Compliance",
-      //   align: "left",
-      //   sortable: "true",
-      //   value: "isCompliance"
-      // },
+      {
+        text: "Compliance",
+        align: "left",
+        sortable: "true",
+        value: "isCompliance"
+      },
       {
         text: "Start Process",
         align: "left",

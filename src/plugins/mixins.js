@@ -93,6 +93,13 @@ export default {
                         return "Approver";
                     }
                 },
+                statProdLn(prodLine) {
+                    if (prodLine === "0") {
+                        return "Active";
+                    } else if (prodLine === "1") {
+                        return "Inactive";
+                    }
+                },
                 logout: () => {
                     this.$store.commit('LOGOUT')
                     this.$router.push('/')

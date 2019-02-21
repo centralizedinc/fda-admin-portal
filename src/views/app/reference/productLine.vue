@@ -113,7 +113,7 @@
       <template slot="items" slot-scope="props">
         <td>{{ props.item.name }}</td>
         <td>{{ product_details(props.item.product_type) }}</td>
-        <td>{{ props.item.status }}</td>
+        <td>{{ statProdLn(props.item.status) }}</td>
         <td class="justify-center layout px-0">
           <v-icon small class="mr-2" @click="editItem(props.item)" flat icon color="primary">edit</v-icon>
           <v-icon small @click="viewItem(props.item)" flat icon color="primary">visibility</v-icon>

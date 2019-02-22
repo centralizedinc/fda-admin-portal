@@ -15,7 +15,7 @@ const mutations = {
         state.isAuthenticated = data.isMatch
         console.log("###login:SET###" + JSON.stringify(data))
     },
-    LOGOUT(state){
+    LOGOUT(state) {
         state.token = '';
         state.user = {};
         state.isAuthenticated = false;
@@ -42,8 +42,6 @@ var actions = {
         })
 
     }
-
-
 }
 export default {
     state,

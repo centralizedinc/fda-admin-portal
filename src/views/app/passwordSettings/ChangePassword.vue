@@ -10,6 +10,7 @@
               name="input-10-2"
               prepend-icon="vpn_key"
               label="Enter your Old Password"
+              v-model="admin.password"
               class="input-group--focused"
               @click:append="old_password = !old_password"
             ></v-text-field>
@@ -19,6 +20,7 @@
               name="input-10-2"
               prepend-icon="lock"
               label="Enter your New Password"
+              v-model="admin.new_password"
               class="input-group--focused"
               @click:append="new_password = !new_password"
             ></v-text-field>
@@ -28,19 +30,15 @@
               name="input-10-2"
               prepend-icon="lock_open"
               label="Confirm Password"
+              v-model="admin.confirm_password"
               class="input-group--focused"
               @click:append="confirm_password = !confirm_password"
             ></v-text-field>
           </v-card-text>
           <v-divider></v-divider>
           <v-card-actions>
-            <v-btn
-              block
-              slot="activator"
-              color="success"
-              class="font-weight-light"
-              @click="dialog=true"
-            >Send request</v-btn>
+            <v-spacer></v-spacer>
+            <v-btn color="success" @click="dialog=true">Send request</v-btn>
           </v-card-actions>
         </v-card>
         <v-dialog v-model="dialog" width="500">
@@ -77,12 +75,13 @@
 export default {
   data() {
     return {
-      old_password: false,
-      new_password: true,
-      confirm_password: true,
+      admin: {},
+      old_password: null,
+      new_password: null,
+      confirm_password: null,
       dialog: false,
-      email: "",
-      password: "Password",
+      email: null,
+      changePassword: [],
       rules: {
         required: value => !!value || "Required.",
         confirm_password: () =>
@@ -94,11 +93,44 @@ export default {
       }
     };
   },
+  created() {
+    this.init();
+  },
+  watch: {
+    dialog(val) {
+      val || this.close();
+    }
+  },
+
   methods: {
-    submit() {
-      this.$router.push("/");
+    init() {
+      console.log("##########STORE" + this.$store.state.user_session.user._id);
+      this.$store
+        .dispatch("GET_CHANGE_PASSWORD", this.$store.state.user_session.user._id)
+        .then(result => {
+          this.admin = result;
+          console.log("LOGS GET PASSWORD" + JSON.stringify(this.admin));
+        });
     },
-    close() {}
+    close() {
+      this.dialog = false;
+      this.admin = {};
+    },
+    submit() {
+      this.new_password = this.admin;
+      console.log(
+        "###########edited:ADMIN PASSWORD: " + JSON.stringify(this.new_password)
+      );
+      this.$store.dispatch("EDIT_CHANGE_PASSWORD", this.new_password).then(result => {
+        console.log("edited:password: " + JSON.stringify(result));
+        this.$notify({
+          message: "Your password is successfuly changed",
+          color: "submit",
+          icon: "check_box"
+        });
+        this.close();
+      });
+    }
   }
 };
 </script>

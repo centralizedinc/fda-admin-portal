@@ -90,6 +90,10 @@ export default {
                         return "Inactive (For Deletion)";
                     }
                 },
+                checkPassword(password) {
+                    var re = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/;
+                    return re.test(password);
+                },
                 formatDate: (date, type) => {
                     if (!date) {
                         return ''

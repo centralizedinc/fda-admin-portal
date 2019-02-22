@@ -80,7 +80,7 @@ export default {
       this.$store.dispatch("EDIT_PROFILE", this.new_admin).then(result => {
         console.log("edited:profile: " + JSON.stringify(result));
         this.$notify({
-          message: "Your profile is successfuly saved",
+          message: "Your Password is successfuly changed",
           color: "submit",
           icon: "check_box"
         });

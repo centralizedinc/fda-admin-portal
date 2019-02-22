@@ -76,8 +76,6 @@
                     v-model="new_admin.role"
                     :disabled="isUpdating"
                     :items="roles"
-                    box
-                    chips
                     label="Role name"
                     item-text="name"
                     item-value="name"

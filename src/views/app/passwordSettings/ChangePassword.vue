@@ -106,7 +106,7 @@ export default {
     init() {
       console.log("##########STORE" + this.$store.state.user_session.user._id);
       this.$store
-        .dispatch("GET_CHANGE_PASSWORD", this.$store.state.user_session.user._id)
+        .dispatch("GET_PROFILE", this.$store.state.user_session.user._id)
         .then(result => {
           this.admin = result;
           console.log("LOGS GET PASSWORD" + JSON.stringify(this.admin));

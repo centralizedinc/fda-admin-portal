@@ -24,13 +24,7 @@
             <v-container grid-list-md>
               <v-layout wrap>
                 <v-flex xs12>
-                  <v-checkbox v-model="new_checklist.selected" label="Checklist1 for Cashier" value="Checklist1"></v-checkbox>
-                  <v-checkbox v-model="new_checklist.selected" label="Checklist2 for Cashier" value="Checklist2"></v-checkbox>
-                  <v-checkbox v-model="new_checklist.selected" label="Checklist3 for Cashier" value="Checklist3"></v-checkbox>
-                  <v-checkbox v-model="new_checklist.selected" label="Checklist4 for Cashier" value="Checklist4"></v-checkbox>
-                </v-flex>
-                <v-flex xs12>
-                  <v-text-field v-model="new_checklist.description" label="Checklist Name"></v-text-field>
+                  <v-text-field v-model="new_checklist.description" label="Description Name"></v-text-field>
                 </v-flex>
                 <v-flex xs12>
                   <v-autocomplete
@@ -151,7 +145,6 @@ export default {
     dialog: false,
     dialogView: false,
     isUpdating: false,
-    selected: [],
     search: "",
     headers: [
       {

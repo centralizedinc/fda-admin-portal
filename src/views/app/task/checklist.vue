@@ -24,7 +24,7 @@
             <v-container grid-list-md>
               <v-layout wrap>
                 <v-flex xs12>
-                  <v-text-field v-model="new_checklist.description" label="Checklist Name"></v-text-field>
+                  <v-text-field v-model="new_checklist.description" label="Description Name"></v-text-field>
                 </v-flex>
                 <v-flex xs12>
                   <v-autocomplete
@@ -181,6 +181,7 @@ export default {
       id: "",
       description: "",
       task: "",
+      selected: "",
       date_created: "",
       date_modified: ""
     },

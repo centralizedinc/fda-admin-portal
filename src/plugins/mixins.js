@@ -43,18 +43,18 @@ export default {
                         return null
                     }
                 },
-                getTask(task_id) {
-                    if (!this.isEmpty(this.$store.state.task_tables.tasks)) {
-                        var task = null;
-                        task = this.$store.state.task_tables.tasks.find(r => {
-                            return r._id.toString() === task_id;
-                        });
-                        // return region ? region.region_code + ' - ' + region.name : "";
-                        return task ? task : null;
-                    } else {
-                        return null
-                    }
-                },
+                // getTask(task_id) {
+                //     if (!this.isEmpty(this.$store.state.task_tables.tasks)) {
+                //         var task = null;
+                //         task = this.$store.state.task_tables.tasks.find(r => {
+                //             return r._id.toString() === task_id;
+                //         });
+                //         // return region ? region.region_code + ' - ' + region.name : "";
+                //         return task ? task : null;
+                //     } else {
+                //         return null
+                //     }
+                // },
                 getProduct(product_id) {
                     if (!this.isEmpty(this.$store.state.reference_tables.products)) {
                         var product = null;
@@ -112,13 +112,22 @@ export default {
                         return "Admin";
                     } else if (role === "1") {
                         return "Approver";
+                    } else if (role === "2") {
+                        return "Encoder";
                     }
                 },
                 statProdLn(prodLine) {
                     if (prodLine === "0") {
                         return "Active";
                     } else if (prodLine === "1") {
-                        return "Inactive";
+                        return "`Inactive`";
+                    }
+                },
+                vIcon(icon) {
+                    if (icon === true) {
+                        return "✔";
+                    } else if (icon === false) {
+                        return "✘";
                     }
                 },
                 logout: () => {

@@ -28,7 +28,7 @@
                 </v-flex>
                 <v-flex xs12>
                   <v-autocomplete
-                    v-model="new_task.tasks"
+                    v-model="new_task.approval"
                     :disabled="isUpdating"
                     :items="tasks"
                     box
@@ -59,7 +59,7 @@
                 </v-flex>
                 <v-flex xs12>
                   <v-autocomplete
-                    v-model="new_task.tasks"
+                    v-model="new_task.denied"
                     :disabled="isUpdating"
                     :items="tasks"
                     box
@@ -122,7 +122,14 @@
                   </v-autocomplete>
                 </v-flex>
                 <v-flex xs12>
-                  <v-textarea v-model="new_task.condition" auto-grow box color="deep-purple" label="Condition" rows="1"></v-textarea>
+                  <v-textarea
+                    v-model="new_task.condition"
+                    auto-grow
+                    box
+                    color="deep-purple"
+                    label="Condition"
+                    rows="1"
+                  ></v-textarea>
                 </v-flex>
                 <v-flex xs12>
                   <v-autocomplete
@@ -155,6 +162,17 @@
                       </template>
                     </template>
                   </v-autocomplete>
+                  <!-- check box -->
+                  <v-flex xs>
+                    <!-- <v-container fluid>
+    <v-checkbox v-model="new_task.selected" value="start_process" :label="`Start Process`"></v-checkbox>
+    <v-checkbox v-model="new_task.selected" value="end_process" :label="`End Process`"></v-checkbox>
+                    </v-container>-->
+                    <v-radio-group v-model="new_task.start_process" row>
+                      <v-radio label="Start Process" value=true></v-radio>
+                      <v-radio label="End Process" value=false></v-radio>
+                    </v-radio-group>
+                  </v-flex>
                 </v-flex>
               </v-layout>
             </v-container>
@@ -206,12 +224,11 @@
     <v-data-table :headers="headers" :items="tasks" :search="search" class="elevation-1">
       <template slot="items" slot-scope="props">
         <td>{{ props.item.name }}</td>
-        <td>{{ props.item.approval }}</td>
-        <td>{{ props.item.denied }}</td>
-        <td>{{ props.item.recommends }}</td>
-        <td>{{ props.item.isCompliance }}</td>
-        <td>{{props.item.start_process }}</td>
-        <td>{{props.item.end_process }}</td>
+        <td>{{ task(props.item.approval) }}</td>
+        <td>{{ task(props.item.denied) }}</td>
+        <td>{{ getTasks(props.item.recommends) }}</td>
+        <td>{{ vIcon(props.item.start_process) }}</td>
+        <td>{{ vIcon(props.item.end_process) }}</td>
         <td>{{ getGroup(props.item.groups) }}</td>
         <td class="justify-center layout px-0">
           <v-icon small class="mr-2" @click="editItem(props.item)" flat icon color="primary">edit</v-icon>
@@ -232,12 +249,17 @@ export default {
   data: () => ({
     mode: 0, // 0 - create, 1 - edit
     groups: {},
-    new_task: {},
+    new_task: {
+      start_process: false,
+      end_process : false
+    },
     modified_task: {},
     dialog: false,
     dialogView: false,
     isUpdating: false,
     search: "",
+    tasks: [],
+    selected: [],
     headers: [
       {
         text: "Task",
@@ -263,12 +285,12 @@ export default {
         sortable: "true",
         value: "recommends"
       },
-      {
-        text: "Compliance",
-        align: "left",
-        sortable: "true",
-        value: "isCompliance"
-      },
+      // {
+      //   text: "Compliance",
+      //   align: "left",
+      //   sortable: "true",
+      //   value: "isCompliance"
+      // },
       {
         text: "Start Process",
         align: "left",
@@ -292,7 +314,6 @@ export default {
         value: "editStatus"
       }
     ],
-    tasks: [],
     editedIndex: -1,
     editedItem: {
       id: "",
@@ -337,6 +358,10 @@ export default {
         .dispatch("GET_TASK")
         .then(result => {
           this.tasks = this.$store.state.task_tables.tasks;
+          // this.tasks.name.forEach(approval =>{
+          //   this.approval
+          // })
+
           return this.$store.dispatch("GET_GROUP");
         })
         .then(result => {
@@ -355,7 +380,20 @@ export default {
         var match = this.groups.find(r => {
           return r._id.toString() === item;
         });
-        list = list + match.name + " , ";
+        list = list + match.name + " ";
+      });
+      return list;
+    },
+    task(task_id) {
+      return this.getTask(task_id) ? this.getTask(task_id).name : "";
+    },
+    getTasks(task_list) {
+      var list = "";
+      task_list.forEach(item => {
+        var match = this.tasks.find(r => {
+          return r._id.toString() === item;
+        });
+        list = list + match.name + " ";
       });
       return list;
     },
@@ -386,6 +424,9 @@ export default {
       this.new_task = {};
     },
     submit() {
+     
+        
+
       this.$store.dispatch("ADD_TASK", this.new_task).then(result => {
         console.log("added:task: " + JSON.stringify(result));
         this.init();
@@ -393,6 +434,16 @@ export default {
       });
     },
     save() {
+       if (this.new_task.start_process === "true"){
+         console.log("start process true");
+         
+        this.new_task.end_process = false
+      }        
+      else{
+        console.log("start process false");
+        this.new_task.end_process =true
+      }
+        console.log("######"+ JSON.stringify(this.new_task.start_process) + "#####" + JSON.stringify(this.new_task.end_process) )
       // console.log('###########edited:task: ' + JSON.stringify(this.new_province));
       this.$store.dispatch("EDIT_TASK", this.new_task).then(result => {
         console.log("edited:task: " + JSON.stringify(result));

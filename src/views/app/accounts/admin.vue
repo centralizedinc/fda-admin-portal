@@ -208,7 +208,7 @@ export default {
     isUpdating: false,
     search: "",
     role: "",
-    roles: [{ name: "0" }, { name: "1" }],
+    roles: [{ name: "0" }, { name: "1" }, { name: "2" }],
     headers: [
       {
         text: "Approver Name",

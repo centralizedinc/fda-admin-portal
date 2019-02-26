@@ -1,10 +1,7 @@
 import ProfileType from '../../api/apiProfileManagement';
 
 const state = {
-    profile: [],
-    tasks: [],
-    groups: [],
-    roles: []
+    profile: []
 
 }
 

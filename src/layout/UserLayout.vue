@@ -90,6 +90,18 @@
               <v-list-tile-title class="body-1 font-weight-light">Declared Capital</v-list-tile-title>
             </v-list-tile-content>
           </v-list-tile>
+          <v-list-tile
+            @click="goTo('/app/productLine')"
+            class="ma-1"
+            :style="activeRoute('Productline')"
+          >
+            <v-list-tile-action>
+              <v-icon color="success">developer_board</v-icon>
+            </v-list-tile-action>
+            <v-list-tile-content>
+              <v-list-tile-title class="body-1 font-weight-light">Product Line</v-list-tile-title>
+            </v-list-tile-content>
+          </v-list-tile>
         </v-list-group>
         <v-list-group color="success" prepend-icon="room" value="true">
           <v-list-tile slot="activator">
@@ -158,8 +170,32 @@
             </v-list-tile-content>
           </v-list-tile>
         </v-list-group>
+        <v-list-tile
+          @click="goTo('/app/designation')"
+          class="ma-1"
+          :style="activeRoute('Designation')"
+        >
+          <v-list-tile-action>
+            <v-icon color="success">person</v-icon>
+          </v-list-tile-action>
+          <v-list-tile-content>
+            <v-list-tile-title class="body-1 font-weight-light">Designation</v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>
+        <v-list-tile
+          @click="goTo('/app/identification')"
+          class="ma-1"
+          :style="activeRoute('Identification')"
+        >
+          <v-list-tile-action>
+            <v-icon color="success">perm_contact_calendar</v-icon>
+          </v-list-tile-action>
+          <v-list-tile-content>
+            <v-list-tile-title class="body-1 font-weight-light">Identification</v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>
         <v-divider></v-divider>
-        <v-list-tile @click="goTo('/app/profile')" class="ma-1" :style="activeRoute('profile')">
+        <v-list-tile @click="goTo('/app/profile')" class="ma-1" :style="activeRoute('Profile')">
           <v-list-tile-action>
             <v-icon color="success">far fa-user-circle</v-icon>
           </v-list-tile-action>

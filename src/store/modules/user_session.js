@@ -1,5 +1,4 @@
 import LoginType from '../../api/apiLoginManager';
-import AdminType from '../../api/apiAdminManager'
 import UserPassword from '../../api/apiUserManager'
 // var jwt = require('jsonwebtoken')
 
@@ -26,11 +25,7 @@ const mutations = {
 
 
 var actions = {
-    //   checkAdmin: (state, data) => {
-    //     console.log('############ calling token: ' + JSON.stringify(state.state.user._id))
-    //     var instance = setAuthToken(state.state.token)
-    //     return instance.get('/api/users/isAdmin/' + state.state.user._id)
-    //   }
+
     LOGIN(context, credentials) {
         return new Promise((resolve, reject) => {
             new LoginType(context.rootState.user_session.token).login(credentials, (err, data) => {

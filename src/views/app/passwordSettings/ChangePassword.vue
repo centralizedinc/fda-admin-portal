@@ -12,7 +12,7 @@
                 name="input-10-2"
                 label="Enter your Old Password"
                 @click:append="old_password = !old_password"
-                v-model="account.password"
+                v-model="admin.password"
               ></v-text-field>
               <v-text-field
                 :append-icon="new_password ? 'visibility' : 'visibility_off'"
@@ -21,7 +21,7 @@
                 label="Enter your New Password"
                 hint="At least 8 characters"
                 @click:append="new_password = !new_password"
-                v-model="account.new_password"
+                v-model="admin.new_password"
               ></v-text-field>
               <v-text-field
                 :append-icon="confirm_password ? 'visibility' : 'visibility_off'"
@@ -36,7 +36,7 @@
           <v-divider class="mt-5"></v-divider>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn color="success" @click="submit">Submit</v-btn>
+            <v-btn color="success" @click="submit()">Submit</v-btn>
           </v-card-actions>
         </v-card>
       </v-flex>
@@ -48,7 +48,8 @@
 export default {
   data() {
     return {
-      account: {},
+      admin: {},
+      new_password: {},
       confirm: "",
       old_password: false,
       new_password: false,
@@ -92,26 +93,25 @@ export default {
       this.admin = {};
     },
     submit() {
-      this.new_password = this.admin;
+      this.new_admin = this.admin;
       console.log(
-        "###########edited:ADMIN PASSWORD: " + JSON.stringify(this.new_password)
+        "###########edited:ADMIN PASSWORD: " + JSON.stringify(this.new_admin)
       );
       this.$store
-        .dispatch("CHANGE_PASSWORD", this.new_password)
+        .dispatch("CHANGE_PASSWORD", this.new_admin)
         .then(result => {
           console.log("edited:password: " + JSON.stringify(result));
-          this.$notify({
-            message: "Your password is successfuly updated",
-            color: "success",
-            icon: "check_box"
-          });
-          // this.$store.dispatch("LOGOUT");
-          this.$router.push("/");
+          {
+            this.$notify({
+              message: "Your Password is successfuly updated",
+              color: "success",
+              icon: "check_box"
+            });
+          }
+          this.$router.push("/app");
         })
-        .catch(err => {
-          console.log(err);
-          this.$notifyError(err);
-        });
+        .catch(err => {});
+      console.log(result);
     }
   }
 };

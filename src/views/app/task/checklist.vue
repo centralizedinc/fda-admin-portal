@@ -31,20 +31,10 @@
                     v-model="new_checklist.task"
                     :disabled="isUpdating"
                     :items="task"
-                    box
-                    chips
                     label="Task name"
                     item-text="name"
                     item-value="_id"
                   >
-                    <template slot="selection" slot-scope="data">
-                      <v-chip
-                        :selected="data.selected"
-                        close
-                        class="chip--select-multi"
-                        @input="remove(data.item)"
-                      >{{ data.item.name }}</v-chip>
-                    </template>
                     <template slot="item" slot-scope="data">
                       <template v-if="typeof data.item !== 'object'">
                         <v-list-tile-content v-text="data.item"></v-list-tile-content>

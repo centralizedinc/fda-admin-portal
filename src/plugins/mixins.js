@@ -134,9 +134,9 @@ export default {
                         return "✘";
                     }
                 },
-                logout: () => {
-                    this.$store.commit('LOGOUT')
-                    this.$router.push('/')
+                logout() {
+                    this.$store.dispatch("LOGOUT");
+                    this.$router.push("/login");
                 }
             }
         })

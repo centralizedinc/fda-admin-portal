@@ -79,7 +79,7 @@ export default {
           );
           {
             this.$notify({
-              message: "Welcome to FDA Portal.",
+              message: "Welcome to FDA Admin Portal.",
               icon: "check_circle_outline",
               color: "primary"
             });

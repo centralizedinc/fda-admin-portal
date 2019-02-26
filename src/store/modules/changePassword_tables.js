@@ -19,8 +19,8 @@ const mutations = {
 }
 
 var actions = {
-    //admin / approver
-    GET_CHANGE_PASSWORD(context, credentials) {
+    //admin / password
+    GET_PASSWORD_BY_ID(context, credentials) {
         return new Promise((resolve, reject) => {
             new UserPassword(context.rootState.user_session.token).getPasswordbyId(credentials, (err, data) => {
                 if (err) {
@@ -32,7 +32,7 @@ var actions = {
             })
         })
     },
-    EDIT_CHANGE_PASSWORD(context, modified_credentials) {
+    CHANGE_PASSWORD(context, modified_credentials) {
         return new Promise((resolve, reject) => {
             new UserPassword(context.rootState.user_session.token).changePassword(modified_credentials, (err, data) => {
                 if (err) {

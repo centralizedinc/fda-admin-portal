@@ -28,20 +28,10 @@
                     v-model="new_city.province"
                     :disabled="isUpdating"
                     :items="provinces_items"
-                    box
-                    chips
                     label="Province"
                     item-text="name"
                     item-value="_id"
                   >
-                    <template slot="selection" slot-scope="data">
-                      <v-chip
-                        :selected="data.selected"
-                        close
-                        class="chip--select-multi"
-                        @input="removeProvince(data.item)"
-                      >{{ data.item.name }}</v-chip>
-                    </template>
                     <template slot="item" slot-scope="data">
                       <template v-if="typeof data.item !== 'object'">
                         <v-list-tile-content v-text="data.item"></v-list-tile-content>
@@ -252,10 +242,6 @@ export default {
           this.provinces_items = this.$store.state.regional_tables.provinces;
           return this.$store.dispatch("GET_REGION");
         });
-    },
-    removeRegion(item) {
-      const index = this.region.indexOf(item.name);
-      if (index >= 0) this.region.splice(index, 1);
     },
     removeProvince(item) {
       const index = this.province.indexOf(item.name);

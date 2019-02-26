@@ -31,9 +31,8 @@
           </v-card-text>
           <v-divider class="mt-5"></v-divider>
           <v-card-actions>
-            <v-btn @click="close">Cancel</v-btn>
             <v-spacer></v-spacer>
-            <v-btn color="success" @click="submit">Submit</v-btn>
+            <v-btn color="success" @click="submit()">Submit</v-btn>
           </v-card-actions>
         </v-card>
       </v-flex>
@@ -77,15 +76,21 @@ export default {
       console.log(
         "###########edited:ADMIN PROFILE: " + JSON.stringify(this.new_admin)
       );
-      this.$store.dispatch("EDIT_PROFILE", this.new_admin).then(result => {
-        console.log("edited:profile: " + JSON.stringify(result));
-        this.$notify({
-          message: "Your Password is successfuly changed",
-          color: "submit",
-          icon: "check_box"
-        });
-        this.close();
-      });
+      this.$store
+        .dispatch("EDIT_PROFILE", this.new_admin)
+        .then(result => {
+          console.log("edited:profile: " + JSON.stringify(result));
+          {
+            this.$notify({
+              message: "Your Profile is successfuly updated",
+              color: "success",
+              icon: "check_box"
+            });
+          }
+          this.$router.push("/app");
+        })
+        .catch(err => {});
+      console.log(result);
     }
   }
 };

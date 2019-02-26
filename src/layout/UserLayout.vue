@@ -33,96 +33,132 @@
             <v-list-tile-title class="body-1 font-weight-light">Dashboard</v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
-        <v-list-tile @click="goTo('/app/products')" class="ma-1" :style="activeRoute('product')">
-          <v-list-tile-action>
-            <v-icon color="success">card_membership</v-icon>
-          </v-list-tile-action>
-          <v-list-tile-content>
-            <v-list-tile-title class="body-1 font-weight-light">Products</v-list-tile-title>
-          </v-list-tile-content>
-        </v-list-tile>
-        <v-list-tile @click="goTo('/app/primary')" class="ma-1" :style="activeRoute('primary')">
-          <v-list-tile-action>
-            <v-icon color="success">account_box</v-icon>
-          </v-list-tile-action>
-          <v-list-tile-content>
-            <v-list-tile-title class="body-1 font-weight-light">Primary</v-list-tile-title>
-          </v-list-tile-content>
-        </v-list-tile>
-        <v-list-tile @click="goTo('/app/Activity')" class="ma-1" :style="activeRoute('Activity')">
-          <v-list-tile-action>
-            <v-icon color="success">face</v-icon>
-          </v-list-tile-action>
-          <v-list-tile-content>
-            <v-list-tile-title class="body-1 font-weight-light">Additional Activity</v-list-tile-title>
-          </v-list-tile-content>
-        </v-list-tile>
-        <v-list-tile @click="goTo('/app/capital')" class="ma-1" :style="activeRoute('capital')">
-          <v-list-tile-action>
-            <v-icon color="success">accessibility</v-icon>
-          </v-list-tile-action>
-          <v-list-tile-content>
-            <v-list-tile-title class="body-1 font-weight-light">Declared Capital</v-list-tile-title>
-          </v-list-tile-content>
-        </v-list-tile>
-        <v-list-tile @click="goTo('/app/province')" class="ma-1" :style="activeRoute('province')">
-          <v-list-tile-action>
-            <v-icon color="success">room</v-icon>
-          </v-list-tile-action>
-          <v-list-tile-content>
-            <v-list-tile-title class="body-1 font-weight-light">Province</v-list-tile-title>
-          </v-list-tile-content>
-        </v-list-tile>
-        <v-list-tile @click="goTo('/app/region')" class="ma-1" :style="activeRoute('region')">
-          <v-list-tile-action>
-            <v-icon color="success">room</v-icon>
-          </v-list-tile-action>
-          <v-list-tile-content>
-            <v-list-tile-title class="body-1 font-weight-light">Region</v-list-tile-title>
-          </v-list-tile-content>
-        </v-list-tile>
-        <v-list-tile @click="goTo('/app/city')" class="ma-1" :style="activeRoute('city')">
-          <v-list-tile-action>
-            <v-icon color="success">room</v-icon>
-          </v-list-tile-action>
-          <v-list-tile-content>
-            <v-list-tile-title class="body-1 font-weight-light">City</v-list-tile-title>
-          </v-list-tile-content>
-        </v-list-tile>
-        <v-list-tile @click="goTo('/app/task')" class="ma-1" :style="activeRoute('task')">
-          <v-list-tile-action>
-            <v-icon color="success">subject</v-icon>
-          </v-list-tile-action>
-          <v-list-tile-content>
-            <v-list-tile-title class="body-1 font-weight-light">Task</v-list-tile-title>
-          </v-list-tile-content>
-        </v-list-tile>
-        <v-list-tile @click="goTo('/app/group')" class="ma-1" :style="activeRoute('group')">
-          <v-list-tile-action>
-            <v-icon color="success">subject</v-icon>
-          </v-list-tile-action>
-          <v-list-tile-content>
-            <v-list-tile-title class="body-1 font-weight-light">Group</v-list-tile-title>
-          </v-list-tile-content>
-        </v-list-tile>
-        <v-list-tile @click="goTo('/app/clients')" class="ma-1" :style="activeRoute('clients')">
-          <v-list-tile-action>
-            <v-icon color="success">subject</v-icon>
-          </v-list-tile-action>
-          <v-list-tile-content>
-            <v-list-tile-title class="body-1 font-weight-light">Clients</v-list-tile-title>
-          </v-list-tile-content>
-        </v-list-tile>
-        <v-list-tile @click="goTo('/app/admin')" class="ma-1" :style="activeRoute('admin')">
-          <v-list-tile-action>
-            <v-icon color="success">account_box</v-icon>
-          </v-list-tile-action>
-          <v-list-tile-content>
-            <v-list-tile-title class="body-1 font-weight-light">Admin</v-list-tile-title>
-          </v-list-tile-content>
-        </v-list-tile>
+        <v-list-group color="success" prepend-icon="person_pin" value="true">
+          <v-list-tile slot="activator">
+            <v-list-tile-title>Users Manager</v-list-tile-title>
+          </v-list-tile>
+          <v-list-tile @click="goTo('/app/clients')" class="ma-1" :style="activeRoute('clients')">
+            <v-list-tile-action>
+              <v-icon color="success">people_outline</v-icon>
+            </v-list-tile-action>
+            <v-list-tile-content>
+              <v-list-tile-title class="body-1 font-weight-light">Clients</v-list-tile-title>
+            </v-list-tile-content>
+          </v-list-tile>
+          <v-list-tile @click="goTo('/app/admin')" class="ma-1" :style="activeRoute('admin')">
+            <v-list-tile-action>
+              <v-icon color="success">account_box</v-icon>
+            </v-list-tile-action>
+            <v-list-tile-content>
+              <v-list-tile-title class="body-1 font-weight-light">Admin</v-list-tile-title>
+            </v-list-tile-content>
+          </v-list-tile>
+        </v-list-group>
+        <v-list-group color="success" prepend-icon="redeem" value="true">
+          <v-list-tile slot="activator">
+            <v-list-tile-title>Product Type</v-list-tile-title>
+          </v-list-tile>
+          <v-list-tile @click="goTo('/app/products')" class="ma-1" :style="activeRoute('product')">
+            <v-list-tile-action>
+              <v-icon color="success">card_membership</v-icon>
+            </v-list-tile-action>
+            <v-list-tile-content>
+              <v-list-tile-title class="body-1 font-weight-light">Products</v-list-tile-title>
+            </v-list-tile-content>
+          </v-list-tile>
+          <v-list-tile @click="goTo('/app/primary')" class="ma-1" :style="activeRoute('primary')">
+            <v-list-tile-action>
+              <v-icon color="success">account_box</v-icon>
+            </v-list-tile-action>
+            <v-list-tile-content>
+              <v-list-tile-title class="body-1 font-weight-light">Primary</v-list-tile-title>
+            </v-list-tile-content>
+          </v-list-tile>
+          <v-list-tile @click="goTo('/app/Activity')" class="ma-1" :style="activeRoute('Activity')">
+            <v-list-tile-action>
+              <v-icon color="success">face</v-icon>
+            </v-list-tile-action>
+            <v-list-tile-content>
+              <v-list-tile-title class="body-1 font-weight-light">Additional Activity</v-list-tile-title>
+            </v-list-tile-content>
+          </v-list-tile>
+          <v-list-tile @click="goTo('/app/capital')" class="ma-1" :style="activeRoute('capital')">
+            <v-list-tile-action>
+              <v-icon color="success">accessibility</v-icon>
+            </v-list-tile-action>
+            <v-list-tile-content>
+              <v-list-tile-title class="body-1 font-weight-light">Declared Capital</v-list-tile-title>
+            </v-list-tile-content>
+          </v-list-tile>
+        </v-list-group>
+        <v-list-group color="success" prepend-icon="room" value="true">
+          <v-list-tile slot="activator">
+            <v-list-tile-title>Location</v-list-tile-title>
+          </v-list-tile>
+          <v-list-tile @click="goTo('/app/province')" class="ma-1" :style="activeRoute('province')">
+            <v-list-tile-action>
+              <v-icon color="success">directions</v-icon>
+            </v-list-tile-action>
+            <v-list-tile-content>
+              <v-list-tile-title class="body-1 font-weight-light">Province</v-list-tile-title>
+            </v-list-tile-content>
+          </v-list-tile>
+          <v-list-tile @click="goTo('/app/region')" class="ma-1" :style="activeRoute('region')">
+            <v-list-tile-action>
+              <v-icon color="success">navigations</v-icon>
+            </v-list-tile-action>
+            <v-list-tile-content>
+              <v-list-tile-title class="body-1 font-weight-light">Region</v-list-tile-title>
+            </v-list-tile-content>
+          </v-list-tile>
+          <v-list-tile @click="goTo('/app/city')" class="ma-1" :style="activeRoute('city')">
+            <v-list-tile-action>
+              <v-icon color="success">directions_walk</v-icon>
+            </v-list-tile-action>
+            <v-list-tile-content>
+              <v-list-tile-title class="body-1 font-weight-light">City</v-list-tile-title>
+            </v-list-tile-content>
+          </v-list-tile>
+        </v-list-group>
+        <v-list-group color="success" prepend-icon="person_pin" value="true">
+          <v-list-tile slot="activator">
+            <v-list-tile-title>Tasks Manager</v-list-tile-title>
+          </v-list-tile>
+          <v-list-tile @click="goTo('/app/task')" class="ma-1" :style="activeRoute('task')">
+            <v-list-tile-action>
+              <v-icon color="success">subject</v-icon>
+            </v-list-tile-action>
+            <v-list-tile-content>
+              <v-list-tile-title class="body-1 font-weight-light">Task</v-list-tile-title>
+            </v-list-tile-content>
+          </v-list-tile>
+          <v-list-tile
+            @click="goTo('/app/checklist')"
+            class="ma-1"
+            :style="activeRoute('checklist')"
+          >
+            <v-list-tile-action>
+              <v-icon color="success">subject</v-icon>
+            </v-list-tile-action>
+            <v-list-tile-content>
+              <v-list-tile-title class="body-1 font-weight-light">Checklist</v-list-tile-title>
+            </v-list-tile-content>
+          </v-list-tile>
+        </v-list-group>
+        <v-list-group color="success" prepend-icon="person_pin" value="true">
+          <v-list-tile slot="activator">
+            <v-list-tile-title>Group Manager</v-list-tile-title>
+          </v-list-tile>
+          <v-list-tile @click="goTo('/app/group')" class="ma-1" :style="activeRoute('group')">
+            <v-list-tile-action>
+              <v-icon color="success">subject</v-icon>
+            </v-list-tile-action>
+            <v-list-tile-content>
+              <v-list-tile-title class="body-1 font-weight-light">Group</v-list-tile-title>
+            </v-list-tile-content>
+          </v-list-tile>
+        </v-list-group>
         <v-divider></v-divider>
-
         <v-list-tile @click="goTo('/app/profile')" class="ma-1" :style="activeRoute('profile')">
           <v-list-tile-action>
             <v-icon color="success">far fa-user-circle</v-icon>
@@ -131,7 +167,6 @@
             <v-list-tile-title class="body-1 font-weight-light">My Profile</v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
-
         <v-list-tile
           @click="goTo('/app/password')"
           class="ma-1"

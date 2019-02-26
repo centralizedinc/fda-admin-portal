@@ -1,34 +1,38 @@
 <template>
   <div>
-    <v-layout row wrap>
-      <v-flex 12>
+    <v-layout align-center justify-center>
+      <v-flex xs12 sm10 offset-sm1>
         <v-card>
-          <v-card-text>
-            <v-text-field
-              label="First Name"
-              v-model="admin.first_name"
-              required
-              :rules="[() => !!admin.first_name || 'This field is required']"
-            ></v-text-field>
-            <v-text-field
-              label="Last Name"
-              v-model="admin.last_name"
-              required
-              :rules="[() => !!admin.last_name || 'This field is required']"
-            ></v-text-field>
-            <v-text-field
-              label="Username"
-              v-model="admin.username"
-              required
-              :rules="[() => !!admin.username || 'This field is required']"
-            ></v-text-field>
-            <v-text-field
-              label="Email Address"
-              v-model="admin.email"
-              required
-              :rules="[() => !!admin.email || 'This field is required']"
-            ></v-text-field>
-          </v-card-text>
+          <v-layout align-center justify-center>
+            <v-flex xs10>
+              <v-card-text>
+                <v-text-field
+                  label="First Name"
+                  v-model="admin.first_name"
+                  required
+                  :rules="[() => !!admin.first_name || 'This field is required']"
+                ></v-text-field>
+                <v-text-field
+                  label="Last Name"
+                  v-model="admin.last_name"
+                  required
+                  :rules="[() => !!admin.last_name || 'This field is required']"
+                ></v-text-field>
+                <v-text-field
+                  label="Username"
+                  v-model="admin.username"
+                  required
+                  :rules="[() => !!admin.username || 'This field is required']"
+                ></v-text-field>
+                <v-text-field
+                  label="Email Address"
+                  v-model="admin.email"
+                  required
+                  :rules="[() => !!admin.email || 'This field is required']"
+                ></v-text-field>
+              </v-card-text>
+            </v-flex>
+          </v-layout>
           <v-divider class="mt-5"></v-divider>
           <v-card-actions>
             <v-spacer></v-spacer>

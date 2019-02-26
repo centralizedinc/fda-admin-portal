@@ -4,7 +4,7 @@
       <v-flex xs12 sm10 offset-sm1>
         <v-card>
           <v-layout align-center justify-center>
-            <v-flex xs6>
+            <v-flex xs8>
               <v-text-field
                 :append-icon="old_password ? 'visibility' : 'visibility_off'"
                 :rules="[rules.required, rules.min]"
@@ -105,8 +105,8 @@ export default {
             color: "success",
             icon: "check_box"
           });
-          this.$store.dispatch("LOGOUT");
-          this.$router.push("/login");
+          // this.$store.dispatch("LOGOUT");
+          this.$router.push("/");
         })
         .catch(err => {
           console.log(err);

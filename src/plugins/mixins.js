@@ -131,7 +131,7 @@ export default {
                     if (icon === true) {
                         return "✔";
                     } else if (icon === false) {
-                        return "✘";
+                        return "✖";
                     }
                 },
                 logout() {

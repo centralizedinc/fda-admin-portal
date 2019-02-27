@@ -16,6 +16,10 @@ const mutations = {
         state.isAuthenticated = data.isMatch
         console.log("###login:SET###" + JSON.stringify(data))
     },
+    SET_USER(state, user) {
+        state.user = user
+        console.log("###user:SET###" + JSON.stringify(user))
+    },
     LOGOUT(state) {
         state.token = '';
         state.user = {};

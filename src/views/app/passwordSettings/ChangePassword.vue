@@ -5,27 +5,26 @@
         <v-card>
           <v-layout align-center justify-center>
             <v-flex xs8>
-              <v-text-field
+              <!-- <v-text-field
                 :append-icon="old_password ? 'visibility' : 'visibility_off'"
-                :rules="[rules.required, rules.min]"
+                :rules="[rules.required]"
                 :type="old_password ? 'text' : 'password'"
                 name="input-10-2"
                 label="Enter your Old Password"
                 @click:append="old_password = !old_password"
                 v-model="admin.password"
-              ></v-text-field>
+              ></v-text-field> -->
               <v-text-field
                 :append-icon="new_password ? 'visibility' : 'visibility_off'"
-                :rules="[rules.required, rules.min]"
+                :rules="[rules.required, rules.password]"
                 :type="new_password ? 'text' : 'password'"
                 label="Enter your New Password"
-                hint="At least 8 characters"
                 @click:append="new_password = !new_password"
                 v-model="admin.new_password"
               ></v-text-field>
               <v-text-field
                 :append-icon="confirm_password ? 'visibility' : 'visibility_off'"
-                :rules="[rules.required, rules.confirm_password]"
+                :rules="[rules.required, password_match]"
                 :type="confirm_password ? 'text' : 'password'"
                 label="Confirm Password"
                 @click:append="confirm_password = !confirm_password"
@@ -49,22 +48,21 @@ export default {
   data() {
     return {
       admin: {},
-      new_password: {},
       confirm: "",
       old_password: false,
       new_password: false,
       confirm_password: false,
       dialog: false,
       email: "",
-      password: "Password",
+      password: "",
       rules: {
         required: value => !!value || "Required.",
-        confirm_password: value =>
-          value === this.account.new_password ||
-          "The new password and confirm password you entered doesn't match",
-        email: value => {
-          const pattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-          return pattern.test(value) || "Invalid e-mail.";
+        password: value => {
+          const pattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/;
+          return (
+            pattern.test(value) ||
+            "Password must have 1 lowercase, 1 uppercase, 1 special character and 8 characters"
+          );
         }
       }
     };
@@ -77,16 +75,24 @@ export default {
       val || this.close();
     }
   },
-
+  computed: {
+    password_match() {
+      return (
+        this.admin.new_password === this.confirm ||
+        "New Password and Confirm Password does not match"
+      );
+    }
+  },
   methods: {
     init() {
-      console.log("##########STORE" + this.$store.state.user_session.user._id);
-      this.$store
-        .dispatch("GET_PROFILE", this.$store.state.user_session.user._id)
-        .then(result => {
-          this.admin = result;
-          console.log("LOGS GET PASSWORD" + JSON.stringify(this.admin));
-        });
+      this.admin = this.$store.state.user_session.user;
+      // console.log("##########STORE" + this.$store.state.user_session.user._id);
+      // this.$store
+      //   .dispatch("GET_PROFILE", this.$store.state.user_session.user._id)
+      //   .then(result => {
+      //     this.admin = result;
+      //     console.log("LOGS GET PASSWORD" + JSON.stringify(this.admin));
+      //   });
     },
     close() {
       this.dialog = false;
@@ -98,7 +104,7 @@ export default {
         "###########edited:ADMIN PASSWORD: " + JSON.stringify(this.new_admin)
       );
       this.$store
-        .dispatch("CHANGE_PASSWORD", this.new_admin)
+        .dispatch("EDIT_PROFILE", this.new_admin)
         .then(result => {
           console.log("edited:password: " + JSON.stringify(result));
           {

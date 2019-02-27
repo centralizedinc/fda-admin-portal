@@ -10,16 +10,16 @@ const mutations = {
     SET_PROFILE(state, data) {
         console.log("###PROFILE:SET###" + JSON.stringify(data))
         state.profile = data
-        
+
     }
 }
 
 var actions = {
-//admin / approver
+    //admin / approver
     GET_PROFILE(context, profile_id) {
         return new Promise((resolve, reject) => {
             console.log("##STORE #########" + JSON.stringify(profile_id))
-            new ProfileType(context.rootState.user_session.token).getProfilebyId(profile_id,(data, err) => {
+            new ProfileType(context.rootState.user_session.token).getProfilebyId(profile_id, (data, err) => {
                 console.log("#####DATA" + data)
                 if (err) {
                     reject(err)
@@ -46,6 +46,8 @@ var actions = {
         return new Promise((resolve, reject) => {
             new ProfileType(context.rootState.user_session.token).editProfile(modified_profile, (err, data) => {
                 if (err) {
+                    data.password = undefined;
+                    context.commit('SET_USER', data)
                     reject(err)
                 } else {
                     resolve(data)

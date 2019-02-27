@@ -64,13 +64,16 @@ export default {
 
   methods: {
     init() {
-      console.log("##########STORE" + this.$store.state.user_session.user._id);
-      this.$store
-        .dispatch("GET_PROFILE", this.$store.state.user_session.user._id)
-        .then(result => {
-          this.admin = result;
-          console.log("LOGS GET PROFILE" + JSON.stringify(this.admin));
-        });
+      console.log(
+        "##########STORE" + JSON.stringify(this.$store.state.user_session.user)
+      );
+      this.admin = this.$store.state.user_session.user;
+      // this.$store
+      //   .dispatch("GET_PROFILE", this.$store.state.user_session.user._id)
+      //   .then(result => {
+      //     this.admin = result;
+      //     console.log("LOGS GET PROFILE" + JSON.stringify(this.admin));
+      //   });
     },
     close() {
       this.new_admin = {};
@@ -84,17 +87,14 @@ export default {
         .dispatch("EDIT_PROFILE", this.new_admin)
         .then(result => {
           console.log("edited:profile: " + JSON.stringify(result));
-          {
-            this.$notify({
-              message: "Your Profile is successfuly updated",
-              color: "success",
-              icon: "check_box"
-            });
-          }
+          this.$notify({
+            message: "Your Profile is successfuly updated",
+            color: "success",
+            icon: "check_box"
+          });
           this.$router.push("/app");
         })
         .catch(err => {});
-      console.log(result);
     }
   }
 };

@@ -5,15 +5,6 @@
         <v-card>
           <v-layout align-center justify-center>
             <v-flex xs8>
-              <!-- <v-text-field
-                :append-icon="old_password ? 'visibility' : 'visibility_off'"
-                :rules="[rules.required]"
-                :type="old_password ? 'text' : 'password'"
-                name="input-10-2"
-                label="Enter your Old Password"
-                @click:append="old_password = !old_password"
-                v-model="admin.password"
-              ></v-text-field> -->
               <v-text-field
                 :append-icon="new_password ? 'visibility' : 'visibility_off'"
                 :rules="[rules.required, rules.password]"
@@ -28,7 +19,7 @@
                 :type="confirm_password ? 'text' : 'password'"
                 label="Confirm Password"
                 @click:append="confirm_password = !confirm_password"
-                v-model="confirm"
+                v-model="admin.confirm"
               ></v-text-field>
             </v-flex>
           </v-layout>
@@ -54,7 +45,7 @@ export default {
       confirm_password: false,
       dialog: false,
       email: "",
-      password: "",
+      password: {},
       rules: {
         required: value => !!value || "Required.",
         password: value => {
@@ -86,13 +77,6 @@ export default {
   methods: {
     init() {
       this.admin = this.$store.state.user_session.user;
-      // console.log("##########STORE" + this.$store.state.user_session.user._id);
-      // this.$store
-      //   .dispatch("GET_PROFILE", this.$store.state.user_session.user._id)
-      //   .then(result => {
-      //     this.admin = result;
-      //     console.log("LOGS GET PASSWORD" + JSON.stringify(this.admin));
-      //   });
     },
     close() {
       this.dialog = false;

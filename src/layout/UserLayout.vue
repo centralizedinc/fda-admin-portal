@@ -74,7 +74,7 @@
               <v-list-tile-title class="body-1 font-weight-light">Primary</v-list-tile-title>
             </v-list-tile-content>
           </v-list-tile>
-          <v-list-tile @click="goTo('/app/Activity')" class="ma-1" :style="activeRoute('Activity')">
+          <v-list-tile @click="goTo('/app/Activity')" class="ma-1" :style="activeRoute('Additional Activity')">
             <v-list-tile-action>
               <v-icon color="success">face</v-icon>
             </v-list-tile-action>
@@ -82,7 +82,7 @@
               <v-list-tile-title class="body-1 font-weight-light">Additional Activity</v-list-tile-title>
             </v-list-tile-content>
           </v-list-tile>
-          <v-list-tile @click="goTo('/app/capital')" class="ma-1" :style="activeRoute('capital')">
+          <v-list-tile @click="goTo('/app/capital')" class="ma-1" :style="activeRoute('Declared Capital')">
             <v-list-tile-action>
               <v-icon color="success">accessibility</v-icon>
             </v-list-tile-action>

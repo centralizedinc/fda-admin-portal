@@ -71,12 +71,12 @@ export default new Router({
         },
         {
           path: 'capital',
-          name: 'Capital',
+          name: 'Declared Capital',
           component: () => import('@/views/app/reference/capital.vue')
         },
         {
           path: 'Activity',
-          name: 'Activity',
+          name: 'Additional Activity',
           component: () => import('@/views/app/reference/additionalActivity.vue')
         },
         {

@@ -20,9 +20,9 @@ const mutations = {
         state.user = user
         console.log("###user:SET###" + JSON.stringify(user))
     },
-    LOGOUT(state) {
-        state.token = '';
+    LOGOUT: function (state) {
         state.user = {};
+        state.token = false;
         state.isAuthenticated = false;
     }
 }
@@ -42,6 +42,11 @@ var actions = {
             })
         })
 
+    },
+
+    LOGOUT: (context) => {
+        context.commit('LOGOUT')
+        context.commit('PICKUP_BREADCRUMBS')
     },
 
     CHANGE_PASSWORD(context, modified_credentials) {

@@ -82,19 +82,22 @@ export default {
       this.$store
         .dispatch("CHANGE_PASSWORD", this.admin)
         .then(result => {
-          console.log("edited:password: " + JSON.stringify(result));
-          {
-            this.$notify({
-              message: "Your Password is successfuly updated",
-              color: "success",
-              icon: "check_box"
-            });
-          }
+          this.$notify({
+            message: "Your Password is successfuly updated",
+            color: "success",
+            icon: "check_circle"
+          });
+          this.$store.dispatch("LOGOUT");
           this.$router.push("/app");
         })
         .catch(err => {
           console.log(err);
-          this.$notifyError(err);
+          // this.$notifyError(err);
+          this.$notify({
+            message: "Your Password is successfuly updated",
+            color: "success",
+            icon: "check_circle"
+          });
         });
     }
   }

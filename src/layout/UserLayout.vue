@@ -17,9 +17,9 @@
             </v-list-tile-avatar>
             <v-spacer></v-spacer>
             <v-list-tile-content class="mt-4">
-              <v-list-tile-title class="body-2">abalita</v-list-tile-title>
+              <v-list-tile-title class="body-2">{{admin.username}}</v-list-tile-title>
               <v-list-tile-sub-title class="caption">Last Logged in:</v-list-tile-sub-title>
-              <v-list-tile-sub-title class="caption">01/02/2019 2:19PM</v-list-tile-sub-title>
+              <v-list-tile-sub-title class="caption">{{formatDate(admin.last_login)}}</v-list-tile-sub-title>
             </v-list-tile-content>
           </v-list-tile>
         </v-list>
@@ -74,7 +74,11 @@
               <v-list-tile-title class="body-1 font-weight-light">Primary</v-list-tile-title>
             </v-list-tile-content>
           </v-list-tile>
-          <v-list-tile @click="goTo('/app/Activity')" class="ma-1" :style="activeRoute('Additional Activity')">
+          <v-list-tile
+            @click="goTo('/app/Activity')"
+            class="ma-1"
+            :style="activeRoute('Additional Activity')"
+          >
             <v-list-tile-action>
               <v-icon color="success">face</v-icon>
             </v-list-tile-action>
@@ -82,7 +86,11 @@
               <v-list-tile-title class="body-1 font-weight-light">Additional Activity</v-list-tile-title>
             </v-list-tile-content>
           </v-list-tile>
-          <v-list-tile @click="goTo('/app/capital')" class="ma-1" :style="activeRoute('Declared Capital')">
+          <v-list-tile
+            @click="goTo('/app/capital')"
+            class="ma-1"
+            :style="activeRoute('Declared Capital')"
+          >
             <v-list-tile-action>
               <v-icon color="success">accessibility</v-icon>
             </v-list-tile-action>
@@ -219,7 +227,7 @@
           </v-list-tile-content>
         </v-list-tile>
 
-        <v-list-tile @click="goTo('/')" class="ma-1" :style="activeRoute('LOGOUT')">
+        <v-list-tile @click="confirmLogout()" class="ma-1" :style="activeRoute('LOGOUT')">
           <v-list-tile-action>
             <v-icon color="success">fas fa-sign-out-alt</v-icon>
           </v-list-tile-action>
@@ -299,7 +307,10 @@ export default {
   data() {
     return {
       mini: false,
-      route_name: ""
+      route_name: "",
+      admin: {
+        username: null
+      }
     };
   },
   //#########################
@@ -310,13 +321,19 @@ export default {
   // methods
   //#########################
   methods: {
+    init() {
+      this.admin = this.$store.state.user_session.user;
+    },
     goTo(router) {
       this.$router.push(router);
     },
+    confirmLogout() {
+      this.$store.dispatch("LOGOUT");
+      this.$router.push("/");
+    },
     activeRoute(route) {
-      console.log("ROUTER_NAME: " + this.$route.name);
       if (this.$route.name === route) {
-        return "background-color: rgb(2, 128, 0); color:white";
+        return "background-color:rgb(2, 128, 0); color:white";
       } else {
         return;
       }
@@ -328,6 +345,9 @@ export default {
   computed: {
     page_name() {
       return this.$route.name;
+    },
+    breadcrumbs() {
+      return this.$store.state.breadcrumbs.navigation;
     }
   }
 };

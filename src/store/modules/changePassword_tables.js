@@ -1,11 +1,8 @@
 import UserPassword from '../../api/apiUserManager';
 
 const state = {
-    changePassword: [],
-    user: [],
-    tasks: [],
-    groups: [],
-    roles: []
+    changePassword: []
+    
 
 }
 
@@ -33,11 +30,15 @@ var actions = {
         })
     },
     CHANGE_PASSWORD(context, modified_credentials) {
+        console.log("STORE" + JSON.stringify(modified_credentials));
+        
         return new Promise((resolve, reject) => {
             new UserPassword(context.rootState.user_session.token).changePassword(modified_credentials, (err, data) => {
                 if (err) {
                     reject(err)
                 } else {
+                    console.log("##### Store ELSE" + data);
+                    
                     resolve(data)
                 }
             })

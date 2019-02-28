@@ -25,7 +25,7 @@ export default class UserPassword {
 
     changePassword(modified_account, cb) {
         axios.post('secured/accounts/admin/password', modified_account).then((result) => {
-                console.log("api############# Edit PASSWORD" + JSON.stringify(modified_account))
+                console.log("api############# Edit PASSWORD" + JSON.stringify(result.data.model))
                 cb(result.data.model)
             })
             .catch(err => {

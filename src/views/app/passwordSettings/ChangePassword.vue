@@ -76,30 +76,26 @@ export default {
       this.admin.user_id = this.$store.state.user_session.user._id;
     },
     submit() {
+      // this.new_admin = this.admin;
       console.log(
-        "###########new_password:CHANGE_PASSWORD: " + JSON.stringify(this.admin)
+        "###########edited:ADMIN PROFILE: " + JSON.stringify(this.admin)
       );
       this.$store
         .dispatch("CHANGE_PASSWORD", this.admin)
         .then(result => {
-          this.$notify({
-            message: "Your Password is successfuly updated",
-            color: "success",
-            icon: "check_circle"
-          });
-          this.$store.dispatch("LOGOUT");
-          this.$router.push("/app");
+          console.log("edited:profile: " + JSON.stringify(result));
         })
         .catch(err => {
-          console.log(err);
-          // this.$notifyError(err);
-          this.$notify({
-            message: "Your Password is successfuly updated",
-            color: "success",
-            icon: "check_circle"
-          });
+
         });
+        this.$notify({
+            message: "You have successfully change your password",
+            icon: "check_circle_outline",
+            color: "primary"
+          });
+        this.$router.push("/app");
     }
+    
   }
 };
 </script>

@@ -38,14 +38,13 @@
 export default {
   data() {
     return {
-      admin: {},
-      confirm: "",
-      old_password: false,
+      admin: {
+        username: "",
+        new_password: "",
+        confirm: ""
+      },
       new_password: false,
       confirm_password: false,
-      dialog: false,
-      email: "",
-      password: {},
       rules: {
         required: value => !!value || "Required.",
         password: value => {
@@ -61,34 +60,27 @@ export default {
   created() {
     this.init();
   },
-  watch: {
-    dialog(val) {
-      val || this.close();
-    }
-  },
   computed: {
     password_match() {
       return (
-        this.admin.new_password === this.confirm ||
+        this.admin.new_password === this.admin.confirm ||
         "New Password and Confirm Password does not match"
       );
     }
   },
   methods: {
     init() {
-      this.admin = this.$store.state.user_session.user;
-    },
-    close() {
-      this.dialog = false;
-      this.admin = {};
+      console.log(
+        "######## " + JSON.stringify(this.$store.state.user_session.user)
+      );
+      this.admin.user_id = this.$store.state.user_session.user._id;
     },
     submit() {
-      this.new_admin = this.admin;
       console.log(
-        "###########edited:ADMIN PASSWORD: " + JSON.stringify(this.new_admin)
+        "###########new_password:CHANGE_PASSWORD: " + JSON.stringify(this.admin)
       );
       this.$store
-        .dispatch("EDIT_PROFILE", this.new_admin)
+        .dispatch("CHANGE_PASSWORD", this.admin)
         .then(result => {
           console.log("edited:password: " + JSON.stringify(result));
           {
@@ -100,8 +92,10 @@ export default {
           }
           this.$router.push("/app");
         })
-        .catch(err => {});
-      console.log(result);
+        .catch(err => {
+          console.log(err);
+          this.$notifyError(err);
+        });
     }
   }
 };

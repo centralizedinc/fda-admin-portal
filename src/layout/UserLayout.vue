@@ -219,7 +219,7 @@
           </v-list-tile-content>
         </v-list-tile>
 
-        <v-list-tile @click="goTo('/app')" class="ma-1" :style="activeRoute('Login')">
+        <v-list-tile @click="goTo('/')" class="ma-1" :style="activeRoute('LOGOUT')">
           <v-list-tile-action>
             <v-icon color="success">fas fa-sign-out-alt</v-icon>
           </v-list-tile-action>

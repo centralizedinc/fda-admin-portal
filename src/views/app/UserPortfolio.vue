@@ -2,40 +2,40 @@
 <v-layout row wrap>
     <v-flex xs12 md6 lg3 pa-2>
         <dashboard-card
-        icon="card_membership" 
-        title="License"
-        description="Count"
-        details="0.00"
+        icon="account_circle" 
+        title="Users"
+        description="Total Users"
+        details="10"
         color="primary"
         >
     </dashboard-card>
     </v-flex>
     <v-flex xs12 md6 lg3 pa-2>
         <dashboard-card
-        icon="book" 
-        title="Certificates"
-        description="Count"
-        details="0.00"
+        icon="perm_identity" 
+        title="Clients"
+        description="Total Clients"
+        details="20"
         color="success"
         >
     </dashboard-card>
     </v-flex>
     <v-flex xs12 md6 lg3 pa-2>
         <dashboard-card
-        icon="far fa-credit-card" 
-        title="Payments"
-        description="Count"
-        details="0.00"
+        icon="account_box" 
+        title="Admin"
+        description="Total Admin"
+        details="25"
         color="warning"
         >
     </dashboard-card>
     </v-flex>
     <v-flex xs12 md6 lg3 pa-2>
         <dashboard-card
-        icon="shopping_cart" 
-        title="Certificates"
-        description="Count"
-        details="0.00"
+        icon="accessibility" 
+        title="Admin"
+        description="Total Admin"
+        details="15"
         color="error"
         >
     </dashboard-card>

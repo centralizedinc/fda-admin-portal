@@ -84,16 +84,16 @@ export default {
         .dispatch("CHANGE_PASSWORD", this.admin)
         .then(result => {
           console.log("edited:profile: " + JSON.stringify(result));
-        })
-        .catch(err => {
-
-        });
-        this.$notify({
+          this.$notify({
             message: "You have successfully change your password",
             icon: "check_circle_outline",
             color: "primary"
           });
         this.$router.push("/app");
+        })
+        .catch(err => {
+
+        });
     }
     
   }

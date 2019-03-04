@@ -24,11 +24,11 @@
             <v-container grid-list-md>
               <v-layout wrap>
                 <v-flex xs12>
-                  <v-text-field v-model="new_fees.name" label="Fees"></v-text-field>
+                  <v-text-field v-model="new_fees.description" label="Fees"></v-text-field>
                 </v-flex>
                 <v-flex xs12>
                   <v-autocomplete
-                    v-model="new_fees.product_type"
+                    v-model="new_fees.productType"
                     :disabled="isUpdating"
                     :items="productType"
                     label="Product Type"
@@ -70,7 +70,7 @@
                 </v-flex>
                 <v-flex xs12>
                   <v-autocomplete
-                    v-model="new_fees.declared_capital"
+                    v-model="new_fees.declaredCapital"
                     :disabled="isUpdating"
                     :items="declaredCapital"
                     label="Declared Capital"
@@ -141,27 +141,27 @@
                   <v-divider></v-divider>
                   <v-card-text>{{new_fees.description}}</v-card-text>
                 </v-flex>
-                <v-flex xs12 sm4 md4>
+                <v-flex xs12 sm4 md2>
                   <span class="text-xs-center">Product Type</span>
                   <v-divider></v-divider>
                   <v-card-text>{{product_details(new_fees.productType)}}</v-card-text>
                 </v-flex>
-                <v-flex xs12 sm4 md4>
+                <v-flex xs12 sm4 md2>
                   <span class="text-xs-center">Primary Activity</span>
                   <v-divider></v-divider>
                   <v-card-text>{{primary_details(new_fees.primaryActivity)}}</v-card-text>
                 </v-flex>
-                <v-flex xs12 sm4 md4>
+                <v-flex xs12 sm4 md2>
                   <span class="text-xs-center">Declared Capital</span>
                   <v-divider></v-divider>
                   <v-card-text>{{declared_details(new_fees.declaredCapital)}}</v-card-text>
                 </v-flex>
-                <v-flex xs12 sm4 md4>
-                  <span class="text-xs-center">Product Type</span>
+                <v-flex xs12 sm4 md2>
+                  <span class="text-xs-center">Application Type</span>
                   <v-divider></v-divider>
                   <v-card-text>{{ App(new_fees.appType) }}</v-card-text>
                 </v-flex>
-                <v-flex xs12 sm4 md4>
+                <v-flex xs12 sm4 md2>
                   <span class="text-xs-center">Fee</span>
                   <v-divider></v-divider>
                   <v-card-text>{{new_fees.fee}}</v-card-text>
@@ -373,7 +373,7 @@ export default {
       });
     },
     save() {
-      // console.log('###########edited:new_fee: ' + JSON.stringify(this.new_fee));
+      console.log('###########edited:new_fees: ' + JSON.stringify(this.new_fees));
       this.$store.dispatch("EDIT_FEES", this.new_fees).then(result => {
         console.log("edited:product_line: " + JSON.stringify(result));
         this.init();

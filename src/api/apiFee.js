@@ -25,7 +25,7 @@ export default class Fees {
 
     addFees(new_fees, cb) {
         console.log("api#############" + JSON.stringify(new_fees))
-        axios.post('payments/fees', new_fee).then((result) => {
+        axios.post('payments/fees', new_fees).then((result) => {
                 console.log("api#############:Added:")
                 cb(result.data.errors, result.data.model)
             })

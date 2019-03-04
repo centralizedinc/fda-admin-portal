@@ -202,6 +202,18 @@
             <v-list-tile-title class="body-1 font-weight-light">Identification</v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
+        <v-list-tile
+          @click="goTo('/app/fees')"
+          class="ma-1"
+          :style="activeRoute('Fees')"
+        >
+          <v-list-tile-action>
+            <v-icon color="success">perm_contact_calendar</v-icon>
+          </v-list-tile-action>
+          <v-list-tile-content>
+            <v-list-tile-title class="body-1 font-weight-light">Fees</v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>
         <v-divider></v-divider>
         <v-list-tile @click="goTo('/app/profile')" class="ma-1" :style="activeRoute('Profile')">
           <v-list-tile-action>

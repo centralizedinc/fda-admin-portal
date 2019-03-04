@@ -54,6 +54,28 @@ export default {
                         return null
                     }
                 },
+                getPrimary(primary_id) {
+                    if (!this.isEmpty(this.$store.state.reference_tables.primary)) {
+                        var primary = null;
+                        primary = this.$store.state.reference_tables.primary.find(r => {
+                            return r._id.toString() === primary_id;
+                        });
+                        return primary ? primary : null;
+                    } else {
+                        return null
+                    }
+                },
+                getDeclared(declared_id) {
+                    if (!this.isEmpty(this.$store.state.reference_tables.declaredCapital)) {
+                        var declaredCapital = null;
+                        declaredCapital = this.$store.state.reference_tables.declaredCapital.find(r => {
+                            return r._id.toString() === declared_id;
+                        });
+                        return declaredCapital ? declaredCapital : null;
+                    } else {
+                        return null
+                    }
+                },
                 getTask(task_id) {
                     if (!this.isEmpty(this.$store.state.task_tables.tasks)) {
                         var task = null;
@@ -98,6 +120,13 @@ export default {
                     }
                     var dt = new Date(date).toLocaleString('en-US', format)
                     return dt
+                },
+                App(appType) {
+                    if (appType === "0") {
+                        return "New License";
+                    } else if (appType === "2") {
+                        return "Renewal License";
+                    }
                 },
                 rol(role) {
                     if (role === "0") {

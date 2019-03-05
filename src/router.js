@@ -55,6 +55,11 @@ export default new Router({
           component: () => import('@/views/app/reference/designation.vue')
         },
         {
+          path: 'fees',
+          name: 'Fees',
+          component: () => import('@/views/app/payments/fees.vue')
+        },
+        {
           path: 'identification',
           name: 'Identification',
           component: () => import('@/views/app/reference/identification.vue')

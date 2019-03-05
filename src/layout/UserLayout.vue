@@ -17,9 +17,9 @@
             </v-list-tile-avatar>
             <v-spacer></v-spacer>
             <v-list-tile-content class="mt-4">
-              <v-list-tile-title class="body-2">{{admin.username}}</v-list-tile-title>
-              <v-list-tile-sub-title class="caption">Last Logged in:</v-list-tile-sub-title>
-              <v-list-tile-sub-title class="caption">{{formatDate(admin.last_login)}}</v-list-tile-sub-title>
+              <v-list-tile-title class="body-2">{{admin.first_name}} {{admin.last_name}}</v-list-tile-title>
+              <v-list-tile-sub-title class="caption">{{rol(admin.role)}}</v-list-tile-sub-title>
+              <v-list-tile-sub-title class="caption">{{getGroup(admin.group)}}</v-list-tile-sub-title>
             </v-list-tile-content>
           </v-list-tile>
         </v-list>
@@ -320,15 +320,16 @@ export default {
     return {
       mini: false,
       route_name: "",
-      admin: {
-        username: null
-      }
+      admin: {},
+      list:{}
     };
   },
   //#########################
   // init
   //#########################
-  created() {},
+  created() {
+    this.init();
+  },
   //#########################
   // methods
   //#########################

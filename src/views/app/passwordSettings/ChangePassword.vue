@@ -85,9 +85,9 @@ export default {
         .then(result => {
           console.log("edited:profile: " + JSON.stringify(result));
           this.$notify({
-            message: "You have successfully change your password",
-            icon: "check_circle_outline",
-            color: "primary"
+            message: "Your Password is successfuly updated",
+            color: "success",
+            icon: "check_box"
           });
         this.$router.push("/app");
         })

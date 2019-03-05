@@ -72,8 +72,8 @@
           </v-list>
         </v-card-text>
       </v-card>
-    </v-flex> -->
-     <!-- <v-flex xs12 md6 lg4 pa-2>
+    </v-flex>-->
+    <!-- <v-flex xs12 md6 lg4 pa-2>
       <v-card>
         <v-toolbar dark color="#ff6e40">
           <span class="subheadline font-weight-light">Certificates Applications</span>
@@ -110,7 +110,7 @@
           </v-list>
         </v-card-text>
       </v-card>
-    </v-flex> -->
+    </v-flex>-->
     <v-flex xs12 md6 lg4 pa-2>
       <v-card>
         <v-toolbar
@@ -133,7 +133,7 @@
         <v-card-text>
           <v-layout row wrap mt-4>
             <v-flex xs12>
-              <span class="title font-width-light">{{admin.first_name}}  {{admin.last_name}} </span>
+              <span class="title font-width-light">{{admin.first_name}} {{admin.last_name}}</span>
             </v-flex>
             <v-flex xs12 pa-1>
               <v-icon small>account_circle</v-icon>
@@ -144,8 +144,12 @@
               <span class="subheader font-width-light">{{admin.email}}</span>
             </v-flex>
             <v-flex xs12 pa-1>
-              <v-icon small>assignment</v-icon>
+              <v-icon small>work</v-icon>
               <span class="subheader font-width-light">{{rol(admin.role)}}</span>
+            </v-flex>
+            <v-flex xs12 pa-1>
+              <v-icon small>assignment</v-icon>
+              <span class="subheader font-width-light">{{Group(admin.group)}}</span>
             </v-flex>
           </v-layout>
         </v-card-text>
@@ -165,7 +169,8 @@ export default {
     adminCounts: 0,
     approverCounts: 0,
     encoderCounts: 0,
-    admin: []
+    admin: [],
+    groups: {}
   }),
   created() {
     this.init();
@@ -199,8 +204,30 @@ export default {
           this.admin = this.$store.state.user_session.user;
           console.log("### USER DETAILS ###" + JSON.stringify(this.admin));
           
+         return this.$store.dispatch("GET_GROUP");
         })
+        .then(result => {
+          // GET group data
+          this.groups = this.$store.state.group_table.groups;
+          console.log(
+            "JSON.stringify(this.groups) :",
+            JSON.stringify(this.groups)
+          );
+        });
+    },
+
+    Group(group_list) {
+      console.log("GROUP_LIST: " + JSON.stringify(group_list));
       
+      var list = "";
+      // group_list.forEach(item => {
+        var match = this.groups.find(r => {
+          return r._id === group_list[0];
+        });
+        console.log("match: " + JSON.stringify(match));
+        list = list + match.name + " ";
+      // });
+      return list;
     }
   }
 };

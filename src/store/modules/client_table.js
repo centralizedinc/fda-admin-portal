@@ -18,6 +18,7 @@ var actions = {
 
     GET_CLIENT(context) {
         return new Promise((resolve, reject) => {
+            
             new ClientType(context.rootState.user_session.token).getClient((err, data) => {
                 if (err) {
                     reject(err)

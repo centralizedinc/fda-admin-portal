@@ -124,7 +124,7 @@ export default {
                 App(appType) {
                     if (appType === "0") {
                         return "New License";
-                    } else if (appType === "2") {
+                    } else if (appType === "1") {
                         return "Renewal License";
                     }
                 },

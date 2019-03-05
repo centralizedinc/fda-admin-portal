@@ -36,9 +36,6 @@
                   <v-text-field v-model="new_admin.email" label="Email Address"></v-text-field>
                 </v-flex>
                 <v-flex xs12>
-                  <v-text-field v-model="new_admin.password" label="Password"></v-text-field>
-                </v-flex>
-                <v-flex xs12>
                   <v-autocomplete
                     v-model="new_admin.group"
                     :disabled="isUpdating"

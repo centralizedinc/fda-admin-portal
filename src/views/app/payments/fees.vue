@@ -95,8 +95,8 @@
                     :disabled="isUpdating"
                     :items="appTypes"
                     label="Application Type"
-                    item-text="name"
-                    item-value="name"
+                    item-text="label"
+                    item-value="value"
                   >
                     <template slot="item" slot-scope="data">
                       <template v-if="typeof data.item !== 'object'">
@@ -104,7 +104,7 @@
                       </template>
                       <template v-else>
                         <v-list-tile-content>
-                          <v-list-tile-title v-html="App(data.item.name)"></v-list-tile-title>
+                          <v-list-tile-title v-html="data.item.label"></v-list-tile-title>
                         </v-list-tile-content>
                       </template>
                     </template>
@@ -212,7 +212,7 @@ export default {
     select: { state: "Product Type" },
     select_declared: { state: "Declared Capital" },
     appType: "",
-    appTypes: [{ name: "0" }, { name: "1" }],
+    appTypes: [{ value: "0", label:'New License' }, { value: "2", label:'Renewal' }],
     dialog: false,
     dialogView: false,
     isUpdating: false,

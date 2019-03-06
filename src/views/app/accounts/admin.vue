@@ -36,6 +36,15 @@
                   <v-text-field v-model="new_admin.email" label="Email Address"></v-text-field>
                 </v-flex>
                 <v-flex xs12>
+                  <v-text-field
+                    :append-icon="new_password ? 'visibility' : 'visibility_off'"
+                    :type="new_password ? 'text' : 'password'"
+                    label="Password"
+                    @click:append="new_password = !new_password"
+                    v-model="new_admin.new_password"
+                  ></v-text-field>
+                </v-flex>
+                <v-flex xs12>
                   <v-autocomplete
                     v-model="new_admin.group"
                     :disabled="isUpdating"
@@ -63,8 +72,8 @@
                     :disabled="isUpdating"
                     :items="roles"
                     label="Role name"
-                    item-text="name"
-                    item-value="name"
+                    item-text="label"
+                    item-value="value"
                   >
                     <template slot="item" slot-scope="data">
                       <template v-if="typeof data.item !== 'object'">
@@ -72,7 +81,7 @@
                       </template>
                       <template v-else>
                         <v-list-tile-content>
-                          <v-list-tile-title v-html="rol(data.item.name)"></v-list-tile-title>
+                          <v-list-tile-title v-html="data.item.label"></v-list-tile-title>
                         </v-list-tile-content>
                       </template>
                     </template>
@@ -178,13 +187,18 @@ export default {
     groups: {},
     groups_items: [],
     new_admin: {},
+    new_password: "",
     modified_admin: {},
     dialog: false,
     dialogView: false,
     isUpdating: false,
     search: "",
     role: "",
-    roles: [{ name: "0" }, { name: "1" }, { name: "2" }],
+    roles: [
+      { value: "0", label: "Admin" },
+      { value: "1", label: "Approver" },
+      { value: "2", label: "Encoder" }
+    ],
     headers: [
       {
         text: "Approver Name",
@@ -241,7 +255,8 @@ export default {
       group: "",
       role: "",
       username: "",
-      email: ""
+      email: "",
+      new_password: ""
     },
     defaultItem: {
       name: ""

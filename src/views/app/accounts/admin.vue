@@ -41,7 +41,7 @@
                     :type="new_password ? 'text' : 'password'"
                     label="Password"
                     @click:append="new_password = !new_password"
-                    v-model="new_admin.new_password"
+                    v-model="new_admin.password"
                   ></v-text-field>
                 </v-flex>
                 <v-flex xs12>

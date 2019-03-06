@@ -33,7 +33,7 @@
             <v-list-tile-title class="body-1 font-weight-light">Dashboard</v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
-        <v-list-group color="success" prepend-icon="person_pin" value="true">
+        <v-list-group color="success" prepend-icon="person_pin">
           <v-list-tile slot="activator">
             <v-list-tile-title>Users Manager</v-list-tile-title>
           </v-list-tile>
@@ -54,7 +54,7 @@
             </v-list-tile-content>
           </v-list-tile>
         </v-list-group>
-        <v-list-group color="success" prepend-icon="redeem" value="true">
+        <v-list-group color="success" prepend-icon="redeem">
           <v-list-tile slot="activator">
             <v-list-tile-title>Product Type</v-list-tile-title>
           </v-list-tile>
@@ -111,7 +111,7 @@
             </v-list-tile-content>
           </v-list-tile>
         </v-list-group>
-        <v-list-group color="success" prepend-icon="room" value="true">
+        <v-list-group color="success" prepend-icon="room">
           <v-list-tile slot="activator">
             <v-list-tile-title>Location</v-list-tile-title>
           </v-list-tile>
@@ -140,7 +140,7 @@
             </v-list-tile-content>
           </v-list-tile>
         </v-list-group>
-        <v-list-group color="success" prepend-icon="person_pin" value="true">
+        <v-list-group color="success" prepend-icon="person_pin">
           <v-list-tile slot="activator">
             <v-list-tile-title>Tasks Manager</v-list-tile-title>
           </v-list-tile>
@@ -165,7 +165,7 @@
             </v-list-tile-content>
           </v-list-tile>
         </v-list-group>
-        <v-list-group color="success" prepend-icon="group" value="true">
+        <v-list-group color="success" prepend-icon="group">
           <v-list-tile slot="activator">
             <v-list-tile-title>Group Manager</v-list-tile-title>
           </v-list-tile>

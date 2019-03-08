@@ -2,7 +2,7 @@ import axios from 'axios'
 
 export default function setAuthToken(token) {
     const instance = axios.create({
-        baseURL: 'https://fda-services.herokuapp.com/v1.0',
+        baseURL: process.env.VUE_APP_API_BASE_URI,
         // baseURL: 'http://localhost:3000/v1.0',
         credentials: false
     })

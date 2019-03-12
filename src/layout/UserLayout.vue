@@ -295,15 +295,10 @@
       <!-- </transition> -->
     </v-container>
     <!-- </v-content> -->
-    <v-footer
-      app
-      dark
-      class="pa-1"
-      style="background: linear-gradient(45deg, #43A047 0%, #1de9b6 100%)"
-    >
-      <span class="caption">Copyright © 2019 FDA All rights reserved.</span>
+    <v-footer dark style="background: linear-gradient(45deg, #b5c25a 0%, #104b2a 100%)">
+      <span class="caption">Copyright © 2019 FDA All rights reserved. v{{app_version}}</span>
       <v-spacer></v-spacer>
-      <span class="caption">Food And Drugs Administration of the Philippines</span>
+      <span class="caption">Food And Drug Administration of the Philippines </span>                           
     </v-footer>
   </v-app>
 </template>
@@ -361,6 +356,9 @@ export default {
     },
     breadcrumbs() {
       return this.$store.state.breadcrumbs.navigation;
+    },
+    app_version(){
+      return process.env.VUE_APP_VERSION
     }
   }
 };

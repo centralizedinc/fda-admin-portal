@@ -1,6 +1,10 @@
 {
   "name": "fda-admin-portal",
+<<<<<<< HEAD
   "version": "0.1.0",
+=======
+  "version": "0.1.11",
+>>>>>>> 47f4a176ebec5743bf46824fd230ccd1f08012f0
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",

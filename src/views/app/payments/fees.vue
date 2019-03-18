@@ -369,6 +369,10 @@ export default {
       this.$store.dispatch("ADD_FEES", this.new_fees).then(result => {
         console.log("added:product_line: " + JSON.stringify(result));
         this.init();
+        this.$notify({
+              message: "You have successfully created a new Fee",
+              color: "primary"
+            });
         this.close();
       });
     },
@@ -377,6 +381,10 @@ export default {
       this.$store.dispatch("EDIT_FEES", this.new_fees).then(result => {
         console.log("edited:product_line: " + JSON.stringify(result));
         this.init();
+        this.$notify({
+              message: "You have successfully edited a Fee",
+              color: "primary"
+            });
         this.close();
       });
     }

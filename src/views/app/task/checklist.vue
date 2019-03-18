@@ -249,6 +249,10 @@ export default {
       this.$store.dispatch("ADD_CHECKLIST", this.new_checklist).then(result => {
         console.log("added:checklist: " + JSON.stringify(result));
         this.init();
+        this.$notify({
+              message: "You have successfully created a new Checklist",
+              color: "primary"
+            });
         this.close();
       });
     },
@@ -259,6 +263,10 @@ export default {
         .then(result => {
           console.log("edited:checklist: " + JSON.stringify(result));
           this.init();
+          this.$notify({
+              message: "You have successfully edited a Checklist",
+              color: "primary"
+            });
           this.close();
         });
     }

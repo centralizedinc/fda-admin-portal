@@ -35,7 +35,7 @@
         </v-list-tile>
         <v-list-group color="success" prepend-icon="person_pin">
           <v-list-tile slot="activator">
-            <v-list-tile-title>Users Manager</v-list-tile-title>
+            <v-list-tile-title>Users</v-list-tile-title>
           </v-list-tile>
           <v-list-tile @click="goTo('/app/clients')" class="ma-1" :style="activeRoute('clients')">
             <v-list-tile-action>
@@ -142,7 +142,7 @@
         </v-list-group>
         <v-list-group color="success" prepend-icon="person_pin">
           <v-list-tile slot="activator">
-            <v-list-tile-title>Tasks Manager</v-list-tile-title>
+            <v-list-tile-title>Tasks</v-list-tile-title>
           </v-list-tile>
           <v-list-tile @click="goTo('/app/task')" class="ma-1" :style="activeRoute('task')">
             <v-list-tile-action>
@@ -165,7 +165,7 @@
             </v-list-tile-content>
           </v-list-tile>
         </v-list-group>
-        <v-list-group color="success" prepend-icon="group">
+        <!-- <v-list-group color="success" prepend-icon="group">
           <v-list-tile slot="activator">
             <v-list-tile-title>Group Manager</v-list-tile-title>
           </v-list-tile>
@@ -177,7 +177,15 @@
               <v-list-tile-title class="body-1 font-weight-light">Group</v-list-tile-title>
             </v-list-tile-content>
           </v-list-tile>
-        </v-list-group>
+        </v-list-group>-->
+        <v-list-tile @click="goTo('/app/group')" class="ma-1" :style="activeRoute('group')">
+          <v-list-tile-action>
+            <v-icon color="success">contacts</v-icon>
+          </v-list-tile-action>
+          <v-list-tile-content>
+            <v-list-tile-title class="body-1 font-weight-light">Groups</v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>
         <v-list-tile
           @click="goTo('/app/designation')"
           class="ma-1"
@@ -202,11 +210,7 @@
             <v-list-tile-title class="body-1 font-weight-light">Identification</v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
-        <v-list-tile
-          @click="goTo('/app/fees')"
-          class="ma-1"
-          :style="activeRoute('Fees')"
-        >
+        <v-list-tile @click="goTo('/app/fees')" class="ma-1" :style="activeRoute('Fees')">
           <v-list-tile-action>
             <v-icon color="success">perm_contact_calendar</v-icon>
           </v-list-tile-action>
@@ -298,7 +302,7 @@
     <v-footer dark style="background: linear-gradient(45deg, #b5c25a 0%, #104b2a 100%)">
       <span class="caption">Copyright © 2019 FDA All rights reserved. v{{app_version}}</span>
       <v-spacer></v-spacer>
-      <span class="caption">Food And Drug Administration of the Philippines </span>                           
+      <span class="caption">Food And Drug Administration of the Philippines</span>
     </v-footer>
   </v-app>
 </template>
@@ -316,7 +320,7 @@ export default {
       mini: false,
       route_name: "",
       admin: {},
-      list:{}
+      list: {}
     };
   },
   //#########################
@@ -357,8 +361,8 @@ export default {
     breadcrumbs() {
       return this.$store.state.breadcrumbs.navigation;
     },
-    app_version(){
-      return process.env.VUE_APP_VERSION
+    app_version() {
+      return process.env.VUE_APP_VERSION;
     }
   }
 };

@@ -280,6 +280,10 @@ export default {
       this.$store.dispatch("ADD_PRIMARY", this.new_primary).then(result => {
         console.log("added:primary: " + JSON.stringify(result));
         this.init();
+        this.$notify({
+              message: "You have successfully created a new Primary",
+              color: "primary"
+            });
         this.close();
       });
     },
@@ -288,6 +292,10 @@ export default {
       this.$store.dispatch("EDIT_PRIMARY", this.new_primary).then(result => {
         console.log("edited:primary: " + JSON.stringify(result));
         this.init();
+        this.$notify({
+              message: "You have successfully edited a Primary",
+              color: "primary"
+            });
         this.close();
       });
     }

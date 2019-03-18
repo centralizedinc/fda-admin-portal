@@ -174,6 +174,10 @@ export default {
         .then(result => {
           console.log("added:additional: " + JSON.stringify(result));
           this.init();
+          this.$notify({
+              message: "You have created Additional Activity",
+              color: "primary"
+            });
           this.close();
         });
     },
@@ -184,6 +188,10 @@ export default {
         .then(result => {
           console.log("edited:additional: " + JSON.stringify(result));
           this.init();
+          this.$notify({
+              message: "You have edited successfully",
+              color: "primary"
+            });
           this.close();
         });
     }

@@ -1,4 +1,4 @@
-# fda-admin-portal
+# fda-admin-portal [![Build Status](https://travis-ci.org/centralizedinc/fda-admin-portal.svg?branch=master)](https://travis-ci.org/centralizedinc/fda-admin-portal)
 
 FDA Portal for the System Administrator
 

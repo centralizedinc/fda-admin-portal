@@ -170,6 +170,10 @@ export default {
       this.$store.dispatch("ADD_DECLARED", this.new_declared).then(result => {
         console.log("added:declared: " + JSON.stringify(result));
         this.init();
+        this.$notify({
+              message: "You have successfully created a new Declared Capital",
+              color: "primary"
+            });
         this.close();
       });
     },
@@ -177,6 +181,10 @@ export default {
       this.$store.dispatch("EDIT_DECLARED", this.new_declared).then(result => {
         console.log("edited:declared: " + JSON.stringify(result));
         this.init();
+         this.$notify({
+              message: "You have successfully edited a declared capital",
+              color: "primary"
+            });
         this.close();
       });
     }

@@ -236,6 +236,10 @@ export default {
       this.$store.dispatch("ADD_PRODUCTS", this.new_product).then(result => {
         console.log("added:product: " + JSON.stringify(result));
         this.init();
+        this.$notify({
+              message: "You have successfully created a new Product",
+              color: "primary"
+            });
         this.close();
       });
     },
@@ -243,6 +247,10 @@ export default {
       this.$store.dispatch("EDIT_PRODUCTS", this.new_product).then(result => {
         console.log("edited:product: " + JSON.stringify(result));
         this.init();
+        this.$notify({
+              message: "You have successfully edited a Product",
+              color: "primary"
+            });
         this.close();
       });
     }

@@ -172,6 +172,10 @@ export default {
         .then(result => {
           console.log("added:identification: " + JSON.stringify(result));
           this.init();
+          this.$notify({
+              message: "You have successfully created a new Identification",
+              color: "primary"
+            });
           this.close();
         });
     },
@@ -181,6 +185,10 @@ export default {
         .then(result => {
           console.log("edited:identification: " + JSON.stringify(result));
           this.init();
+          this.$notify({
+              message: "You have successfully edited a Identification",
+              color: "primary"
+            });
           this.close();
         });
     }

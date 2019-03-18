@@ -389,6 +389,10 @@ export default {
       this.$store.dispatch("ADD_TASK", this.new_task).then(result => {
         console.log("added:task: " + JSON.stringify(result));
         this.init();
+        this.$notify({
+              message: "You have successfully created a new Task",
+              color: "primary"
+            });
         this.close();
       });
     },
@@ -407,6 +411,10 @@ export default {
       this.$store.dispatch("EDIT_TASK", this.new_task).then(result => {
         console.log("edited:task: " + JSON.stringify(result));
         this.init();
+         this.$notify({
+              message: "You have successfully edited a Task",
+              color: "primary"
+            });
         this.close();
       });
     }

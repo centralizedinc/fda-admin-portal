@@ -170,6 +170,10 @@ export default {
       this.$store.dispatch("ADD_DESIGNATION", this.new_designation).then(result => {
         console.log("added:designation: " + JSON.stringify(result));
         this.init();
+         this.$notify({
+              message: "You have successfully created a new Designation",
+              color: "primary"
+            });
         this.close();
       });
     },
@@ -177,6 +181,10 @@ export default {
       this.$store.dispatch("EDIT_DESIGNATION", this.new_designation).then(result => {
         console.log("edited:designation: " + JSON.stringify(result));
         this.init();
+        this.$notify({
+              message: "You have successfully edited a Designation",
+              color: "primary"
+            });
         this.close();
       });
     }

@@ -77,14 +77,18 @@ export default {
             "JSON.stringify(result) :",
             JSON.stringify(this.$store.state.user_session.isAuthenticated)
           );
-          {
+          if (this.$store.state.user_session.isAuthenticated === true) {
             this.$notify({
               message: "Welcome to FDA Admin Portal.",
-              icon: "check_circle_outline",
               color: "primary"
             });
+            this.$router.push("/app");
+          } else {
+            this.$notify({
+              message: "You inputed invalid username or password",
+              color: "error"
+            });
           }
-          this.$router.push("/app");
         })
         .catch(err => {});
       console.log(auth);

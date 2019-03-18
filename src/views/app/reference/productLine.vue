@@ -252,6 +252,10 @@ export default {
         .then(result => {
           console.log("added:product_line: " + JSON.stringify(result));
           this.init();
+           this.$notify({
+              message: "You have successfully created a new Product Line",
+              color: "primary"
+            });
           this.close();
         });
     },
@@ -262,6 +266,10 @@ export default {
         .then(result => {
           console.log("edited:product_line: " + JSON.stringify(result));
           this.init();
+          this.$notify({
+              message: "You have successfully edited a Product Line",
+              color: "primary"
+            });
           this.close();
         });
     }

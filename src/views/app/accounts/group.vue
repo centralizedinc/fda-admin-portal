@@ -221,6 +221,10 @@ export default {
       this.$store.dispatch("ADD_GROUP", this.new_group).then(result => {
         console.log("added:region: " + JSON.stringify(result));
         this.init();
+        this.$notify({
+              message: "You have successfully created a new Group",
+              color: "primary"
+            });
         this.close();
       });
     },
@@ -228,6 +232,10 @@ export default {
       this.$store.dispatch("EDIT_GROUP", this.new_group).then(result => {
         console.log("edited:region: " + JSON.stringify(result));
         this.init();
+        this.$notify({
+              message: "You have successfully edited a Group",
+              color: "primary"
+            });
         this.close();
       });
     }

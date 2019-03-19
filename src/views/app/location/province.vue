@@ -248,6 +248,10 @@ export default {
       this.$store.dispatch("ADD_PROVINCE", this.new_province).then(result => {
         console.log("added:province: " + JSON.stringify(result));
         this.init();
+        this.$notify({
+              message: "You have successfully created a new Province",
+              color: "primary"
+            });
         this.close();
       });
     },
@@ -256,6 +260,10 @@ export default {
       this.$store.dispatch("EDIT_PROVINCE", this.new_province).then(result => {
         console.log("edited:province: " + JSON.stringify(result));
         this.init();
+         this.$notify({
+              message: "You have successfully edited a Province",
+              color: "primary"
+            });
         this.close();
       });
     }

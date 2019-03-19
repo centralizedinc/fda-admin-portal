@@ -243,7 +243,7 @@
           </v-list-tile-content>
         </v-list-tile>
 
-        <v-list-tile @click="confirmLogout()" class="ma-1" :style="activeRoute('LOGOUT')">
+        <v-list-tile @click="showLogout()" class="ma-1" :style="activeRoute('LOGOUT')">
           <v-list-tile-action>
             <v-icon color="success">fas fa-sign-out-alt</v-icon>
           </v-list-tile-action>
@@ -264,17 +264,68 @@
       </v-btn>
       <span class="headline font-weight-light">FDA Admin Portal</span>
       <v-spacer></v-spacer>
-      <v-btn icon>
+      <v-menu offset-y>
+        <v-btn icon slot="activator">
+          <v-icon small>far fa-bell</v-icon>
+        </v-btn>
+        <v-list two-line subheader>
+          <v-subheader>Notifications</v-subheader>
+          <v-divider></v-divider>
+          <v-list-tile avatar>
+            <v-list-tile-content>
+              <v-list-tile-title class="body-2 font-weight-light">
+                <v-icon color="success" small right>check</v-icon>Account Activation
+              </v-list-tile-title>
+              <v-list-tile-sub-title
+                class="caption font-weight-thin"
+              >02/06/2019 3:26PM - Your account was activated</v-list-tile-sub-title>
+            </v-list-tile-content>
+          </v-list-tile>
+        </v-list>
+      </v-menu>
+
+      <v-menu offset-y>
+        <v-btn icon slot="activator">
+          <v-avatar size="40">
+            <img src="http://i.pravatar.cc/200" alt="alt">
+          </v-avatar>
+        </v-btn>
+        <v-list two-line subheader>
+          <v-list-tile avatar @click="goTo('/app/profile')">
+            <v-list-tile-content>
+              <v-list-tile-title class="body-2 font-weight-light">My Profile</v-list-tile-title>
+              <v-list-tile-sub-title class="caption font-weight-thin">Change your account details</v-list-tile-sub-title>
+            </v-list-tile-content>
+          </v-list-tile>
+          <v-divider></v-divider>
+          <v-list-tile avatar @click="goTo('/app/password')">
+            <v-list-tile-content>
+              <v-list-tile-title class="body-2 font-weight-light">Password Settings</v-list-tile-title>
+              <v-list-tile-sub-title
+                class="caption font-weight-thin"
+              >Change Password and Security Settings</v-list-tile-sub-title>
+            </v-list-tile-content>
+          </v-list-tile>
+          <v-divider></v-divider>
+          <v-list-tile avatar @click="showLogout">
+            <v-list-tile-content>
+              <v-list-tile-title class="body-2 font-weight-light">Logout</v-list-tile-title>
+              <v-list-tile-sub-title class="caption font-weight-thin">Sing out of FDA Admin Portal</v-list-tile-sub-title>
+            </v-list-tile-content>
+          </v-list-tile>
+        </v-list>
+      </v-menu>
+      <!-- <v-btn icon>
         <v-icon small>far fa-bell</v-icon>
       </v-btn>
       <v-btn icon>
         <v-avatar size="40">
           <img src="http://i.pravatar.cc/200" alt="alt">
         </v-avatar>
-      </v-btn>
-      <v-btn icon>
+      </v-btn>-->
+      <!-- <v-btn icon>
         <v-icon small>fas fa-indent</v-icon>
-      </v-btn>
+      </v-btn> -->
     </v-toolbar>
     <!-- <v-content> -->
     <v-container fluid>
@@ -297,6 +348,32 @@
       <!-- <transition name="fade"> -->
       <router-view></router-view>
       <!-- </transition> -->
+      <v-dialog v-model="show_logout" persistent max-width="300" transition="dialog-transition">
+        <v-card>
+          <v-toolbar
+            dark
+            color="fdaGreen"
+            style="background: linear-gradient(45deg, #104B2A 0%, #b5c25a 100%)"
+          >
+            <span class="title font-weight-thin">Logout</span>
+          </v-toolbar>
+          <v-card-text>
+            <span class="font-weight-light">Are you sure you want to logout?</span>
+            <v-divider></v-divider>
+          </v-card-text>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn
+              class="font-weight-light"
+              outline
+              color="primary"
+              dark
+              @click.native="show_logout = false"
+            >No</v-btn>
+            <v-btn class="font-weight-light" color="success" @click="confirmLogout()">Yes</v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
     </v-container>
     <!-- </v-content> -->
     <v-footer dark style="background: linear-gradient(45deg, #b5c25a 0%, #104b2a 100%)">
@@ -320,6 +397,7 @@ export default {
       mini: false,
       route_name: "",
       admin: {},
+      show_logout: false,
       list: {}
     };
   },
@@ -338,6 +416,9 @@ export default {
     },
     goTo(router) {
       this.$router.push(router);
+    },
+    showLogout() {
+      this.show_logout = true;
     },
     confirmLogout() {
       this.$store.dispatch("LOGOUT");

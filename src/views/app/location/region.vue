@@ -200,6 +200,10 @@ export default {
       this.$store.dispatch("ADD_REGION", this.new_region).then(result => {
         console.log("added:region: " + JSON.stringify(result));
         this.init();
+        this.$notify({
+              message: "You have successfully created a new Region",
+              color: "primary"
+            });
         this.close();
       });
     },
@@ -207,6 +211,10 @@ export default {
       this.$store.dispatch("EDIT_REGION", this.new_region).then(result => {
         console.log("edited:region: " + JSON.stringify(result));
         this.init();
+        this.$notify({
+              message: "You have successfully edited a Region",
+              color: "primary"
+            });
         this.close();
       });
     }

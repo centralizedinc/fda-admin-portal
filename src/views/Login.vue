@@ -85,7 +85,7 @@ export default {
             this.$router.push("/app");
           } else {
             this.$notify({
-              message: "You inputed invalid username or password",
+              message: "Invalid user credential",
               color: "error"
             });
           }

@@ -75,7 +75,7 @@ export default {
       rules: {
         required: value => !!value || "Required.",
         confirm_password: value =>
-          value === this.account.new_password ||
+          this.admin.new_password === this.admin.confirm ||
           "The new password and confirm password you entered doesn't match"
       }
     };

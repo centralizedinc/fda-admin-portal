@@ -36,9 +36,35 @@
           <v-divider class="mt-5"></v-divider>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn color="success" @click="submit()">Submit</v-btn>
+            <v-btn color="success" @click="showProfile">Submit</v-btn>
           </v-card-actions>
         </v-card>
+        <v-dialog v-model="show_profile" persistent max-width="400" transition="dialog-transition">
+        <v-card>
+          <v-toolbar
+            dark
+            color="fdaGreen"
+            style="background: linear-gradient(45deg, #104B2A 0%, #b5c25a 100%)"
+          >
+            <span class="title font-weight-thin">My Profile</span>
+          </v-toolbar>
+          <v-card-text>
+            <span class="font-weight-light">Are you sure you want to Update your Details?</span>
+            <v-divider></v-divider>
+          </v-card-text>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn
+              class="font-weight-light"
+              outline
+              color="primary"
+              dark
+              @click.native="show_profile = false"
+            >No</v-btn>
+            <v-btn class="font-weight-light" color="success" @click="submit()">Yes</v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
       </v-flex>
     </v-layout>
   </div>
@@ -50,6 +76,7 @@ export default {
     first_name: null,
     last_name: null,
     username: null,
+    show_profile: false,
     email: null
   }),
 
@@ -74,6 +101,9 @@ export default {
       //     this.admin = result;
       //     console.log("LOGS GET PROFILE" + JSON.stringify(this.admin));
       //   });
+    },
+    showProfile() {
+      this.show_profile = true;
     },
     close() {
       this.new_admin = {};

@@ -15,7 +15,7 @@
               ></v-text-field>
               <v-text-field
                 :append-icon="confirm_password ? 'visibility' : 'visibility_off'"
-                :rules="[rules.required, password_match]"
+                :rules="[rules.required, rules.confirm_password]"
                 :type="confirm_password ? 'text' : 'password'"
                 label="Confirm Password"
                 @click:append="confirm_password = !confirm_password"
@@ -26,9 +26,35 @@
           <v-divider class="mt-5"></v-divider>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn color="success" @click="submit()">Submit</v-btn>
+            <v-btn color="success" @click="showPass">Submit</v-btn>
           </v-card-actions>
         </v-card>
+        <v-dialog v-model="show_pass" persistent max-width="400" transition="dialog-transition">
+          <v-card>
+            <v-toolbar
+              dark
+              color="fdaGreen"
+              style="background: linear-gradient(45deg, #104B2A 0%, #b5c25a 100%)"
+            >
+              <span class="title font-weight-thin">Change Password</span>
+            </v-toolbar>
+            <v-card-text>
+              <span class="font-weight-light">Are you sure you want to Change your Password?</span>
+              <v-divider></v-divider>
+            </v-card-text>
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn
+                class="font-weight-light"
+                outline
+                color="primary"
+                dark
+                @click.native="show_pass = false"
+              >No</v-btn>
+              <v-btn class="font-weight-light" color="success" @click="submit()">Yes</v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
       </v-flex>
     </v-layout>
   </div>
@@ -45,15 +71,12 @@ export default {
       },
       new_password: false,
       confirm_password: false,
+      show_pass: false,
       rules: {
         required: value => !!value || "Required.",
-        password: value => {
-          const pattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/;
-          return (
-            pattern.test(value) ||
-            "Password must have 1 lowercase, 1 uppercase, 1 special character and 8 characters"
-          );
-        }
+        confirm_password: value =>
+          value === this.account.new_password ||
+          "The new password and confirm password you entered doesn't match"
       }
     };
   },
@@ -75,6 +98,9 @@ export default {
       );
       this.admin.user_id = this.$store.state.user_session.user._id;
     },
+    showPass() {
+      this.show_pass = true;
+    },
     submit() {
       // this.new_admin = this.admin;
       console.log(
@@ -89,13 +115,15 @@ export default {
             color: "success",
             icon: "check_box"
           });
-        this.$router.push("/app");
+          this.$router.push("/app");
+          // this.$store.dispatch("LOGOUT");
+          // this.$router.push("/login");
         })
         .catch(err => {
-
+          console.log(err);
+          this.$notifyError(err);
         });
     }
-    
   }
 };
 </script>

@@ -358,7 +358,7 @@
             <span class="title font-weight-thin">Logout</span>
           </v-toolbar>
           <v-card-text>
-            <span class="font-weight-light">Are you sure you want to logout?</span>
+            <span class="font-weight-light">Are you sure you want to Logout?</span>
             <v-divider></v-divider>
           </v-card-text>
           <v-card-actions>

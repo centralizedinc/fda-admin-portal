@@ -86,7 +86,7 @@ export default {
           } else {
             this.$notify({
               message: "Invalid user credential",
-              color: "error"
+              color: "warning"
             });
           }
         })

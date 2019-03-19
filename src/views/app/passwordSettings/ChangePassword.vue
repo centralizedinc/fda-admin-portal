@@ -4,8 +4,9 @@
       <v-flex xs12 sm10 offset-sm1>
         <v-card>
           <v-layout align-center justify-center>
-            <v-flex xs8>
+            <v-flex xs6 class="pt-5">
               <v-text-field
+                outline
                 :append-icon="new_password ? 'visibility' : 'visibility_off'"
                 :rules="[rules.required, rules.password]"
                 :type="new_password ? 'text' : 'password'"
@@ -14,6 +15,7 @@
                 v-model="admin.new_password"
               ></v-text-field>
               <v-text-field
+                outline
                 :append-icon="confirm_password ? 'visibility' : 'visibility_off'"
                 :rules="[rules.required, rules.confirm_password]"
                 :type="confirm_password ? 'text' : 'password'"
@@ -75,7 +77,7 @@ export default {
       rules: {
         required: value => !!value || "Required.",
         confirm_password: value =>
-          this.admin.new_password === this.admin.confirm ||
+          value === this.admin.confirm ||
           "The new password and confirm password you entered doesn't match"
       }
     };

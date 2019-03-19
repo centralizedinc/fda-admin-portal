@@ -277,6 +277,10 @@ export default {
       this.$store.dispatch("ADD_CITY", this.new_city).then(result => {
         console.log("added:city: " + JSON.stringify(result));
         this.init();
+        this.$notify({
+              message: "You have successfully created a new City",
+              color: "primary"
+            });
         this.close();
       });
     },
@@ -284,6 +288,10 @@ export default {
       this.$store.dispatch("EDIT_CITY", this.new_city).then(result => {
         console.log("edited:city: " + JSON.stringify(result));
         this.init();
+        this.$notify({
+              message: "You have successfully edited a City",
+              color: "primary"
+            });
         this.close();
       });
     }

@@ -197,26 +197,89 @@ export default {
       this.new_region = {};
     },
     submit() {
-      this.$store.dispatch("ADD_REGION", this.new_region).then(result => {
-        console.log("added:region: " + JSON.stringify(result));
-        this.init();
+      if (
+        this.new_region.name === this.new_region.region_code ||
+        this.isEmpty(this.new_region.name) ||
+        this.isEmpty(this.new_region.region_code)
+      ) {
         this.$notify({
+          message: "Error",
+          color: "error"
+        });
+      } else {
+        var region = this.$store.state.regional_tables.regions;
+        var check = true;
+        region.forEach(data => {
+          if (
+            this.new_region.name === data.name ||
+            this.new_region.region_code === data.ragion_code
+          ) {
+            console.log("###########");
+
+            check = false;
+          }
+        });
+
+        if (check === true) {
+          this.$store.dispatch("ADD_REGION", this.new_region).then(result => {
+            console.log("added:region: " + JSON.stringify(result));
+            this.init();
+            this.$notify({
               message: "You have successfully created a new Region",
               color: "primary"
             });
-        this.close();
-      });
+            this.close();
+          });
+        } else {
+          this.$notify({
+            message: "Error",
+            color: "error"
+          });
+        }
+      }
     },
+
     save() {
-      this.$store.dispatch("EDIT_REGION", this.new_region).then(result => {
-        console.log("edited:region: " + JSON.stringify(result));
-        this.init();
+      if (
+        this.new_region.name === this.new_region.region_code ||
+        this.isEmpty(this.new_region.name) ||
+        this.isEmpty(this.new_region.region_code)
+      ) {
         this.$notify({
+          message: "Error",
+          color: "error"
+        });
+      } else {
+        var region = this.$store.state.regional_tables.regions;
+        var check = true;
+        region.forEach(data => {
+          if (
+            this.new_region.name === data.name ||
+            this.new_region.region_code === data.ragion_code
+          ) {
+            console.log("###########");
+
+            check = false;
+          }
+        });
+
+        if (check === true) {
+          this.$store.dispatch("EDIT_REGION", this.new_region).then(result => {
+            console.log("edited:region: " + JSON.stringify(result));
+            this.init();
+            this.$notify({
               message: "You have successfully edited a Region",
               color: "primary"
             });
-        this.close();
-      });
+            this.close();
+          });
+        } else {
+          this.$notify({
+            message: "Error",
+            color: "error"
+          });
+        }
+      }
     }
   }
 };

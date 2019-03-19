@@ -123,21 +123,86 @@
         </v-card>
       </v-dialog>
       <!-- VIEW -->
-      <v-dialog v-model="dialogView" max-width="800px">
+      <v-dialog v-model="dialogView" max-width="700px">
         <v-card>
           <v-card-title
             primary-title
             class="headline"
             style="background: linear-gradient(45deg, #104B2A 0%, #b5c25a 100%)"
           >
-            <span class="headline">View Location</span>
+            <span class="headline">View Details</span>
           </v-card-title>
           <v-divider class="mx-3" inset vertical></v-divider>
           <v-card-text>
-            <v-container grid-list-md>
+            <v-container grid-list-xl>
+              <v-layout row wrap align-center justify-center fill-height>
+                <!-- <v-flex xs6> -->
+                <v-flex xs6>
+                  <label class="title">Description:</label>
+                </v-flex>
+                <v-flex xs6>
+                  <label class="subheading">{{new_fees.description}}</label>
+                </v-flex>
+                <v-flex xs6>
+                  <label class="title">Product Type:</label>
+                </v-flex>
+                <v-flex xs6>
+                  <label class="subheading">{{product_details(new_fees.productType)}}</label>
+                </v-flex>
+                <v-flex xs6>
+                  <label class="title">Primary Activity:</label>
+                </v-flex>
+                <v-flex xs6>
+                  <label class="subheading">{{primary_details(new_fees.primaryActivity)}}</label>
+                </v-flex>
+                <v-flex xs6>
+                  <label class="title">Declared Capital:</label>
+                </v-flex>
+                <v-flex xs6>
+                  <label class="subheading">{{declared_details(new_fees.declaredCapital)}}</label>
+                </v-flex>
+                <v-flex xs6>
+                  <label class="title">Application Type:</label>
+                </v-flex>
+                <v-flex xs6>
+                  <label class="subheading">{{ App(new_fees.appType) }}</label>
+                </v-flex>
+                <v-flex xs6>
+                  <label class="title">Amount of Fee:</label>
+                </v-flex>
+                <v-flex xs6>
+                  <label class="subheading">{{new_fees.fee}}</label>
+                </v-flex>
+                <v-flex xs6>
+                  <label class="title">Created By:</label>
+                </v-flex>
+                <v-flex xs6>
+                  <label class="subheading">{{new_fees.created_by}}</label>
+                </v-flex>
+                <v-flex xs6>
+                  <label class="title">Date Created:</label>
+                </v-flex>
+                <v-flex xs6>
+                  <label class="subheading">{{formatDate(new_fees.date_created)}}</label>
+                </v-flex>
+                <v-flex xs6>
+                  <label class="title">Modified By:</label>
+                </v-flex>
+                <v-flex xs6>
+                  <label class="subheading">{{new_fees.modified_by}}</label>
+                </v-flex>
+                <v-flex xs6>
+                  <label class="title">Date Modified:</label>
+                </v-flex>
+                <v-flex xs6>
+                  <label class="subheading">{{formatDate(new_fees.date_modified)}}</label>
+                </v-flex>
+              </v-layout>
+            </v-container>
+            <!-- <v-container grid-list-md>
               <v-layout wrap>
                 <v-flex xs12 sm4 md2>
-                  <span class="text-xs-center">Name</span>
+                  <span class="text-xs-center">Description</span>
                   <v-divider></v-divider>
                   <v-card-text>{{new_fees.description}}</v-card-text>
                 </v-flex>
@@ -162,12 +227,32 @@
                   <v-card-text>{{ App(new_fees.appType) }}</v-card-text>
                 </v-flex>
                 <v-flex xs12 sm4 md2>
-                  <span class="text-xs-center">Fee</span>
+                  <span class="text-xs-center">Amount of Fee</span>
                   <v-divider></v-divider>
                   <v-card-text>{{new_fees.fee}}</v-card-text>
                 </v-flex>
+                <v-flex xs12 sm4 md2>
+                  <span class="text-xs-center">Created By</span>
+                  <v-divider></v-divider>
+                  <v-card-text>{{new_fees.created_by}}</v-card-text>
+                </v-flex>
+                 <v-flex xs12 sm4 md2>
+                  <span class="text-xs-center">Date Created</span>
+                  <v-divider></v-divider>
+                  <v-card-text>{{formatDate(new_fees.date_created)}}</v-card-text>
+                </v-flex>
+                <v-flex xs12 sm4 md2>
+                  <span class="text-xs-center">Modified By</span>
+                  <v-divider></v-divider>
+                  <v-card-text>{{new_fees.modified_by}}</v-card-text>
+                </v-flex>
+                <v-flex xs12 sm4 md2>
+                  <span class="text-xs-center">Date Modified</span>
+                  <v-divider></v-divider>
+                  <v-card-text>{{formatDate(new_fees.date_modified)}}</v-card-text>
+                </v-flex>
               </v-layout>
-            </v-container>
+            </v-container>-->
           </v-card-text>
           <v-divider></v-divider>
           <v-card-actions>
@@ -185,6 +270,10 @@
         <td>{{ declared_details(props.item.declaredCapital) }}</td>
         <td>{{ App(props.item.appType) }}</td>
         <td>{{ props.item.fee }}</td>
+        <td>{{ props.item.created_by }}</td>
+        <td>{{ formatDate(props.item.date_created) }}</td>
+        <td>{{ props.item.modified_by }}</td>
+        <td>{{ formatDate(props.item.date_modified) }}</td>
         <td class="justify-center layout px-0">
           <v-icon small class="mr-2" @click="editItem(props.item)" flat icon color="primary">edit</v-icon>
           <v-icon small @click="viewItem(props.item)" flat icon color="primary">visibility</v-icon>
@@ -206,20 +295,23 @@ export default {
     products: {},
     productLine: [],
     declared: [],
-    fees:[],
+    fees: [],
     new_fees: {},
     modified_fees: {},
     select: { state: "Product Type" },
     select_declared: { state: "Declared Capital" },
     appType: "",
-    appTypes: [{ value: "0", label:'New License' }, { value: "2", label:'Renewal' }],
+    appTypes: [
+      { value: "0", label: "New License" },
+      { value: "2", label: "Renewal" }
+    ],
     dialog: false,
     dialogView: false,
     isUpdating: false,
     search: "",
     headers: [
       {
-        text: "Name",
+        text: "Description",
         align: "left",
         sortable: "true",
         value: "description"
@@ -249,9 +341,29 @@ export default {
         value: "appType"
       },
       {
-        text: "Fee",
+        text: "Amount of Fee",
         align: "left",
         value: "fee"
+      },
+      {
+        text: "Created By",
+        align: "left",
+        value: "created_by"
+      },
+      {
+        text: "Date Created",
+        align: "left",
+        value: "date_created"
+      },
+      {
+        text: "Modified By",
+        align: "left",
+        value: "modified_by"
+      },
+      {
+        text: "Date Modified",
+        align: "left",
+        value: "date_modified"
       },
       {
         text: "Action",
@@ -307,7 +419,7 @@ export default {
         ? this.getPrimary(primary_id).name
         : "";
     },
-     declared_details(declared_id) {
+    declared_details(declared_id) {
       return this.getDeclared(declared_id)
         ? this.getDeclared(declared_id).name
         : "";
@@ -370,21 +482,23 @@ export default {
         console.log("added:product_line: " + JSON.stringify(result));
         this.init();
         this.$notify({
-              message: "You have successfully created a new Fee",
-              color: "primary"
-            });
+          message: "You have successfully created a new Fee",
+          color: "primary"
+        });
         this.close();
       });
     },
     save() {
-      console.log('###########edited:new_fees: ' + JSON.stringify(this.new_fees));
+      console.log(
+        "###########edited:new_fees: " + JSON.stringify(this.new_fees)
+      );
       this.$store.dispatch("EDIT_FEES", this.new_fees).then(result => {
         console.log("edited:product_line: " + JSON.stringify(result));
         this.init();
         this.$notify({
-              message: "You have successfully edited a Fee",
-              color: "primary"
-            });
+          message: "You have successfully edited a Fee",
+          color: "primary"
+        });
         this.close();
       });
     }

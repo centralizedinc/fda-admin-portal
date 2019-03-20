@@ -67,31 +67,48 @@
             class="headline"
             style="background: linear-gradient(45deg, #104B2A 0%, #b5c25a 100%)"
           >
-            <span class="headline">View Location</span>
+            <span class="headline">View Details</span>
           </v-card-title>
           <v-divider class="mx-3" inset vertical></v-divider>
           <v-card-text>
-            <v-container grid-list-md>
-              <v-layout wrap>
-                <v-flex xs12 sm4 md3>
-                  <span class="text-xs-center">Checklist Name</span>
-                  <v-divider></v-divider>
-                  <v-card-text>{{new_checklist.description}}</v-card-text>
+            <v-container grid-list-xl>
+              <v-layout row wrap align-center justify-center fill-height>
+                <!-- <v-flex xs6> -->
+                <v-flex xs6>
+                  <label class="title">Checklist Name:</label>
                 </v-flex>
-                <v-flex xs12 sm4 md3>
-                  <span class="text-xs-center">Task Name</span>
-                  <v-divider></v-divider>
-                  <v-card-text>{{ task_details(new_checklist.task) }}</v-card-text>
+                <v-flex xs6>
+                  <label class="subheading">{{new_checklist.description}}</label>
                 </v-flex>
-                <v-flex xs12 sm4 md3>
-                  <span class="text-xs-center">Modified Date</span>
-                  <v-divider></v-divider>
-                  <v-card-text>{{new_checklist.date_modified}}</v-card-text>
+                <v-flex xs6>
+                  <label class="title">Task Name:</label>
                 </v-flex>
-                <v-flex xs12 sm4 md3>
-                  <span class="text-xs-center">Created Date</span>
-                  <v-divider></v-divider>
-                  <v-card-text>{{new_checklist.date_created}}</v-card-text>
+                <v-flex xs6>
+                  <label class="subheading">{{task_details(new_checklist.task)}}</label>
+                </v-flex>
+                <v-flex xs6>
+                  <label class="title">Created By:</label>
+                </v-flex>
+                <v-flex xs6>
+                  <label class="subheading">{{new_checklist.date_created}}</label>
+                </v-flex>
+                <v-flex xs6>
+                  <label class="title">Date Created:</label>
+                </v-flex>
+                <v-flex xs6>
+                  <label class="subheading">{{formatDate(new_checklist.date_created)}}</label>
+                </v-flex>
+                <v-flex xs6>
+                  <label class="title">Modified By:</label>
+                </v-flex>
+                <v-flex xs6>
+                  <label class="subheading">{{new_checklist.date_created}}</label>
+                </v-flex>
+                <v-flex xs6>
+                  <label class="title">Date Modified:</label>
+                </v-flex>
+                <v-flex xs6>
+                  <label class="subheading">{{formatDate(new_checklist.date_created)}}</label>
                 </v-flex>
               </v-layout>
             </v-container>
@@ -108,8 +125,10 @@
       <template slot="items" slot-scope="props">
         <td>{{ props.item.description }}</td>
         <td>{{ task_details(props.item.task) }}</td>
-        <td>{{ formatDate(props.item.date_modified) }}</td>
+        <td>{{ props.item.created_by }}</td>
         <td>{{ formatDate(props.item.date_created) }}</td>
+        <td>{{ props.item.modified_by }}</td>
+        <td>{{ formatDate(props.item.date_modified) }}</td>
         <td class="justify-center layout px-0">
           <v-icon small class="mr-2" @click="editItem(props.item)" flat icon color="primary">edit</v-icon>
           <v-icon small @click="viewItem(props.item)" flat icon color="primary">visibility</v-icon>
@@ -150,14 +169,24 @@ export default {
         value: "tasks"
       },
       {
-        text: "Modified Date",
+        text: "Created By",
         align: "left",
-        value: "date_modified"
+        value: "created_by"
       },
       {
-        text: "Created Date",
+        text: "Date Created",
         align: "left",
         value: "date_created"
+      },
+      {
+        text: "Modified By",
+        align: "left",
+        value: "modified_by"
+      },
+      {
+        text: "Date Modified",
+        align: "left",
+        value: "date_modified"
       },
       {
         text: "Action",
@@ -250,9 +279,9 @@ export default {
         console.log("added:checklist: " + JSON.stringify(result));
         this.init();
         this.$notify({
-              message: "You have successfully created a new Checklist",
-              color: "primary"
-            });
+          message: "You have successfully created a new Checklist",
+          color: "primary"
+        });
         this.close();
       });
     },
@@ -264,9 +293,9 @@ export default {
           console.log("edited:checklist: " + JSON.stringify(result));
           this.init();
           this.$notify({
-              message: "You have successfully edited a Checklist",
-              color: "primary"
-            });
+            message: "You have successfully edited a Checklist",
+            color: "primary"
+          });
           this.close();
         });
     }

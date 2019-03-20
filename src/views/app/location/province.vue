@@ -250,6 +250,7 @@ export default {
         this.init();
         this.$notify({
               message: "You have successfully created a new Province",
+              icon: "check_circle",
               color: "primary"
             });
         this.close();
@@ -262,6 +263,7 @@ export default {
         this.init();
          this.$notify({
               message: "You have successfully edited a Province",
+              icon: "check_circle",
               color: "primary"
             });
         this.close();

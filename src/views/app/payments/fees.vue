@@ -429,6 +429,7 @@ export default {
         this.init();
         this.$notify({
           message: "You have successfully created a new Fee",
+          icon: "check_circle",
           color: "primary"
         });
         this.close();
@@ -443,6 +444,7 @@ export default {
         this.init();
         this.$notify({
           message: "You have successfully edited a Fee",
+          icon: "check_circle",
           color: "primary"
         });
         this.close();

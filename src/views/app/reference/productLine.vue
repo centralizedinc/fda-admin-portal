@@ -254,6 +254,7 @@ export default {
           this.init();
            this.$notify({
               message: "You have successfully created a new Product Line",
+              icon: "check_circle",
               color: "primary"
             });
           this.close();
@@ -268,6 +269,7 @@ export default {
           this.init();
           this.$notify({
               message: "You have successfully edited a Product Line",
+              icon: "check_circle",
               color: "primary"
             });
           this.close();

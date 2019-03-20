@@ -80,6 +80,7 @@ export default {
           if (this.$store.state.user_session.isAuthenticated === true) {
             this.$notify({
               message: "Welcome to FDA Admin Portal.",
+              icon: "check_circle",
               color: "primary"
             });
             this.$router.push("/app");

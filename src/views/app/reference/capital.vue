@@ -172,6 +172,7 @@ export default {
         this.init();
         this.$notify({
               message: "You have successfully created a new Declared Capital",
+              icon: "check_circle",
               color: "primary"
             });
         this.close();
@@ -183,6 +184,7 @@ export default {
         this.init();
          this.$notify({
               message: "You have successfully edited a declared capital",
+              icon: "check_circle",
               color: "primary"
             });
         this.close();

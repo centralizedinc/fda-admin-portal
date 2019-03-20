@@ -237,9 +237,10 @@ export default {
         console.log("added:product: " + JSON.stringify(result));
         this.init();
         this.$notify({
-              message: "You have successfully created a new Product",
-              color: "primary"
-            });
+          message: "You have successfully created a new Product",
+          icon: "check_circle",
+          color: "primary"
+        });
         this.close();
       });
     },
@@ -248,9 +249,10 @@ export default {
         console.log("edited:product: " + JSON.stringify(result));
         this.init();
         this.$notify({
-              message: "You have successfully edited a Product",
-              color: "primary"
-            });
+          message: "You have successfully edited a Product",
+          icon: "check_circle",
+          color: "primary"
+        });
         this.close();
       });
     }

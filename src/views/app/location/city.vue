@@ -279,6 +279,7 @@ export default {
         this.init();
         this.$notify({
               message: "You have successfully created a new City",
+              icon: "check_circle",
               color: "primary"
             });
         this.close();
@@ -290,6 +291,7 @@ export default {
         this.init();
         this.$notify({
               message: "You have successfully edited a City",
+              icon: "check_circle",
               color: "primary"
             });
         this.close();

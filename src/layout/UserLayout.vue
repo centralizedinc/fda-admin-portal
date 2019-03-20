@@ -37,7 +37,7 @@
           <v-list-tile slot="activator">
             <v-list-tile-title>Users</v-list-tile-title>
           </v-list-tile>
-          <v-list-tile @click="goTo('/app/clients')" class="ma-1" :style="activeRoute('clients')">
+          <v-list-tile @click="goTo('/app/clients')" class="ma-1" :style="activeRoute('Clients')">
             <v-list-tile-action>
               <v-icon color="success">people_outline</v-icon>
             </v-list-tile-action>
@@ -165,7 +165,7 @@
             </v-list-tile-content>
           </v-list-tile>
         </v-list-group>
-        <v-list-tile @click="goTo('/app/group')" class="ma-1" :style="activeRoute('group')">
+        <v-list-tile @click="goTo('/app/group')" class="ma-1" :style="activeRoute('Group')">
           <v-list-tile-action>
             <v-icon color="success">contacts</v-icon>
           </v-list-tile-action>
@@ -312,7 +312,7 @@
       </v-btn>-->
       <!-- <v-btn icon>
         <v-icon small>fas fa-indent</v-icon>
-      </v-btn> -->
+      </v-btn>-->
     </v-toolbar>
     <!-- <v-content> -->
     <v-container fluid>

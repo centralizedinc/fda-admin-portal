@@ -35,17 +35,9 @@
                 <v-flex xs12>
                   <v-text-field v-model="new_admin.email" label="Email Address"></v-text-field>
                 </v-flex>
-                <!-- <v-flex xs12>
-                  <v-text-field
-                    :append-icon="new_password ? 'visibility' : 'visibility_off'"
-                    :type="new_password ? 'text' : 'password'"
-                    label="Password"
-                    @click:append="new_password = !new_password"
-                    v-model="new_admin.password"
-                  ></v-text-field>
-                </v-flex> -->
                 <v-flex xs12>
                   <v-autocomplete
+                    multiple
                     v-model="new_admin.group"
                     :disabled="isUpdating"
                     :items="groups_items"
@@ -53,18 +45,7 @@
                     label="Group name"
                     item-text="name"
                     item-value="_id"
-                  >
-                    <template slot="item" slot-scope="data">
-                      <template v-if="typeof data.item !== 'object'">
-                        <v-list-tile-content v-text="data.item"></v-list-tile-content>
-                      </template>
-                      <template v-else>
-                        <v-list-tile-content>
-                          <v-list-tile-title v-html="data.item.name"></v-list-tile-title>
-                        </v-list-tile-content>
-                      </template>
-                    </template>
-                  </v-autocomplete>
+                  ></v-autocomplete>
                 </v-flex>
                 <v-flex xs12>
                   <v-autocomplete
@@ -111,7 +92,72 @@
           </v-card-title>
           <v-divider class="mx-3" inset vertical></v-divider>
           <v-card-text>
-            <v-container grid-list-md>
+            <v-container grid-list-xl>
+              <v-layout row wrap align-center justify-center fill-height>
+                <!-- <v-flex xs6> -->
+                <v-flex xs6>
+                  <label class="title">Admin Name:</label>
+                </v-flex>
+                <v-flex xs6>
+                  <label class="subheading">{{new_admin.first_name}}</label>
+                </v-flex>
+                <v-flex xs6>
+                  <label class="title">Group Name:</label>
+                </v-flex>
+                <v-flex xs6>
+                  <label class="subheading">{{getGroup(new_admin.group)}}</label>
+                </v-flex>
+                <v-flex xs6>
+                  <label class="title">Username:</label>
+                </v-flex>
+                <v-flex xs6>
+                  <label class="subheading">{{new_admin.username}}</label>
+                </v-flex>
+                <v-flex xs6>
+                  <label class="title">Status:</label>
+                </v-flex>
+                <v-flex xs6>
+                  <label class="subheading">{{new_admin.status}}</label>
+                </v-flex>
+                <v-flex xs6>
+                  <label class="title">Email:</label>
+                </v-flex>
+                <v-flex xs6>
+                  <label class="subheading">{{new_admin.email}}</label>
+                </v-flex>
+                <v-flex xs6>
+                  <label class="title">Roles:</label>
+                </v-flex>
+                <v-flex xs6>
+                  <label class="subheading">{{rol(new_admin.role)}}</label>
+                </v-flex>
+                <v-flex xs6>
+                  <label class="title">Created By:</label>
+                </v-flex>
+                <v-flex xs6>
+                  <label class="subheading">{{new_admin.date_created}}</label>
+                </v-flex>
+                <v-flex xs6>
+                  <label class="title">Date Created:</label>
+                </v-flex>
+                <v-flex xs6>
+                  <label class="subheading">{{formatDate(new_admin.date_created)}}</label>
+                </v-flex>
+                <v-flex xs6>
+                  <label class="title">Modified By:</label>
+                </v-flex>
+                <v-flex xs6>
+                  <label class="subheading">{{new_admin.date_created}}</label>
+                </v-flex>
+                <v-flex xs6>
+                  <label class="title">Date Modified:</label>
+                </v-flex>
+                <v-flex xs6>
+                  <label class="subheading">{{formatDate(new_admin.date_created)}}</label>
+                </v-flex>
+              </v-layout>
+            </v-container>
+            <!-- <v-container grid-list-md>
               <v-layout wrap>
                 <v-flex xs12 sm4 md2>
                   <span class="text-xs-center">Name</span>
@@ -121,7 +167,7 @@
                 <v-flex xs12 sm4 md2>
                   <span class="text-xs-center">Group Name</span>
                   <v-divider></v-divider>
-                  <v-card-text>{{new_admin.groups}}</v-card-text>
+                  <v-card-text>{{getGroup(new_admin.group)}}</v-card-text>
                 </v-flex>
                 <v-flex xs12 sm4 md2>
                   <span class="text-xs-center">Username</span>
@@ -144,7 +190,7 @@
                   <v-card-text>{{rol(new_admin.role)}}</v-card-text>
                 </v-flex>
               </v-layout>
-            </v-container>
+            </v-container> -->
           </v-card-text>
           <v-divider></v-divider>
           <v-card-actions>
@@ -163,9 +209,10 @@
         <td>{{ props.item.username }}</td>
         <td>{{ props.item.email }}</td>
         <td>{{ rol(props.item.role) }}</td>
-        <!-- <td>{{ props.item.created_by }}</td>
+        <td>{{ props.item.created_by }}</td>
         <td>{{ formatDate(props.item.date_created) }}</td>
-        <td>{{ formatDate(props.item.date_modified) }}</td>-->
+        <td>{{ props.item.modified_by }}</td>
+        <td>{{ formatDate(props.item.date_modified) }}</td>
         <td class="justify-center layout px-0">
           <v-icon small class="mr-2" @click="editItem(props.item)" flat icon color="primary">edit</v-icon>
           <v-icon small @click="viewItem(props.item)" flat icon color="primary">visibility</v-icon>
@@ -242,6 +289,26 @@ export default {
         value: "role"
       },
       {
+        text: "Created By",
+        align: "left",
+        value: "created_by"
+      },
+      {
+        text: "Date Created",
+        align: "left",
+        value: "date_created"
+      },
+      {
+        text: "Modified By",
+        align: "left",
+        value: "modified_by"
+      },
+      {
+        text: "Date Modified",
+        align: "left",
+        value: "date_modified"
+      },
+      {
         text: "Action",
         value: "editStatus"
       }
@@ -254,7 +321,7 @@ export default {
       group: "",
       role: "",
       username: "",
-      email: "",
+      email: ""
     },
     defaultItem: {
       name: ""
@@ -305,12 +372,14 @@ export default {
     getGroup(group_list) {
       console.log("GROUP_LIST: " + JSON.stringify(group_list));
       var list = "";
-      group_list.forEach(item => {
-        var match = this.groups_items.find(r => {
-          return r._id.toString() === item;
+      if (group_list) {
+        group_list.forEach(item => {
+          var match = this.groups_items.find(r => {
+            return r._id.toString() === item;
+          });
+          list = list + match.name;
         });
-        list = list + match.name;
-      });
+      }
       return list;
     },
     remove(item) {
@@ -344,10 +413,10 @@ export default {
         console.log("added:admin: " + JSON.stringify(result));
         this.init();
         this.$notify({
-              message: "You have successfully created a new Admin",
-              icon: "check_circle",
-              color: "primary"
-            });
+          message: "You have successfully created a new Admin",
+          icon: "check_circle",
+          color: "primary"
+        });
         this.close();
       });
     },
@@ -357,10 +426,10 @@ export default {
         console.log("edited:admin: " + JSON.stringify(result));
         this.init();
         this.$notify({
-            message: "You have successfully edited an Admin",
-            color: "success",
-            icon: "check_circle"
-          });
+          message: "You have successfully edited an Admin",
+          color: "success",
+          icon: "check_circle"
+        });
         this.close();
       });
     }

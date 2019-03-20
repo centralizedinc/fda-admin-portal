@@ -67,31 +67,48 @@
             class="headline"
             style="background: linear-gradient(45deg, #104B2A 0%, #b5c25a 100%)"
           >
-            <span class="headline">View Location</span>
+            <span class="headline">View Details</span>
           </v-card-title>
           <v-divider class="mx-3" inset vertical></v-divider>
           <v-card-text>
-            <v-container grid-list-md>
-              <v-layout wrap>
-                <v-flex xs12 sm4 md3>
-                  <span class="text-xs-center">Region Name</span>
-                  <v-divider></v-divider>
-                  <v-card-text>{{ region_details(new_province.region) }}</v-card-text>
+            <v-container grid-list-xl>
+              <v-layout row wrap align-center justify-center fill-height>
+                <!-- <v-flex xs6> -->
+                <v-flex xs6>
+                  <label class="title">Region Name:</label>
                 </v-flex>
-                <v-flex xs12 sm4 md3>
-                  <span class="text-xs-center">Province Name</span>
-                  <v-divider></v-divider>
-                  <v-card-text>{{new_province.name}}</v-card-text>
+                <v-flex xs6>
+                  <label class="subheading">{{region_details(new_province.region)}}</label>
                 </v-flex>
-                <v-flex xs12 sm4 md3>
-                  <span class="text-xs-center">Created Date</span>
-                  <v-divider></v-divider>
-                  <v-card-text>{{new_province.date_created}}</v-card-text>
+                <v-flex xs6>
+                  <label class="title">Province Name:</label>
                 </v-flex>
-                <v-flex xs12 sm4 md3>
-                  <span class="text-xs-center">Modified Date</span>
-                  <v-divider></v-divider>
-                  <v-card-text>{{new_province.date_modified}}</v-card-text>
+                <v-flex xs6>
+                  <label class="subheading">{{new_province.name}}</label>
+                </v-flex>
+                <v-flex xs6>
+                  <label class="title">Created By:</label>
+                </v-flex>
+                <v-flex xs6>
+                  <label class="subheading">{{new_province.date_created}}</label>
+                </v-flex>
+                <v-flex xs6>
+                  <label class="title">Date Created:</label>
+                </v-flex>
+                <v-flex xs6>
+                  <label class="subheading">{{formatDate(new_province.date_created)}}</label>
+                </v-flex>
+                <v-flex xs6>
+                  <label class="title">Modified By:</label>
+                </v-flex>
+                <v-flex xs6>
+                  <label class="subheading">{{new_province.date_created}}</label>
+                </v-flex>
+                <v-flex xs6>
+                  <label class="title">Date Modified:</label>
+                </v-flex>
+                <v-flex xs6>
+                  <label class="subheading">{{formatDate(new_province.date_created)}}</label>
                 </v-flex>
               </v-layout>
             </v-container>
@@ -108,7 +125,9 @@
       <template slot="items" slot-scope="props">
         <td>{{ region_details(props.item.region) }}</td>
         <td>{{ props.item.name }}</td>
+        <td>{{ props.item.created_by }}</td>
         <td>{{ formatDate(props.item.date_created) }}</td>
+        <td>{{ props.item.modified_by }}</td>
         <td>{{ formatDate(props.item.date_modified) }}</td>
         <td class="justify-center layout px-0">
           <v-icon small class="mr-2" @click="editItem(props.item)" flat icon color="primary">edit</v-icon>
@@ -150,12 +169,22 @@ export default {
         value: "name"
       },
       {
-        text: "Created Date",
+        text: "Created By",
+        align: "left",
+        value: "created_by"
+      },
+      {
+        text: "Date Created",
         align: "left",
         value: "date_created"
       },
       {
-        text: "Modified Date",
+        text: "Modified By",
+        align: "left",
+        value: "modified_by"
+      },
+      {
+        text: "Date Modified",
         align: "left",
         value: "date_modified"
       },
@@ -249,10 +278,10 @@ export default {
         console.log("added:province: " + JSON.stringify(result));
         this.init();
         this.$notify({
-              message: "You have successfully created a new Province",
-              icon: "check_circle",
-              color: "primary"
-            });
+          message: "You have successfully created a new Province",
+          icon: "check_circle",
+          color: "primary"
+        });
         this.close();
       });
     },
@@ -261,11 +290,11 @@ export default {
       this.$store.dispatch("EDIT_PROVINCE", this.new_province).then(result => {
         console.log("edited:province: " + JSON.stringify(result));
         this.init();
-         this.$notify({
-              message: "You have successfully edited a Province",
-              icon: "check_circle",
-              color: "primary"
-            });
+        this.$notify({
+          message: "You have successfully edited a Province",
+          icon: "check_circle",
+          color: "primary"
+        });
         this.close();
       });
     }

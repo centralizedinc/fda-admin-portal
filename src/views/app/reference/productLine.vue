@@ -77,26 +77,54 @@
             class="headline"
             style="background: linear-gradient(45deg, #104B2A 0%, #b5c25a 100%)"
           >
-            <span class="headline">View Location</span>
+            <span class="headline">View Details</span>
           </v-card-title>
           <v-divider class="mx-3" inset vertical></v-divider>
           <v-card-text>
-            <v-container grid-list-md>
-              <v-layout wrap>
-                <v-flex xs12 sm4 md4>
-                  <span class="text-xs-center">Product Line</span>
-                  <v-divider></v-divider>
-                  <v-card-text>{{new_product_line.name}}</v-card-text>
+            <v-container grid-list-xl>
+              <v-layout row wrap align-center justify-center fill-height>
+                <!-- <v-flex xs6> -->
+                <v-flex xs6>
+                  <label class="title">Name:</label>
                 </v-flex>
-                <v-flex xs12 sm4 md4>
-                  <span class="text-xs-center">Product Type</span>
-                  <v-divider></v-divider>
-                  <v-card-text>{{ product_details(new_product_line.product_type) }}</v-card-text>
+                <v-flex xs6>
+                  <label class="subheading">{{new_product_line.name}}</label>
                 </v-flex>
-                <v-flex xs12 sm4 md4>
-                  <span class="text-xs-center">Status</span>
-                  <v-divider></v-divider>
-                  <v-card-text>{{new_product_line.status}}</v-card-text>
+                <v-flex xs6>
+                  <label class="title">Product Type:</label>
+                </v-flex>
+                <v-flex xs6>
+                  <label class="subheading">{{product_details(new_product_line.product_type)}}</label>
+                </v-flex>
+                <v-flex xs6>
+                  <label class="title">Created By:</label>
+                </v-flex>
+                <v-flex xs6>
+                  <label class="subheading">{{new_product_line.date_created}}</label>
+                </v-flex>
+                <v-flex xs6>
+                  <label class="title">Status:</label>
+                </v-flex>
+                <v-flex xs6>
+                  <label class="subheading">{{new_product_line.status}}</label>
+                </v-flex>
+                <v-flex xs6>
+                  <label class="title">Date Created:</label>
+                </v-flex>
+                <v-flex xs6>
+                  <label class="subheading">{{formatDate(new_product_line.date_created)}}</label>
+                </v-flex>
+                <v-flex xs6>
+                  <label class="title">Modified By:</label>
+                </v-flex>
+                <v-flex xs6>
+                  <label class="subheading">{{new_product_line.date_created}}</label>
+                </v-flex>
+                <v-flex xs6>
+                  <label class="title">Date Modified:</label>
+                </v-flex>
+                <v-flex xs6>
+                  <label class="subheading">{{formatDate(new_product_line.date_created)}}</label>
                 </v-flex>
               </v-layout>
             </v-container>
@@ -114,6 +142,10 @@
         <td>{{ props.item.name }}</td>
         <td>{{ product_details(props.item.product_type) }}</td>
         <td>{{ statProdLn(props.item.status) }}</td>
+        <td>{{ props.item.created_by }}</td>
+        <td>{{ formatDate(props.item.date_created) }}</td>
+        <td>{{ props.item.modified_by }}</td>
+        <td>{{ formatDate(props.item.date_modified) }}</td>
         <td class="justify-center layout px-0">
           <v-icon small class="mr-2" @click="editItem(props.item)" flat icon color="primary">edit</v-icon>
           <v-icon small @click="viewItem(props.item)" flat icon color="primary">visibility</v-icon>
@@ -157,6 +189,26 @@ export default {
         text: "Status",
         align: "left",
         value: "status"
+      },
+      {
+        text: "Created By",
+        align: "left",
+        value: "created_by"
+      },
+      {
+        text: "Date Created",
+        align: "left",
+        value: "date_created"
+      },
+      {
+        text: "Modified By",
+        align: "left",
+        value: "modified_by"
+      },
+      {
+        text: "Date Modified",
+        align: "left",
+        value: "date_modified"
       },
       {
         text: "Action",
@@ -252,11 +304,11 @@ export default {
         .then(result => {
           console.log("added:product_line: " + JSON.stringify(result));
           this.init();
-           this.$notify({
-              message: "You have successfully created a new Product Line",
-              icon: "check_circle",
-              color: "primary"
-            });
+          this.$notify({
+            message: "You have successfully created a new Product Line",
+            icon: "check_circle",
+            color: "primary"
+          });
           this.close();
         });
     },
@@ -268,10 +320,10 @@ export default {
           console.log("edited:product_line: " + JSON.stringify(result));
           this.init();
           this.$notify({
-              message: "You have successfully edited a Product Line",
-              icon: "check_circle",
-              color: "primary"
-            });
+            message: "You have successfully edited a Product Line",
+            icon: "check_circle",
+            color: "primary"
+          });
           this.close();
         });
     }

@@ -46,36 +46,48 @@
             class="headline"
             style="background: linear-gradient(45deg, #104B2A 0%, #b5c25a 100%)"
           >
-            <span class="headline">View Location</span>
+            <span class="headline">View Details</span>
           </v-card-title>
           <v-divider class="mx-3" inset vertical></v-divider>
           <v-card-text>
-            <v-container grid-list-md>
-              <v-layout wrap>
-                <v-flex xs12 sm4 md3>
-                  <span class="text-xs-center">Group Name</span>
-                  <v-divider></v-divider>
-                  <v-card-text>{{new_group.name}}</v-card-text>
+            <v-container grid-list-xl>
+              <v-layout row wrap align-center justify-center fill-height>
+                <!-- <v-flex xs6> -->
+                <v-flex xs6>
+                  <label class="title">Group Name:</label>
                 </v-flex>
-                <v-flex xs12 sm4 md2>
-                  <span class="text-xs-center">Status</span>
-                  <v-divider></v-divider>
-                  <v-card-text>{{new_group.status}}</v-card-text>
+                <v-flex xs6>
+                  <label class="subheading">{{new_group.name}}</label>
                 </v-flex>
-                <v-flex xs12 sm4 md2>
-                  <span class="text-xs-center">Created By</span>
-                  <v-divider></v-divider>
-                  <v-card-text>{{new_group.created_by}}</v-card-text>
+                <v-flex xs6>
+                  <label class="title">Status:</label>
                 </v-flex>
-                <v-flex xs12 sm4 md2>
-                  <span class="text-xs-center">Created Date</span>
-                  <v-divider></v-divider>
-                  <v-card-text>{{new_group.date_created}}</v-card-text>
+                <v-flex xs6>
+                  <label class="subheading">{{new_group.status}}</label>
                 </v-flex>
-                <v-flex xs12 sm4 md2>
-                  <span class="text-xs-center">Modified Date</span>
-                  <v-divider></v-divider>
-                  <v-card-text>{{new_group.date_modified}}</v-card-text>
+                <v-flex xs6>
+                  <label class="title">Created By:</label>
+                </v-flex>
+                <v-flex xs6>
+                  <label class="subheading">{{new_group.date_created}}</label>
+                </v-flex>
+                <v-flex xs6>
+                  <label class="title">Date Created:</label>
+                </v-flex>
+                <v-flex xs6>
+                  <label class="subheading">{{formatDate(new_group.date_created)}}</label>
+                </v-flex>
+                <v-flex xs6>
+                  <label class="title">Modified By:</label>
+                </v-flex>
+                <v-flex xs6>
+                  <label class="subheading">{{new_group.date_created}}</label>
+                </v-flex>
+                <v-flex xs6>
+                  <label class="title">Date Modified:</label>
+                </v-flex>
+                <v-flex xs6>
+                  <label class="subheading">{{formatDate(new_group.date_created)}}</label>
                 </v-flex>
               </v-layout>
             </v-container>
@@ -95,6 +107,7 @@
         <td>{{ props.item.status }}</td>
         <td>{{ props.item.created_by }}</td>
         <td>{{ formatDate(props.item.date_created) }}</td>
+        <td>{{ props.item.modified_by }}</td>
         <td>{{ formatDate(props.item.date_modified) }}</td>
         <td class="justify-center layout px-0">
           <v-icon small class="mr-2" @click="editItem(props.item)" flat icon color="primary">edit</v-icon>
@@ -139,12 +152,17 @@ export default {
         value: "created_by"
       },
       {
-        text: "Created Date",
+        text: "Date Created",
         align: "left",
         value: "date_created"
       },
       {
-        text: "Modified Date",
+        text: "Modified By",
+        align: "left",
+        value: "modified_by"
+      },
+      {
+        text: "Date Modified",
         align: "left",
         value: "date_modified"
       },
@@ -222,10 +240,10 @@ export default {
         console.log("added:region: " + JSON.stringify(result));
         this.init();
         this.$notify({
-              message: "You have successfully created a new Group",
-              icon: "check_circle",
-              color: "primary"
-            });
+          message: "You have successfully created a new Group",
+          icon: "check_circle",
+          color: "primary"
+        });
         this.close();
       });
     },
@@ -234,10 +252,10 @@ export default {
         console.log("edited:region: " + JSON.stringify(result));
         this.init();
         this.$notify({
-              message: "You have successfully edited a Group",
-              icon: "check_circle",
-              color: "primary"
-            });
+          message: "You have successfully edited a Group",
+          icon: "check_circle",
+          color: "primary"
+        });
         this.close();
       });
     }

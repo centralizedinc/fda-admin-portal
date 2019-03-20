@@ -320,16 +320,10 @@ export default {
         console.log("added:primary: " + JSON.stringify(result));
         this.init();
         this.$notify({
-<<<<<<< HEAD
-          message: "You have successfully created a new Primary",
-          color: "primary"
-        });
-=======
               message: "You have successfully created a new Primary",
               icon: "check_circle",
               color: "primary"
             });
->>>>>>> 3b0d44899118d28e7a4d7a3203fa7145e9c6b0d3
         this.close();
       });
     },
@@ -339,16 +333,10 @@ export default {
         console.log("edited:primary: " + JSON.stringify(result));
         this.init();
         this.$notify({
-<<<<<<< HEAD
-          message: "You have successfully edited a Primary",
-          color: "primary"
-        });
-=======
               message: "You have successfully edited a Primary",
               icon: "check_circle",
               color: "primary"
             });
->>>>>>> 3b0d44899118d28e7a4d7a3203fa7145e9c6b0d3
         this.close();
       });
     }

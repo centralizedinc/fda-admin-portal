@@ -85,20 +85,6 @@
                 </v-flex>
               </v-layout>
             </v-container>
-            <!-- <v-container grid-list-md>
-              <v-layout wrap>
-                <v-flex xs12 sm4 md6>
-                  <span class="text-xs-center">Name</span>
-                  <v-divider></v-divider>
-                  <v-card-text>{{new_additional.name}}</v-card-text>
-                </v-flex>
-                <v-flex xs12 sm4 md6>
-                  <span class="text-xs-center">Created By</span>
-                  <v-divider></v-divider>
-                  <v-card-text>{{new_additional.date_created}}</v-card-text>
-                </v-flex>
-              </v-layout>
-            </v-container>-->
           </v-card-text>
           <v-divider></v-divider>
           <v-card-actions>

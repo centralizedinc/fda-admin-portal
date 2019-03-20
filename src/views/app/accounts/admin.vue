@@ -35,7 +35,7 @@
                 <v-flex xs12>
                   <v-text-field v-model="new_admin.email" label="Email Address"></v-text-field>
                 </v-flex>
-                <v-flex xs12>
+                <!-- <v-flex xs12>
                   <v-text-field
                     :append-icon="new_password ? 'visibility' : 'visibility_off'"
                     :type="new_password ? 'text' : 'password'"
@@ -43,7 +43,7 @@
                     @click:append="new_password = !new_password"
                     v-model="new_admin.password"
                   ></v-text-field>
-                </v-flex>
+                </v-flex> -->
                 <v-flex xs12>
                   <v-autocomplete
                     v-model="new_admin.group"
@@ -121,7 +121,7 @@
                 <v-flex xs12 sm4 md2>
                   <span class="text-xs-center">Group Name</span>
                   <v-divider></v-divider>
-                  <v-card-text>{{new_admin.group}}</v-card-text>
+                  <v-card-text>{{new_admin.groups}}</v-card-text>
                 </v-flex>
                 <v-flex xs12 sm4 md2>
                   <span class="text-xs-center">Username</span>
@@ -246,7 +246,6 @@ export default {
         value: "editStatus"
       }
     ],
-    group: [],
     admins: [],
     editedIndex: -1,
     editedItem: {
@@ -256,7 +255,6 @@ export default {
       role: "",
       username: "",
       email: "",
-      new_password: ""
     },
     defaultItem: {
       name: ""

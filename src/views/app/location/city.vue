@@ -28,6 +28,7 @@
                     v-model="new_city.province"
                     :disabled="isUpdating"
                     :items="provinces_items"
+                    :rules="[rules.required]"
                     label="Province"
                     item-text="name"
                     item-value="_id"
@@ -45,7 +46,7 @@
                   </v-autocomplete>
                 </v-flex>
                 <v-flex xs12>
-                  <v-text-field v-model="new_city.name" label="Name"></v-text-field>
+                  <v-text-field v-model="new_city.name" :rules="[rules.required]" label="Name"></v-text-field>
                 </v-flex>
               </v-layout>
             </v-container>
@@ -117,7 +118,7 @@
         <td>{{ formatDate(props.item.date_created) }}</td>
         <td>{{ formatDate(props.item.date_modified) }}</td>
         <td class="justify-center layout px-0">
-          <v-icon small class="mr-2" @click="editItem(props.item)" flat icon color="primary">edit</v-icon>
+          <v-icon small class="mr-2" @click="editItem(props.item, props.index)" flat icon color="primary">edit</v-icon>
           <v-icon small @click="viewItem(props.item)" flat icon color="primary">visibility</v-icon>
         </td>
       </template>
@@ -142,6 +143,7 @@ export default {
     dialogView: false,
     isUpdating: false,
     search: "",
+    selectedIndex: -1,
     headers: [
       {
         text: "City/Municipility",
@@ -191,6 +193,9 @@ export default {
     },
     defaultItem: {
       name: ""
+    },
+    rules: {
+      required: v => !!v || "This is a required field"
     }
   }),
 
@@ -253,11 +258,13 @@ export default {
       this.regions = [];
     },
     addItem() {
+      this.selectedIndex = -1;
       this.mode = 0; // Create
       this.new_city = {}; // holds the filled up item
       this.dialog = true;
     },
-    editItem(item) {
+    editItem(item, index) {
+      this.selectedIndex = index;
       this.mode = 1; // Edit
       this.new_city = JSON.parse(JSON.stringify(item));
       this.dialog = true;
@@ -273,29 +280,66 @@ export default {
       this.dialogView = false;
       this.new_city = {};
     },
-    submit() {
-      this.$store.dispatch("ADD_CITY", this.new_city).then(result => {
-        console.log("added:city: " + JSON.stringify(result));
-        this.init();
+    validate() {
+      var check = true;
+      if (
+        this.isEmpty(this.new_city.name) ||
+        this.isEmpty(this.new_city.province)
+      ) {
         this.$notify({
-              message: "You have successfully created a new City",
-              icon: "check_circle",
-              color: "primary"
+          message: "Please fill up required fields",
+          color: "error"
+        });
+        return false;
+      } else {
+        for (let i = 0; i < this.cities.length; i++) {
+          if (
+            this.selectedIndex != i &&
+            this.cities[i].province &&
+            this.cities[i].name &&
+            this.cities[i].province.toLowerCase() ===
+              this.new_city.province.toLowerCase() &&
+            this.new_city.name.toLowerCase() === this.cities[i].name.toLowerCase()
+          ) {
+            check = false;
+          } else if (!check) {
+            this.$notify({
+              message: "You have inputed an existing details",
+              color: "error"
             });
-        this.close();
-      });
+            return false;
+          }
+        }
+      }
+      return true;
+    },
+    submit() {
+      if (this.validate()) {
+        this.$store.dispatch("ADD_CITY", this.new_city).then(result => {
+          console.log("added:city: " + JSON.stringify(result));
+          this.init();
+          this.$notify({
+            message: "You have successfully created a new City",
+            icon: "check_circle",
+            color: "primary"
+          });
+          this.close();
+        });
+      }
     },
     save() {
-      this.$store.dispatch("EDIT_CITY", this.new_city).then(result => {
-        console.log("edited:city: " + JSON.stringify(result));
-        this.init();
-        this.$notify({
-              message: "You have successfully edited a City",
-              icon: "check_circle",
-              color: "primary"
-            });
-        this.close();
-      });
+      if (this.validate()) {
+        this.$store.dispatch("EDIT_CITY", this.new_city).then(result => {
+          console.log("edited:city: " + JSON.stringify(result));
+          this.init();
+          this.$notify({
+            message: "You have successfully edited a City",
+            icon: "check_circle",
+            color: "primary"
+          });
+          this.close();
+        });
+      }
     }
   }
 };

@@ -24,10 +24,18 @@
             <v-container grid-list-md>
               <v-layout wrap>
                 <v-flex xs12>
-                  <v-text-field label="Region Code" v-model="new_region.name"></v-text-field>
+                  <v-text-field
+                    label="Region Code"
+                    v-model="new_region.name"
+                    :rules="[rules.required]"
+                  ></v-text-field>
                 </v-flex>
                 <v-flex xs12>
-                  <v-text-field label="Region Name" v-model="new_region.region_code"></v-text-field>
+                  <v-text-field
+                    label="Region Name"
+                    v-model="new_region.region_code"
+                    :rules="[rules.required]"
+                  ></v-text-field>
                 </v-flex>
               </v-layout>
             </v-container>
@@ -94,7 +102,14 @@
         <td>{{ formatDate(props.item.date_created) }}</td>
         <td>{{ formatDate(props.item.date_modified) }}</td>
         <td class="justify-center layout px-0">
-          <v-icon small class="mr-2" @click="editItem(props.item)" flat icon color="primary">edit</v-icon>
+          <v-icon
+            small
+            class="mr-2"
+            @click="editItem(props.item, props.index)"
+            flat
+            icon
+            color="primary"
+          >edit</v-icon>
           <v-icon small @click="viewItem(props.item)" flat icon color="primary">visibility</v-icon>
         </td>
       </template>
@@ -112,11 +127,15 @@ export default {
   data: () => ({
     mode: 0, // 0 - create, 1 - edit
     region_code: {},
-    new_region: {},
+    new_region: {
+      name:"",
+      region_code:""
+    },
     modified_region: {},
     dialog: false,
     dialogView: false,
     search: "",
+    selectedIndex: -1,
     headers: [
       {
         text: "Region Name",
@@ -157,6 +176,9 @@ export default {
     defaultItem: {
       name: "",
       region_code: ""
+    },
+    rules: {
+      required: v => !!v || "This is a required field"
     }
   }),
 
@@ -176,12 +198,14 @@ export default {
       });
     },
     addItem() {
+      this.selectedIndex = -1;
       this.mode = 0; // Create
       this.new_region = {}; // holds the filled up item
       this.dialog = true;
     },
-    editItem(item) {
+    editItem(item, index) {
       this.mode = 1; // Edit
+      this.selectedIndex = index;
       this.new_region = JSON.parse(JSON.stringify(item));
       this.dialog = true;
     },
@@ -196,91 +220,68 @@ export default {
       this.dialogView = false;
       this.new_region = {};
     },
-    submit() {
+    validate() {
+      var check = true;
       if (
-        this.new_region.name === this.new_region.region_code ||
         this.isEmpty(this.new_region.name) ||
         this.isEmpty(this.new_region.region_code)
       ) {
         this.$notify({
-          message: "Error",
+          message: "Please fill up required fields",
           color: "error"
         });
+        return false;
       } else {
-        var region = this.$store.state.regional_tables.regions;
-        var check = true;
-        region.forEach(data => {
+        for (let i = 0; i < this.regions.length; i++) {
           if (
-            this.new_region.name === data.name ||
-            this.new_region.region_code === data.ragion_code
+            this.selectedIndex != i &&
+            this.regions[i].region_code &&
+            this.regions[i].name &&
+            this.regions[i].region_code.toLowerCase() ===
+            this.new_region.region_code.toLowerCase() &&
+            this.new_region.name.toLowerCase() ===
+            this.regions[i].name.toLowerCase()
           ) {
-            console.log("###########");
-
             check = false;
-          }
-        });
-
-        if (check === true) {
-          this.$store.dispatch("ADD_REGION", this.new_region).then(result => {
-            console.log("added:region: " + JSON.stringify(result));
-            this.init();
+          } else if (!check) {
             this.$notify({
-              message: "You have successfully created a new Region",
-              icon: "check_circle",
-              color: "primary"
+              message: "You have inputed an existing details",
+              color: "error"
             });
-            this.close();
-          });
-        } else {
-          this.$notify({
-            message: "Error",
-            color: "error"
-          });
+            return false;
+          }
         }
+      }
+      return true;
+    },
+    submit() {
+      if (this.validate()) {
+        this.$store.dispatch("ADD_REGION", this.new_region).then(result => {
+          console.log("added:region: " + JSON.stringify(result));
+          this.init();
+          this.$notify({
+            message: "You have successfully created a new Region",
+            icon: "check_circle",
+            color: "primary"
+          });
+          this.close();
+        });
       }
     },
 
     save() {
-      if (
-        this.new_region.name === this.new_region.region_code ||
-        this.isEmpty(this.new_region.name) ||
-        this.isEmpty(this.new_region.region_code)
-      ) {
-        this.$notify({
-          message: "Error",
-          color: "error"
-        });
-      } else {
-        var region = this.$store.state.regional_tables.regions;
-        var check = true;
-        region.forEach(data => {
-          if (
-            this.new_region.name === data.name ||
-            this.new_region.region_code === data.ragion_code
-          ) {
-            console.log("###########");
-
-            check = false;
-          }
-        });
-
-        if (check === true) {
-          this.$store.dispatch("EDIT_REGION", this.new_region).then(result => {
-            console.log("edited:region: " + JSON.stringify(result));
-            this.init();
-            this.$notify({
-              message: "You have successfully edited a Region",
-              icon: "check_circle",
-              color: "primary"
-            });
-            this.close();
-          });
-        } else {
+      if (this.validate()) {
+        // console.log('###########edited:province: ' + JSON.stringify(this.new_province));
+        this.$store.dispatch("EDIT_REGION", this.new_region).then(result => {
+          console.log("edited:region: " + JSON.stringify(result));
+          this.init();
           this.$notify({
-            message: "Error",
-            color: "error"
+            message: "You have successfully edited a Region",
+            icon: "check_circle",
+            color: "primary"
           });
-        }
+          this.close();
+        });
       }
     }
   }

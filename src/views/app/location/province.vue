@@ -26,6 +26,7 @@
                 <v-flex xs12>
                   <v-autocomplete
                     v-model="new_province.region"
+                    :rules="[rules.required]"
                     :disabled="isUpdating"
                     :items="regions_items"
                     label="Region"
@@ -45,7 +46,7 @@
                   </v-autocomplete>
                 </v-flex>
                 <v-flex xs12>
-                  <v-text-field v-model="new_province.name" label="Name"></v-text-field>
+                  <v-text-field v-model="new_province.name" :rules="[rules.required]" label="Name"></v-text-field>
                 </v-flex>
               </v-layout>
             </v-container>
@@ -111,7 +112,14 @@
         <td>{{ formatDate(props.item.date_created) }}</td>
         <td>{{ formatDate(props.item.date_modified) }}</td>
         <td class="justify-center layout px-0">
-          <v-icon small class="mr-2" @click="editItem(props.item)" flat icon color="primary">edit</v-icon>
+          <v-icon
+            small
+            class="mr-2"
+            @click="editItem(props.item, props.index)"
+            flat
+            icon
+            color="primary"
+          >edit</v-icon>
           <v-icon small @click="viewItem(props.item)" flat icon color="primary">visibility</v-icon>
         </td>
       </template>
@@ -130,12 +138,16 @@ export default {
     mode: 0, // 0 - create, 1 - edit
     regions: {},
     regions_items: [],
-    new_province: {},
+    new_province: {
+      name: "",
+      region: ""
+    },
     modified_province: {},
     dialog: false,
     dialogView: false,
     isUpdating: false,
     search: "",
+    selectedIndex: -1, //
     headers: [
       {
         text: "Region Name",
@@ -176,6 +188,9 @@ export default {
     },
     defaultItem: {
       name: ""
+    },
+    rules: {
+      required: v => !!v || "This is a required field"
     }
   }),
 
@@ -224,11 +239,13 @@ export default {
       if (index >= 0) this.region.splice(index, 1);
     },
     addItem() {
+      this.selectedIndex = -1; //
       this.mode = 0; // Create
       this.new_province = {}; // holds the filled up item
       this.dialog = true;
     },
-    editItem(item) {
+    editItem(item, index) {
+      this.selectedIndex = index; //
       this.mode = 1; // Edit
       this.new_province = JSON.parse(JSON.stringify(item));
       this.dialog = true;
@@ -244,30 +261,71 @@ export default {
       this.dialogView = false;
       this.new_province = {};
     },
-    submit() {
-      this.$store.dispatch("ADD_PROVINCE", this.new_province).then(result => {
-        console.log("added:province: " + JSON.stringify(result));
-        this.init();
+    validate() {
+      var check = true;
+      if (
+        this.isEmpty(this.new_province.name) ||
+        this.isEmpty(this.new_province.region)
+      ) {
         this.$notify({
-              message: "You have successfully created a new Province",
-              icon: "check_circle",
-              color: "primary"
+          message: "Please fill up required fields",
+          color: "error"
+        });
+        return false;
+      } else {
+        for (let i = 0; i < this.provinces.length; i++) {
+          if (
+            this.selectedIndex != i &&
+            this.provinces[i].region &&
+            this.provinces[i].name &&
+            this.provinces[i].region.toLowerCase() ===
+            this.new_province.region.toLowerCase() &&
+            this.new_province.name.toLowerCase() ===
+            this.provinces[i].name.toLowerCase()
+          ) {
+            check = false;
+          } else if (!check) {
+            this.$notify({
+              message: "You have inputed an existing details",
+              color: "error"
             });
-        this.close();
-      });
+            return false;
+          }
+        }
+      }
+      return true;
     },
+    submit() {
+      if (this.validate()) {
+        this.$store.dispatch("ADD_PROVINCE", this.new_province).then(result => {
+          console.log("added:province: " + JSON.stringify(result));
+          this.init();
+          this.$notify({
+            message: "You have successfully created a new Province",
+            icon: "check_circle",
+            color: "primary"
+          });
+          this.close();
+        });
+      }
+    },
+
     save() {
-      // console.log('###########edited:province: ' + JSON.stringify(this.new_province));
-      this.$store.dispatch("EDIT_PROVINCE", this.new_province).then(result => {
-        console.log("edited:province: " + JSON.stringify(result));
-        this.init();
-         this.$notify({
+      if (this.validate()) {
+        // console.log('###########edited:province: ' + JSON.stringify(this.new_province));
+        this.$store
+          .dispatch("EDIT_PROVINCE", this.new_province)
+          .then(result => {
+            console.log("edited:province: " + JSON.stringify(result));
+            this.init();
+            this.$notify({
               message: "You have successfully edited a Province",
               icon: "check_circle",
               color: "primary"
             });
-        this.close();
-      });
+            this.close();
+          });
+      }
     }
   }
 };

@@ -223,6 +223,7 @@ export default {
         this.init();
         this.$notify({
               message: "You have successfully created a new Group",
+              icon: "check_circle",
               color: "primary"
             });
         this.close();
@@ -234,6 +235,7 @@ export default {
         this.init();
         this.$notify({
               message: "You have successfully edited a Group",
+              icon: "check_circle",
               color: "primary"
             });
         this.close();

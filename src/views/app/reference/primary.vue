@@ -282,6 +282,7 @@ export default {
         this.init();
         this.$notify({
               message: "You have successfully created a new Primary",
+              icon: "check_circle",
               color: "primary"
             });
         this.close();
@@ -294,6 +295,7 @@ export default {
         this.init();
         this.$notify({
               message: "You have successfully edited a Primary",
+              icon: "check_circle",
               color: "primary"
             });
         this.close();

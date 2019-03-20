@@ -345,6 +345,11 @@ export default {
       this.$store.dispatch("ADD_ADMIN", this.new_admin).then(result => {
         console.log("added:admin: " + JSON.stringify(result));
         this.init();
+        this.$notify({
+              message: "You have successfully created a new Admin",
+              icon: "check_circle",
+              color: "primary"
+            });
         this.close();
       });
     },
@@ -353,6 +358,11 @@ export default {
       this.$store.dispatch("EDIT_ADMIN", this.new_admin).then(result => {
         console.log("edited:admin: " + JSON.stringify(result));
         this.init();
+        this.$notify({
+            message: "You have successfully edited an Admin",
+            color: "success",
+            icon: "check_circle"
+          });
         this.close();
       });
     }

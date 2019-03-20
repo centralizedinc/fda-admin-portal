@@ -115,7 +115,7 @@ export default {
           this.$notify({
             message: "Your Password is successfuly updated",
             color: "success",
-            icon: "check_box"
+            icon: "check_circle"
           });
           this.$router.push("/app");
           // this.$store.dispatch("LOGOUT");

@@ -226,6 +226,7 @@ export default {
             this.init();
             this.$notify({
               message: "You have successfully created a new Region",
+              icon: "check_circle",
               color: "primary"
             });
             this.close();
@@ -269,6 +270,7 @@ export default {
             this.init();
             this.$notify({
               message: "You have successfully edited a Region",
+              icon: "check_circle",
               color: "primary"
             });
             this.close();

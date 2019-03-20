@@ -174,6 +174,7 @@ export default {
           this.init();
           this.$notify({
               message: "You have successfully created a new Identification",
+              icon: "check_circle",
               color: "primary"
             });
           this.close();
@@ -187,6 +188,7 @@ export default {
           this.init();
           this.$notify({
               message: "You have successfully edited a Identification",
+              icon: "check_circle",
               color: "primary"
             });
           this.close();

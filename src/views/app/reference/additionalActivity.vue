@@ -176,6 +176,7 @@ export default {
           this.init();
           this.$notify({
               message: "You have created Additional Activity",
+              icon: "check_circle",
               color: "primary"
             });
           this.close();
@@ -190,6 +191,7 @@ export default {
           this.init();
           this.$notify({
               message: "You have edited successfully",
+              icon: "check_circle",
               color: "primary"
             });
           this.close();

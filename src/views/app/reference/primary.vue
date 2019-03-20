@@ -197,7 +197,7 @@ export default {
     declared_items: [],
     headers: [
       {
-        text: "Primary Type",
+        text: "Primary Name",
         align: "left",
         sortable: "true",
         value: "name"

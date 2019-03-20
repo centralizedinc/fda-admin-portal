@@ -67,36 +67,54 @@
             class="headline"
             style="background: linear-gradient(45deg, #104B2A 0%, #b5c25a 100%)"
           >
-            <span class="headline">View Location</span>
+            <span class="headline">View Details</span>
           </v-card-title>
           <v-divider class="mx-3" inset vertical></v-divider>
           <v-card-text>
-            <v-container grid-list-md>
-              <v-layout wrap>
-                <v-flex xs12 sm4 md3>
-                  <span class="text-xs-center">City/Municipility</span>
-                  <v-divider></v-divider>
-                  <v-card-text>{{new_city.name}}</v-card-text>
+            <v-container grid-list-xl>
+              <v-layout row wrap align-center justify-center fill-height>
+                <!-- <v-flex xs6> -->
+                <v-flex xs6>
+                  <label class="title">City/Municipility:</label>
                 </v-flex>
-                <v-flex xs12 sm4 md2>
-                  <span class="text-xs-center">Region Name</span>
-                  <v-divider></v-divider>
-                  <v-card-text>{{ region_details(new_city.province) }}</v-card-text>
+                <v-flex xs6>
+                  <label class="subheading">{{new_city.name}}</label>
                 </v-flex>
-                <v-flex xs12 sm4 md2>
-                  <span class="text-xs-center">Province Name</span>
-                  <v-divider></v-divider>
-                  <v-card-text>{{ province_details(new_city.province) }}</v-card-text>
+                <v-flex xs6>
+                  <label class="title">Region Name:</label>
                 </v-flex>
-                <v-flex xs12 sm4 md2>
-                  <span class="text-xs-center">Created Date</span>
-                  <v-divider></v-divider>
-                  <v-card-text>{{new_city.date_created}}</v-card-text>
+                <v-flex xs6>
+                  <label class="subheading">{{region_details(new_city.province)}}</label>
                 </v-flex>
-                <v-flex xs12 sm4 md2>
-                  <span class="text-xs-center">Modified Date</span>
-                  <v-divider></v-divider>
-                  <v-card-text>{{new_city.date_modified}}</v-card-text>
+                <v-flex xs6>
+                  <label class="title">Province Name:</label>
+                </v-flex>
+                <v-flex xs6>
+                  <label class="subheading">{{province_details(new_city.province)}}</label>
+                </v-flex>
+                <v-flex xs6>
+                  <label class="title">Created By:</label>
+                </v-flex>
+                <v-flex xs6>
+                  <label class="subheading">{{new_city.date_created}}</label>
+                </v-flex>
+                <v-flex xs6>
+                  <label class="title">Date Created:</label>
+                </v-flex>
+                <v-flex xs6>
+                  <label class="subheading">{{formatDate(new_city.date_created)}}</label>
+                </v-flex>
+                <v-flex xs6>
+                  <label class="title">Modified By:</label>
+                </v-flex>
+                <v-flex xs6>
+                  <label class="subheading">{{new_city.date_created}}</label>
+                </v-flex>
+                <v-flex xs6>
+                  <label class="title">Date Modified:</label>
+                </v-flex>
+                <v-flex xs6>
+                  <label class="subheading">{{formatDate(new_city.date_created)}}</label>
                 </v-flex>
               </v-layout>
             </v-container>
@@ -114,7 +132,9 @@
         <td>{{ props.item.name }}</td>
         <td>{{ region_details(props.item.province) }}</td>
         <td>{{ province_details(props.item.province) }}</td>
+        <td>{{ props.item.created_by }}</td>
         <td>{{ formatDate(props.item.date_created) }}</td>
+        <td>{{ props.item.modified_by }}</td>
         <td>{{ formatDate(props.item.date_modified) }}</td>
         <td class="justify-center layout px-0">
           <v-icon small class="mr-2" @click="editItem(props.item)" flat icon color="primary">edit</v-icon>
@@ -162,12 +182,22 @@ export default {
         value: "provinces"
       },
       {
-        text: "Created Date",
+        text: "Created By",
+        align: "left",
+        value: "created_by"
+      },
+      {
+        text: "Date Created",
         align: "left",
         value: "date_created"
       },
       {
-        text: "Modified Date",
+        text: "Modified By",
+        align: "left",
+        value: "modified_by"
+      },
+      {
+        text: "Date Modified",
         align: "left",
         value: "date_modified"
       },
@@ -278,10 +308,10 @@ export default {
         console.log("added:city: " + JSON.stringify(result));
         this.init();
         this.$notify({
-              message: "You have successfully created a new City",
-              icon: "check_circle",
-              color: "primary"
-            });
+          message: "You have successfully created a new City",
+          icon: "check_circle",
+          color: "primary"
+        });
         this.close();
       });
     },
@@ -290,10 +320,10 @@ export default {
         console.log("edited:city: " + JSON.stringify(result));
         this.init();
         this.$notify({
-              message: "You have successfully edited a City",
-              icon: "check_circle",
-              color: "primary"
-            });
+          message: "You have successfully edited a City",
+          icon: "check_circle",
+          color: "primary"
+        });
         this.close();
       });
     }

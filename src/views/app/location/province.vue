@@ -219,7 +219,7 @@ export default {
       name: ""
     },
     rules: {
-      required: v => !!v || "This is a required field"
+      required: v => !!v || "This is a required field" //
     }
   }),
 

@@ -24,7 +24,7 @@
             <v-container grid-list-md>
               <v-layout wrap>
                 <v-flex xs12>
-                  <v-text-field v-model="new_admin.first_name" label="Approver Name"></v-text-field>
+                  <v-text-field v-model="new_admin.first_name" label="Name"></v-text-field>
                 </v-flex>
                 <v-flex xs12>
                   <v-text-field v-model="new_admin.last_name" label="Last Name"></v-text-field>
@@ -35,7 +35,7 @@
                 <v-flex xs12>
                   <v-text-field v-model="new_admin.email" label="Email Address"></v-text-field>
                 </v-flex>
-                <v-flex xs12>
+                <!-- <v-flex xs12>
                   <v-text-field
                     :append-icon="new_password ? 'visibility' : 'visibility_off'"
                     :type="new_password ? 'text' : 'password'"
@@ -43,7 +43,7 @@
                     @click:append="new_password = !new_password"
                     v-model="new_admin.password"
                   ></v-text-field>
-                </v-flex>
+                </v-flex> -->
                 <v-flex xs12>
                   <v-autocomplete
                     v-model="new_admin.group"
@@ -107,21 +107,21 @@
             class="headline"
             style="background: linear-gradient(45deg, #104B2A 0%, #b5c25a 100%)"
           >
-            <span class="headline">View Location</span>
+            <span class="headline">Admin Details</span>
           </v-card-title>
           <v-divider class="mx-3" inset vertical></v-divider>
           <v-card-text>
             <v-container grid-list-md>
               <v-layout wrap>
                 <v-flex xs12 sm4 md2>
-                  <span class="text-xs-center">Approver Name</span>
+                  <span class="text-xs-center">Name</span>
                   <v-divider></v-divider>
                   <v-card-text>{{new_admin.first_name}}</v-card-text>
                 </v-flex>
                 <v-flex xs12 sm4 md2>
                   <span class="text-xs-center">Group Name</span>
                   <v-divider></v-divider>
-                  <v-card-text>{{new_admin.group}}</v-card-text>
+                  <v-card-text>{{new_admin.groups}}</v-card-text>
                 </v-flex>
                 <v-flex xs12 sm4 md2>
                   <span class="text-xs-center">Username</span>
@@ -201,7 +201,7 @@ export default {
     ],
     headers: [
       {
-        text: "Approver Name",
+        text: "Name",
         align: "left",
         sortable: "true",
         value: "first_name"
@@ -246,7 +246,6 @@ export default {
         value: "editStatus"
       }
     ],
-    group: [],
     admins: [],
     editedIndex: -1,
     editedItem: {
@@ -256,7 +255,6 @@ export default {
       role: "",
       username: "",
       email: "",
-      new_password: ""
     },
     defaultItem: {
       name: ""
@@ -265,7 +263,7 @@ export default {
 
   computed: {
     formTitle() {
-      return this.mode === 0 ? "Add Approver" : "Edit Approver";
+      return this.mode === 0 ? "Add Admin" : "Edit Admin";
     }
   },
   created() {

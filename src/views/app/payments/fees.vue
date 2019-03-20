@@ -199,60 +199,6 @@
                 </v-flex>
               </v-layout>
             </v-container>
-            <!-- <v-container grid-list-md>
-              <v-layout wrap>
-                <v-flex xs12 sm4 md2>
-                  <span class="text-xs-center">Description</span>
-                  <v-divider></v-divider>
-                  <v-card-text>{{new_fees.description}}</v-card-text>
-                </v-flex>
-                <v-flex xs12 sm4 md2>
-                  <span class="text-xs-center">Product Type</span>
-                  <v-divider></v-divider>
-                  <v-card-text>{{product_details(new_fees.productType)}}</v-card-text>
-                </v-flex>
-                <v-flex xs12 sm4 md2>
-                  <span class="text-xs-center">Primary Activity</span>
-                  <v-divider></v-divider>
-                  <v-card-text>{{primary_details(new_fees.primaryActivity)}}</v-card-text>
-                </v-flex>
-                <v-flex xs12 sm4 md2>
-                  <span class="text-xs-center">Declared Capital</span>
-                  <v-divider></v-divider>
-                  <v-card-text>{{declared_details(new_fees.declaredCapital)}}</v-card-text>
-                </v-flex>
-                <v-flex xs12 sm4 md2>
-                  <span class="text-xs-center">Application Type</span>
-                  <v-divider></v-divider>
-                  <v-card-text>{{ App(new_fees.appType) }}</v-card-text>
-                </v-flex>
-                <v-flex xs12 sm4 md2>
-                  <span class="text-xs-center">Amount of Fee</span>
-                  <v-divider></v-divider>
-                  <v-card-text>{{new_fees.fee}}</v-card-text>
-                </v-flex>
-                <v-flex xs12 sm4 md2>
-                  <span class="text-xs-center">Created By</span>
-                  <v-divider></v-divider>
-                  <v-card-text>{{new_fees.created_by}}</v-card-text>
-                </v-flex>
-                 <v-flex xs12 sm4 md2>
-                  <span class="text-xs-center">Date Created</span>
-                  <v-divider></v-divider>
-                  <v-card-text>{{formatDate(new_fees.date_created)}}</v-card-text>
-                </v-flex>
-                <v-flex xs12 sm4 md2>
-                  <span class="text-xs-center">Modified By</span>
-                  <v-divider></v-divider>
-                  <v-card-text>{{new_fees.modified_by}}</v-card-text>
-                </v-flex>
-                <v-flex xs12 sm4 md2>
-                  <span class="text-xs-center">Date Modified</span>
-                  <v-divider></v-divider>
-                  <v-card-text>{{formatDate(new_fees.date_modified)}}</v-card-text>
-                </v-flex>
-              </v-layout>
-            </v-container>-->
           </v-card-text>
           <v-divider></v-divider>
           <v-card-actions>

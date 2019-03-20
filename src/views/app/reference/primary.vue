@@ -110,21 +110,42 @@
             class="headline"
             style="background: linear-gradient(45deg, #104B2A 0%, #b5c25a 100%)"
           >
-            <span class="headline">View Location</span>
+            <span class="headline">Primary Details</span>
           </v-card-title>
           <v-divider class="mx-3" inset vertical></v-divider>
           <v-card-text>
-            <v-container grid-list-md>
-              <v-layout wrap>
-                <v-flex xs12 sm4 md6>
-                  <span class="text-xs-center">Primary Type</span>
-                  <v-divider></v-divider>
-                  <v-card-text>{{new_primary.name}}</v-card-text>
+            <v-container grid-list-xl>
+              <v-layout row wrap align-center justify-center fill-height>
+                <!-- <v-flex xs6> -->
+                <v-flex xs6>
+                  <label class="title">Primary Type:</label>
                 </v-flex>
-                <v-flex xs12 sm4 md6>
-                  <span class="text-xs-center">Date Created</span>
-                  <v-divider></v-divider>
-                  <v-card-text>{{new_primary.date_created}}</v-card-text>
+                <v-flex xs6>
+                  <label class="subheading">{{new_primary.name}}</label>
+                </v-flex>
+                <v-flex xs6>
+                  <label class="title">Created By:</label>
+                </v-flex>
+                <v-flex xs6>
+                  <label class="subheading">{{new_primary.date_created}}</label>
+                </v-flex>
+                <v-flex xs6>
+                  <label class="title">Date Created:</label>
+                </v-flex>
+                <v-flex xs6>
+                  <label class="subheading">{{formatDate(new_primary.date_created)}}</label>
+                </v-flex>
+                <v-flex xs6>
+                  <label class="title">Modified By:</label>
+                </v-flex>
+                <v-flex xs6>
+                  <label class="subheading">{{new_primary.date_created}}</label>
+                </v-flex>
+                <v-flex xs6>
+                  <label class="title">Date Modified:</label>
+                </v-flex>
+                <v-flex xs6>
+                  <label class="subheading">{{formatDate(new_primary.date_created)}}</label>
                 </v-flex>
               </v-layout>
             </v-container>
@@ -140,7 +161,10 @@
     <v-data-table :headers="headers" :items="primary" :search="search" class="elevation-1">
       <template slot="items" slot-scope="props">
         <td>{{ props.item.name }}</td>
+        <td>{{ props.item.created_by }}</td>
         <td>{{ formatDate(props.item.date_created) }}</td>
+        <td>{{ props.item.modified_by }}</td>
+        <td>{{ formatDate(props.item.date_modified) }}</td>
         <td class="justify-center layout px-0">
           <v-icon small class="mr-2" @click="editItem(props.item)" flat icon color="primary">edit</v-icon>
           <v-icon small @click="viewItem(props.item)" flat icon color="primary">visibility</v-icon>
@@ -173,15 +197,30 @@ export default {
     declared_items: [],
     headers: [
       {
-        text: "Primary Type",
+        text: "Primary Name",
         align: "left",
         sortable: "true",
         value: "name"
       },
       {
-        text: "Created Date",
+        text: "Created By",
+        align: "left",
+        value: "created_by"
+      },
+      {
+        text: "Date Created",
         align: "left",
         value: "date_created"
+      },
+      {
+        text: "Modified By",
+        align: "left",
+        value: "modified_by"
+      },
+      {
+        text: "Date Modified",
+        align: "left",
+        value: "date_modified"
       },
       {
         text: "Action",

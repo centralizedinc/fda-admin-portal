@@ -128,8 +128,8 @@
     <v-checkbox v-model="new_task.selected" value="end_process" :label="`End Process`"></v-checkbox>
                     </v-container>-->
                     <v-radio-group v-model="new_task.start_process" row>
-                      <v-radio label="Start Process" value=true></v-radio>
-                      <v-radio label="End Process" value=false></v-radio>
+                      <v-radio label="Start Process" value="true"></v-radio>
+                      <v-radio label="End Process" value="false"></v-radio>
                     </v-radio-group>
                   </v-flex>
                 </v-flex>
@@ -153,21 +153,84 @@
             class="headline"
             style="background: linear-gradient(45deg, #104B2A 0%, #b5c25a 100%)"
           >
-            <span class="headline">View Location</span>
+            <span class="headline">View Details</span>
           </v-card-title>
           <v-divider class="mx-3" inset vertical></v-divider>
           <v-card-text>
-            <v-container grid-list-md>
-              <v-layout wrap>
-                <v-flex xs12 sm4 md6>
-                  <span class="text-xs-center">Approver Name</span>
-                  <v-divider></v-divider>
-                  <v-card-text>{{new_task.name}}</v-card-text>
+            <v-container grid-list-xl>
+              <v-layout row wrap align-center justify-center fill-height>
+                <!-- <v-flex xs6> -->
+                <v-flex xs6>
+                  <label class="title">Task Name:</label>
                 </v-flex>
-                <v-flex xs12 sm4 md6>
-                  <span class="text-xs-center">Group Name</span>
-                  <v-divider></v-divider>
-                  <v-card-text>{{new_task.groups}}</v-card-text>
+                <v-flex xs6>
+                  <label class="subheading">{{new_task.name}}</label>
+                </v-flex>
+                <v-flex xs6>
+                  <label class="title">Approval:</label>
+                </v-flex>
+                <v-flex xs6>
+                  <label class="subheading">{{new_task.approval}}</label>
+                </v-flex>
+                <v-flex xs6>
+                  <label class="title">Denied:</label>
+                </v-flex>
+                <v-flex xs6>
+                  <label class="subheading">{{new_task.denied}}</label>
+                </v-flex>
+                <v-flex xs6>
+                  <label class="title">Recommends:</label>
+                </v-flex>
+                <v-flex xs6>
+                  <label class="subheading">{{new_task.recommends}}</label>
+                </v-flex>
+                <v-flex xs6>
+                  <label class="title">Condition:</label>
+                </v-flex>
+                <v-flex xs6>
+                  <label class="subheading">{{new_task.condition}}</label>
+                </v-flex>
+                <v-flex xs6>
+                  <label class="title">Compliance:</label>
+                </v-flex>
+                <v-flex xs6>
+                  <label class="subheading">{{new_task.isCompliance}}</label>
+                </v-flex>
+                <v-flex xs6>
+                  <label class="title">Start Process:</label>
+                </v-flex>
+                <v-flex xs6>
+                  <label class="subheading">{{new_task.start_process}}</label>
+                </v-flex>
+                <v-flex xs6>
+                  <label class="title">End Process:</label>
+                </v-flex>
+                <v-flex xs6>
+                  <label class="subheading">{{new_task.end_process}}</label>
+                </v-flex>
+                <v-flex xs6>
+                  <label class="title">Created By:</label>
+                </v-flex>
+                <v-flex xs6>
+                  <label class="subheading">{{new_task.date_created}}</label>
+                </v-flex>
+                <v-flex xs6>
+                  <label class="title">Date Created:</label>
+                </v-flex>
+                <v-flex xs6>
+                  <label class="subheading">{{formatDate(new_task.date_created)}}</label>
+                </v-flex>
+                <v-flex xs6>
+                  <label class="title">Modified By:</label>
+                </v-flex>
+                <v-flex xs6>
+                  <label class="subheading">{{new_task.date_created}}</label>
+                </v-flex>
+                <v-flex xs6>
+                  <label class="title">Date Modified:</label>
+                </v-flex>
+                <v-flex xs6>
+                  <label class="subheading">{{formatDate(new_task.date_created)}}</label>
                 </v-flex>
               </v-layout>
             </v-container>
@@ -189,6 +252,12 @@
         <td>{{ vIcon(props.item.start_process) }}</td>
         <td>{{ vIcon(props.item.end_process) }}</td>
         <td>{{ getGroup(props.item.groups) }}</td>
+        <td>{{ props.item.condition }}</td>
+        <td>{{ props.item.isCompliance }}</td>
+        <td>{{ props.item.created_by }}</td>
+        <td>{{ formatDate(props.item.date_created) }}</td>
+        <td>{{ props.item.modified_by }}</td>
+        <td>{{ formatDate(props.item.date_modified) }}</td>
         <td class="justify-center layout px-0">
           <v-icon small class="mr-2" @click="editItem(props.item)" flat icon color="primary">edit</v-icon>
           <v-icon small @click="viewItem(props.item)" flat icon color="primary">visibility</v-icon>
@@ -210,7 +279,7 @@ export default {
     groups: {},
     new_task: {
       start_process: false,
-      end_process : false
+      end_process: false
     },
     modified_task: {},
     dialog: false,
@@ -244,12 +313,6 @@ export default {
         sortable: "true",
         value: "recommends"
       },
-      // {
-      //   text: "Compliance",
-      //   align: "left",
-      //   sortable: "true",
-      //   value: "isCompliance"
-      // },
       {
         text: "Start Process",
         align: "left",
@@ -267,6 +330,38 @@ export default {
         align: "left",
         sortable: "true",
         value: "groups"
+      },
+      {
+        text: "Condition",
+        align: "left",
+        sortable: "true",
+        value: "condition"
+      },
+      {
+        text: "Compliance",
+        align: "left",
+        sortable: "true",
+        value: "isCompliance"
+      },
+      {
+        text: "Created By",
+        align: "left",
+        value: "created_by"
+      },
+      {
+        text: "Date Created",
+        align: "left",
+        value: "date_created"
+      },
+      {
+        text: "Modified By",
+        align: "left",
+        value: "modified_by"
+      },
+      {
+        text: "Date Modified",
+        align: "left",
+        value: "date_modified"
       },
       {
         text: "Action",
@@ -289,7 +384,7 @@ export default {
 
   computed: {
     formTitle() {
-      return this.mode === 0 ? "Add Approver" : "Edit Approver";
+      return this.mode === 0 ? "Add Task" : "Edit Task";
     }
   },
   created() {
@@ -383,38 +478,39 @@ export default {
       this.new_task = {};
     },
     submit() {
-     
-        
-
       this.$store.dispatch("ADD_TASK", this.new_task).then(result => {
         console.log("added:task: " + JSON.stringify(result));
         this.init();
         this.$notify({
-              message: "You have successfully created a new Task",
-              color: "primary"
-            });
+          message: "You have successfully created a new Task",
+          color: "primary"
+        });
         this.close();
       });
     },
     save() {
-       if (this.new_task.start_process === "true"){
-         console.log("start process true");
-         
-        this.new_task.end_process = false
-      }        
-      else{
+      if (this.new_task.start_process === "true") {
+        console.log("start process true");
+
+        this.new_task.end_process = false;
+      } else {
         console.log("start process false");
-        this.new_task.end_process =true
+        this.new_task.end_process = true;
       }
-        console.log("######"+ JSON.stringify(this.new_task.start_process) + "#####" + JSON.stringify(this.new_task.end_process) )
+      console.log(
+        "######" +
+          JSON.stringify(this.new_task.start_process) +
+          "#####" +
+          JSON.stringify(this.new_task.end_process)
+      );
       // console.log('###########edited:task: ' + JSON.stringify(this.new_province));
       this.$store.dispatch("EDIT_TASK", this.new_task).then(result => {
         console.log("edited:task: " + JSON.stringify(result));
         this.init();
-         this.$notify({
-              message: "You have successfully edited a Task",
-              color: "primary"
-            });
+        this.$notify({
+          message: "You have successfully edited a Task",
+          color: "primary"
+        });
         this.close();
       });
     }

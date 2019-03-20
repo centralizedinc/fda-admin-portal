@@ -165,25 +165,12 @@
             </v-list-tile-content>
           </v-list-tile>
         </v-list-group>
-        <!-- <v-list-group color="success" prepend-icon="group">
-          <v-list-tile slot="activator">
-            <v-list-tile-title>Group Manager</v-list-tile-title>
-          </v-list-tile>
-          <v-list-tile @click="goTo('/app/group')" class="ma-1" :style="activeRoute('group')">
-            <v-list-tile-action>
-              <v-icon color="success">contacts</v-icon>
-            </v-list-tile-action>
-            <v-list-tile-content>
-              <v-list-tile-title class="body-1 font-weight-light">Group</v-list-tile-title>
-            </v-list-tile-content>
-          </v-list-tile>
-        </v-list-group>-->
         <v-list-tile @click="goTo('/app/group')" class="ma-1" :style="activeRoute('group')">
           <v-list-tile-action>
             <v-icon color="success">contacts</v-icon>
           </v-list-tile-action>
           <v-list-tile-content>
-            <v-list-tile-title class="body-1 font-weight-light">Groups</v-list-tile-title>
+            <v-list-tile-title class="body-1 font-weight-light">Group</v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
         <v-list-tile

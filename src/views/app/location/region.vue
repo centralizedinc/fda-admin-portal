@@ -57,31 +57,48 @@
             class="headline"
             style="background: linear-gradient(45deg, #104B2A 0%, #b5c25a 100%)"
           >
-            <span class="headline">View Location</span>
+            <span class="headline">View Details</span>
           </v-card-title>
           <v-divider class="mx-3" inset vertical></v-divider>
           <v-card-text>
-            <v-container grid-list-md>
-              <v-layout wrap>
-                <v-flex xs12 sm4 md3>
-                  <span class="text-xs-center">Region Name</span>
-                  <v-divider></v-divider>
-                  <v-card-text>{{new_region.name}}</v-card-text>
+            <v-container grid-list-xl>
+              <v-layout row wrap align-center justify-center fill-height>
+                <!-- <v-flex xs6> -->
+                <v-flex xs6>
+                  <label class="title">Region Name:</label>
                 </v-flex>
-                <v-flex xs12 sm4 md3>
-                  <span class="text-xs-center">Region Code</span>
-                  <v-divider></v-divider>
-                  <v-card-text>{{new_region.region_code}}</v-card-text>
+                <v-flex xs6>
+                  <label class="subheading">{{new_region.name}}</label>
                 </v-flex>
-                <v-flex xs12 sm4 md3>
-                  <span class="text-xs-center">Created Date</span>
-                  <v-divider></v-divider>
-                  <v-card-text>{{new_region.date_created}}</v-card-text>
+                <v-flex xs6>
+                  <label class="title">Region Code:</label>
                 </v-flex>
-                <v-flex xs12 sm4 md3>
-                  <span class="text-xs-center">Modified Date</span>
-                  <v-divider></v-divider>
-                  <v-card-text>{{new_region.date_modified}}</v-card-text>
+                <v-flex xs6>
+                  <label class="subheading">{{new_region.region_code}}</label>
+                </v-flex>
+                <v-flex xs6>
+                  <label class="title">Created By:</label>
+                </v-flex>
+                <v-flex xs6>
+                  <label class="subheading">{{new_region.date_created}}</label>
+                </v-flex>
+                <v-flex xs6>
+                  <label class="title">Date Created:</label>
+                </v-flex>
+                <v-flex xs6>
+                  <label class="subheading">{{formatDate(new_region.date_created)}}</label>
+                </v-flex>
+                <v-flex xs6>
+                  <label class="title">Modified By:</label>
+                </v-flex>
+                <v-flex xs6>
+                  <label class="subheading">{{new_region.date_created}}</label>
+                </v-flex>
+                <v-flex xs6>
+                  <label class="title">Date Modified:</label>
+                </v-flex>
+                <v-flex xs6>
+                  <label class="subheading">{{formatDate(new_region.date_created)}}</label>
                 </v-flex>
               </v-layout>
             </v-container>
@@ -99,7 +116,9 @@
       <template slot="items" slot-scope="props">
         <td>{{ props.item.name }}</td>
         <td>{{ props.item.region_code }}</td>
+        <td>{{ props.item.created_by }}</td>
         <td>{{ formatDate(props.item.date_created) }}</td>
+        <td>{{ props.item.modified_by }}</td>
         <td>{{ formatDate(props.item.date_modified) }}</td>
         <td class="justify-center layout px-0">
           <v-icon
@@ -150,12 +169,22 @@ export default {
         value: "region_code"
       },
       {
-        text: "Created Date",
+        text: "Created By",
+        align: "left",
+        value: "created_by"
+      },
+      {
+        text: "Date Created",
         align: "left",
         value: "date_created"
       },
       {
-        text: "Modified Date",
+        text: "Modified By",
+        align: "left",
+        value: "modified_by"
+      },
+      {
+        text: "Date Modified",
         align: "left",
         value: "date_modified"
       },

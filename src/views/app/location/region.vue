@@ -116,9 +116,9 @@
       <template slot="items" slot-scope="props">
         <td>{{ props.item.name }}</td>
         <td>{{ props.item.region_code }}</td>
-        <td>{{ props.item.created_by }}</td>
+        <td>{{ getAdmin(props.item.created_by).last_name }}</td>
         <td>{{ formatDate(props.item.date_created) }}</td>
-        <td>{{ props.item.modified_by }}</td>
+        <td>{{ getAdmin(props.item.modified_by).first_name }}</td>
         <td>{{ formatDate(props.item.date_modified) }}</td>
         <td class="justify-center layout px-0">
           <v-icon
@@ -147,8 +147,8 @@ export default {
     mode: 0, // 0 - create, 1 - edit
     region_code: {},
     new_region: {
-      name:"",
-      region_code:""
+      name: "",
+      region_code: ""
     },
     modified_region: {},
     dialog: false,
@@ -267,9 +267,9 @@ export default {
             this.regions[i].region_code &&
             this.regions[i].name &&
             this.regions[i].region_code.toLowerCase() ===
-            this.new_region.region_code.toLowerCase() &&
+              this.new_region.region_code.toLowerCase() &&
             this.new_region.name.toLowerCase() ===
-            this.regions[i].name.toLowerCase()
+              this.regions[i].name.toLowerCase()
           ) {
             check = false;
           } else if (!check) {

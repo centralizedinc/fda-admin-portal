@@ -141,10 +141,7 @@
                   <label class="subheading">{{rol(new_admin.role)}}</label>
                 </v-flex>
                 <v-flex xs6>
-                  <label class="title">Created By:</label>
-                </v-flex>
-                <v-flex xs6>
-                  <label class="subheading">{{new_admin.date_created}}</label>
+                  <label class="subheading">{{getAdmin(new_admin.created_by).first_name}}</label>
                 </v-flex>
                 <v-flex xs6>
                   <label class="title">Date Created:</label>
@@ -156,13 +153,13 @@
                   <label class="title">Modified By:</label>
                 </v-flex>
                 <v-flex xs6>
-                  <label class="subheading">{{new_admin.date_created}}</label>
+                  <label class="subheading">{{getAdmin(new_admin.modified_by).last_name}}</label>
                 </v-flex>
                 <v-flex xs6>
                   <label class="title">Date Modified:</label>
                 </v-flex>
                 <v-flex xs6>
-                  <label class="subheading">{{formatDate(new_admin.date_created)}}</label>
+                  <label class="subheading">{{formatDate(new_admin.date_modified)}}</label>
                 </v-flex>
               </v-layout>
             </v-container>
@@ -184,9 +181,9 @@
         <td>{{ props.item.username }}</td>
         <td>{{ props.item.email }}</td>
         <td>{{ rol(props.item.role) }}</td>
-        <td>{{ props.item.created_by }}</td>
+        <td>{{ getAdmin(props.item.created_by).last_name }}</td>
         <td>{{ formatDate(props.item.date_created) }}</td>
-        <td>{{ props.item.modified_by }}</td>
+        <td>{{ getAdmin(props.item.modified_by).first_name }}</td>
         <td>{{ formatDate(props.item.date_modified) }}</td>
         <td class="justify-center layout px-0">
           <v-icon small class="mr-2" @click="editItem(props.item)" flat icon color="primary">edit</v-icon>

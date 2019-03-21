@@ -63,7 +63,7 @@
                   <label class="title">Created By:</label>
                 </v-flex>
                 <v-flex xs6>
-                  <label class="subheading">{{new_declared.date_created}}</label>
+                  <label class="subheading">{{getAdmin(new_declared.created_by)}}</label>
                 </v-flex>
                 <v-flex xs6>
                   <label class="title">Date Created:</label>
@@ -75,13 +75,13 @@
                   <label class="title">Modified By:</label>
                 </v-flex>
                 <v-flex xs6>
-                  <label class="subheading">{{new_declared.date_created}}</label>
+                  <label class="subheading">{{getAdmin(new_declared.modified_by)}}</label>
                 </v-flex>
                 <v-flex xs6>
                   <label class="title">Date Modified:</label>
                 </v-flex>
                 <v-flex xs6>
-                  <label class="subheading">{{formatDate(new_declared.date_created)}}</label>
+                  <label class="subheading">{{formatDate(new_declared.modified_by)}}</label>
                 </v-flex>
               </v-layout>
             </v-container>
@@ -98,9 +98,9 @@
     <v-data-table :headers="headers" :items="declared" :search="search" class="elevation-1">
       <template slot="items" slot-scope="props">
         <td>{{ props.item.name }}</td>
-        <td>{{ props.item.created_by }}</td>
+        <td>{{ getAdmin(props.item.created_by).last_name }}</td>
         <td>{{ formatDate(props.item.date_created) }}</td>
-        <td>{{ props.item.modified_by }}</td>
+        <td>{{ getAdmin(props.item.modified_by).first_name }}</td>
         <td>{{ formatDate(props.item.date_modified) }}</td>
         <td class="justify-center layout px-0">
           <v-icon small class="mr-2" @click="editItem(props.item, props.index)" flat icon color="primary">edit</v-icon>

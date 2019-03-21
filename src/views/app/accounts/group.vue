@@ -24,7 +24,7 @@
             <v-container grid-list-md>
               <v-layout wrap>
                 <v-flex xs12>
-                  <v-text-field label="Group Name" v-model="new_group.name"></v-text-field>
+                  <v-text-field label="Group Name" v-model="new_group.name" :rules="[rules.required]"></v-text-field>
                 </v-flex>
               </v-layout>
             </v-container>
@@ -69,7 +69,7 @@
                   <label class="title">Created By:</label>
                 </v-flex>
                 <v-flex xs6>
-                  <label class="subheading">{{new_group.date_created}}</label>
+                  <label class="subheading">{{getAdmin(new_group.created_by)}}</label>
                 </v-flex>
                 <v-flex xs6>
                   <label class="title">Date Created:</label>
@@ -81,13 +81,13 @@
                   <label class="title">Modified By:</label>
                 </v-flex>
                 <v-flex xs6>
-                  <label class="subheading">{{new_group.date_created}}</label>
+                  <label class="subheading">{{getAdmin(new_group.modified_by)}}</label>
                 </v-flex>
                 <v-flex xs6>
                   <label class="title">Date Modified:</label>
                 </v-flex>
                 <v-flex xs6>
-                  <label class="subheading">{{formatDate(new_group.date_created)}}</label>
+                  <label class="subheading">{{formatDate(new_group.date_modified)}}</label>
                 </v-flex>
               </v-layout>
             </v-container>
@@ -105,12 +105,12 @@
       <template slot="items" slot-scope="props">
         <td>{{ props.item.name }}</td>
         <td>{{ props.item.status }}</td>
-        <td>{{ props.item.created_by }}</td>
+        <td>{{ getAdmin(props.item.created_by).last_name }}</td>
         <td>{{ formatDate(props.item.date_created) }}</td>
-        <td>{{ props.item.modified_by }}</td>
+        <td>{{ getAdmin(props.item.modified_by).first_name }}</td>
         <td>{{ formatDate(props.item.date_modified) }}</td>
         <td class="justify-center layout px-0">
-          <v-icon small class="mr-2" @click="editItem(props.item)" flat icon color="primary">edit</v-icon>
+          <v-icon small class="mr-2" @click="editItem(props.item, props.index)" flat icon color="primary">edit</v-icon>
           <v-icon small @click="viewItem(props.item)" flat icon color="primary">visibility</v-icon>
         </td>
       </template>
@@ -133,6 +133,7 @@ export default {
     dialogView: false,
     isUpdating: false,
     search: "",
+    selectedIndex: -1, //
     headers: [
       {
         text: "Group Name",
@@ -182,8 +183,10 @@ export default {
       date_modified: ""
     },
     defaultItem: {
-      name: "",
-      created_by: "Kris"
+      name: ""
+    },
+    rules: {
+      required: v => !!v || "This is a required field"
     }
   }),
 
@@ -215,11 +218,13 @@ export default {
       });
     },
     addItem() {
+      this.selectedIndex = -1; //
       this.mode = 0; // Create
       this.new_group = {}; // holds the filled up item
       this.dialog = true;
     },
-    editItem(item) {
+    editItem(item, index) {
+      this.selectedIndex = index; //
       this.mode = 1; // Edit
       this.new_group = JSON.parse(JSON.stringify(item));
       this.dialog = true;
@@ -234,6 +239,37 @@ export default {
       this.dialog = false;
       this.dialogView = false;
       this.new_group = {};
+    },
+
+    validate() {
+      var check = true;
+      if (
+        this.isEmpty(this.new_group.name) 
+      ) {
+        this.$notify({
+          message: "Please fill up required fields",
+          color: "error"
+        });
+        return false;
+      } else {
+        for (let i = 0; i < this.groups.length; i++) {
+          if (
+            this.selectedIndex != i &&
+            this.groups[i].name &&
+            this.new_group.name.toLowerCase() ===
+            this.groups[i].name.toLowerCase()
+          ) {
+            check = false;
+          } else if (!check) {
+            this.$notify({
+              message: "You have inputed an existing details",
+              color: "error"
+            });
+            return false;
+          }
+        }
+      }
+      return true;
     },
     submit() {
       this.$store.dispatch("ADD_GROUP", this.new_group).then(result => {

@@ -80,7 +80,7 @@
                   <label class="title">Created By:</label>
                 </v-flex>
                 <v-flex xs6>
-                  <label class="subheading">{{new_region.date_created}}</label>
+                  <label class="subheading">{{getAdmin(new_region.created_by).first_name}}</label>
                 </v-flex>
                 <v-flex xs6>
                   <label class="title">Date Created:</label>
@@ -92,13 +92,13 @@
                   <label class="title">Modified By:</label>
                 </v-flex>
                 <v-flex xs6>
-                  <label class="subheading">{{new_region.date_created}}</label>
+                  <label class="subheading">{{getAdmin(new_region.modified_by)}}</label>
                 </v-flex>
                 <v-flex xs6>
                   <label class="title">Date Modified:</label>
                 </v-flex>
                 <v-flex xs6>
-                  <label class="subheading">{{formatDate(new_region.date_created)}}</label>
+                  <label class="subheading">{{formatDate(new_region.date_modified)}}</label>
                 </v-flex>
               </v-layout>
             </v-container>
@@ -116,9 +116,9 @@
       <template slot="items" slot-scope="props">
         <td>{{ props.item.name }}</td>
         <td>{{ props.item.region_code }}</td>
-        <td>{{ props.item.created_by }}</td>
+        <td>{{ getAdmin(props.item.created_by).last_name }}</td>
         <td>{{ formatDate(props.item.date_created) }}</td>
-        <td>{{ props.item.modified_by }}</td>
+        <td>{{ getAdmin(props.item.modified_by).first_name }}</td>
         <td>{{ formatDate(props.item.date_modified) }}</td>
         <td class="justify-center layout px-0">
           <v-icon
@@ -147,8 +147,8 @@ export default {
     mode: 0, // 0 - create, 1 - edit
     region_code: {},
     new_region: {
-      name:"",
-      region_code:""
+      name: "",
+      region_code: ""
     },
     modified_region: {},
     dialog: false,
@@ -220,7 +220,22 @@ export default {
     this.init();
   },
 
+   watch: {
+    isUpdating(val) {
+      if (val) {
+        setTimeout(() => (this.isUpdating = false), 3000);
+      }
+    },
+
+    dialog(val) {
+      val || this.close();
+    }
+  },
+
   methods: {
+    isEmpty(str) {
+      return !str || str === null || str === "";
+    },
     init() {
       this.$store.dispatch("GET_REGION").then(result => {
         this.regions = this.$store.state.regional_tables.regions;

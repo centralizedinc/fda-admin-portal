@@ -24,7 +24,7 @@
             <v-container grid-list-md>
               <v-layout wrap>
                 <v-flex xs12>
-                  <v-text-field label="Name" v-model="new_declared.name"></v-text-field>
+                  <v-text-field label="Name" v-model="new_declared.name" :rules="[rules.required]"></v-text-field>
                 </v-flex>
               </v-layout>
             </v-container>
@@ -63,7 +63,7 @@
                   <label class="title">Created By:</label>
                 </v-flex>
                 <v-flex xs6>
-                  <label class="subheading">{{new_declared.date_created}}</label>
+                  <label class="subheading">{{getAdmin(new_declared.created_by)}}</label>
                 </v-flex>
                 <v-flex xs6>
                   <label class="title">Date Created:</label>
@@ -75,13 +75,13 @@
                   <label class="title">Modified By:</label>
                 </v-flex>
                 <v-flex xs6>
-                  <label class="subheading">{{new_declared.date_created}}</label>
+                  <label class="subheading">{{getAdmin(new_declared.modified_by)}}</label>
                 </v-flex>
                 <v-flex xs6>
                   <label class="title">Date Modified:</label>
                 </v-flex>
                 <v-flex xs6>
-                  <label class="subheading">{{formatDate(new_declared.date_created)}}</label>
+                  <label class="subheading">{{formatDate(new_declared.modified_by)}}</label>
                 </v-flex>
               </v-layout>
             </v-container>
@@ -98,12 +98,12 @@
     <v-data-table :headers="headers" :items="declared" :search="search" class="elevation-1">
       <template slot="items" slot-scope="props">
         <td>{{ props.item.name }}</td>
-        <td>{{ props.item.created_by }}</td>
+        <td>{{ getAdmin(props.item.created_by).last_name }}</td>
         <td>{{ formatDate(props.item.date_created) }}</td>
-        <td>{{ props.item.modified_by }}</td>
+        <td>{{ getAdmin(props.item.modified_by).first_name }}</td>
         <td>{{ formatDate(props.item.date_modified) }}</td>
         <td class="justify-center layout px-0">
-          <v-icon small class="mr-2" @click="editItem(props.item)" flat icon color="primary">edit</v-icon>
+          <v-icon small class="mr-2" @click="editItem(props.item, props.index)" flat icon color="primary">edit</v-icon>
           <v-icon small @click="viewItem(props.item)" flat icon color="primary">visibility</v-icon>
         </td>
       </template>
@@ -126,6 +126,7 @@ export default {
     dialog: false,
     dialogView: false,
     search: "",
+    selectedIndex: -1, //
     headers: [
       {
         text: "Declared Capital",
@@ -166,6 +167,9 @@ export default {
     },
     defaultItem: {
       name: ""
+    },
+    rules: {
+      required: v => !!v || "This is a required field"
     }
   }),
 
@@ -185,11 +189,13 @@ export default {
       });
     },
     addItem() {
+      this.selectedIndex = -1; //
       this.mode = 0; // Create
       this.new_declared = {}; // holds the filled up item
       this.dialog = true;
     },
-    editItem(item) {
+    editItem(item, index) {
+      this.selectedIndex = index; //
       this.mode = 1; // Edit
       this.new_declared = JSON.parse(JSON.stringify(item));
       this.dialog = true;
@@ -205,7 +211,38 @@ export default {
       this.dialogView = false;
       this.new_declared = {};
     },
+    validate() {
+      var check = true;
+      if (
+        this.isEmpty(this.new_declared.name) 
+      ) {
+        this.$notify({
+          message: "Please fill up required fields",
+          color: "error"
+        });
+        return false;
+      } else {
+        for (let i = 0; i < this.declared.length; i++) {
+          if (
+            this.selectedIndex != i &&
+            this.declared[i].name &&
+            this.new_declared.name.toLowerCase() ===
+            this.declared[i].name.toLowerCase()
+          ) {
+            check = false;
+          } else if (!check) {
+            this.$notify({
+              message: "You have inputed an existing details",
+              color: "error"
+            });
+            return false;
+          }
+        }
+      }
+      return true;
+    },
     submit() {
+      if (this.validate()) {
       this.$store.dispatch("ADD_DECLARED", this.new_declared).then(result => {
         console.log("added:declared: " + JSON.stringify(result));
         this.init();
@@ -216,8 +253,10 @@ export default {
         });
         this.close();
       });
+      }
     },
     save() {
+      if (this.validate()) {
       this.$store.dispatch("EDIT_DECLARED", this.new_declared).then(result => {
         console.log("edited:declared: " + JSON.stringify(result));
         this.init();
@@ -228,6 +267,7 @@ export default {
         });
         this.close();
       });
+      }
     }
   }
 };

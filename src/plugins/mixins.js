@@ -32,6 +32,13 @@ export default {
                         return null
                     }
                 },
+                getAdmin(user_id) {
+                    var admin = this.$store.state.admin_tables.admins.find(r => {
+                        return r._id.toString() === user_id;
+                    });
+                    // return region ? region.region_code + ' - ' + region.name : "";
+                    return admin ? admin : {};
+                },
                 getGroup(group_id) {
                     if (!this.isEmpty(this.$store.state.group_table.groups)) {
                         var group = null;

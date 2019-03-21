@@ -24,7 +24,7 @@
             <v-container grid-list-md>
               <v-layout wrap>
                 <v-flex xs12>
-                  <v-text-field label="Name" v-model="new_additional.name"></v-text-field>
+                  <v-text-field label="Name" v-model="new_additional.name" :rules="[rules.required]"></v-text-field>
                 </v-flex>
               </v-layout>
             </v-container>
@@ -63,7 +63,7 @@
                   <label class="title">Created By:</label>
                 </v-flex>
                 <v-flex xs6>
-                  <label class="subheading">{{new_additional.date_created}}</label>
+                  <label class="subheading">{{getAdmin(new_additional.Create)}}</label>
                 </v-flex>
                 <v-flex xs6>
                   <label class="title">Date Created:</label>
@@ -75,7 +75,7 @@
                   <label class="title">Modified By:</label>
                 </v-flex>
                 <v-flex xs6>
-                  <label class="subheading">{{new_additional.date_created}}</label>
+                  <label class="subheading">{{getAdmin(new_additional.modified_by)}}</label>
                 </v-flex>
                 <v-flex xs6>
                   <label class="title">Date Modified:</label>
@@ -98,12 +98,12 @@
     <v-data-table :headers="headers" :items="additional" :search="search" class="elevation-1">
       <template slot="items" slot-scope="props">
         <td>{{ props.item.name }}</td>
-        <td>{{ props.item.created_by }}</td>
+        <td>{{ getAdmin(props.item.created_by).last_name }}</td>
         <td>{{ formatDate(props.item.date_created) }}</td>
-        <td>{{ props.item.modified_by }}</td>
+        <td>{{ getAdmin(props.item.modified_by).first_name }}</td>
         <td>{{ formatDate(props.item.date_modified) }}</td>
         <td class="justify-center layout px-0">
-          <v-icon small class="mr-2" @click="editItem(props.item)" flat icon color="primary">edit</v-icon>
+          <v-icon small class="mr-2" @click="editItem(props.item, props.index)" flat icon color="primary">edit</v-icon>
           <v-icon small @click="viewItem(props.item)" flat icon color="primary">visibility</v-icon>
         </td>
       </template>
@@ -126,6 +126,7 @@ export default {
     dialog: false,
     dialogView: false,
     search: "",
+    selectedIndex: -1, //
     headers: [
       {
         text: "Additional Activity",
@@ -166,6 +167,9 @@ export default {
     },
     defaultItem: {
       name: ""
+    },
+    rules: {
+      required: v => !!v || "This is a required field"
     }
   }),
 
@@ -187,11 +191,13 @@ export default {
       });
     },
     addItem() {
+      this.selectedIndex = -1; //
       this.mode = 0; // Create
       this.new_additional = {}; // holds the filled up item
       this.dialog = true;
     },
-    editItem(item) {
+    editItem(item, index) {
+      this.selectedIndex = index; //
       this.mode = 1; // Edit
       this.new_additional = JSON.parse(JSON.stringify(item));
       this.dialog = true;
@@ -207,34 +213,67 @@ export default {
       this.dialogView = false;
       this.new_additional = {};
     },
-    submit() {
-      this.$store
-        .dispatch("ADD_ADDITIONAL", this.new_additional)
-        .then(result => {
-          console.log("added:additional: " + JSON.stringify(result));
-          this.init();
-          this.$notify({
-            message: "You have created Additional Activity",
-            icon: "check_circle",
-            color: "primary"
-          });
-          this.close();
+    validate() {
+      var check = true;
+      if (this.isEmpty(this.new_additional.name)) {
+        this.$notify({
+          message: "Please fill up required fields",
+          color: "error"
         });
+        return false;
+      } else {
+        for (let i = 0; i < this.additional.length; i++) {
+          if (
+            this.selectedIndex != i &&
+            this.additional[i].name &&
+            this.new_additional.name.toLowerCase() ===
+              this.additional[i].name.toLowerCase()
+          ) {
+            check = false;
+          } else if (!check) {
+            this.$notify({
+              message: "You have inputed an existing details",
+              color: "error"
+            });
+            return false;
+          }
+        }
+      }
+      return true;
     },
-    save() {
-      console.log("###############" + JSON.stringify(this.new_additional));
-      this.$store
-        .dispatch("EDIT_ADDITIONAL", this.new_additional)
-        .then(result => {
-          console.log("edited:additional: " + JSON.stringify(result));
-          this.init();
-          this.$notify({
-            message: "You have edited successfully",
-            icon: "check_circle",
-            color: "primary"
+    submit() {
+      if (this.validate()) {
+        this.$store
+          .dispatch("ADD_ADDITIONAL", this.new_additional)
+          .then(result => {
+            console.log("added:additional: " + JSON.stringify(result));
+            this.init();
+            this.$notify({
+              message: "You have created Additional Activity",
+              icon: "check_circle",
+              color: "primary"
+            });
+            this.close();
           });
-          this.close();
-        });
+      }
+    },
+
+    save() {
+      if (this.validate()) {
+        console.log("###############" + JSON.stringify(this.new_additional));
+        this.$store
+          .dispatch("EDIT_ADDITIONAL", this.new_additional)
+          .then(result => {
+            console.log("edited:additional: " + JSON.stringify(result));
+            this.init();
+            this.$notify({
+              message: "You have edited successfully",
+              icon: "check_circle",
+              color: "primary"
+            });
+            this.close();
+          });
+      }
     }
   }
 };

@@ -24,11 +24,12 @@
             <v-container grid-list-md>
               <v-layout wrap>
                 <v-flex xs12>
-                  <v-text-field v-model="new_product_line.name" label="Product Line"></v-text-field>
+                  <v-text-field v-model="new_product_line.name" :rules="[rules.required]" label="Product Line"></v-text-field>
                 </v-flex>
                 <v-flex xs12>
                   <v-autocomplete
                     v-model="new_product_line.product_type"
+                    :rules="[rules.required]"
                     :disabled="isUpdating"
                     :items="product_type"
                     box
@@ -100,13 +101,13 @@
                   <label class="title">Created By:</label>
                 </v-flex>
                 <v-flex xs6>
-                  <label class="subheading">{{new_product_line.date_created}}</label>
+                  <label class="subheading">{{getAdmin(new_product_line.created_by).last_name}}</label>
                 </v-flex>
                 <v-flex xs6>
                   <label class="title">Status:</label>
                 </v-flex>
                 <v-flex xs6>
-                  <label class="subheading">{{new_product_line.status}}</label>
+                  <label class="subheading">{{statProdLn(new_product_line.status)}}</label>
                 </v-flex>
                 <v-flex xs6>
                   <label class="title">Date Created:</label>
@@ -118,13 +119,13 @@
                   <label class="title">Modified By:</label>
                 </v-flex>
                 <v-flex xs6>
-                  <label class="subheading">{{new_product_line.date_created}}</label>
+                  <label class="subheading">{{getAdmin(new_product_line.modified_by).first_name}}</label>
                 </v-flex>
                 <v-flex xs6>
                   <label class="title">Date Modified:</label>
                 </v-flex>
                 <v-flex xs6>
-                  <label class="subheading">{{formatDate(new_product_line.date_created)}}</label>
+                  <label class="subheading">{{formatDate(new_product_line.date_modified)}}</label>
                 </v-flex>
               </v-layout>
             </v-container>
@@ -142,12 +143,12 @@
         <td>{{ props.item.name }}</td>
         <td>{{ product_details(props.item.product_type) }}</td>
         <td>{{ statProdLn(props.item.status) }}</td>
-        <td>{{ props.item.created_by }}</td>
+        <td>{{ getAdmin(props.item.created_by).last_name }}</td>
         <td>{{ formatDate(props.item.date_created) }}</td>
-        <td>{{ props.item.modified_by }}</td>
+        <td>{{ getAdmin(props.item.modified_by).first_name }}</td>
         <td>{{ formatDate(props.item.date_modified) }}</td>
         <td class="justify-center layout px-0">
-          <v-icon small class="mr-2" @click="editItem(props.item)" flat icon color="primary">edit</v-icon>
+          <v-icon small class="mr-2" @click="editItem(props.item, props.index)" flat icon color="primary">edit</v-icon>
           <v-icon small @click="viewItem(props.item)" flat icon color="primary">visibility</v-icon>
         </td>
       </template>
@@ -172,6 +173,7 @@ export default {
     dialogView: false,
     isUpdating: false,
     search: "",
+     selectedIndex: -1, //
     headers: [
       {
         text: "Product Line",
@@ -227,6 +229,9 @@ export default {
     },
     defaultItem: {
       name: ""
+    },
+     rules: {
+      required: v => !!v || "This is a required field" //
     }
   }),
 
@@ -277,11 +282,13 @@ export default {
       if (index >= 0) this.product.splice(index, 1);
     },
     addItem() {
+      this.selectedIndex = -1; //
       this.mode = 0; // Create
       this.new_product_line = {}; // holds the filled up item
       this.dialog = true;
     },
-    editItem(item) {
+    editItem(item, index) {
+      this.selectedIndex = index; //
       this.mode = 1; // Edit
       this.new_product_line = JSON.parse(JSON.stringify(item));
       this.dialog = true;
@@ -297,7 +304,42 @@ export default {
       this.dialogView = false;
       this.new_product_line = {};
     },
+    validate() {
+      var check = true;
+      if (
+        this.isEmpty(this.new_product_line.name) ||
+        this.isEmpty(this.new_product_line.product_type)
+      ) {
+        this.$notify({
+          message: "Please fill up required fields",
+          color: "error"
+        });
+        return false;
+      } else {
+        for (let i = 0; i < this.productLine.length; i++) {
+          if (
+            this.selectedIndex != i &&
+            this.productLine[i].product_type &&
+            this.productLine[i].name &&
+
+            this.new_product_line.name.toLowerCase() ===
+            this.productLine[i].name.toLowerCase()
+          ) 
+          {
+            check = false;
+          } else if (!check) {
+            this.$notify({
+              message: "You have inputed an existing details",
+              color: "error"
+            });
+            return false;
+          }
+        }
+      }
+      return true;
+    },
     submit() {
+      if (this.validate()) {
       // console.log('###########added:product_line: ' + JSON.stringify(this.new_product_line));
       this.$store
         .dispatch("ADD_PRODUCT_LINE", this.new_product_line)
@@ -311,8 +353,10 @@ export default {
           });
           this.close();
         });
+      }
     },
     save() {
+      if (this.validate()) {
       // console.log('###########edited:product_line: ' + JSON.stringify(this.new_product_line));
       this.$store
         .dispatch("EDIT_PRODUCT_LINE", this.new_product_line)
@@ -326,6 +370,7 @@ export default {
           });
           this.close();
         });
+      }
     }
   }
 };

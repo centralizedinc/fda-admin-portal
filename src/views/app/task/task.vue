@@ -212,7 +212,7 @@
                   <label class="title">Created By:</label>
                 </v-flex>
                 <v-flex xs6>
-                  <label class="subheading">{{new_task.date_created}}</label>
+                  <label class="subheading">{{getAdmin(new_task.created_by)}}</label>
                 </v-flex>
                 <v-flex xs6>
                   <label class="title">Date Created:</label>
@@ -224,13 +224,13 @@
                   <label class="title">Modified By:</label>
                 </v-flex>
                 <v-flex xs6>
-                  <label class="subheading">{{new_task.date_created}}</label>
+                  <label class="subheading">{{getAdmin(new_task.modified_by)}}</label>
                 </v-flex>
                 <v-flex xs6>
                   <label class="title">Date Modified:</label>
                 </v-flex>
                 <v-flex xs6>
-                  <label class="subheading">{{formatDate(new_task.date_created)}}</label>
+                  <label class="subheading">{{formatDate(new_task.date_modified)}}</label>
                 </v-flex>
               </v-layout>
             </v-container>
@@ -254,9 +254,9 @@
         <td>{{ getGroup(props.item.groups) }}</td>
         <td>{{ props.item.condition }}</td>
         <td>{{ props.item.isCompliance }}</td>
-        <td>{{ props.item.created_by }}</td>
+        <td>{{ getAdmin(props.item.created_by).last_name }}</td>
         <td>{{ formatDate(props.item.date_created) }}</td>
-        <td>{{ props.item.modified_by }}</td>
+        <td>{{ getAdmin(props.item.modified_by).first_name }}</td>
         <td>{{ formatDate(props.item.date_modified) }}</td>
         <td class="justify-center layout px-0">
           <v-icon small class="mr-2" @click="editItem(props.item)" flat icon color="primary">edit</v-icon>

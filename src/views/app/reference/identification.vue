@@ -24,7 +24,11 @@
             <v-container grid-list-md>
               <v-layout wrap>
                 <v-flex xs12>
-                  <v-text-field label="Identification Type" v-model="new_identification.name" :rules="[rules.required]"></v-text-field>
+                  <v-text-field
+                    label="Identification Type"
+                    v-model="new_identification.name"
+                    :rules="[rules.required]"
+                  ></v-text-field>
                 </v-flex>
               </v-layout>
             </v-container>
@@ -63,7 +67,7 @@
                   <label class="title">Created By:</label>
                 </v-flex>
                 <v-flex xs6>
-                  <label class="subheading">{{new_identification.date_created}}</label>
+                  <label class="subheading">{{getAdmin(new_identification.created_by).first_name}}</label>
                 </v-flex>
                 <v-flex xs6>
                   <label class="title">Date Created:</label>
@@ -75,13 +79,13 @@
                   <label class="title">Modified By:</label>
                 </v-flex>
                 <v-flex xs6>
-                  <label class="subheading">{{new_identification.date_created}}</label>
+                  <label class="subheading">{{getAdmin(new_identification.modified_by).first_name}}</label>
                 </v-flex>
                 <v-flex xs6>
                   <label class="title">Date Modified:</label>
                 </v-flex>
                 <v-flex xs6>
-                  <label class="subheading">{{formatDate(new_identification.date_created)}}</label>
+                  <label class="subheading">{{formatDate(new_identification.date_modified)}}</label>
                 </v-flex>
               </v-layout>
             </v-container>
@@ -98,12 +102,19 @@
     <v-data-table :headers="headers" :items="identification" :search="search" class="elevation-1">
       <template slot="items" slot-scope="props">
         <td>{{ props.item.name }}</td>
-        <td>{{ props.item.created_by }}</td>
+        <td>{{ getAdmin(props.item.created_by).last_name }}</td>
         <td>{{ formatDate(props.item.date_created) }}</td>
-        <td>{{ props.item.modified_by }}</td>
+        <td>{{ getAdmin(props.item.modified_by).first_name}}</td>
         <td>{{ formatDate(props.item.date_modified) }}</td>
         <td class="justify-center layout px-0">
-          <v-icon small class="mr-2" @click="editItem(props.item, props.index)" flat icon color="primary">edit</v-icon>
+          <v-icon
+            small
+            class="mr-2"
+            @click="editItem(props.item, props.index)"
+            flat
+            icon
+            color="primary"
+          >edit</v-icon>
           <v-icon small @click="viewItem(props.item)" flat icon color="primary">visibility</v-icon>
         </td>
       </template>
@@ -214,9 +225,7 @@ export default {
 
     validate() {
       var check = true;
-      if (
-        this.isEmpty(this.new_identification.name) 
-      ) {
+      if (this.isEmpty(this.new_identification.name)) {
         this.$notify({
           message: "Please fill up required fields",
           color: "error"
@@ -228,7 +237,7 @@ export default {
             this.selectedIndex != i &&
             this.identification[i].name &&
             this.new_identification.name.toLowerCase() ===
-            this.identification[i].name.toLowerCase()
+              this.identification[i].name.toLowerCase()
           ) {
             check = false;
           } else if (!check) {
@@ -244,34 +253,34 @@ export default {
     },
     submit() {
       if (this.validate()) {
-      this.$store
-        .dispatch("ADD_IDENTIFICATION", this.new_identification)
-        .then(result => {
-          console.log("added:identification: " + JSON.stringify(result));
-          this.init();
-          this.$notify({
-            message: "You have successfully created a new Identification",
-            icon: "check_circle",
-            color: "primary"
+        this.$store
+          .dispatch("ADD_IDENTIFICATION", this.new_identification)
+          .then(result => {
+            console.log("added:identification: " + JSON.stringify(result));
+            this.init();
+            this.$notify({
+              message: "You have successfully created a new Identification",
+              icon: "check_circle",
+              color: "primary"
+            });
+            this.close();
           });
-          this.close();
-        });
       }
     },
     save() {
       if (this.validate()) {
-      this.$store
-        .dispatch("EDIT_IDENTIFICATION", this.new_identification)
-        .then(result => {
-          console.log("edited:identification: " + JSON.stringify(result));
-          this.init();
-          this.$notify({
-            message: "You have successfully edited a Identification",
-            icon: "check_circle",
-            color: "primary"
+        this.$store
+          .dispatch("EDIT_IDENTIFICATION", this.new_identification)
+          .then(result => {
+            console.log("edited:identification: " + JSON.stringify(result));
+            this.init();
+            this.$notify({
+              message: "You have successfully edited a Identification",
+              icon: "check_circle",
+              color: "primary"
+            });
+            this.close();
           });
-          this.close();
-        });
       }
     }
   }

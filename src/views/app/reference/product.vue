@@ -24,11 +24,12 @@
             <v-container grid-list-md>
               <v-layout wrap>
                 <v-flex xs12>
-                  <v-text-field v-model="new_product.name" label="Name"></v-text-field>
+                  <v-text-field v-model="new_product.name" :rules="[rules.required]" label="Name"></v-text-field>
                 </v-flex>
                 <v-flex xs12>
                   <v-autocomplete
                     v-model="new_product.primary_activity"
+                    :rules="[rules.required]"
                     :disabled="isUpdating"
                     :items="primary_items"
                     box
@@ -134,7 +135,7 @@
         <td>{{ props.item.modified_by }}</td>
         <td>{{ formatDate(props.item.date_modified) }}</td>
         <td class="justify-center layout px-0">
-          <v-icon small class="mr-2" @click="editItem(props.item)" flat icon color="primary">edit</v-icon>
+          <v-icon small class="mr-2" @click="editItem(props.item, props.index)" flat icon color="primary">edit</v-icon>
           <v-icon small @click="viewItem(props.item)" flat icon color="primary">visibility</v-icon>
         </td>
       </template>
@@ -161,6 +162,7 @@ export default {
     primary_items: [],
     new_product: {},
     modified_product: {},
+    selectedIndex: -1, //
     headers: [
       {
         text: "Product Name",
@@ -202,6 +204,9 @@ export default {
     },
     defaultItem: {
       name: ""
+    },
+    rules: {
+      required: v => !!v || "This is a required field" //
     }
   }),
 
@@ -243,6 +248,7 @@ export default {
     },
 
     addItem() {
+      this.selectedIndex = -1; //
       this.mode = 0; // Create
       this.new_product = {}; // holds the filled up item
       this.dialog = true;
@@ -254,7 +260,8 @@ export default {
       this.primary = [];
     },
 
-    editItem(item) {
+    editItem(item, index) {
+      this.selectedIndex = index; //
       this.mode = 1; // Edit
       this.new_product = JSON.parse(JSON.stringify(item));
       this.dialog = true;
@@ -270,8 +277,41 @@ export default {
       this.dialogView = false;
       this.new_product = {};
     },
+    validate() {
+      var check = true;
+      if (
+        this.isEmpty(this.new_product.name) ||
+        this.isEmpty(this.new_product.primary_activity)
+      ) {
+        this.$notify({
+          message: "Please fill up required fields",
+          color: "error"
+        });
+        return false;
+      } else {
+        for (let i = 0; i < this.products.length; i++) {
+          if (
+            this.selectedIndex != i &&
+            this.products[i].primary_activity &&
+            this.products[i].name &&
+            this.new_product.name.toLowerCase() ===
+            this.products[i].name.toLowerCase()
+          ) 
+          {
+            check = false;
+          } else if (!check) {
+            this.$notify({
+              message: "You have inputed an existing details",
+              color: "error"
+            });
+            return false;
+          }
+        }
+      }
+      return true;
+    },
     submit() {
-      // console.log(JSON.stringify(this.new_product));
+      if (this.validate()) {
       this.$store.dispatch("ADD_PRODUCTS", this.new_product).then(result => {
         console.log("added:product: " + JSON.stringify(result));
         this.init();
@@ -282,8 +322,10 @@ export default {
         });
         this.close();
       });
+      }
     },
     save() {
+      if (this.validate()) {
       this.$store.dispatch("EDIT_PRODUCTS", this.new_product).then(result => {
         console.log("edited:product: " + JSON.stringify(result));
         this.init();
@@ -294,6 +336,7 @@ export default {
         });
         this.close();
       });
+      }
     }
   }
 };

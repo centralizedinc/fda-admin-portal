@@ -106,7 +106,7 @@
                   <label class="title">Status:</label>
                 </v-flex>
                 <v-flex xs6>
-                  <label class="subheading">{{new_product_line.status}}</label>
+                  <label class="subheading">{{statProdLn(new_product_line.status)}}</label>
                 </v-flex>
                 <v-flex xs6>
                   <label class="title">Date Created:</label>

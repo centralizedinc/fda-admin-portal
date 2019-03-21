@@ -220,7 +220,22 @@ export default {
     this.init();
   },
 
+   watch: {
+    isUpdating(val) {
+      if (val) {
+        setTimeout(() => (this.isUpdating = false), 3000);
+      }
+    },
+
+    dialog(val) {
+      val || this.close();
+    }
+  },
+
   methods: {
+    isEmpty(str) {
+      return !str || str === null || str === "";
+    },
     init() {
       this.$store.dispatch("GET_REGION").then(result => {
         this.regions = this.$store.state.regional_tables.regions;
@@ -267,9 +282,9 @@ export default {
             this.regions[i].region_code &&
             this.regions[i].name &&
             this.regions[i].region_code.toLowerCase() ===
-              this.new_region.region_code.toLowerCase() &&
+            this.new_region.region_code.toLowerCase() &&
             this.new_region.name.toLowerCase() ===
-              this.regions[i].name.toLowerCase()
+            this.regions[i].name.toLowerCase()
           ) {
             check = false;
           } else if (!check) {

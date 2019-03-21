@@ -64,6 +64,9 @@
                   <label class="subheading">{{new_identification.name}}</label>
                 </v-flex>
                 <v-flex xs6>
+                  <label class="title">Created By:</label>
+                </v-flex>
+                <v-flex xs6>
                   <label class="subheading">{{getAdmin(new_identification.created_by).first_name}}</label>
                 </v-flex>
                 <v-flex xs6>

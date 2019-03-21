@@ -10,7 +10,7 @@
           <v-list-tile
             class="pa-1"
             avatar
-            style=" height: 100px; background:url('https://pixinvent.com/free-materialize-material-design-admin-template/images/gallary/7.png') no-repeat center center"
+            style=" height: 100px; background:url('https://i.postimg.cc/YCbD5mHP/image.png') repeat center center"
           >
             <v-list-tile-avatar class="mt-4">
               <img src="http://i.pravatar.cc/300">
@@ -25,149 +25,191 @@
         </v-list>
       </v-toolbar>
       <v-list>
+        <!-- SIDENAV -->
         <v-list-tile @click="goTo('/app')" class="ma-1" :style="activeRoute('Dashboard')">
           <v-list-tile-action>
-            <v-icon color="success">dashboard</v-icon>
+            <v-tooltip top>
+              <v-icon slot="activator" medium color="success">dashboard</v-icon>Dashboard
+            </v-tooltip>
           </v-list-tile-action>
           <v-list-tile-content>
             <v-list-tile-title class="body-1 font-weight-light">Dashboard</v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
-        <v-list-group color="success" prepend-icon="person_pin">
-          <v-list-tile slot="activator">
-            <v-list-tile-title>Users</v-list-tile-title>
-          </v-list-tile>
-          <v-list-tile @click="goTo('/app/clients')" class="ma-1" :style="activeRoute('Clients')">
-            <v-list-tile-action>
-              <v-icon color="success">people_outline</v-icon>
-            </v-list-tile-action>
-            <v-list-tile-content>
-              <v-list-tile-title class="body-1 font-weight-light">Clients</v-list-tile-title>
-            </v-list-tile-content>
-          </v-list-tile>
-          <v-list-tile @click="goTo('/app/admin')" class="ma-1" :style="activeRoute('admin')">
-            <v-list-tile-action>
-              <v-icon color="success">account_box</v-icon>
-            </v-list-tile-action>
-            <v-list-tile-content>
-              <v-list-tile-title class="body-1 font-weight-light">Admin</v-list-tile-title>
-            </v-list-tile-content>
-          </v-list-tile>
-        </v-list-group>
-        <v-list-group color="success" prepend-icon="redeem">
-          <v-list-tile slot="activator">
-            <v-list-tile-title>Product Type</v-list-tile-title>
-          </v-list-tile>
-          <v-list-tile @click="goTo('/app/products')" class="ma-1" :style="activeRoute('product')">
-            <v-list-tile-action>
-              <v-icon color="success">card_membership</v-icon>
-            </v-list-tile-action>
-            <v-list-tile-content>
-              <v-list-tile-title class="body-1 font-weight-light">Products</v-list-tile-title>
-            </v-list-tile-content>
-          </v-list-tile>
-          <v-list-tile @click="goTo('/app/primary')" class="ma-1" :style="activeRoute('primary')">
-            <v-list-tile-action>
-              <v-icon color="success">account_box</v-icon>
-            </v-list-tile-action>
-            <v-list-tile-content>
-              <v-list-tile-title class="body-1 font-weight-light">Primary</v-list-tile-title>
-            </v-list-tile-content>
-          </v-list-tile>
-          <v-list-tile
-            @click="goTo('/app/Activity')"
-            class="ma-1"
-            :style="activeRoute('Additional Activity')"
+        <v-tooltip top>
+          <v-list-group
+            color="success"
+            prepend-icon="fas fa-users"
+            slot="activator"
+            append-icon="fas fa-chevron-down fa-1x"
           >
-            <v-list-tile-action>
-              <v-icon color="success">face</v-icon>
-            </v-list-tile-action>
-            <v-list-tile-content>
-              <v-list-tile-title class="body-1 font-weight-light">Additional Activity</v-list-tile-title>
-            </v-list-tile-content>
-          </v-list-tile>
-          <v-list-tile
-            @click="goTo('/app/capital')"
-            class="ma-1"
-            :style="activeRoute('Declared Capital')"
+            <v-list-tile slot="activator">
+              <v-list-tile-title>Users</v-list-tile-title>
+            </v-list-tile>
+            <v-list-tile @click="goTo('/app/clients')" class="ma-1" :style="activeRoute('Clients')">
+              <v-list-tile-action>
+                <v-icon color="success">people_outline</v-icon>
+              </v-list-tile-action>
+              <v-list-tile-content>
+                <v-list-tile-title class="body-1 font-weight-light">Clients</v-list-tile-title>
+              </v-list-tile-content>
+            </v-list-tile>
+            <v-list-tile @click="goTo('/app/admin')" class="ma-1" :style="activeRoute('admin')">
+              <v-list-tile-action>
+                <v-icon color="success">account_box</v-icon>
+              </v-list-tile-action>
+              <v-list-tile-content>
+                <v-list-tile-title class="body-1 font-weight-light">Admin</v-list-tile-title>
+              </v-list-tile-content>
+            </v-list-tile>
+          </v-list-group>Users
+        </v-tooltip>
+        <v-tooltip top>
+          <v-list-group
+            color="success"
+            slot="activator"
+            prepend-icon="fab fa-product-hunt"
+            append-icon="fas fa-chevron-down fa-1x"
           >
-            <v-list-tile-action>
-              <v-icon color="success">accessibility</v-icon>
-            </v-list-tile-action>
-            <v-list-tile-content>
-              <v-list-tile-title class="body-1 font-weight-light">Declared Capital</v-list-tile-title>
-            </v-list-tile-content>
-          </v-list-tile>
-          <v-list-tile
-            @click="goTo('/app/productLine')"
-            class="ma-1"
-            :style="activeRoute('Productline')"
+            <v-list-tile slot="activator">
+              <v-list-tile-title>Product Type</v-list-tile-title>
+            </v-list-tile>
+            <v-list-tile
+              @click="goTo('/app/products')"
+              class="ma-1"
+              :style="activeRoute('product')"
+            >
+              <v-list-tile-action>
+                <v-icon small color="success">fas fa-box</v-icon>
+              </v-list-tile-action>
+              <v-list-tile-content>
+                <v-list-tile-title class="body-1 font-weight-light">Products</v-list-tile-title>
+              </v-list-tile-content>
+            </v-list-tile>
+            <v-list-tile @click="goTo('/app/primary')" class="ma-1" :style="activeRoute('primary')">
+              <v-list-tile-action>
+                <v-icon color="success">account_box</v-icon>
+              </v-list-tile-action>
+              <v-list-tile-content>
+                <v-list-tile-title class="body-1 font-weight-light">Primary</v-list-tile-title>
+              </v-list-tile-content>
+            </v-list-tile>
+            <v-list-tile
+              @click="goTo('/app/Activity')"
+              class="ma-1"
+              :style="activeRoute('Additional Activity')"
+            >
+              <v-list-tile-action>
+                <v-icon color="success">face</v-icon>
+              </v-list-tile-action>
+              <v-list-tile-content>
+                <v-list-tile-title class="body-1 font-weight-light">Additional Activity</v-list-tile-title>
+              </v-list-tile-content>
+            </v-list-tile>
+            <v-list-tile
+              @click="goTo('/app/capital')"
+              class="ma-1"
+              :style="activeRoute('Declared Capital')"
+            >
+              <v-list-tile-action>
+                <v-icon color="success">fas fa-coins</v-icon>
+              </v-list-tile-action>
+              <v-list-tile-content>
+                <v-list-tile-title class="body-1 font-weight-light">Declared Capital</v-list-tile-title>
+              </v-list-tile-content>
+            </v-list-tile>
+            <v-list-tile
+              @click="goTo('/app/productLine')"
+              class="ma-1"
+              :style="activeRoute('Productline')"
+            >
+              <v-list-tile-action>
+                <v-icon color="success">developer_board</v-icon>
+              </v-list-tile-action>
+              <v-list-tile-content>
+                <v-list-tile-title class="body-1 font-weight-light">Product Line</v-list-tile-title>
+              </v-list-tile-content>
+            </v-list-tile>
+          </v-list-group>Product Type
+        </v-tooltip>
+
+        <v-tooltip top>
+          <v-list-group
+            slot="activator"
+            color="success"
+            prepend-icon="fas fa-location-arrow"
+            append-icon="fas fa-chevron-down fa-1x"
           >
-            <v-list-tile-action>
-              <v-icon color="success">developer_board</v-icon>
-            </v-list-tile-action>
-            <v-list-tile-content>
-              <v-list-tile-title class="body-1 font-weight-light">Product Line</v-list-tile-title>
-            </v-list-tile-content>
-          </v-list-tile>
-        </v-list-group>
-        <v-list-group color="success" prepend-icon="room">
-          <v-list-tile slot="activator">
-            <v-list-tile-title>Location</v-list-tile-title>
-          </v-list-tile>
-          <v-list-tile @click="goTo('/app/province')" class="ma-1" :style="activeRoute('province')">
-            <v-list-tile-action>
-              <v-icon color="success">directions</v-icon>
-            </v-list-tile-action>
-            <v-list-tile-content>
-              <v-list-tile-title class="body-1 font-weight-light">Province</v-list-tile-title>
-            </v-list-tile-content>
-          </v-list-tile>
-          <v-list-tile @click="goTo('/app/region')" class="ma-1" :style="activeRoute('region')">
-            <v-list-tile-action>
-              <v-icon color="success">navigations</v-icon>
-            </v-list-tile-action>
-            <v-list-tile-content>
-              <v-list-tile-title class="body-1 font-weight-light">Region</v-list-tile-title>
-            </v-list-tile-content>
-          </v-list-tile>
-          <v-list-tile @click="goTo('/app/city')" class="ma-1" :style="activeRoute('city')">
-            <v-list-tile-action>
-              <v-icon color="success">directions_walk</v-icon>
-            </v-list-tile-action>
-            <v-list-tile-content>
-              <v-list-tile-title class="body-1 font-weight-light">City</v-list-tile-title>
-            </v-list-tile-content>
-          </v-list-tile>
-        </v-list-group>
-        <v-list-group color="success" prepend-icon="person_pin">
-          <v-list-tile slot="activator">
-            <v-list-tile-title>Tasks</v-list-tile-title>
-          </v-list-tile>
-          <v-list-tile @click="goTo('/app/task')" class="ma-1" :style="activeRoute('task')">
-            <v-list-tile-action>
-              <v-icon color="success">recent_actors</v-icon>
-            </v-list-tile-action>
-            <v-list-tile-content>
-              <v-list-tile-title class="body-1 font-weight-light">Task</v-list-tile-title>
-            </v-list-tile-content>
-          </v-list-tile>
-          <v-list-tile
-            @click="goTo('/app/checklist')"
-            class="ma-1"
-            :style="activeRoute('checklist')"
+            <v-list-tile slot="activator">
+              <v-list-tile-title>Location</v-list-tile-title>
+            </v-list-tile>
+            <v-list-tile
+              @click="goTo('/app/province')"
+              class="ma-1"
+              :style="activeRoute('province')"
+            >
+              <v-list-tile-action>
+                <v-icon color="success">directions</v-icon>
+              </v-list-tile-action>
+              <v-list-tile-content>
+                <v-list-tile-title class="body-1 font-weight-light">Province</v-list-tile-title>
+              </v-list-tile-content>
+            </v-list-tile>
+            <v-list-tile @click="goTo('/app/region')" class="ma-1" :style="activeRoute('region')">
+              <v-list-tile-action>
+                <v-icon color="success">navigations</v-icon>
+              </v-list-tile-action>
+              <v-list-tile-content>
+                <v-list-tile-title class="body-1 font-weight-light">Region</v-list-tile-title>
+              </v-list-tile-content>
+            </v-list-tile>
+            <v-list-tile @click="goTo('/app/city')" class="ma-1" :style="activeRoute('city')">
+              <v-list-tile-action>
+                <v-icon color="success">directions_walk</v-icon>
+              </v-list-tile-action>
+              <v-list-tile-content>
+                <v-list-tile-title class="body-1 font-weight-light">City</v-list-tile-title>
+              </v-list-tile-content>
+            </v-list-tile>
+          </v-list-group>Location
+        </v-tooltip>
+        <v-tooltip top>
+          <v-list-group
+            slot="activator"
+            color="success"
+            prepend-icon="fas fa-tasks"
+            append-icon="fas fa-chevron-down fa-1x"
           >
-            <v-list-tile-action>
-              <v-icon color="success">view_quilt</v-icon>
-            </v-list-tile-action>
-            <v-list-tile-content>
-              <v-list-tile-title class="body-1 font-weight-light">Checklist</v-list-tile-title>
-            </v-list-tile-content>
-          </v-list-tile>
-        </v-list-group>
+            <v-list-tile slot="activator">
+              <v-list-tile-title>Tasks</v-list-tile-title>
+            </v-list-tile>
+            <v-list-tile @click="goTo('/app/task')" class="ma-1" :style="activeRoute('task')">
+              <v-list-tile-action>
+                <v-icon color="success">recent_actors</v-icon>
+              </v-list-tile-action>
+              <v-list-tile-content>
+                <v-list-tile-title class="body-1 font-weight-light">Task</v-list-tile-title>
+              </v-list-tile-content>
+            </v-list-tile>
+            <v-list-tile
+              @click="goTo('/app/checklist')"
+              class="ma-1"
+              :style="activeRoute('checklist')"
+            >
+              <v-list-tile-action>
+                <v-icon color="success">view_quilt</v-icon>
+              </v-list-tile-action>
+              <v-list-tile-content>
+                <v-list-tile-title class="body-1 font-weight-light">Checklist</v-list-tile-title>
+              </v-list-tile-content>
+            </v-list-tile>
+          </v-list-group>Tasks
+        </v-tooltip>
         <v-list-tile @click="goTo('/app/group')" class="ma-1" :style="activeRoute('Group')">
           <v-list-tile-action>
-            <v-icon color="success">contacts</v-icon>
+            <v-tooltip top>
+              <v-icon slot="activator" color="success">fas fa-users-cog</v-icon>Group
+            </v-tooltip>
           </v-list-tile-action>
           <v-list-tile-content>
             <v-list-tile-title class="body-1 font-weight-light">Group</v-list-tile-title>
@@ -179,7 +221,9 @@
           :style="activeRoute('Designation')"
         >
           <v-list-tile-action>
-            <v-icon color="success">person</v-icon>
+            <v-tooltip top>
+              <v-icon slot="activator" color="success">fas fa-id-badge</v-icon>Designation
+            </v-tooltip>
           </v-list-tile-action>
           <v-list-tile-content>
             <v-list-tile-title class="body-1 font-weight-light">Designation</v-list-tile-title>
@@ -191,7 +235,9 @@
           :style="activeRoute('Identification')"
         >
           <v-list-tile-action>
-            <v-icon color="success">perm_contact_calendar</v-icon>
+            <v-tooltip top>
+              <v-icon slot="activator" color="success">fas fa-id-card</v-icon>Identification
+            </v-tooltip>
           </v-list-tile-action>
           <v-list-tile-content>
             <v-list-tile-title class="body-1 font-weight-light">Identification</v-list-tile-title>
@@ -199,7 +245,9 @@
         </v-list-tile>
         <v-list-tile @click="goTo('/app/fees')" class="ma-1" :style="activeRoute('Fees')">
           <v-list-tile-action>
-            <v-icon color="success">perm_contact_calendar</v-icon>
+            <v-tooltip top>
+              <v-icon slot="activator" color="success">fas fa-file-invoice-dollar</v-icon>Fees
+            </v-tooltip>
           </v-list-tile-action>
           <v-list-tile-content>
             <v-list-tile-title class="body-1 font-weight-light">Fees</v-list-tile-title>
@@ -208,7 +256,9 @@
         <v-divider></v-divider>
         <v-list-tile @click="goTo('/app/profile')" class="ma-1" :style="activeRoute('Profile')">
           <v-list-tile-action>
-            <v-icon color="success">far fa-user-circle</v-icon>
+            <v-tooltip top>
+              <v-icon slot="activator" color="success">far fa-user-circle</v-icon>My Profile
+            </v-tooltip>
           </v-list-tile-action>
           <v-list-tile-content>
             <v-list-tile-title class="body-1 font-weight-light">My Profile</v-list-tile-title>
@@ -220,7 +270,9 @@
           :style="activeRoute('Change Password')"
         >
           <v-list-tile-action>
-            <v-icon color="success">lock_open</v-icon>
+            <v-tooltip top>
+              <v-icon slot="activator" color="success">fas fa-key</v-icon>Password Settings
+            </v-tooltip>
           </v-list-tile-action>
           <v-list-tile-content>
             <v-list-tile-title
@@ -232,7 +284,9 @@
 
         <v-list-tile @click="showLogout()" class="ma-1" :style="activeRoute('LOGOUT')">
           <v-list-tile-action>
-            <v-icon color="success">fas fa-sign-out-alt</v-icon>
+            <v-tooltip top>
+              <v-icon slot="activator" color="success">fas fa-sign-out-alt</v-icon>Logout
+            </v-tooltip>
           </v-list-tile-action>
           <v-list-tile-content>
             <v-list-tile-title class="body-1 font-weight-light">Logout</v-list-tile-title>
@@ -437,6 +491,15 @@ export default {
 </script>
 
 <style>
+.v-navigation-drawer > .v-list .v-list__tile {
+  -webkit-transition: none;
+  transition: none;
+  font-weight: 300;
+}
+.theme--light.v-icon {
+  color: #0f901a;
+}
+
 #nprogress .bar {
   height: 2px;
 }

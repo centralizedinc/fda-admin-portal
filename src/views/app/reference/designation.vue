@@ -24,7 +24,7 @@
             <v-container grid-list-md>
               <v-layout wrap>
                 <v-flex xs12>
-                  <v-text-field label="Designation name" v-model="new_designation.name"></v-text-field>
+                  <v-text-field label="Designation name" v-model="new_designation.name" :rules="[rules.required]"></v-text-field>
                 </v-flex>
               </v-layout>
             </v-container>
@@ -103,7 +103,7 @@
         <td>{{ props.item.modified_by }}</td>
         <td>{{ formatDate(props.item.date_modified) }}</td>
         <td class="justify-center layout px-0">
-          <v-icon small class="mr-2" @click="editItem(props.item)" flat icon color="primary">edit</v-icon>
+          <v-icon small class="mr-2" @click="editItem(props.item, props.index)" flat icon color="primary">edit</v-icon>
           <v-icon small @click="viewItem(props.item)" flat icon color="primary">visibility</v-icon>
         </td>
       </template>
@@ -125,6 +125,7 @@ export default {
     dialog: false,
     dialogView: false,
     search: "",
+    selectedIndex: -1, //
     headers: [
       {
         text: "Designation Name",
@@ -166,6 +167,9 @@ export default {
     },
     defaultItem: {
       name: ""
+    },
+    rules: {
+      required: v => !!v || "This is a required field"
     }
   }),
 
@@ -185,11 +189,13 @@ export default {
       });
     },
     addItem() {
+      this.selectedIndex = -1; //
       this.mode = 0; // Create
       this.new_designation = {}; // holds the filled up item
       this.dialog = true;
     },
-    editItem(item) {
+    editItem(item, index) {
+      this.selectedIndex = index; //
       this.mode = 1; // Edit
       this.new_designation = JSON.parse(JSON.stringify(item));
       this.dialog = true;
@@ -205,7 +211,38 @@ export default {
       this.dialogView = false;
       this.new_designation = {};
     },
+    validate() {
+      var check = true;
+      if (
+        this.isEmpty(this.new_designation.name) 
+      ) {
+        this.$notify({
+          message: "Please fill up required fields",
+          color: "error"
+        });
+        return false;
+      } else {
+        for (let i = 0; i < this.designation.length; i++) {
+          if (
+            this.selectedIndex != i &&
+            this.designation[i].name &&
+            this.new_designation.name.toLowerCase() ===
+            this.designation[i].name.toLowerCase()
+          ) {
+            check = false;
+          } else if (!check) {
+            this.$notify({
+              message: "You have inputed an existing details",
+              color: "error"
+            });
+            return false;
+          }
+        }
+      }
+      return true;
+    },
     submit() {
+      if (this.validate()) {
       this.$store
         .dispatch("ADD_DESIGNATION", this.new_designation)
         .then(result => {
@@ -218,8 +255,10 @@ export default {
           });
           this.close();
         });
+      }
     },
     save() {
+      if (this.validate()) {
       this.$store
         .dispatch("EDIT_DESIGNATION", this.new_designation)
         .then(result => {
@@ -232,6 +271,7 @@ export default {
           });
           this.close();
         });
+    }
     }
   }
 };

@@ -48,6 +48,15 @@
                   ></v-autocomplete>
                 </v-flex>
                 <v-flex xs12>
+                  <v-text-field
+                    :append-icon="new_password ? 'visibility' : 'visibility_off'"
+                    :type="new_password ? 'text' : 'password'"
+                    label="Password"
+                    @click:append="new_password = !new_password"
+                    v-model="new_admin.password"
+                  ></v-text-field>
+                </v-flex>
+                <v-flex xs12>
                   <v-autocomplete
                     v-model="new_admin.role"
                     :disabled="isUpdating"
@@ -157,40 +166,6 @@
                 </v-flex>
               </v-layout>
             </v-container>
-            <!-- <v-container grid-list-md>
-              <v-layout wrap>
-                <v-flex xs12 sm4 md2>
-                  <span class="text-xs-center">Name</span>
-                  <v-divider></v-divider>
-                  <v-card-text>{{new_admin.first_name}}</v-card-text>
-                </v-flex>
-                <v-flex xs12 sm4 md2>
-                  <span class="text-xs-center">Group Name</span>
-                  <v-divider></v-divider>
-                  <v-card-text>{{getGroup(new_admin.group)}}</v-card-text>
-                </v-flex>
-                <v-flex xs12 sm4 md2>
-                  <span class="text-xs-center">Username</span>
-                  <v-divider></v-divider>
-                  <v-card-text>{{new_admin.username}}</v-card-text>
-                </v-flex>
-                <v-flex xs12 sm4 md2>
-                  <span class="text-xs-center">Status</span>
-                  <v-divider></v-divider>
-                  <v-card-text>{{new_admin.status}}</v-card-text>
-                </v-flex>
-                <v-flex xs12 sm4 md2>
-                  <span class="text-xs-center">Email Address</span>
-                  <v-divider></v-divider>
-                  <v-card-text>{{new_admin.email}}</v-card-text>
-                </v-flex>
-                <v-flex xs12 sm4 md2>
-                  <span class="text-xs-center">Roles</span>
-                  <v-divider></v-divider>
-                  <v-card-text>{{rol(new_admin.role)}}</v-card-text>
-                </v-flex>
-              </v-layout>
-            </v-container> -->
           </v-card-text>
           <v-divider></v-divider>
           <v-card-actions>
@@ -321,6 +296,7 @@ export default {
       group: "",
       role: "",
       username: "",
+      new_password: "",
       email: ""
     },
     defaultItem: {

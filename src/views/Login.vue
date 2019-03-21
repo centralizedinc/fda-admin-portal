@@ -29,14 +29,20 @@
           <v-spacer></v-spacer>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn color="primary" @click="login" class="caption font-weight-light">Login</v-btn>
+            <v-btn
+              color="primary"
+              :disabled="loading"
+              @click="login"
+              class="caption font-weight-light"
+            >Login</v-btn>
           </v-card-actions>
         </v-card-text>
       </v-card>
     </v-flex>
     <v-dialog v-model="loading" hide-overlay persistent width="300">
       <v-card color="green darken-4" dark>
-        <v-card-text>Logging in ...
+        <v-card-text>
+          Logging in ...
           <v-progress-linear indeterminate color="white" class="mb-0"></v-progress-linear>
         </v-card-text>
       </v-card>
@@ -50,6 +56,7 @@ export default {
   data() {
     return {
       remember: false,
+      loadingLogin: false,
       value: true,
       showForgotPassword: false,
       email_or_user: "",
@@ -70,9 +77,11 @@ export default {
         username: this.admin.username,
         password: this.admin.password
       };
+      this.loading = true;
       this.$store
         .dispatch("LOGIN", auth)
         .then(result => {
+          this.loading = false;
           console.log(
             "JSON.stringify(result) :",
             JSON.stringify(this.$store.state.user_session.isAuthenticated)

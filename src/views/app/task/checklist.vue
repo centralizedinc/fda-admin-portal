@@ -24,11 +24,12 @@
             <v-container grid-list-md>
               <v-layout wrap>
                 <v-flex xs12>
-                  <v-text-field v-model="new_checklist.description" label="Description Name"></v-text-field>
+                  <v-text-field v-model="new_checklist.description" :rules="[rules.required]" label="Description Name"></v-text-field>
                 </v-flex>
                 <v-flex xs12>
                   <v-autocomplete
                     v-model="new_checklist.task"
+                    :rules="[rules.required]"
                     :disabled="isUpdating"
                     :items="task"
                     label="Task name"
@@ -130,7 +131,7 @@
         <td>{{ getAdmin(props.item.modified_by).first_name }}</td>
         <td>{{ formatDate(props.item.date_modified) }}</td>
         <td class="justify-center layout px-0">
-          <v-icon small class="mr-2" @click="editItem(props.item)" flat icon color="primary">edit</v-icon>
+          <v-icon small class="mr-2" @click="editItem(props.item, props.index)" flat icon color="primary">edit</v-icon>
           <v-icon small @click="viewItem(props.item)" flat icon color="primary">visibility</v-icon>
         </td>
       </template>
@@ -155,6 +156,7 @@ export default {
     dialogView: false,
     isUpdating: false,
     search: "",
+    selectedIndex: -1, //
     headers: [
       {
         text: "Description",
@@ -206,6 +208,9 @@ export default {
     },
     defaultItem: {
       description: ""
+    },
+    rules: {
+      required: v => !!v || "This is a required field"
     }
   }),
 
@@ -254,11 +259,13 @@ export default {
       if (index >= 0) this.task.splice(index, 1);
     },
     addItem() {
+this.selectedIndex = -1; //
       this.mode = 0; // Create
       this.new_checklist = {}; // holds the filled up item
       this.dialog = true;
     },
-    editItem(item) {
+    editItem(item, index) {
+this.selectedIndex = index; //
       this.mode = 1; // Edit
       this.new_checklist = JSON.parse(JSON.stringify(item));
       this.dialog = true;
@@ -274,7 +281,42 @@ export default {
       this.dialogView = false;
       this.new_checklist = {};
     },
+   validate() {
+      var check = true;
+      if (
+        this.isEmpty(this.new_checklist.description) ||
+        this.isEmpty(this.new_checklist.task)
+      ) {
+        this.$notify({
+          message: "Please fill up required fields",
+          color: "error"
+        });
+        return false;
+      } else {
+        for (let i = 0; i < this.checklist.length; i++) {
+          if (
+            this.selectedIndex != i &&
+            this.checklist[i].description &&
+            this.checklist[i].task &&
+            this.checklist[i].description.toLowerCase() ===
+            this.new_checklist.description.toLowerCase() &&
+            this.new_checklist.task.toLowerCase() ===
+            this.checklist[i].task.toLowerCase()
+          ) {
+            check = false;
+          } else if (!check) {
+            this.$notify({
+              message: "You have inputed an existing details",
+              color: "error"
+            });
+            return false;
+          }
+        }
+      }
+      return true;
+    },
     submit() {
+      if (this.validate()) {
       this.$store.dispatch("ADD_CHECKLIST", this.new_checklist).then(result => {
         console.log("added:checklist: " + JSON.stringify(result));
         this.init();
@@ -284,8 +326,10 @@ export default {
         });
         this.close();
       });
+      }
     },
     save() {
+      if (this.validate()) {
       // console.log('###########edited:province: ' + JSON.stringify(this.new_province));
       this.$store
         .dispatch("EDIT_CHECKLIST", this.new_checklist)
@@ -298,6 +342,7 @@ export default {
           });
           this.close();
         });
+      }
     }
   }
 };

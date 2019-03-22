@@ -114,6 +114,12 @@ export default {
                         return "Inactive (For Deletion)";
                     }
                 },
+                statusColor(stat) {
+                    console.log('stat :', stat);
+                    var app_status_color = ["fdaLightGreen", "fdaOrange", "fdaGreen", "red", "fdaGray"];
+                    console.log('app_status_color[stat] :', app_status_color[stat]);
+                    return app_status_color[stat]
+                },
                 checkPassword(password) {
                     var re = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/;
                     return re.test(password);

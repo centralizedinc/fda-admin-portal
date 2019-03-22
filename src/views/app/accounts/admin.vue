@@ -353,7 +353,11 @@ export default {
           var match = this.groups_items.find(r => {
             return r._id.toString() === item;
           });
-          list = list + match.name;
+          if (match) {
+            if(list !== '')
+            list = list + ', '
+            list = list +  match.name;
+          }
         });
       }
       return list;

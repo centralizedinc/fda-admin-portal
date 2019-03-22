@@ -24,11 +24,12 @@
             <v-container grid-list-md>
               <v-layout wrap>
                 <v-flex xs12>
-                  <v-text-field v-model="new_primary.name" label="Name"></v-text-field>
+                  <v-text-field v-model="new_primary.name" :rules="[rules.required]" label="Name"></v-text-field>
                 </v-flex>
                 <v-flex xs12>
                   <v-autocomplete
                     v-model="new_primary.additional_activities"
+                    :rules="[rules.required]"
                     :disabled="isUpdating"
                     :items="additional_items"
                     box
@@ -166,7 +167,7 @@
         <td>{{ getAdmin(props.item.modified_by).first_name }}</td>
         <td>{{ formatDate(props.item.date_modified) }}</td>
         <td class="justify-center layout px-0">
-          <v-icon small class="mr-2" @click="editItem(props.item)" flat icon color="primary">edit</v-icon>
+          <v-icon small class="mr-2" @click="editItem(props.item, props.index)" flat icon color="primary">edit</v-icon>
           <v-icon small @click="viewItem(props.item)" flat icon color="primary">visibility</v-icon>
         </td>
       </template>
@@ -195,6 +196,7 @@ export default {
     isUpdating: false,
     additional_items: [],
     declared_items: [],
+    selectedIndex: -1, //
     headers: [
       {
         text: "Primary Name",
@@ -236,6 +238,9 @@ export default {
     },
     defaultItem: {
       name: ""
+    },
+     rules: {
+      required: v => !!v || "This is a required field" //
     }
   }),
 
@@ -278,6 +283,7 @@ export default {
       });
     },
     addItem() {
+      this.selectedIndex = -1; //
       this.mode = 0; // Create
       this.new_primary = {}; // holds the filled up item
       this.dialog = true;
@@ -297,7 +303,8 @@ export default {
       this.declared = [];
     },
 
-    editItem(item) {
+    editItem(item, index) {
+      this.selectedIndex = index; //
       this.mode = 1; // Edit
       this.new_primary = JSON.parse(JSON.stringify(item));
       this.dialog = true;
@@ -313,8 +320,42 @@ export default {
       this.dialogView = false;
       this.new_primary = {};
     },
-
+validate() {
+      var check = true;
+      if (
+        this.isEmpty(this.new_primary.name) ||
+        this.isEmpty(this.new_primary.additional_activities)
+      ) {
+        this.$notify({
+          message: "Please fill up required fields",
+          color: "error"
+        });
+        return false;
+      } else {
+        for (let i = 0; i < this.primary.length; i++) {
+          if (
+            this.selectedIndex != i &&
+            this.primary[i].name &&
+            this.primary[i].additional_activities &&
+            this.primary[i].declared_capital &&
+            this.new_primary.name.toLowerCase() ===
+            this.primary[i].name.toLowerCase()
+          ) 
+          {
+            check = false;
+          } else if (!check) {
+            this.$notify({
+              message: "You have inputed an existing details",
+              color: "error"
+            });
+            return false;
+          }
+        }
+      }
+      return true;
+    },
     submit() {
+      if (this.validate()) {
       // console.log('new_primary: ' + JSON.stringify(this.new_primary));
       this.$store.dispatch("ADD_PRIMARY", this.new_primary).then(result => {
         console.log("added:primary: " + JSON.stringify(result));
@@ -326,8 +367,10 @@ export default {
         });
         this.close();
       });
+      }
     },
     save() {
+      if (this.validate()) {
       //  console.log('new_primary: ' + JSON.stringify(this.new_primary));
       this.$store.dispatch("EDIT_PRIMARY", this.new_primary).then(result => {
         console.log("edited:primary: " + JSON.stringify(result));
@@ -339,6 +382,7 @@ export default {
         });
         this.close();
       });
+      }
     }
   }
 };

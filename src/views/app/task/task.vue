@@ -170,13 +170,13 @@
                   <label class="title">Approval:</label>
                 </v-flex>
                 <v-flex xs6>
-                  <label class="subheading">{{new_task.approval}}</label>
+                  <label class="subheading">{{task(new_task.approval)}}</label>
                 </v-flex>
                 <v-flex xs6>
                   <label class="title">Denied:</label>
                 </v-flex>
                 <v-flex xs6>
-                  <label class="subheading">{{new_task.denied}}</label>
+                  <label class="subheading">{{task(new_task.denied)}}</label>
                 </v-flex>
                 <v-flex xs6>
                   <label class="title">Recommends:</label>
@@ -200,13 +200,13 @@
                   <label class="title">Start Process:</label>
                 </v-flex>
                 <v-flex xs6>
-                  <label class="subheading">{{new_task.start_process}}</label>
+                  <label class="subheading">{{vIcon(new_task.start_process)}}</label>
                 </v-flex>
                 <v-flex xs6>
                   <label class="title">End Process:</label>
                 </v-flex>
                 <v-flex xs6>
-                  <label class="subheading">{{new_task.end_process}}</label>
+                  <label class="subheading">{{vIcon(new_task.end_process)}}</label>
                 </v-flex>
                 <v-flex xs6>
                   <label class="title">Created By:</label>
@@ -441,14 +441,31 @@ export default {
     task(task_id) {
       return this.getTask(task_id) ? this.getTask(task_id).name : "";
     },
+    // getTasks(task_list) {
+    //   var list = "";
+    //   task_list.forEach(item => {
+    //     var match = this.tasks.find(r => {
+    //       return r._id.toString() === item;
+    //     });
+    //     list = list + match.name + " ";
+    //   });
+    //   return list;
+    // },
     getTasks(task_list) {
+      console.log("GROUP_LIST: " + JSON.stringify(task_list));
       var list = "";
-      task_list.forEach(item => {
-        var match = this.tasks.find(r => {
-          return r._id.toString() === item;
+      if (task_list) {
+        task_list.forEach(item => {
+          var match = this.tasks.find(r => {
+            return r._id.toString() === item;
+          });
+          if (match) {
+            if(list !== '')
+            list = list + ', '
+            list = list +  match.name;
+          }
         });
-        list = list + match.name + " ";
-      });
+      }
       return list;
     },
     remove(item) {

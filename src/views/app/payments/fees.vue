@@ -171,13 +171,13 @@
                   <label class="title">Amount of Fee:</label>
                 </v-flex>
                 <v-flex xs6>
-                  <label class="subheading">{{new_fees.fee}}</label>
+                  <label class="subheading">₱ {{ numberWithCommas(new_fees.fee) }}</label>
                 </v-flex>
                 <v-flex xs6>
                   <label class="title">Created By:</label>
                 </v-flex>
                 <v-flex xs6>
-                  <label class="subheading">{{new_fees.created_by}}</label>
+                  <label class="subheading">{{getAdmin(new_fees.created_by).last_name}}</label>
                 </v-flex>
                 <v-flex xs6>
                   <label class="title">Date Created:</label>
@@ -189,7 +189,7 @@
                   <label class="title">Modified By:</label>
                 </v-flex>
                 <v-flex xs6>
-                  <label class="subheading">{{new_fees.modified_by}}</label>
+                  <label class="subheading">{{getAdmin(new_fees.modified_by).first_name}}</label>
                 </v-flex>
                 <v-flex xs6>
                   <label class="title">Date Modified:</label>
@@ -215,10 +215,10 @@
         <td>{{ primary_details(props.item.primaryActivity) }}</td>
         <td>{{ declared_details(props.item.declaredCapital) }}</td>
         <td>{{ App(props.item.appType) }}</td>
-        <td>{{ props.item.fee }}</td>
-        <td>{{ props.item.created_by }}</td>
+        <td>₱ {{ numberWithCommas(props.item.fee) }}</td>
+        <td>{{ getAdmin(props.item.created_by).last_name }}</td>
         <td>{{ formatDate(props.item.date_created) }}</td>
-        <td>{{ props.item.modified_by }}</td>
+        <td>{{ getAdmin(props.item.modified_by).first_name }}</td>
         <td>{{ formatDate(props.item.date_modified) }}</td>
         <td class="justify-center layout px-0">
           <v-icon small class="mr-2" @click="editItem(props.item)" flat icon color="primary">edit</v-icon>
@@ -396,6 +396,9 @@ export default {
           // GET product data
           this.productType = this.$store.state.reference_tables.products;
         });
+    },
+    numberWithCommas(x) {
+      return x ? x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : "0.00"
     },
     remove(item) {
       const index = this.product.indexOf(item.name);

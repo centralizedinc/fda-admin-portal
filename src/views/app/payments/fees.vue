@@ -171,7 +171,7 @@
                   <label class="title">Amount of Fee:</label>
                 </v-flex>
                 <v-flex xs6>
-                  <label class="subheading">₱ {{ new_fees.fee }}</label>
+                  <label class="subheading">₱ {{ numberWithCommas(new_fees.fee) }}</label>
                 </v-flex>
                 <v-flex xs6>
                   <label class="title">Created By:</label>
@@ -398,7 +398,7 @@ export default {
         });
     },
     numberWithCommas(x) {
-      return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+      return x ? x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : "0.00"
     },
     remove(item) {
       const index = this.product.indexOf(item.name);

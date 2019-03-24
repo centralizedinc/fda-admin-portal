@@ -24,7 +24,7 @@
             <v-container grid-list-md>
               <v-layout wrap>
                 <v-flex xs12>
-                  <v-text-field v-model="new_fees.description" label="Fees"></v-text-field>
+                  <v-text-field v-model="new_fees.description" label="Name"></v-text-field>
                 </v-flex>
                 <v-flex xs12>
                   <v-autocomplete

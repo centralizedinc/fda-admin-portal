@@ -25,6 +25,11 @@ export default new Router({
         path: '',
         name: 'Login',
         component: () => import('@/views/Login.vue')
+      },
+      {
+        path: 'password/reset/:token',
+        name: 'Password Reset',
+        component: () => import('@/views/app/passwordSettings/ResetPassword.vue')
       }]
     },
     {

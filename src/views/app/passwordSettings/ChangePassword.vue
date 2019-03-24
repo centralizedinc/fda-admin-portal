@@ -1,134 +1,160 @@
 <template>
-  <div>
-    <v-layout align-center justify-center>
-      <v-flex xs12 sm10 offset-sm1>
+  <v-container grid-list-xl>
+    <v-layout row wrap>
+      <v-flex xs12 md3></v-flex>
+      <v-flex xs12 md6>
         <v-card>
-          <v-layout align-center justify-center>
-            <v-flex xs6 class="pt-5">
-              <v-text-field
-                outline
-                :append-icon="new_password ? 'visibility' : 'visibility_off'"
-                :rules="[rules.required, rules.password]"
-                :type="new_password ? 'text' : 'password'"
-                label="Enter your New Password"
-                @click:append="new_password = !new_password"
-                v-model="admin.new_password"
-              ></v-text-field>
-              <v-text-field
-                outline
-                :append-icon="confirm_password ? 'visibility' : 'visibility_off'"
-                :rules="[rules.required, rules.confirm_password]"
-                :type="confirm_password ? 'text' : 'password'"
-                label="Confirm Password"
-                @click:append="confirm_password = !confirm_password"
-                v-model="admin.confirm"
-              ></v-text-field>
-            </v-flex>
-          </v-layout>
-          <v-divider class="mt-5"></v-divider>
+          <v-card-title class="headline title--header">
+            Change Password Request
+          </v-card-title>
+          <v-card-text>
+            <v-layout row wrap>
+              <span class="red--text" ml-5>*</span><i>Change Password Request <b>link</b> will be send to your <b>registered email</b>.</i>
+              <v-flex xs12 class="subheading">
+                Username: {{account.username}}
+              </v-flex>
+              <v-flex xs12 class="subheading">
+                Email: {{maskEmail(account.email)}}
+              </v-flex>
+              <v-flex xs12>
+                <v-text-field
+                  outline
+                  @keypress.enter="dialog=true"
+                  :append-icon="show_password ? 'visibility' : 'visibility_off'"
+                  :rules="[rules.required]"
+                  :type="show_password ? 'text' : 'password'"
+                  name="input-10-2"
+                  label="Enter your Old Password"
+                  @click:append="show_password = !show_password"
+                  v-model="old_password"
+                ></v-text-field>
+              </v-flex>
+            </v-layout>
+          </v-card-text>
+          <v-divider></v-divider>
           <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn color="success" @click="showPass">Submit</v-btn>
+            <!-- <v-spacer></v-spacer> -->
+            <v-btn
+              block
+              color="success"
+              class="font-weight-light"
+              @click="dialog=true"
+            >Submit</v-btn>
+            <!-- <v-spacer></v-spacer> -->
           </v-card-actions>
         </v-card>
-        <v-dialog v-model="show_pass" persistent max-width="400" transition="dialog-transition">
-          <v-card>
-            <v-toolbar
-              dark
-              color="fdaGreen"
-              style="background: linear-gradient(45deg, #104B2A 0%, #b5c25a 100%)"
-            >
-              <span class="title font-weight-thin">Change Password</span>
-            </v-toolbar>
-            <v-card-text>
-              <span class="font-weight-light">Are you sure you want to Change your Password?</span>
-              <v-divider></v-divider>
-            </v-card-text>
-            <v-card-actions>
-              <v-spacer></v-spacer>
-              <v-btn
-                class="font-weight-light"
-                outline
-                color="primary"
-                dark
-                @click.native="show_pass = false"
-              >No</v-btn>
-              <v-btn class="font-weight-light" color="success" @click="submit()">Yes</v-btn>
-            </v-card-actions>
-          </v-card>
-        </v-dialog>
       </v-flex>
+      <v-flex xs12 md3></v-flex>
     </v-layout>
-  </div>
+    <v-dialog v-model="dialog" width="270">
+      <v-card>
+        <!-- <v-card-title
+          primary-title
+          class="headline title--header">
+          Confirmation
+        </v-card-title> -->
+        <v-card-text class="title">Do you want to proceed?</v-card-text>
+        <v-divider></v-divider>
+        <v-card-actions>
+          <v-btn color="error" flat @click="dialog=false">Cancel</v-btn>
+          <v-spacer></v-spacer>
+          <v-btn color="success" :loading="loading" :disabled="loading" @click="submit">Yes</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+  </v-container>
 </template>
 
 <script>
 export default {
   data() {
     return {
-      admin: {
-        username: "",
-        new_password: "",
-        confirm: ""
-      },
-      new_password: false,
-      confirm_password: false,
-      show_pass: false,
+      loading: false,
+      account: {},
+      old_password: "",
+      show_password: "",
+      dialog: false,
       rules: {
-        required: value => !!value || "Required.",
-        confirm_password: value =>
-          value === this.admin.confirm ||
-          "The new password and confirm password you entered doesn't match"
+        required: value => !!value || "Required."
       }
     };
   },
   created() {
     this.init();
   },
-  computed: {
-    password_match() {
-      return (
-        this.admin.new_password === this.admin.confirm ||
-        "New Password and Confirm Password does not match"
-      );
-    }
-  },
   methods: {
     init() {
-      console.log(
-        "######## " + JSON.stringify(this.$store.state.user_session.user)
-      );
-      this.admin.user_id = this.$store.state.user_session.user._id;
+      this.account = this.$store.state.user_session.user;
+      console.log("#### My account" + JSON.stringify(this.account));
     },
-    showPass() {
-      this.show_pass = true;
+    isEmpty(str) {
+      return !str || str === null || str === "";
+    },
+    maskEmail(email) {
+      var masked_email = "";
+      if (email && email.indexOf("@") !== -1) {
+        var end_index = email.indexOf("@");
+        masked_email = email.substring(0, 1);
+        var i = email.substring(1, end_index - 1).length;
+        while (i > 0) {
+          masked_email += "*";
+          i--;
+        }
+        masked_email += email.substring(end_index - 1, email.length);
+      }
+      return masked_email;
     },
     submit() {
-      // this.new_admin = this.admin;
-      console.log(
-        "###########edited:ADMIN PROFILE: " + JSON.stringify(this.admin)
-      );
-      this.$store
-        .dispatch("CHANGE_PASSWORD", this.admin)
-        .then(result => {
-          console.log("edited:profile: " + JSON.stringify(result));
-          this.$notify({
-            message: "Your Password is successfuly updated",
-            color: "success",
-            icon: "check_circle"
+      this.loading = true;
+      if (!this.isEmpty(this.old_password)) {
+        this.account.password = this.old_password;
+        this.$store
+          .dispatch("REQUEST_RESET_PASSWORD", this.old_password)
+          .then(result => {
+            console.log("result.data :", result.data);
+            this.loading = false;
+            this.dialog = false;
+            if (result.data.success) {
+              this.$notify({
+                message: "Reset password request has been sent to your email.",
+                color: "success",
+                icon: "check_circle"
+              });
+              this.$store.dispatch("LOGOUT");
+              this.$router.push("/");
+            } else {
+              this.$notifyError(result.data.errors);
+            }
+          })
+          .catch(err => {
+            this.dialog = false;
+            this.loading = false;
+            console.log(err);
+            this.$notifyError(err);
           });
-          this.$router.push("/app");
-          // this.$store.dispatch("LOGOUT");
-          // this.$router.push("/login");
-        })
-        .catch(err => {
-          console.log(err);
-          this.$notifyError(err);
+        // } else if (this.new_password !== this.confirm_password) {
+        //   this.loading = false;
+        //   this.$notify({
+        //     message: "New password does not match the confirm password.",
+        //     icon: "error_outline",
+        //     color: "error"
+        //   });
+      } else {
+        this.loading = false;
+        this.dialog = false;
+        this.$notify({
+          message: "Please enter your old password.",
+          icon: "error_outline",
+          color: "error"
         });
+      }
     }
   }
 };
 </script>
 
 <style>
+.title--header {
+  background: linear-gradient(45deg, #104b2a 0%, #b5c25a 100%);
+}
 </style>

@@ -1,5 +1,6 @@
 import LoginType from '../../api/apiLoginManager';
 import UserPassword from '../../api/apiUserManager'
+import PasswordApi from '../../api/PasswordAPI'
 // var jwt = require('jsonwebtoken')
 
 const state = {
@@ -49,17 +50,17 @@ var actions = {
         context.commit('PICKUP_BREADCRUMBS')
     },
 
-    CHANGE_PASSWORD(context, modified_credentials) {
-        return new Promise((resolve, reject) => {
-            new UserPassword(context.rootState.user_session.token).changePassword(modified_credentials, (err, data) => {
-                if (err) {
-                    reject(err)
-                } else {
-                    resolve(data)
-                }
-            })
-        })
+    REQUEST_RESET_PASSWORD(context, old_password) {
+        return new PasswordApi(context.rootState.user_session.token)
+            .requestResetPassword(old_password)
+    },
 
+    CONFIRM_RESET_PASSWORD(context, token) {
+        return new PasswordApi(token).confirmResetPassword()
+    },
+
+    RESET_PASSWORD(context, account) {
+        return new PasswordApi().resetPassword(account)
     }
 }
 export default {

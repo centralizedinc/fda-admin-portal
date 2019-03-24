@@ -1,10 +1,9 @@
 import axios from 'axios'
 
-axios.defaults.baseURL = process.env.VUE_APP_API_BASE_URI
 
 export default class LoginType {
     constructor(token) {
-        this.token = token;
+        axios.defaults.baseURL = process.env.VUE_APP_API_BASE_URI
         axios.defaults.headers.common['Content-Type'] = 'application/json'
     }
 

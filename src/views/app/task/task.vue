@@ -24,11 +24,12 @@
             <v-container grid-list-md>
               <v-layout wrap>
                 <v-flex xs12>
-                  <v-text-field v-model="new_task.name" label="Task Name"></v-text-field>
+                  <v-text-field v-model="new_task.name" :rules="[rules.required]" label="Task Name"></v-text-field>
                 </v-flex>
                 <v-flex xs12>
                   <v-autocomplete
                     v-model="new_task.approval"
+                    :rules="[rules.required]"
                     :disabled="isUpdating"
                     :items="tasks"
                     label="Approval"
@@ -50,6 +51,7 @@
                 <v-flex xs12>
                   <v-autocomplete
                     v-model="new_task.denied"
+                    :rules="[rules.required]"
                     :disabled="isUpdating"
                     :items="tasks"
                     label="Denied"
@@ -71,6 +73,7 @@
                 <v-flex xs12>
                   <v-autocomplete
                     v-model="new_task.groups"
+                    :rules="[rules.required]"
                     :disabled="isUpdating"
                     :items="groups"
                     color="blue-grey lighten-2"
@@ -103,6 +106,7 @@
                 <v-flex xs12>
                   <v-autocomplete
                     v-model="new_task.groups"
+                    :rules="[rules.required]"
                     :disabled="isUpdating"
                     :items="groups"
                     color="blue-grey lighten-2"
@@ -127,7 +131,7 @@
     <v-checkbox v-model="new_task.selected" value="start_process" :label="`Start Process`"></v-checkbox>
     <v-checkbox v-model="new_task.selected" value="end_process" :label="`End Process`"></v-checkbox>
                     </v-container>-->
-                    <v-radio-group v-model="new_task.start_process" row>
+                    <v-radio-group v-model="new_task.start_process" :rules="[rules.required]" row>
                       <v-radio label="Start Process" value="true"></v-radio>
                       <v-radio label="End Process" value="false"></v-radio>
                     </v-radio-group>
@@ -259,7 +263,7 @@
         <td>{{ getAdmin(props.item.modified_by).first_name }}</td>
         <td>{{ formatDate(props.item.date_modified) }}</td>
         <td class="justify-center layout px-0">
-          <v-icon small class="mr-2" @click="editItem(props.item)" flat icon color="primary">edit</v-icon>
+          <v-icon small class="mr-2" @click="editItem(props.item, props.index)" flat icon color="primary">edit</v-icon>
           <v-icon small @click="viewItem(props.item)" flat icon color="primary">visibility</v-icon>
         </td>
       </template>
@@ -288,6 +292,7 @@ export default {
     search: "",
     tasks: [],
     selected: [],
+    selectedIndex: -1, //
     headers: [
       {
         text: "Task",
@@ -379,6 +384,9 @@ export default {
     },
     defaultItem: {
       name: ""
+    },
+     rules: {
+      required: v => !!v || "This is a required field" //
     }
   }),
 
@@ -460,9 +468,8 @@ export default {
             return r._id.toString() === item;
           });
           if (match) {
-            if(list !== '')
-            list = list + ', '
-            list = list +  match.name;
+            if (list !== "") list = list + ", ";
+            list = list + match.name;
           }
         });
       }
@@ -473,12 +480,14 @@ export default {
       if (index >= 0) this.groups.splice(index, 1);
     },
     addItem() {
+      this.selectedIndex = -1; //
       this.mode = 0; // Create
       this.new_task = {}; // holds the filled up item
       this.dialog = true;
     },
-    editItem(item) {
+    editItem(item, index) {
       console.log("GROUP: " + JSON.stringify(item.groups));
+      this.selectedIndex = index; //
       this.mode = 1; // Edit
       this.new_task = item;
       this.dialog = true;
@@ -494,42 +503,79 @@ export default {
       this.dialogView = false;
       this.new_task = {};
     },
-    submit() {
-      this.$store.dispatch("ADD_TASK", this.new_task).then(result => {
-        console.log("added:task: " + JSON.stringify(result));
-        this.init();
+    validate() {
+      var check = true;
+      if (
+        this.isEmpty(this.new_task.name) ||
+        this.isEmpty(this.new_task.approval) ||
+        this.isEmpty(this.new_task.denied) ||
+        this.isEmpty(this.new_task.groups)
+      ) {
         this.$notify({
-          message: "You have successfully created a new Task",
-          color: "primary"
+          message: "Please fill up required fields",
+          color: "error"
         });
-        this.close();
-      });
+        return false;
+      } else {
+        for (let i = 0; i < this.tasks.length; i++) {
+          if (
+            this.selectedIndex != i &&
+            this.tasks[i].name &&
+            this.new_task.name.toLowerCase() ===
+              this.tasks[i].name.toLowerCase()
+          ) {
+            check = false;
+          } else if (!check) {
+            this.$notify({
+              message: "You have inputed an existing details",
+              color: "error"
+            });
+            return false;
+          }
+        }
+      }
+      return true;
+    },
+    submit() {
+      if (this.validate()) {
+        this.$store.dispatch("ADD_TASK", this.new_task).then(result => {
+          console.log("added:task: " + JSON.stringify(result));
+          this.init();
+          this.$notify({
+            message: "You have successfully created a new Task",
+            color: "primary"
+          });
+          this.close();
+        });
+      }
     },
     save() {
-      if (this.new_task.start_process === "true") {
-        console.log("start process true");
+      if (this.validate()) {
+        if (this.new_task.start_process === "true") {
+          console.log("start process true");
 
-        this.new_task.end_process = false;
-      } else {
-        console.log("start process false");
-        this.new_task.end_process = true;
-      }
-      console.log(
-        "######" +
-          JSON.stringify(this.new_task.start_process) +
-          "#####" +
-          JSON.stringify(this.new_task.end_process)
-      );
-      // console.log('###########edited:task: ' + JSON.stringify(this.new_province));
-      this.$store.dispatch("EDIT_TASK", this.new_task).then(result => {
-        console.log("edited:task: " + JSON.stringify(result));
-        this.init();
-        this.$notify({
-          message: "You have successfully edited a Task",
-          color: "primary"
+          this.new_task.end_process = false;
+        } else {
+          console.log("start process false");
+          this.new_task.end_process = true;
+        }
+        console.log(
+          "######" +
+            JSON.stringify(this.new_task.start_process) +
+            "#####" +
+            JSON.stringify(this.new_task.end_process)
+        );
+        // console.log('###########edited:task: ' + JSON.stringify(this.new_province));
+        this.$store.dispatch("EDIT_TASK", this.new_task).then(result => {
+          console.log("edited:task: " + JSON.stringify(result));
+          this.init();
+          this.$notify({
+            message: "You have successfully edited a Task",
+            color: "primary"
+          });
+          this.close();
         });
-        this.close();
-      });
+      }
     }
   }
 };

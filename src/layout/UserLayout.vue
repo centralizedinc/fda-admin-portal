@@ -4,7 +4,7 @@
     <v-navigation-drawer app :mini-variant="mini" width="250">
       <v-toolbar
         dark
-        style="height: 100px; background: linear-gradient(45deg, #43A047 0%, #1de9b6 100%)"
+        style="height: 100px; background: linear-gradient(45deg, #38c73c 0%, #b5c25a 100%)"
       >
         <v-list class="pa-0">
           <v-list-tile
@@ -20,6 +20,8 @@
               <v-list-tile-title class="body-2">{{admin.first_name}} {{admin.last_name}}</v-list-tile-title>
               <v-list-tile-sub-title class="caption">{{rol(admin.role)}}</v-list-tile-sub-title>
               <v-list-tile-sub-title class="caption">{{getGroup(admin.group)}}</v-list-tile-sub-title>
+              <v-list-tile-sub-title class="caption">Last Logged in:</v-list-tile-sub-title>
+              <v-list-tile-sub-title class="caption">{{formatDate(admin.last_login)}}</v-list-tile-sub-title>
             </v-list-tile-content>
           </v-list-tile>
         </v-list>
@@ -77,7 +79,7 @@
             <v-list-tile
               @click="goTo('/app/products')"
               class="ma-1"
-              :style="activeRoute('product')"
+              :style="activeRoute('Product')"
             >
               <v-list-tile-action>
                 <v-icon small color="success">fas fa-box</v-icon>
@@ -86,7 +88,7 @@
                 <v-list-tile-title class="body-1 font-weight-light">Products</v-list-tile-title>
               </v-list-tile-content>
             </v-list-tile>
-            <v-list-tile @click="goTo('/app/primary')" class="ma-1" :style="activeRoute('primary')">
+            <v-list-tile @click="goTo('/app/primary')" class="ma-1" :style="activeRoute('Primary')">
               <v-list-tile-action>
                 <v-icon color="success">account_box</v-icon>
               </v-list-tile-action>
@@ -121,7 +123,7 @@
             <v-list-tile
               @click="goTo('/app/productLine')"
               class="ma-1"
-              :style="activeRoute('Productline')"
+              :style="activeRoute('Product Line')"
             >
               <v-list-tile-action>
                 <v-icon color="success">developer_board</v-icon>
@@ -372,17 +374,13 @@
     <v-container fluid>
       <span class="headline font-weight-thin">{{page_name}}</span>
       <v-breadcrumbs divider="/">
-        <v-breadcrumbs-item>
-          <v-icon color="primary">home</v-icon>
-          <span class="caption font-weight-light">Home</span>
-        </v-breadcrumbs-item>
-        <v-breadcrumbs-item>
-          <v-icon>book</v-icon>
-          <span class="caption font-weight-light">Certficates</span>
-        </v-breadcrumbs-item>
-        <v-breadcrumbs-item>
-          <v-icon>edit</v-icon>
-          <span class="caption font-weight-light">New Application</span>
+        <v-breadcrumbs-item
+          v-for="(item, index) in breadcrumbs"
+          :key="index"
+          @click="goTo(item.href)"
+        >
+          <v-icon color="fdaGreen">{{item.icon}}</v-icon>
+          <span class="caption font-weight-light">{{item.name}}</span>
         </v-breadcrumbs-item>
       </v-breadcrumbs>
       <v-divider></v-divider>
@@ -491,6 +489,10 @@ export default {
 </script>
 
 <style>
+.toolbarStyle {
+  background: linear-gradient(45deg, #b5c25a 0%, #104b2a 100%);
+  box-shadow: 0 6px 20px 0 rgba(77, 182, 172, 0.5);
+}
 .v-navigation-drawer > .v-list .v-list__tile {
   -webkit-transition: none;
   transition: none;

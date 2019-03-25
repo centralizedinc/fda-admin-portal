@@ -7,6 +7,14 @@ import store from './store';
 
 Vue.use(Router)
 
+function dropBreadcrumbs(to, from, next) {
+  store.commit('DROP_BREADCRUMBS', {
+    name: to.name,
+    href: to.path
+  })
+  next();
+}
+
 export default new Router({
   routes: [{
       path: '/',
@@ -33,6 +41,11 @@ export default new Router({
       beforeEnter: (to, from, next) => {
         console.log('isAuth :', store.state.user_session.isAuthenticated);
         if (store.state.user_session.isAuthenticated) {
+          //leaving breadcrumbs behind    
+          store.commit('DROP_BREADCRUMBS', {
+            name: to.name,
+            href: to.path
+          })
           next()
         } else {
           store.commit('LOGOUT')
@@ -47,91 +60,109 @@ export default new Router({
         {
           path: 'productLine',
           name: 'Product Line',
+          beforeEnter: dropBreadcrumbs,
           component: () => import('@/views/app/reference/productLine.vue')
         },
         {
           path: 'designation',
           name: 'Designation',
+          beforeEnter: dropBreadcrumbs,
           component: () => import('@/views/app/reference/designation.vue')
         },
         {
           path: 'fees',
           name: 'Fees',
+          beforeEnter: dropBreadcrumbs,
           component: () => import('@/views/app/payments/fees.vue')
         },
         {
           path: 'identification',
           name: 'Identification',
+          beforeEnter: dropBreadcrumbs,
           component: () => import('@/views/app/reference/identification.vue')
         },
         {
           path: 'products',
           name: 'Product',
+          beforeEnter: dropBreadcrumbs,
           component: () => import('@/views/app/reference/product.vue')
         },
         {
           path: 'primary',
           name: 'Primary',
+          beforeEnter: dropBreadcrumbs,
           component: () => import('@/views/app/reference/primary.vue')
         },
         {
           path: 'capital',
           name: 'Declared Capital',
+          beforeEnter: dropBreadcrumbs,
           component: () => import('@/views/app/reference/capital.vue')
         },
         {
           path: 'Activity',
           name: 'Additional Activity',
+          beforeEnter: dropBreadcrumbs,
           component: () => import('@/views/app/reference/additionalActivity.vue')
         },
         {
           path: 'profile',
           name: 'Profile',
+          beforeEnter: dropBreadcrumbs,
           component: () => import('@/views/app/accounts/profile.vue')
         },
         {
           path: 'group',
           name: 'Group',
+          beforeEnter: dropBreadcrumbs,
           component: () => import('@/views/app/accounts/group.vue')
         },
         {
           path: 'payments',
           name: 'Payments',
+          beforeEnter: dropBreadcrumbs,
           component: () => import('@/views/app/UserPortfolio.vue')
         },
         {
           path: 'password',
           name: 'Change Password',
+          beforeEnter: dropBreadcrumbs,
           component: () => import('@/views/app/passwordSettings/ChangePassword.vue')
         },
         {
           path: 'city',
           name: 'City',
+          beforeEnter: dropBreadcrumbs,
           component: () => import('@/views/app/location/city.vue')
         },
         {
           path: 'region',
           name: 'Region',
+          beforeEnter: dropBreadcrumbs,
           component: () => import('@/views/app/location/region.vue')
         },
         {
           path: 'province',
           name: 'Province',
+          beforeEnter: dropBreadcrumbs,
           component: () => import('@/views/app/location/province.vue')
         },
         {
           path: 'UserProfile',
           name: 'User Profile',
+          beforeEnter: dropBreadcrumbs,
           component: () => import('@/views/app/userProfile/UserProfile.vue')
         },
         {
           path: 'task',
           name: 'Task',
+          beforeEnter: dropBreadcrumbs,
           component: () => import('@/views/app/task/task.vue')
         },
         {
           path: 'checklist',
           name: 'Checklist',
+          beforeEnter: dropBreadcrumbs,
           component: () => import('@/views/app/task/checklist.vue')
         },
         {
@@ -142,11 +173,13 @@ export default new Router({
         {
           path: 'admin',
           name: 'Admin Accounts',
+          beforeEnter: dropBreadcrumbs,
           component: () => import('@/views/app/accounts/admin.vue')
         },
         {
           path: 'clients',
           name: 'Clients',
+          beforeEnter: dropBreadcrumbs,
           component: () => import('@/views/app/accounts/client.vue')
         },
         {

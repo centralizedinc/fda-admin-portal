@@ -1,12 +1,19 @@
 <template>
   <v-layout align-center justify-center>
     <v-flex xs4 pa-2 mt-4>
-      <v-card pa-5>
-        <v-toolbar dark style="background: linear-gradient(45deg, #43A047 0%, #1de9b6 100%)">
-          <span class="font-weight-light headline">Login</span>
+      <v-card pa-5 class="elevation-15">
+        <v-toolbar dark color="primary" class="toolbarStyle">
+          <span class="font-weight-light title">Login</span>
+          <v-spacer></v-spacer>
         </v-toolbar>
-        <v-divider></v-divider>
-        <v-card-text>
+        <v-flex xs12 pa-4 text-xs-center>
+          <v-img :src="require('@/assets/FDA.png')" aspect-ratio="2.75"></v-img>
+          <span
+            class="body-1 font-weight-light black--text"
+            style="text-transform: uppercase center"
+          >For Administrator use only</span>
+        </v-flex>
+        <v-card-text transparent>
           <v-text-field
             name="name"
             label="Username"
@@ -26,17 +33,17 @@
             prepend-icon="lock"
           ></v-text-field>
           <span v-if="alert">{{ alert_massage }}</span>
-          <v-spacer></v-spacer>
-          <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn
-              color="primary"
-              :disabled="loading"
-              @click="login"
-              class="caption font-weight-light"
-            >Login</v-btn>
-          </v-card-actions>
         </v-card-text>
+        <v-divider></v-divider>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn
+            color="primary"
+            :disabled="loading"
+            @click="login"
+            class="caption font-weight-light"
+          >Login</v-btn>
+        </v-card-actions>
       </v-card>
     </v-flex>
     <v-dialog v-model="loading" hide-overlay persistent width="300">
@@ -109,4 +116,8 @@ export default {
 </script>
 
 <style>
+.toolbarStyle {
+  background: linear-gradient(45deg, #b5c25a 0%, #104b2a 100%);
+  box-shadow: 0 6px 20px 0 rgba(77, 182, 172, 0.5);
+}
 </style>

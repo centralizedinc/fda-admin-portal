@@ -94,6 +94,13 @@ export default {
                         return null
                     }
                 },
+                // getTasks(task_id) {
+                //     var tasks = this.$store.state.task_tables.tasks.find(r => {
+                //         return r._id.toString() === task_id;
+                //     });
+                //     // return region ? region.region_code + ' - ' + region.name : "";
+                //     return tasks ? tasks : {};
+                // },
                 status(stat) {
                     if (stat === 0) {
                         return "Registered (Awaiting Confirmation)";

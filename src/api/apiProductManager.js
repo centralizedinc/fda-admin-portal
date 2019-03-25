@@ -61,6 +61,7 @@ export default class ProductType {
     }
 
     addPrimary(new_primary, cb) {
+        console.log('new_primary :', new_primary);
         axios.post('core/primary', new_primary).then((result) => {
                 cb(result.data.errors, result.data.model)
             })
@@ -70,6 +71,7 @@ export default class ProductType {
     }
 
     editPrimary(modified_primary, cb) {
+        console.log('modified_primary :', modified_primary);
         var id = modified_primary._id
         axios.post('core/primary/' + id, modified_primary).then((result) => {
                 cb(result.data.errors, result.data.model)

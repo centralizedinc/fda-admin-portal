@@ -26,6 +26,9 @@
                 <v-flex xs12>
                   <v-text-field v-model="new_fees.description" label="Name"></v-text-field>
                 </v-flex>
+                 <v-flex xs12>
+                  <v-text-field v-model="new_fees.fee" label="Amount of Fee"></v-text-field>
+                </v-flex>
                 <v-flex xs12>
                   <v-autocomplete
                     v-model="new_fees.productType"

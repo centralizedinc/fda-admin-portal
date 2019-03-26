@@ -132,9 +132,9 @@
     <v-checkbox v-model="new_task.selected" value="start_process" :label="`Start Process`"></v-checkbox>
     <v-checkbox v-model="new_task.selected" value="end_process" :label="`End Process`"></v-checkbox>
                     </v-container>-->
-                    <v-radio-group v-model="new_task.start_process" :rules="[rules.required]" row>
-                      <v-radio label="Start Process" value="true"></v-radio>
-                      <v-radio label="End Process" value="false"></v-radio>
+                    <v-radio-group v-model="new_task.start_process" row>
+                      <v-radio label="Start Process" :value="true"></v-radio>
+                      <v-radio label="End Process" :value="false"></v-radio>
                     </v-radio-group>
                   </v-flex>
                 </v-flex>
@@ -489,7 +489,7 @@ export default {
       this.dialog = true;
     },
     editItem(item, index) {
-      console.log("GROUP: " + JSON.stringify(item.groups));
+      console.log("GROUP: " + JSON.stringify(item));
       this.selectedIndex = index; //
       this.mode = 1; // Edit
       this.new_task = item;

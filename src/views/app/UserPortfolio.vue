@@ -36,81 +36,6 @@
         color="error"
       ></dashboard-card>
     </v-flex>
-    <!-- <v-flex xs12 md6 lg4 pa-2>
-      <v-card>
-        <v-toolbar dark color="#00bfa5">
-          <span class="subheadline font-weight-light">License Applications</span>
-          <v-btn color="success" dark absolute bottom right fab small>
-            <v-icon>call_made</v-icon>
-          </v-btn>
-        </v-toolbar>
-        <v-card-text>
-          <v-list two-line subheader>
-            <v-list-tile>
-              <v-list-tile-content>
-                <v-list-tile-title>CASE-123-45656</v-list-tile-title>
-                <v-list-tile-sub-title>Application</v-list-tile-sub-title>
-              </v-list-tile-content>
-              <v-list-tile-action>
-                <v-btn icon ripple>
-                  <v-icon color="grey lighten-1">info</v-icon>
-                </v-btn>
-              </v-list-tile-action>
-            </v-list-tile>
-            <v-divider></v-divider>
-            <v-list-tile>
-              <v-list-tile-content>
-                <v-list-tile-title>CASE-123-45656</v-list-tile-title>
-                <v-list-tile-sub-title>Application</v-list-tile-sub-title>
-              </v-list-tile-content>
-              <v-list-tile-action>
-                <v-btn icon ripple>
-                  <v-icon color="grey lighten-1">info</v-icon>
-                </v-btn>
-              </v-list-tile-action>
-            </v-list-tile>
-          </v-list>
-        </v-card-text>
-      </v-card>
-    </v-flex>-->
-    <!-- <v-flex xs12 md6 lg4 pa-2>
-      <v-card>
-        <v-toolbar dark color="#ff6e40">
-          <span class="subheadline font-weight-light">Certificates Applications</span>
-          <v-btn color="warning" dark absolute bottom right fab small>
-            <v-icon>call_made</v-icon>
-          </v-btn>
-        </v-toolbar>
-        <v-card-text>
-          <v-list two-line subheader>
-            <v-list-tile>
-              <v-list-tile-content>
-                <v-list-tile-title>CASE-123-45656</v-list-tile-title>
-                <v-list-tile-sub-title>Application</v-list-tile-sub-title>
-              </v-list-tile-content>
-              <v-list-tile-action>
-                <v-btn icon ripple>
-                  <v-icon color="grey lighten-1">info</v-icon>
-                </v-btn>
-              </v-list-tile-action>
-            </v-list-tile>
-            <v-divider></v-divider>
-            <v-list-tile>
-              <v-list-tile-content>
-                <v-list-tile-title>CASE-123-45656</v-list-tile-title>
-                <v-list-tile-sub-title>Application</v-list-tile-sub-title>
-              </v-list-tile-content>
-              <v-list-tile-action>
-                <v-btn icon ripple>
-                  <v-icon color="grey lighten-1">info</v-icon>
-                </v-btn>
-              </v-list-tile-action>
-            </v-list-tile>
-            <v-divider></v-divider>
-          </v-list>
-        </v-card-text>
-      </v-card>
-    </v-flex>-->
     <v-flex xs12 md6 lg4 pa-2>
       <v-card>
         <v-toolbar
@@ -194,7 +119,7 @@ export default {
             } else if (element.role === "2") {
               this.encoderCounts += 1;
             }
-          })
+          });
 
           return this.$store.dispatch("GET_CLIENT");
         })
@@ -203,8 +128,8 @@ export default {
           this.clientCounts = this.clients.length;
           this.admin = this.$store.state.user_session.user;
           console.log("### USER DETAILS ###" + JSON.stringify(this.admin));
-          
-         return this.$store.dispatch("GET_GROUP");
+
+          return this.$store.dispatch("GET_GROUP");
         })
         .then(result => {
           // GET group data
@@ -218,15 +143,18 @@ export default {
 
     Group(group_list) {
       console.log("GROUP_LIST: " + JSON.stringify(group_list));
-      
       var list = "";
-      // group_list.forEach(item => {
-        var match = this.groups.find(r => {
-          return r._id === group_list[0];
+      if (group_list) {
+        group_list.forEach(item => {
+          var match = this.groups_items.find(r => {
+            return r._id.toString() === item;
+          });
+          if (match) {
+            if (list !== "") list = list + ", ";
+            list = list + match.name;
+          }
         });
-        console.log("match: " + JSON.stringify(match));
-        list = list + match.name + " ";
-      // });
+      }
       return list;
     }
   }

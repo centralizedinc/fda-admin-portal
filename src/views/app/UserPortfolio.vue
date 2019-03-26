@@ -74,7 +74,7 @@
             </v-flex>
             <v-flex xs12 pa-1>
               <v-icon small>assignment</v-icon>
-              <span class="subheader font-width-light">{{Group(admin.group)}}</span>
+              <span class="subheader font-width-light">{{getGroup(admin.group)}}</span>
             </v-flex>
           </v-layout>
         </v-card-text>
@@ -133,15 +133,15 @@ export default {
         })
         .then(result => {
           // GET group data
-          this.groups = this.$store.state.group_table.groups;
+          this.groups_items = this.$store.state.group_table.groups;
           console.log(
-            "JSON.stringify(this.groups) :",
-            JSON.stringify(this.groups)
+            "JSON.stringify(this.groups_items) :",
+            JSON.stringify(this.groups_items)
           );
         });
     },
 
-    Group(group_list) {
+    getGroup(group_list) {
       console.log("GROUP_LIST: " + JSON.stringify(group_list));
       var list = "";
       if (group_list) {
@@ -150,8 +150,9 @@ export default {
             return r._id.toString() === item;
           });
           if (match) {
-            if (list !== "") list = list + ", ";
-            list = list + match.name;
+            if(list !== '')
+            list = list + ', '
+            list = list +  match.name;
           }
         });
       }

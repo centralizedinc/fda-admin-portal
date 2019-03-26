@@ -27,7 +27,7 @@
                   <v-text-field v-model="new_admin.first_name" label="Name"></v-text-field>
                 </v-flex>
                 <v-flex xs12>
-                  <v-text-field v-model="new_admin.last_name" label="Last Name"></v-text-field>
+                  <v-text-field v-model="new_admin.last_name" label="Task"></v-text-field>
                 </v-flex>
                 <v-flex xs12>
                   <v-text-field v-model="new_admin.username" label="Username"></v-text-field>
@@ -109,6 +109,12 @@
                 </v-flex>
                 <v-flex xs6>
                   <label class="subheading">{{new_admin.first_name}}</label>
+                </v-flex>
+                 <v-flex xs6>
+                  <label class="title">Task Name:</label>
+                </v-flex>
+                <v-flex xs6>
+                  <label class="subheading">{{new_admin.last_name}}</label>
                 </v-flex>
                 <v-flex xs6>
                   <label class="title">Group Name:</label>
@@ -229,7 +235,7 @@ export default {
         value: "first_name"
       },
       {
-        text: "Last name",
+        text: "Task",
         align: "left",
         sortable: "true",
         value: "last_name"

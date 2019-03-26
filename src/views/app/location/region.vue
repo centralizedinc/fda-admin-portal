@@ -146,10 +146,7 @@ export default {
   data: () => ({
     mode: 0, // 0 - create, 1 - edit
     region_code: {},
-    new_region: {
-      name: "",
-      region_code: ""
-    },
+    new_region: {},
     modified_region: {},
     dialog: false,
     dialogView: false,
@@ -283,8 +280,8 @@ export default {
             this.regions[i].name &&
             this.regions[i].region_code.toLowerCase() ===
             this.new_region.region_code.toLowerCase() &&
-            this.new_region.name.toLowerCase() ===
-            this.regions[i].name.toLowerCase()
+            this.regions[i].name.toLowerCase() ===
+            this.new_region.name.toLowerCase()
           ) {
             check = false;
           } else if (!check) {

@@ -166,7 +166,7 @@
               <v-layout row wrap align-center justify-center fill-height>
                 <!-- <v-flex xs6> -->
                 <v-flex xs6>
-                  <label class="title">Task Name:</label>
+                  <label class="title">Task:</label>
                 </v-flex>
                 <v-flex xs6>
                   <label class="subheading">{{new_task.name}}</label>

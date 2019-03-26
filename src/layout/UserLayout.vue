@@ -334,6 +334,7 @@
             <img src="http://i.pravatar.cc/200" alt="alt">
           </v-avatar>
         </v-btn>
+        
         <v-list two-line subheader>
           <v-list-tile avatar @click="goTo('/app/profile')">
             <v-list-tile-content>

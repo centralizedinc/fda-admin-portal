@@ -24,16 +24,32 @@
             <v-container grid-list-md>
               <v-layout wrap>
                 <v-flex xs12>
-                  <v-text-field v-model="new_admin.first_name" :rules="[rules.required]" label="Name"></v-text-field>
+                  <v-text-field
+                    v-model="new_admin.first_name"
+                    :rules="[rules.required]"
+                    label="First Name"
+                  ></v-text-field>
                 </v-flex>
                 <v-flex xs12>
-                  <v-text-field v-model="new_admin.last_name" :rules="[rules.required]" label="Task"></v-text-field>
+                  <v-text-field
+                    v-model="new_admin.last_name"
+                    :rules="[rules.required]"
+                    label="Last Name"
+                  ></v-text-field>
                 </v-flex>
                 <v-flex xs12>
-                  <v-text-field v-model="new_admin.username" :rules="[rules.required]" label="Username"></v-text-field>
+                  <v-text-field
+                    v-model="new_admin.username"
+                    :rules="[rules.required]"
+                    label="Username"
+                  ></v-text-field>
                 </v-flex>
                 <v-flex xs12>
-                  <v-text-field v-model="new_admin.email" :rules="[rules.required]" label="Email Address"></v-text-field>
+                  <v-text-field
+                    v-model="new_admin.email"
+                    :rules="[rules.required]"
+                    label="Email Address"
+                  ></v-text-field>
                 </v-flex>
                 <v-flex xs12>
                   <v-autocomplete
@@ -108,22 +124,16 @@
               <v-layout row wrap align-center justify-center fill-height>
                 <!-- <v-flex xs6> -->
                 <v-flex xs6>
-                  <label class="title">Admin Name:</label>
+                  <label class="title">First Name:</label>
                 </v-flex>
                 <v-flex xs6>
                   <label class="subheading">{{new_admin.first_name}}</label>
                 </v-flex>
-                 <v-flex xs6>
-                  <label class="title">Task Name:</label>
+                <v-flex xs6>
+                  <label class="title">Last Name:</label>
                 </v-flex>
                 <v-flex xs6>
                   <label class="subheading">{{new_admin.last_name}}</label>
-                </v-flex>
-                <v-flex xs6>
-                  <label class="title">Group Name:</label>
-                </v-flex>
-                <v-flex xs6>
-                  <label class="subheading">{{getGroup(new_admin.group)}}</label>
                 </v-flex>
                 <v-flex xs6>
                   <label class="title">Username:</label>
@@ -132,16 +142,22 @@
                   <label class="subheading">{{new_admin.username}}</label>
                 </v-flex>
                 <v-flex xs6>
-                  <label class="title">Status:</label>
-                </v-flex>
-                <v-flex xs6>
-                  <label class="subheading">{{new_admin.status}}</label>
-                </v-flex>
-                <v-flex xs6>
                   <label class="title">Email:</label>
                 </v-flex>
                 <v-flex xs6>
                   <label class="subheading">{{new_admin.email}}</label>
+                </v-flex>
+                <v-flex xs6>
+                  <label class="title">Group Name:</label>
+                </v-flex>
+                <v-flex xs6>
+                  <label class="subheading">{{getGroup(new_admin.group)}}</label>
+                </v-flex>
+                <v-flex xs6>
+                  <label class="title">Status:</label>
+                </v-flex>
+                <v-flex xs6>
+                  <label class="subheading">{{new_admin.status}}</label>
                 </v-flex>
                 <v-flex xs6>
                   <label class="title">Roles:</label>
@@ -188,17 +204,24 @@
       <template slot="items" slot-scope="props">
         <td>{{ props.item.first_name }}</td>
         <td>{{ props.item.last_name }}</td>
-        <td>{{ getGroup(props.item.group) }}</td>
-        <td>{{ props.item.status }}</td>
         <td>{{ props.item.username }}</td>
         <td>{{ props.item.email }}</td>
+        <td>{{ getGroup(props.item.group) }}</td>
+        <td>{{ props.item.status }}</td>
         <td>{{ rol(props.item.role) }}</td>
         <td>{{ getAdmin(props.item.created_by).last_name }}</td>
         <td>{{ formatDate(props.item.date_created) }}</td>
         <td>{{ getAdmin(props.item.created_by).first_name }}</td>
         <td>{{ formatDate(props.item.date_modified) }}</td>
         <td class="justify-center layout px-0">
-          <v-icon small class="mr-2" @click="editItem(props.item, props.index)" flat icon color="primary">edit</v-icon>
+          <v-icon
+            small
+            class="mr-2"
+            @click="editItem(props.item, props.index)"
+            flat
+            icon
+            color="primary"
+          >edit</v-icon>
           <v-icon small @click="viewItem(props.item)" flat icon color="primary">visibility</v-icon>
         </td>
       </template>
@@ -233,28 +256,16 @@ export default {
     ],
     headers: [
       {
-        text: "Name",
+        text: "First Name",
         align: "left",
         sortable: "true",
         value: "first_name"
       },
       {
-        text: "Task",
+        text: "Last Name",
         align: "left",
         sortable: "true",
         value: "last_name"
-      },
-      {
-        text: "Group Name",
-        align: "left",
-        sortable: "true",
-        value: "groups"
-      },
-      {
-        text: "Status",
-        align: "left",
-        sortable: "true",
-        value: "status"
       },
       {
         text: "Username",
@@ -267,6 +278,18 @@ export default {
         align: "left",
         sortable: "true",
         value: "email"
+      },
+      {
+        text: "Group Name",
+        align: "left",
+        sortable: "true",
+        value: "groups"
+      },
+      {
+        text: "Status",
+        align: "left",
+        sortable: "true",
+        value: "status"
       },
       {
         text: "Role",
@@ -367,9 +390,8 @@ export default {
             return r._id.toString() === item;
           });
           if (match) {
-            if(list !== '')
-            list = list + ', '
-            list = list +  match.name;
+            if (list !== "") list = list + ", ";
+            list = list + match.name;
           }
         });
       }
@@ -426,9 +448,9 @@ export default {
             this.admin[i].first_name &&
             this.admin[i].last_name &&
             this.admin[i].first_name.toLowerCase() ===
-            this.new_admin.first_name.toLowerCase() &&
+              this.new_admin.first_name.toLowerCase() &&
             this.new_admin.last_name.toLowerCase() ===
-            this.admin[i].last_name.toLowerCase()
+              this.admin[i].last_name.toLowerCase()
           ) {
             check = false;
           } else if (!check) {
@@ -444,31 +466,33 @@ export default {
     },
     submit() {
       if (this.validate()) {
-      this.$store.dispatch("ADD_ADMIN", this.new_admin).then(result => {
-        console.log("added:admin: " + JSON.stringify(result));
-        this.init();
-        this.$notify({
-          message: "You have successfully created a new Admin",
-          icon: "check_circle",
-          color: "primary"
+        this.$store.dispatch("ADD_ADMIN", this.new_admin).then(result => {
+          console.log("added:admin: " + JSON.stringify(result));
+          this.init();
+          this.$notify({
+            message: "You have successfully created a new Admin",
+            icon: "check_circle",
+            color: "primary"
+          });
+          this.close();
         });
-        this.close();
-      });
       }
     },
     save() {
       if (this.validate()) {
-      console.log("###########EDITED:ROLE: " + JSON.stringify(this.new_admin));
-      this.$store.dispatch("EDIT_ADMIN", this.new_admin).then(result => {
-        console.log("edited:admin: " + JSON.stringify(result));
-        this.init();
-        this.$notify({
-          message: "You have successfully edited an Admin",
-          color: "success",
-          icon: "check_circle"
+        console.log(
+          "###########EDITED:ROLE: " + JSON.stringify(this.new_admin)
+        );
+        this.$store.dispatch("EDIT_ADMIN", this.new_admin).then(result => {
+          console.log("edited:admin: " + JSON.stringify(result));
+          this.init();
+          this.$notify({
+            message: "You have successfully edited an Admin",
+            color: "success",
+            icon: "check_circle"
+          });
+          this.close();
         });
-        this.close();
-      });
       }
     }
   }

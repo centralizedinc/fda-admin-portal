@@ -24,21 +24,22 @@
             <v-container grid-list-md>
               <v-layout wrap>
                 <v-flex xs12>
-                  <v-text-field v-model="new_admin.first_name" label="Name"></v-text-field>
+                  <v-text-field v-model="new_admin.first_name" :rules="[rules.required]" label="Name"></v-text-field>
                 </v-flex>
                 <v-flex xs12>
-                  <v-text-field v-model="new_admin.last_name" label="Task"></v-text-field>
+                  <v-text-field v-model="new_admin.last_name" :rules="[rules.required]" label="Task"></v-text-field>
                 </v-flex>
                 <v-flex xs12>
-                  <v-text-field v-model="new_admin.username" label="Username"></v-text-field>
+                  <v-text-field v-model="new_admin.username" :rules="[rules.required]" label="Username"></v-text-field>
                 </v-flex>
                 <v-flex xs12>
-                  <v-text-field v-model="new_admin.email" label="Email Address"></v-text-field>
+                  <v-text-field v-model="new_admin.email" :rules="[rules.required]" label="Email Address"></v-text-field>
                 </v-flex>
                 <v-flex xs12>
                   <v-autocomplete
                     multiple
                     v-model="new_admin.group"
+                    :rules="[rules.required]"
                     :disabled="isUpdating"
                     :items="groups_items"
                     color="blue-grey lighten-2"
@@ -51,6 +52,7 @@
                   <v-text-field
                     :append-icon="new_password ? 'visibility' : 'visibility_off'"
                     :type="new_password ? 'text' : 'password'"
+                    :rules="[rules.required]"
                     label="Password"
                     @click:append="new_password = !new_password"
                     v-model="new_admin.password"
@@ -59,6 +61,7 @@
                 <v-flex xs12>
                   <v-autocomplete
                     v-model="new_admin.role"
+                    :rules="[rules.required]"
                     :disabled="isUpdating"
                     :items="roles"
                     label="Role name"
@@ -195,7 +198,7 @@
         <td>{{ getAdmin(props.item.created_by).first_name }}</td>
         <td>{{ formatDate(props.item.date_modified) }}</td>
         <td class="justify-center layout px-0">
-          <v-icon small class="mr-2" @click="editItem(props.item)" flat icon color="primary">edit</v-icon>
+          <v-icon small class="mr-2" @click="editItem(props.item, props.index)" flat icon color="primary">edit</v-icon>
           <v-icon small @click="viewItem(props.item)" flat icon color="primary">visibility</v-icon>
         </td>
       </template>
@@ -222,6 +225,7 @@ export default {
     isUpdating: false,
     search: "",
     role: "",
+    selectedIndex: -1,
     roles: [
       { value: "0", label: "Admin" },
       { value: "1", label: "Approver" },
@@ -307,6 +311,9 @@ export default {
     },
     defaultItem: {
       name: ""
+    },
+    rules: {
+      required: v => !!v || "This is a required field"
     }
   }),
 
@@ -373,11 +380,13 @@ export default {
       if (index >= 0) this.group.splice(index, 1);
     },
     addItem() {
+      this.selectedIndex = -1;
       this.mode = 0; // Create
       this.new_admin = {}; // holds the filled up item
       this.dialog = true;
     },
-    editItem(item) {
+    editItem(item, index) {
+      this.selectedIndex = index;
       console.log("GROUP: " + JSON.stringify(item.group));
       this.mode = 1; // Edit
       this.new_admin = item;
@@ -394,7 +403,47 @@ export default {
       this.dialogView = false;
       this.new_admin = {};
     },
+    validate() {
+      var check = true;
+      if (
+        this.isEmpty(this.new_admin.first_name) ||
+        this.isEmpty(this.new_admin.last_name) ||
+        this.isEmpty(this.new_admin.username) ||
+        this.isEmpty(this.new_admin.email) ||
+        this.isEmpty(this.new_admin.group) ||
+        this.isEmpty(this.new_admin.password) ||
+        this.isEmpty(this.new_admin.role)
+      ) {
+        this.$notify({
+          message: "Please fill up required fields",
+          color: "error"
+        });
+        return false;
+      } else {
+        for (let i = 0; i < this.provinces.length; i++) {
+          if (
+            this.selectedIndex != i &&
+            this.admin[i].first_name &&
+            this.admin[i].last_name &&
+            this.admin[i].first_name.toLowerCase() ===
+            this.new_admin.first_name.toLowerCase() &&
+            this.new_admin.last_name.toLowerCase() ===
+            this.admin[i].last_name.toLowerCase()
+          ) {
+            check = false;
+          } else if (!check) {
+            this.$notify({
+              message: "You have inputed an existing details",
+              color: "error"
+            });
+            return false;
+          }
+        }
+      }
+      return true;
+    },
     submit() {
+      if (this.validate()) {
       this.$store.dispatch("ADD_ADMIN", this.new_admin).then(result => {
         console.log("added:admin: " + JSON.stringify(result));
         this.init();
@@ -405,8 +454,10 @@ export default {
         });
         this.close();
       });
+      }
     },
     save() {
+      if (this.validate()) {
       console.log("###########EDITED:ROLE: " + JSON.stringify(this.new_admin));
       this.$store.dispatch("EDIT_ADMIN", this.new_admin).then(result => {
         console.log("edited:admin: " + JSON.stringify(result));
@@ -418,6 +469,7 @@ export default {
         });
         this.close();
       });
+      }
     }
   }
 };

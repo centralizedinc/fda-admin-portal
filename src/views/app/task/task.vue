@@ -72,11 +72,11 @@
                 </v-flex>
                 <v-flex xs12>
                   <v-autocomplete
-                    v-model="new_task.groups"
+                    multiple
+                    v-model="new_task.recommends"
                     :rules="[rules.required]"
                     :disabled="isUpdating"
-                    :items="groups"
-                    color="blue-grey lighten-2"
+                    :items="tasks"
                     label="Recommends"
                     item-text="name"
                     item-value="_id"
@@ -105,6 +105,7 @@
                 </v-flex>
                 <v-flex xs12>
                   <v-autocomplete
+                    multiple
                     v-model="new_task.groups"
                     :rules="[rules.required]"
                     :disabled="isUpdating"
@@ -165,7 +166,7 @@
               <v-layout row wrap align-center justify-center fill-height>
                 <!-- <v-flex xs6> -->
                 <v-flex xs6>
-                  <label class="title">Task Name:</label>
+                  <label class="title">Task:</label>
                 </v-flex>
                 <v-flex xs6>
                   <label class="subheading">{{new_task.name}}</label>
@@ -186,7 +187,7 @@
                   <label class="title">Recommends:</label>
                 </v-flex>
                 <v-flex xs6>
-                  <label class="subheading">{{new_task.recommends}}</label>
+                  <label class="subheading">{{getTasks(new_task.recommends)}}</label>
                 </v-flex>
                 <v-flex xs6>
                   <label class="title">Condition:</label>
@@ -216,7 +217,7 @@
                   <label class="title">Created By:</label>
                 </v-flex>
                 <v-flex xs6>
-                  <label class="subheading">{{getAdmin(new_task.created_by)}}</label>
+                  <label class="subheading">{{getAdmin(new_task.created_by).last_name}}</label>
                 </v-flex>
                 <v-flex xs6>
                   <label class="title">Date Created:</label>
@@ -228,7 +229,7 @@
                   <label class="title">Modified By:</label>
                 </v-flex>
                 <v-flex xs6>
-                  <label class="subheading">{{getAdmin(new_task.modified_by)}}</label>
+                  <label class="subheading">{{getAdmin(new_task.modified_by).first_name}}</label>
                 </v-flex>
                 <v-flex xs6>
                   <label class="title">Date Modified:</label>
@@ -263,7 +264,14 @@
         <td>{{ getAdmin(props.item.modified_by).first_name }}</td>
         <td>{{ formatDate(props.item.date_modified) }}</td>
         <td class="justify-center layout px-0">
-          <v-icon small class="mr-2" @click="editItem(props.item, props.index)" flat icon color="primary">edit</v-icon>
+          <v-icon
+            small
+            class="mr-2"
+            @click="editItem(props.item, props.index)"
+            flat
+            icon
+            color="primary"
+          >edit</v-icon>
           <v-icon small @click="viewItem(props.item)" flat icon color="primary">visibility</v-icon>
         </td>
       </template>
@@ -280,7 +288,7 @@
 export default {
   data: () => ({
     mode: 0, // 0 - create, 1 - edit
-    groups: {},
+    groups: [],
     new_task: {
       start_process: false,
       end_process: false
@@ -385,7 +393,7 @@ export default {
     defaultItem: {
       name: ""
     },
-     rules: {
+    rules: {
       required: v => !!v || "This is a required field" //
     }
   }),
@@ -438,29 +446,24 @@ export default {
     getGroup(group_list) {
       console.log("GROUP_LIST: " + JSON.stringify(group_list));
       var list = "";
-      group_list.forEach(item => {
-        var match = this.groups.find(r => {
-          return r._id.toString() === item;
+      if (group_list) {
+        group_list.forEach(item => {
+          var match = this.groups.find(r => {
+            return r._id.toString() === item;
+          });
+          if (match) {
+            if (list !== "") list = list + ", ";
+            list = list + match.name;
+          }
         });
-        list = list + match.name + " ";
-      });
+      }
       return list;
     },
     task(task_id) {
       return this.getTask(task_id) ? this.getTask(task_id).name : "";
     },
-    // getTasks(task_list) {
-    //   var list = "";
-    //   task_list.forEach(item => {
-    //     var match = this.tasks.find(r => {
-    //       return r._id.toString() === item;
-    //     });
-    //     list = list + match.name + " ";
-    //   });
-    //   return list;
-    // },
     getTasks(task_list) {
-      console.log("GROUP_LIST: " + JSON.stringify(task_list));
+      console.log("TASK_LIST: " + JSON.stringify(task_list));
       var list = "";
       if (task_list) {
         task_list.forEach(item => {

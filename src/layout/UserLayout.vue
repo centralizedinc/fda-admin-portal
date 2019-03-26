@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <notification></notification>
-    <v-navigation-drawer app :mini-variant="mini" width="250">
+    <v-navigation-drawer app :mini-variant="mini" width="250" v-model="showNav">
       <v-toolbar
         dark
         style="height: 100px; background: linear-gradient(45deg, #38c73c 0%, #b5c25a 100%)"
@@ -25,6 +25,7 @@
             </v-list-tile-content>
           </v-list-tile>
         </v-list>
+        
       </v-toolbar>
       <v-list>
         <!-- SIDENAV -->
@@ -301,7 +302,7 @@
       dark
       style="background: linear-gradient(45deg, #43A047 0%, #1de9b6 100%); box-shadow: 0 6px 20px 0 rgba(77, 182, 172, 0.5)"
     >
-      <v-btn icon color="rgba(0, 0, 0, 0.18)" @click.stop="mini = !mini">
+      <v-btn icon color="rgba(0, 0, 0, 0.18)" @click.stop="mini = !mini" v-if="!isMiniView">
         <v-icon v-if="mini">menu</v-icon>
         <v-icon v-else>chevron_left</v-icon>
       </v-btn>
@@ -369,6 +370,9 @@
       <!-- <v-btn icon>
         <v-icon small>fas fa-indent</v-icon>
       </v-btn>-->
+      <v-btn flat icon v-if="isMiniView" @click="showNav=!showNav">
+            <v-icon>menu</v-icon>
+        </v-btn>
     </v-toolbar>
     <!-- <v-content> -->
     <v-container fluid>
@@ -433,6 +437,7 @@ export default {
   //#########################
   data() {
     return {
+      showNav:true,
       mini: false,
       route_name: "",
       admin: {},
@@ -483,6 +488,9 @@ export default {
     },
     app_version() {
       return process.env.VUE_APP_VERSION;
+    },
+    isMiniView(){
+        return this.$vuetify.breakpoint.smAndDown
     }
   }
 };

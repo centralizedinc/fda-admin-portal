@@ -13,21 +13,21 @@
                             @change="onFilePicked"
                             accept="image/*"
                         >
-                        <!-- <div v-if="admin.avatar && admin.avatar.location"> -->
+                        <div v-if="admin.avatar && admin.avatar.location">
                           <a @click="$refs.image.click()" >
                             <v-avatar  size="120" style="top: -50px ;left:40%; z-index:1" color='teal'>
                               <v-img :src="avatar()" alt="alt">
                               </v-img>
                             </v-avatar>
                           </a>
-                        <!-- </div> -->
-                        <!-- <div v-else>
+                        </div>
+                        <div v-else>
                           <a @click="$refs.image.click()" >
                             <v-avatar size="120" color="teal" style="top: -50px ;left:40%; z-index:1">                  
                               <span class="headline">{{admin.first_name.substring(0,1) + admin.last_name.substring(0,1)}}</span>
                             </v-avatar>
                           </a>
-                        </div> -->
+                        </div>
                  
                  
                  <!-- <a @click="$refs.image.click()">

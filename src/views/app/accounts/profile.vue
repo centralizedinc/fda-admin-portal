@@ -6,7 +6,8 @@
           <v-layout align-center justify-center>
             <v-flex xs10>
               <v-card-text>
-                <v-text-field
+                <v-form ref="form" v-model="valid">
+                  <v-text-field
                   label="First Name"
                   v-model="admin.first_name"
                   required
@@ -30,6 +31,8 @@
                   required
                   :rules="[() => !!admin.email || 'This field is required']"
                 ></v-text-field>
+                </v-form>
+                
               </v-card-text>
             </v-flex>
           </v-layout>
@@ -72,6 +75,7 @@
 <script>
 export default {
   data: () => ({
+    valid:null,
     admin: {},
     first_name: null,
     last_name: null,
@@ -103,16 +107,20 @@ export default {
       //   });
     },
     showProfile() {
-      this.show_profile = true;
+      this.$refs.form.validate()
+      if(this.valid){
+        this.show_profile = true;
+      }else{
+        this.$notifyError([{message:"Please fill-up required fields"}])
+      }
+      
     },
     close() {
       this.new_admin = {};
     },
     submit() {
+      
       this.new_admin = this.admin;
-      console.log(
-        "###########edited:ADMIN PROFILE: " + JSON.stringify(this.new_admin)
-      );
       this.$store
         .dispatch("EDIT_PROFILE", this.new_admin)
         .then(result => {

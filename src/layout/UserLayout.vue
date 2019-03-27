@@ -12,9 +12,10 @@
             avatar
             style=" height: 100px; background:url('https://i.postimg.cc/YCbD5mHP/image.png') repeat center center"
           >
-            <v-list-tile-avatar class="mt-4">
-              <img src="http://i.pravatar.cc/300">
-            </v-list-tile-avatar>
+            <v-avatar size="40" color="teal">
+            <img v-if="admin.avatar" :src="admin.avatar.location" alt="alt">
+            <span v-else>{{admin.first_name.substring(0,1) + admin.last_name.substring(0,1)}}</span>
+          </v-avatar>
             <v-spacer></v-spacer>
             <v-list-tile-content class="mt-4">
               <v-list-tile-title class="body-2">{{admin.first_name}} {{admin.last_name}}</v-list-tile-title>
@@ -330,8 +331,9 @@
 
       <v-menu offset-y>
         <v-btn icon slot="activator">
-          <v-avatar size="40">
-            <img src="http://i.pravatar.cc/200" alt="alt">
+          <v-avatar size="40" color="teal">
+            <img v-if="admin.avatar" :src="admin.avatar.location" alt="alt">
+            <span v-else>{{admin.first_name.substring(0,1) + admin.last_name.substring(0,1)}}</span>
           </v-avatar>
         </v-btn>
         

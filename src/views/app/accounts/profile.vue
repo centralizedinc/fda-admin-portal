@@ -1,12 +1,43 @@
 <template>
   <div>
     <v-layout align-center justify-center>
-      <v-flex xs12 sm10 offset-sm1>
-        <v-card>
+      <v-flex xs12 sm10 offset-sm1 pa-5>
+        <v-card class="mt-4">
           <v-layout align-center justify-center>
             <v-flex xs10>
-              <v-card-text>
+              <input
+                            name="avatar"
+                            type="file"
+                            style="display: none"
+                            ref="image"
+                            @change="onFilePicked"
+                            accept="image/*"
+                        >
+                        <!-- <div v-if="admin.avatar && admin.avatar.location"> -->
+                          <a @click="$refs.image.click()" >
+                            <v-avatar  size="120" style="top: -50px ;left:40%; z-index:1" color='teal'>
+                              <v-img :src="avatar()" alt="alt">
+                              </v-img>
+                            </v-avatar>
+                          </a>
+                        <!-- </div> -->
+                        <!-- <div v-else>
+                          <a @click="$refs.image.click()" >
+                            <v-avatar size="120" color="teal" style="top: -50px ;left:40%; z-index:1">                  
+                              <span class="headline">{{admin.first_name.substring(0,1) + admin.last_name.substring(0,1)}}</span>
+                            </v-avatar>
+                          </a>
+                        </div> -->
+                 
+                 
+                 <!-- <a @click="$refs.image.click()">
+                <v-avatar size="120" color="teal" style="top: -50px ;left:40%; z-index:1">
+                  <v-img :src="admin.avatar.location" alt="alt"></v-img>
+                </v-avatar>
+                 </a>                                   -->
+              <v-card-text>                
                 <v-form ref="form" v-model="valid">
+                  
                   <v-text-field
                   label="First Name"
                   v-model="admin.first_name"
@@ -64,7 +95,7 @@
               dark
               @click.native="show_profile = false"
             >No</v-btn>
-            <v-btn class="font-weight-light" color="success" @click="submit()">Yes</v-btn>
+            <v-btn class="font-weight-light" color="success" @click="submit()" :loading="isLoading">Yes</v-btn>
           </v-card-actions>
         </v-card>
       </v-dialog>
@@ -81,7 +112,9 @@ export default {
     last_name: null,
     username: null,
     show_profile: false,
-    email: null
+    email: null,
+    formData:null, 
+    isLoading: false
   }),
 
   created() {
@@ -93,18 +126,12 @@ export default {
     }
   },
 
+  computed:{
+    
+  },
   methods: {
     init() {
-      console.log(
-        "##########STORE" + JSON.stringify(this.$store.state.user_session.user)
-      );
       this.admin = this.$store.state.user_session.user;
-      // this.$store
-      //   .dispatch("GET_PROFILE", this.$store.state.user_session.user._id)
-      //   .then(result => {
-      //     this.admin = result;
-      //     console.log("LOGS GET PROFILE" + JSON.stringify(this.admin));
-      //   });
     },
     showProfile() {
       this.$refs.form.validate()
@@ -118,20 +145,36 @@ export default {
       this.new_admin = {};
     },
     submit() {
-      
+      this.isLoading = true;
       this.new_admin = this.admin;
       this.$store
-        .dispatch("EDIT_PROFILE", this.new_admin)
-        .then(result => {
-          console.log("edited:profile: " + JSON.stringify(result));
-          this.$notify({
-            message: "Your Profile is successfuly updated",
-            color: "success",
-            icon: "check_circle"
-          });
-          this.$router.push("/app");
-        })
-        .catch(err => {});
+        .dispatch("EDIT_PROFILE", {account:this.new_admin, avatar:this.formData})
+        .then(result=>{
+                this.isLoading = false;
+                this.show_profile = false
+                this.$notify({message:'Your account has been updated!', color: 'primary'})
+                // this.$store.dispatch('LOGOUT')
+                this.$router.push('/app')
+            })
+            .catch(error=>{
+                this.isLoading = false;
+                 this.$notifyError(error)
+            })
+    },
+    onFilePicked(event){
+            
+            this.formData = new FormData();
+            this.formData.append(event.target.name, event.target.files[0], event.target.files[0].name)
+            this.$store.commit('SET_AVATAR', URL.createObjectURL(event.target.files[0])) 
+            // this.init();
+            this.$forceUpdate();
+            
+        },
+      avatar(){
+      if(this.admin.avatar && this.admin.avatar.location)
+      return this.admin.avatar.location
+      else
+      return ""
     }
   }
 };

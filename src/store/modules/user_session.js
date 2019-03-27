@@ -21,6 +21,12 @@ const mutations = {
         state.user = user
         console.log("###user:SET###" + JSON.stringify(user))
     },
+    SET_AVATAR(state, avatar) {
+        if(!state.user.avatar){
+            state.user.avatar = {};
+        }
+        state.user.avatar.location = avatar;
+    },
     LOGOUT: function (state) {
         state.user = {};
         state.token = false;

@@ -43,17 +43,7 @@ var actions = {
 
     },
     EDIT_PROFILE(context, modified_profile) {
-        return new Promise((resolve, reject) => {
-            new ProfileType(context.rootState.user_session.token).editProfile(modified_profile, (err, data) => {
-                if (err) {
-                    data.password = undefined;
-                    context.commit('SET_USER', data)
-                    reject(err)
-                } else {
-                    resolve(data)
-                }
-            })
-        })
+        return  new ProfileType(context.rootState.user_session.token).editProfile(modified_profile);
 
     }
 

@@ -24,7 +24,11 @@
             <v-container grid-list-md>
               <v-layout wrap>
                 <v-flex xs12>
-                  <v-text-field label="Group Name" v-model="new_group.name" :rules="[rules.required]"></v-text-field>
+                  <v-text-field
+                    label="Group Name"
+                    v-model="new_group.name"
+                    :rules="[rules.required]"
+                  ></v-text-field>
                 </v-flex>
               </v-layout>
             </v-container>
@@ -110,7 +114,14 @@
         <td>{{ getAdmin(props.item.modified_by).first_name }}</td>
         <td>{{ formatDate(props.item.date_modified) }}</td>
         <td class="justify-center layout px-0">
-          <v-icon small class="mr-2" @click="editItem(props.item, props.index)" flat icon color="primary">edit</v-icon>
+          <v-icon
+            small
+            class="mr-2"
+            @click="editItem(props.item, props.index)"
+            flat
+            icon
+            color="primary"
+          >edit</v-icon>
           <v-icon small @click="viewItem(props.item)" flat icon color="primary">visibility</v-icon>
         </td>
       </template>
@@ -243,9 +254,7 @@ export default {
 
     validate() {
       var check = true;
-      if (
-        this.isEmpty(this.new_group.name) 
-      ) {
+      if (this.isEmpty(this.new_group.name)) {
         this.$notify({
           message: "Please fill up required fields",
           color: "error"
@@ -257,7 +266,7 @@ export default {
             this.selectedIndex != i &&
             this.groups[i].name &&
             this.new_group.name.toLowerCase() ===
-            this.groups[i].name.toLowerCase()
+              this.groups[i].name.toLowerCase()
           ) {
             check = false;
           } else if (!check) {
@@ -272,28 +281,32 @@ export default {
       return true;
     },
     submit() {
-      this.$store.dispatch("ADD_GROUP", this.new_group).then(result => {
-        console.log("added:region: " + JSON.stringify(result));
-        this.init();
-        this.$notify({
-          message: "You have successfully created a new Group",
-          icon: "check_circle",
-          color: "primary"
+      if (this.validate()) {
+        this.$store.dispatch("ADD_GROUP", this.new_group).then(result => {
+          console.log("added:region: " + JSON.stringify(result));
+          this.init();
+          this.$notify({
+            message: "You have successfully created a new Group",
+            icon: "check_circle",
+            color: "primary"
+          });
+          this.close();
         });
-        this.close();
-      });
+      }
     },
     save() {
-      this.$store.dispatch("EDIT_GROUP", this.new_group).then(result => {
-        console.log("edited:region: " + JSON.stringify(result));
-        this.init();
-        this.$notify({
-          message: "You have successfully edited a Group",
-          icon: "check_circle",
-          color: "primary"
+      if (this.validate()) {
+        this.$store.dispatch("EDIT_GROUP", this.new_group).then(result => {
+          console.log("edited:region: " + JSON.stringify(result));
+          this.init();
+          this.$notify({
+            message: "You have successfully edited a Group",
+            icon: "check_circle",
+            color: "primary"
+          });
+          this.close();
         });
-        this.close();
-      });
+      }
     }
   }
 };

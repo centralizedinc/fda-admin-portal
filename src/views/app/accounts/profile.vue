@@ -112,8 +112,7 @@ export default {
         this.show_profile = true;
       }else{
         this.$notifyError([{message:"Please fill-up required fields"}])
-      }
-      
+      }      
     },
     close() {
       this.new_admin = {};

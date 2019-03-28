@@ -39,34 +39,36 @@ export default class ProfileType {
   }
 
   editProfile(profile) {
-    // var id = modified_profile._id
-    // axios.post('secured/accounts/admin/' + id, modified_profile).then((result) => {
-    //         console.log("api############# Edit PROFILE" + JSON.stringify(modified_profile))
-    //         cb(result.data.errors, result.data.model)
-    //     })
-    //     .catch(err => {
-    //         cb(err)
-    //     })
-
     return new Promise((resolve, reject) => {
-      axios.post("documents/avatars?account_id=" + profile.account._id, profile.avatar)
-        .then(result1 => {
-          if (result1.data.success) {
-            profile.account.avatar = result1.data.model;
-            return axios.post(
-              "secured/accounts/admin/" + profile.account._id,
-              profile.account
-            );
-          } else {
-            resolve(result1.data);
+      if(profile.avatar){
+          axios.post("documents/avatars?account_id=" + profile.account._id, profile.avatar)
+            .then(result1 => {
+              if (result1.data.success) {
+                profile.account.avatar = result1.data.model;
+                return axios.post("secured/accounts/admin/" + profile.account._id,profile.account);
+              } else {
+                resolve(result1.data);
+              }
+            })
+            .then(result2 => {
+              console.log("############# SAVING RESPONSE: " + JSON.stringify(result2.data))
+              resolve(result2.data);
+            })
+            .catch(err => {
+              reject(err);
+            });
+          }else{
+            axios.post("secured/accounts/admin/" + profile.account._id,profile.account)
+              .then(result2 => {
+                console.log("############# SAVING RESPONSE: " + JSON.stringify(result2.data))
+                resolve(result2.data);
+              })
+              .catch(err => {
+                reject(err);
+              });
           }
-        })
-        .then(result2 => {
-          resolve(result2.data);
-        })
-        .catch(err => {
-          reject(err);
-        });
     });
   }
+  
+  
 }

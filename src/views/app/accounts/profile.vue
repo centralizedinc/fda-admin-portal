@@ -152,11 +152,16 @@ export default {
         .then(result=>{
                 this.isLoading = false;
                 this.show_profile = false
-                this.$notify({message:'Your account has been updated!', color: 'primary'})
-                // this.$store.dispatch('LOGOUT')
-                this.$router.push('/app')
+                if(result.success){
+                  this.$notify({message:'Your account has been updated!', color: 'primary'})
+                  // this.$store.dispatch('LOGOUT')
+                  this.$router.push('/app')
+                }else{
+                  this.$notifyError(result.errors)
+                }                
             })
             .catch(error=>{
+              console.log(error)
                 this.isLoading = false;
                  this.$notifyError(error)
             })

@@ -15,14 +15,15 @@
         </v-flex>
         <v-card-text transparent>
           <v-text-field
+            outline
             name="name"
             label="Username"
             id="id"
-            prepend-icon="account_circle"
             @keypress.enter="login"
             v-model="admin.username"
           ></v-text-field>
           <v-text-field
+            outline
             v-model="admin.password"
             name="name"
             label="Password"
@@ -30,7 +31,6 @@
             :append-icon="value ? 'visibility' : 'visibility_off'"
             :append-icon-cb="() => (value = !value)"
             :type="value ? 'password' : 'text'"
-            prepend-icon="lock"
           ></v-text-field>
           <span v-if="alert">{{ alert_massage }}</span>
         </v-card-text>

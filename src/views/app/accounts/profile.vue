@@ -136,7 +136,7 @@ export default {
   computed: {},
   methods: {
     init() {
-      this.admin = this.$store.state.user_session.user;
+      this.admin = JSON.parse(JSON.stringify(this.$store.state.user_session.user));
     },
     showProfile() {
       this.$refs.form.validate();

@@ -17,12 +17,14 @@
             class="headline"
             style="background: linear-gradient(45deg, #104B2A 0%, #b5c25a 100%)"
           >
-            <span class="headline">{{ formTitle }}</span>
+            <span class="headline white--text">{{ formTitle }}</span>
           </v-card-title>
           <v-divider class="mx-2" inset vertical></v-divider>
           <v-card-text>
             <v-container grid-list-md>
+               <v-form ref="form" v-model="valid">
               <v-layout wrap>
+               
                 <v-flex xs12>
                   <v-text-field
                     v-model="new_admin.first_name"
@@ -96,13 +98,15 @@
                     </template>
                   </v-autocomplete>
                 </v-flex>
+                
               </v-layout>
+              </v-form>
             </v-container>
           </v-card-text>
           <v-divider></v-divider>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn color="success" @click="close">Cancel</v-btn>
+            <v-btn color="success" @click="close" outline>Cancel</v-btn>
             <v-btn color="success" v-if="mode==0" @click="submit">Submit</v-btn>
             <v-btn color="success" v-else @click="save">Save</v-btn>
           </v-card-actions>
@@ -237,6 +241,7 @@
 <script>
 export default {
   data: () => ({
+    valid:true,
     mode: 0, // 0 - create, 1 - edit
     groups: {},
     groups_items: [],
@@ -465,8 +470,10 @@ export default {
       return true;
     },
     submit() {
-      if (this.validate()) {
-        this.$store.dispatch("ADD_ADMIN", this.new_admin).then(result => {
+      this.$refs.form.validate()
+      if (this.valid) {
+        this.$store.dispatch("ADD_ADMIN", this.new_admin)
+        .then(result => {
           console.log("added:admin: " + JSON.stringify(result));
           this.init();
           this.$notify({
@@ -475,11 +482,17 @@ export default {
             color: "primary"
           });
           this.close();
+        })
+        .catch(err=>{
+          this.$notifyError(err)
         });
+      }else{
+          this.$notifyError([{ message: "Please fill-up required fields" }]);
       }
     },
     save() {
-      if (this.validate()) {
+      this.$refs.form.validate()
+      if (this.valid) {
         console.log(
           "###########EDITED:ROLE: " + JSON.stringify(this.new_admin)
         );
@@ -493,6 +506,8 @@ export default {
           });
           this.close();
         });
+      }else{
+          this.$notifyError([{ message: "Please fill-up required fields" }]);
       }
     }
   }

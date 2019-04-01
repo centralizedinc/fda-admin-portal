@@ -170,6 +170,9 @@ export default {
                     } else if (icon === false) {
                         return "✖";
                     }
+                    else if (icon === null) {
+                        return "✖";
+                    }
                 },
                 logout() {
                     this.$store.dispatch("LOGOUT");

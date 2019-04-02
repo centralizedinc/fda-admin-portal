@@ -72,10 +72,10 @@
               <v-icon small>work</v-icon>
               <span class="subheader font-width-light">{{rol(admin.role)}}</span>
             </v-flex>
-            <v-flex xs12 pa-1>
+            <!-- <v-flex xs12 pa-1>
               <v-icon small>assignment</v-icon>
-              <span class="subheader font-width-light">{{getGroup(admin.group)}}</span>
-            </v-flex>
+              <span class="subheader font-width-light">{{(admin.group)}}</span>
+            </v-flex> -->
           </v-layout>
         </v-card-text>
       </v-card>
@@ -125,9 +125,9 @@ export default {
         })
         .then(result => {
           this.clients = this.$store.state.client_table.clients;
-          this.clientCounts = this.clients.length;
           this.admin = this.$store.state.user_session.user;
-          console.log("### USER DETAILS ###" + JSON.stringify(this.admin));
+          this.clientCounts = this.clients.length;
+          // console.log("### USER DETAILS ###" + JSON.stringify(this.clientCounts));
 
           return this.$store.dispatch("GET_GROUP");
         })
@@ -141,23 +141,23 @@ export default {
         });
     },
 
-    getGroup(group_list) {
-      console.log("GROUP_LIST: " + JSON.stringify(group_list));
-      var list = "";
-      if (group_list) {
-        group_list.forEach(item => {
-          var match = this.groups_items.find(r => {
-            return r._id.toString() === item;
-          });
-          if (match) {
-            if(list !== '')
-            list = list + ', '
-            list = list +  match.name;
-          }
-        });
-      }
-      return list;
-    }
+    // clientGroup(group_list) {
+    //   console.log("GROUP_LIST: " + JSON.stringify(group_list));
+    //   var list = "";
+    //   if (group_list) {
+    //     group_list.forEach(item => {
+    //       var match = this.groups_items.find(r => {
+    //         return r._id.toString() === item;
+    //       });
+    //       if (match) {
+    //         if(list !== '')
+    //         list = list + ', '
+    //         list = list +  match.name;
+    //       }
+    //     });
+    //   }
+    //   return list;
+    // }
   }
 };
 </script>

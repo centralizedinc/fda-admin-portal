@@ -42,13 +42,14 @@
           extended
           style="background:url('https://pixinvent.com/free-materialize-material-design-admin-template/images/gallary/12.png') no-repeat center"
         >
-          <v-btn color="error" dark absolute bottom right fab small>
+          <v-btn color="error" dark absolute bottom right fab small @click="goTo('/app/profile')">
             <v-icon>edit</v-icon>
           </v-btn>
 
-          <v-btn dark absolute bottom left fab color="white">
-            <v-avatar>
-              <img src="http://i.pravatar.cc/400" alt="alt" size="400">
+          <v-btn dark absolute bottom left fab>
+            <v-avatar size="40" color="teal">
+              <img v-if="admin.avatar" :src="admin.avatar.location" alt="alt">
+              <span v-else>{{admin.first_name.substring(0,1) + admin.last_name.substring(0,1)}}</span>
             </v-avatar>
           </v-btn>
         </v-toolbar>
@@ -72,7 +73,7 @@
             <!-- <v-flex xs12 pa-1>
               <v-icon small>assignment</v-icon>
               <span class="subheader font-width-light">{{clientGroup(admin.group)}}</span>
-            </v-flex> -->
+            </v-flex>-->
           </v-layout>
         </v-card-text>
       </v-card>
@@ -99,6 +100,16 @@ export default {
   },
 
   methods: {
+    activeRoute(route) {
+      if (this.$route.name === route) {
+        return "background-color:rgb(2, 128, 0); color:white";
+      } else {
+        return;
+      }
+    },
+    goTo(router) {
+      this.$router.push(router);
+    },
     init() {
       this.$store
         .dispatch("GET_ADMIN")
@@ -136,7 +147,7 @@ export default {
             JSON.stringify(this.groups_items)
           );
         });
-    },
+    }
 
     // clientGroup(group_list) {
     //   console.log("GROUP_LIST: " + JSON.stringify(group_list));

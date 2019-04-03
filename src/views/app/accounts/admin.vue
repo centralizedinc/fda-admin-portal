@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div>    
     <v-toolbar flat color="white">
       <v-flex xs4>
         <v-text-field append-icon="search" label="Search" single-line hide-details v-model="search"></v-text-field>
@@ -17,12 +17,14 @@
             class="headline"
             style="background: linear-gradient(45deg, #104B2A 0%, #b5c25a 100%)"
           >
-            <span class="headline">{{ formTitle }}</span>
+            <span class="headline white--text">{{ formTitle }}</span>
           </v-card-title>
           <v-divider class="mx-2" inset vertical></v-divider>
           <v-card-text>
             <v-container grid-list-md>
+               <v-form ref="form" v-model="valid">
               <v-layout wrap>
+               
                 <v-flex xs12>
                   <v-text-field
                     v-model="new_admin.first_name"
@@ -64,7 +66,7 @@
                     item-value="_id"
                   ></v-autocomplete>
                 </v-flex>
-                <v-flex xs12>
+                <v-flex xs12 v-if="mode ===0">
                   <v-text-field
                     :append-icon="new_password ? 'visibility' : 'visibility_off'"
                     :type="new_password ? 'text' : 'password'"
@@ -96,15 +98,17 @@
                     </template>
                   </v-autocomplete>
                 </v-flex>
+                
               </v-layout>
+              </v-form>
             </v-container>
           </v-card-text>
           <v-divider></v-divider>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn color="success" @click="close">Cancel</v-btn>
-            <v-btn color="success" v-if="mode==0" @click="submit">Submit</v-btn>
-            <v-btn color="success" v-else @click="save">Save</v-btn>
+            <v-btn color="success" @click="close" outline>Cancel</v-btn>
+            <v-btn color="success" :loading="isLoading" v-if="mode==0" @click="submit">Submit</v-btn>
+            <v-btn color="success" :loading="isLoading" v-else @click="save">Save</v-btn>
           </v-card-actions>
         </v-card>
       </v-dialog>
@@ -201,29 +205,32 @@
       </v-dialog>
     </v-toolbar>
     <v-data-table :headers="headers" :items="admins" :search="search" class="elevation-1">
-      <template slot="items" slot-scope="props">
-        <td>{{ props.item.first_name }}</td>
-        <td>{{ props.item.last_name }}</td>
-        <td>{{ props.item.username }}</td>
-        <td>{{ props.item.email }}</td>
-        <td>{{ getGroup(props.item.group) }}</td>
-        <td>{{ props.item.status }}</td>
-        <td>{{ rol(props.item.role) }}</td>
-        <td>{{ getAdmin(props.item.created_by).last_name }}</td>
-        <td>{{ formatDate(props.item.date_created) }}</td>
-        <td>{{ getAdmin(props.item.created_by).first_name }}</td>
-        <td>{{ formatDate(props.item.date_modified) }}</td>
-        <td class="justify-center layout px-0">
-          <v-icon
-            small
-            class="mr-2"
-            @click="editItem(props.item, props.index)"
-            flat
-            icon
-            color="primary"
-          >edit</v-icon>
-          <v-icon small @click="viewItem(props.item)" flat icon color="primary">visibility</v-icon>
-        </td>
+      <template slot="items" slot-scope="props">        
+        <tr @click="viewItem(props.item)">          
+          <td>{{ props.item.first_name }}</td>
+          <td>{{ props.item.last_name }}</td>
+          <td>{{ props.item.username }}</td>
+          <td>{{ props.item.email }}</td>
+          <td>{{ getGroup(props.item.group) }}</td>
+          <td>{{ props.item.status }}</td>
+          <td>{{ rol(props.item.role) }}</td>
+          <td>{{ getAdmin(props.item.created_by).last_name }}</td>
+          <td>{{ formatDate(props.item.date_created) }}</td>
+          <td>{{ getAdmin(props.item.created_by).first_name }}</td>
+          <td>{{ formatDate(props.item.date_modified) }}</td>
+          <td class="justify-center layout px-0">
+            <v-icon
+              small
+              class="ma-1"
+              @click="editItem(props.item, props.index)"
+              flat
+              icon
+              color="primary"
+            >edit</v-icon>
+            <v-icon class="ma-1" small @click="viewItem(props.item)" flat icon color="primary">visibility</v-icon>
+            <v-icon class="ma-1" small @click="changePassword(props.item)" flat icon color="primary">lock</v-icon>
+          </td>        
+        </tr>          
       </template>
       <v-alert
         slot="no-results"
@@ -232,11 +239,49 @@
         icon="warning"
       >Your search for "{{ search }}" found no results.</v-alert>
     </v-data-table>
+    <v-dialog
+      v-model="changePassDialog"
+      max-width="500px"
+      transition="dialog-transition"
+    >
+    <v-layout row wrap>
+      <v-flex xs12>
+        <v-card>                  
+          <v-toolbar dark color="primary">
+            <span class="title">Change Password</span>          
+          </v-toolbar>
+          <v-card-text>                      
+            <v-form >
+              <v-text-field
+                    :append-icon="new_password ? 'visibility' : 'visibility_off'"
+                    :type="new_password ? 'text' : 'password'"
+                    :rules="[rules.required]"
+                    label="Password"
+                    @click:append="new_password = !new_password"
+                    v-model="new_admin.password"
+              ></v-text-field>
+            </v-form>
+          </v-card-text>
+          <v-divider></v-divider>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn color="success" outline @click="changePassDialog = false">Cancel</v-btn>
+            <v-btn color="success" :loading="isLoading" @click="updatePassword()">Submit</v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-flex>
+    </v-layout>
+      
+    </v-dialog>
   </div>
 </template>
 <script>
 export default {
   data: () => ({
+    showMenu: false,
+    isLoading: false,
+    changePassDialog:false,
+    valid:true,
     mode: 0, // 0 - create, 1 - edit
     groups: {},
     groups_items: [],
@@ -381,8 +426,7 @@ export default {
           );
         });
     },
-    getGroup(group_list) {
-      console.log("GROUP_LIST: " + JSON.stringify(group_list));
+    getGroup(group_list) {      
       var list = "";
       if (group_list) {
         group_list.forEach(item => {
@@ -411,13 +455,19 @@ export default {
       this.selectedIndex = index;
       console.log("GROUP: " + JSON.stringify(item.group));
       this.mode = 1; // Edit
-      this.new_admin = item;
+      this.new_admin = JSON.parse(JSON.stringify(item));
       this.dialog = true;
     },
 
     viewItem(item) {
-      this.new_admin = item;
+      this.new_admin = JSON.parse(JSON.stringify(item));
       this.dialogView = true;
+    },
+
+    changePassword(item){
+      this.new_admin = JSON.parse(JSON.stringify(item));
+      this.new_admin.password = null;
+      this.changePassDialog = true;
     },
 
     close() {
@@ -465,8 +515,12 @@ export default {
       return true;
     },
     submit() {
-      if (this.validate()) {
-        this.$store.dispatch("ADD_ADMIN", this.new_admin).then(result => {
+      this.isLoading=true;
+      this.$refs.form.validate()
+      if (this.valid) {
+        this.$store.dispatch("ADD_ADMIN", this.new_admin)
+        .then(result => {
+          this.isLoading=false;
           console.log("added:admin: " + JSON.stringify(result));
           this.init();
           this.$notify({
@@ -475,14 +529,20 @@ export default {
             color: "primary"
           });
           this.close();
+        })
+        .catch(err=>{
+          this.isLoading=false;
+          this.$notifyError(err)
         });
+      }else{
+        this.isLoading=false;
+          this.$notifyError([{ message: "Please fill-up required fields" }]);
       }
     },
     save() {
-      if (this.validate()) {
-        console.log(
-          "###########EDITED:ROLE: " + JSON.stringify(this.new_admin)
-        );
+      this.isLoading=true;
+      this.$refs.form.validate()
+      if (this.valid) {
         this.$store.dispatch("EDIT_ADMIN", this.new_admin).then(result => {
           console.log("edited:admin: " + JSON.stringify(result));
           this.init();
@@ -492,8 +552,29 @@ export default {
             icon: "check_circle"
           });
           this.close();
+          this.isLoading=false;
         });
+      }else{
+          this.isLoading=false;
+          this.$notifyError([{ message: "Please fill-up required fields" }]);
       }
+    },
+    updatePassword(){
+      this.isLoading=true;
+        this.$store.dispatch('RESET_PASSWORD', this.new_admin)
+        .then(result=>{
+          this.isLoading=false;
+          if(result.data.success){
+            this.$notify({message: 'Password Updated'})
+            this.changePassDialog=false
+          }else{
+            this.$notifyError(result.data.errors)
+          }
+        })
+        .catch(err=>{
+          this.isLoading=false;
+          console.log('########## ERROR: ' + JSON.stringify(result))
+        })
     }
   }
 };

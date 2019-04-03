@@ -127,16 +127,24 @@
                     </template>
                   </v-autocomplete>
                   <!-- check box -->
-                  <v-flex xs>
-                    <!-- <v-container fluid>
-    <v-checkbox v-model="new_task.selected" value="start_process" :label="`Start Process`"></v-checkbox>
-    <v-checkbox v-model="new_task.selected" value="end_process" :label="`End Process`"></v-checkbox>
-                    </v-container>-->
-                    <v-radio-group v-model="new_task.start_process" row>
+                  
+                    <!-- <v-container fluid > -->
+                    <v-flex xs6>
+                      <v-checkbox
+                        v-model="new_task.start_process"
+                        :value="true"
+                        label="Start Process"
+                      ></v-checkbox>
+                    </v-flex>
+                    <v-flex xs6>
+                      <v-checkbox v-model="new_task.end_process" :value="true" label="End Process"></v-checkbox>
+                    </v-flex>
+                    <!-- </v-container> -->
+                    <!-- <v-radio-group v-model="new_task.start_process" row>
                       <v-radio label="Start Process" :value="true"></v-radio>
                       <v-radio label="End Process" :value="false"></v-radio>
-                    </v-radio-group>
-                  </v-flex>
+                    </v-radio-group>-->
+          
                 </v-flex>
               </v-layout>
             </v-container>
@@ -554,20 +562,20 @@ export default {
     },
     save() {
       if (this.validate()) {
-        if (this.new_task.start_process === "true") {
-          console.log("start process true");
+        // if (this.new_task.start_process === "true") {
+        //   console.log("start process true");
 
-          this.new_task.end_process = false;
-        } else {
-          console.log("start process false");
-          this.new_task.end_process = true;
-        }
-        console.log(
-          "######" +
-            JSON.stringify(this.new_task.start_process) +
-            "#####" +
-            JSON.stringify(this.new_task.end_process)
-        );
+        //   this.new_task.end_process = false;
+        // } else {
+        //   console.log("start process false");
+        //   this.new_task.end_process = true;
+        // }
+        // console.log(
+        //   "######" +
+        //     JSON.stringify(this.new_task.start_process) +
+        //     "#####" +
+        //     JSON.stringify(this.new_task.end_process)
+        // );
         // console.log('###########edited:task: ' + JSON.stringify(this.new_province));
         this.$store.dispatch("EDIT_TASK", this.new_task).then(result => {
           console.log("edited:task: " + JSON.stringify(result));

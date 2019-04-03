@@ -44,7 +44,6 @@ var actions = {
     },
     EDIT_PROFILE(context, modified_profile) {
         return  new ProfileType(context.rootState.user_session.token).editProfile(modified_profile);
-
     }
 
 }

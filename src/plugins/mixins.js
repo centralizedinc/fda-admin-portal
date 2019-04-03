@@ -170,11 +170,33 @@ export default {
                     } else if (icon === false) {
                         return "✖";
                     }
+                    else if (icon === null) {
+                        return "✖";
+                    }
                 },
                 logout() {
                     this.$store.dispatch("LOGOUT");
                     this.$router.push("/login");
-                }
+                },
+    
+    
+                // getGrouping(group_list) {
+                //     console.log("GROUP_LIST: " + JSON.stringify(group_list));
+                //     var list = "";
+                //     if (group_list) {
+                //       group_list.forEach(item => {
+                //         var match = this.groups_items.find(r => {
+                //           return r._id.toString() === item;
+                //         });
+                //         if (match) {
+                //           if(list !== '')
+                //           list = list + ', '
+                //           list = list +  match.name;
+                //         }
+                //       });
+                //     }
+                //     return list;
+                //   }
             }
         })
     }

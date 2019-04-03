@@ -136,7 +136,7 @@ export default {
   computed: {},
   methods: {
     init() {
-      this.admin = this.$store.state.user_session.user;
+      this.admin = JSON.parse(JSON.stringify(this.$store.state.user_session.user));
     },
     showProfile() {
       this.$refs.form.validate();
@@ -153,24 +153,23 @@ export default {
       this.isLoading = true;
       this.new_admin = this.admin;
       this.$store
-        .dispatch("EDIT_PROFILE", {
-          account: this.new_admin,
-          avatar: this.formData
-        })
-        .then(result => {
-          this.isLoading = false;
-          this.show_profile = false;
-          this.$notify({
-            message: "Your account has been updated!",
-            color: "primary"
-          });
-          // this.$store.dispatch('LOGOUT')
-          this.$router.push("/app");
-        })
-        .catch(error => {
-          this.isLoading = false;
-          this.$notifyError(error);
-        });
+        .dispatch("EDIT_PROFILE", {account:this.new_admin, avatar:this.formData})
+        .then(result=>{
+                this.isLoading = false;
+                this.show_profile = false
+                if(result.success){
+                  this.$notify({message:'Your account has been updated!', color: 'primary'})
+                  // this.$store.dispatch('LOGOUT')
+                  this.$router.push('/app')
+                }else{
+                  this.$notifyError(result.errors)
+                }                
+            })
+            .catch(error=>{
+              console.log(error)
+                this.isLoading = false;
+                 this.$notifyError(error)
+            })        
     },
     onFilePicked(event) {
       this.formData = new FormData();

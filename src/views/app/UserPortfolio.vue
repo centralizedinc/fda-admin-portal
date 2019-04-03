@@ -74,7 +74,7 @@
             </v-flex>
             <!-- <v-flex xs12 pa-1>
               <v-icon small>assignment</v-icon>
-              <span class="subheader font-width-light">{{(admin.group)}}</span>
+              <span class="subheader font-width-light">{{clientGroup(admin.group)}}</span>
             </v-flex> -->
           </v-layout>
         </v-card-text>

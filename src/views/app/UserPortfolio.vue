@@ -52,9 +52,6 @@
             </v-avatar>
           </v-btn>
         </v-toolbar>
-        <!-- <v-card-title primary-title>
-                
-        </v-card-title>-->
         <v-card-text>
           <v-layout row wrap mt-4>
             <v-flex xs12>
@@ -150,9 +147,8 @@ export default {
             return r._id.toString() === item;
           });
           if (match) {
-            if(list !== '')
-            list = list + ', '
-            list = list +  match.name;
+            if (list !== "") list = list + ", ";
+            list = list + match.name;
           }
         });
       }

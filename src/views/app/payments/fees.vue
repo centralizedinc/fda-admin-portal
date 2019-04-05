@@ -24,10 +24,18 @@
             <v-container grid-list-md>
               <v-layout wrap>
                 <v-flex xs12>
-                  <v-text-field v-model="new_fees.description" :rules="[rules.required]" label="Name"></v-text-field>
+                  <v-text-field
+                    v-model="new_fees.description"
+                    :rules="[rules.required]"
+                    label="Name"
+                  ></v-text-field>
                 </v-flex>
-                 <v-flex xs12>
-                  <v-text-field v-model="new_fees.fee" :rules="[rules.required]" label="Amount of Fee"></v-text-field>
+                <v-flex xs12>
+                  <v-text-field
+                    v-model="new_fees.fee"
+                    :rules="[rules.required]"
+                    label="Amount of Fee"
+                  ></v-text-field>
                 </v-flex>
                 <v-flex xs12>
                   <v-autocomplete
@@ -117,6 +125,28 @@
                     </template>
                   </v-autocomplete>
                 </v-flex>
+                <v-flex xs12>
+                  <v-autocomplete
+                    v-model="new_fees.variations"
+                    :rules="[rules.required]"
+                    :disabled="isUpdating"
+                    :items="variationsType"
+                    label="Variation"
+                    item-text="label"
+                    item-value="value"
+                  >
+                    <template slot="item" slot-scope="data">
+                      <template v-if="typeof data.item !== 'object'">
+                        <v-list-tile-content v-text="data.item"></v-list-tile-content>
+                      </template>
+                      <template v-else>
+                        <v-list-tile-content>
+                          <v-list-tile-title v-html="data.item.label"></v-list-tile-title>
+                        </v-list-tile-content>
+                      </template>
+                    </template>
+                  </v-autocomplete>
+                </v-flex>
               </v-layout>
             </v-container>
           </v-card-text>
@@ -175,6 +205,12 @@
                   <label class="subheading">{{ App(new_fees.appType) }}</label>
                 </v-flex>
                 <v-flex xs6>
+                  <label class="title">Variations:</label>
+                </v-flex>
+                <v-flex xs6>
+                  <label class="subheading">{{ variationsTypes(new_fees.variations) }}</label>
+                </v-flex>
+                <v-flex xs6>
                   <label class="title">Amount of Fee:</label>
                 </v-flex>
                 <v-flex xs6>
@@ -222,13 +258,21 @@
         <td>{{ primary_details(props.item.primaryActivity) }}</td>
         <td>{{ declared_details(props.item.declaredCapital) }}</td>
         <td>{{ App(props.item.appType) }}</td>
+        <td>{{ variationsTypes(props.item.variations) }}</td>
         <td>₱ {{ numberWithCommas(props.item.fee) }}</td>
         <td>{{ getAdmin(props.item.created_by).last_name }}</td>
         <td>{{ formatDate(props.item.date_created) }}</td>
         <td>{{ getAdmin(props.item.modified_by).first_name }}</td>
         <td>{{ formatDate(props.item.date_modified) }}</td>
         <td class="justify-center layout px-0">
-          <v-icon small class="mr-2" @click="editItem(props.item, props.index)" flat icon color="primary">edit</v-icon>
+          <v-icon
+            small
+            class="mr-2"
+            @click="editItem(props.item, props.index)"
+            flat
+            icon
+            color="primary"
+          >edit</v-icon>
           <v-icon small @click="viewItem(props.item)" flat icon color="primary">visibility</v-icon>
         </td>
       </template>
@@ -257,6 +301,11 @@ export default {
     appTypes: [
       { value: "0", label: "New License" },
       { value: "2", label: "Renewal" }
+    ],
+    variations: "",
+    variationsType: [
+      { value: "0", label: "Minor" },
+      { value: "1", label: "Major" }
     ],
     dialog: false,
     dialogView: false,
@@ -293,6 +342,12 @@ export default {
         align: "left",
         sortable: "true",
         value: "appType"
+      },
+      {
+        text: "Variations",
+        align: "left",
+        sortable: "true",
+        value: "variations"
       },
       {
         text: "Amount of Fee",
@@ -409,7 +464,7 @@ export default {
         });
     },
     numberWithCommas(x) {
-      return x ? x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : "0.00"
+      return x ? x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : "0.00";
     },
     remove(item) {
       const index = this.product.indexOf(item.name);
@@ -427,7 +482,6 @@ export default {
       this.new_fees = JSON.parse(JSON.stringify(item));
       this.dialog = true;
     },
-
     viewItem(item) {
       this.new_fees = item;
       this.dialogView = true;
@@ -442,11 +496,12 @@ export default {
       var check = true;
       if (
         this.isEmpty(this.new_fees.description) ||
-        this.isEmpty(this.new_fees.fee)  ||
+        this.isEmpty(this.new_fees.fee) ||
         this.isEmpty(this.new_fees.productType) ||
         this.isEmpty(this.new_fees.primaryActivity) ||
         this.isEmpty(this.new_fees.declaredCapital) ||
-        this.isEmpty(this.new_fees.appType)
+        this.isEmpty(this.new_fees.appType) ||
+        this.isEmpty(this.new_fees.variations)
       ) {
         this.$notify({
           message: "Please fill up required fields",
@@ -459,7 +514,7 @@ export default {
             this.selectedIndex != i &&
             this.fees[i].description &&
             this.new_fees.description.toLowerCase() ===
-            this.fees[i].description.toLowerCase()
+              this.fees[i].description.toLowerCase()
           ) {
             check = false;
           } else if (!check) {
@@ -475,34 +530,34 @@ export default {
     },
     submit() {
       if (this.validate()) {
-      // console.log('###########added:new_fee: ' + JSON.stringify(this.new_fee));
-      this.$store.dispatch("ADD_FEES", this.new_fees).then(result => {
-        console.log("added:product_line: " + JSON.stringify(result));
-        this.init();
-        this.$notify({
-          message: "You have successfully created a new Fee",
-          icon: "check_circle",
-          color: "primary"
+        // console.log('###########added:new_fee: ' + JSON.stringify(this.new_fee));
+        this.$store.dispatch("ADD_FEES", this.new_fees).then(result => {
+          console.log("added:product_line: " + JSON.stringify(result));
+          this.init();
+          this.$notify({
+            message: "You have successfully created a new Fee",
+            icon: "check_circle",
+            color: "primary"
+          });
+          this.close();
         });
-        this.close();
-      });
       }
     },
     save() {
       if (this.validate()) {
-      console.log(
-        "###########edited:new_fees: " + JSON.stringify(this.new_fees)
-      );
-      this.$store.dispatch("EDIT_FEES", this.new_fees).then(result => {
-        console.log("edited:product_line: " + JSON.stringify(result));
-        this.init();
-        this.$notify({
-          message: "You have successfully edited a Fee",
-          icon: "check_circle",
-          color: "primary"
+        console.log(
+          "###########edited:new_fees: " + JSON.stringify(this.new_fees)
+        );
+        this.$store.dispatch("EDIT_FEES", this.new_fees).then(result => {
+          console.log("edited:product_line: " + JSON.stringify(result));
+          this.init();
+          this.$notify({
+            message: "You have successfully edited a Fee",
+            icon: "check_circle",
+            color: "primary"
+          });
+          this.close();
         });
-        this.close();
-      });
       }
     }
   }

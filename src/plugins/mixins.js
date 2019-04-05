@@ -148,6 +148,13 @@ export default {
                         return "Renewal License";
                     }
                 },
+                variationsTypes(vars) {
+                    if (vars === 0) {
+                        return "Minor";
+                    } else if (vars === 1) {
+                        return "Major";
+                    }
+                },
                 rol(role) {
                     if (role === "0") {
                         return "Admin";
@@ -169,8 +176,7 @@ export default {
                         return "✔";
                     } else if (icon === false) {
                         return "✖";
-                    }
-                    else if (icon === null) {
+                    } else if (icon === null) {
                         return "✖";
                     }
                 },
@@ -178,8 +184,8 @@ export default {
                     this.$store.dispatch("LOGOUT");
                     this.$router.push("/login");
                 },
-    
-    
+
+
                 // getGrouping(group_list) {
                 //     console.log("GROUP_LIST: " + JSON.stringify(group_list));
                 //     var list = "";

@@ -148,17 +148,17 @@ export default {
                         return "Renewal License";
                     }
                 },
-                variationsTypes(vars) {
-                    if (vars === 0) {
+                variationsTypes(variations) {
+                    if (variations === "0") {
                         return "Minor";
-                    } else if (vars === 1) {
+                    } else if (variations === "1") {
                         return "Major";
                     }
                 },
-                ListTypes(id_type) {
-                    if (id_type === 0) {
+                ListTypes(type) {
+                    if (type === "0") {
                         return "Authorized Officer";
-                    } else if (id_type === 1) {
+                    } else if (type === "1") {
                         return "Qualified Personel";
                     }
                 },

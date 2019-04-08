@@ -387,6 +387,7 @@ export default {
     editedItem: {
       id: "",
       name: "",
+      variations: "",
       product_type: "",
       primary: "",
       status: ""

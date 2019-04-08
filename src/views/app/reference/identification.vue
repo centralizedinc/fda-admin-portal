@@ -214,6 +214,7 @@ export default {
     editedItem: {
       id: "",
       name: "",
+      type: "",
       date_created: ""
     },
     defaultItem: {

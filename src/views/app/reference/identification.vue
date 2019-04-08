@@ -31,6 +31,7 @@
                   ></v-text-field>
                 </v-flex>
                 <v-flex xs12>
+                  {{new_identification.type}}
                   <v-autocomplete
                     v-model="new_identification.type"
                     :rules="[rules.required]"
@@ -169,8 +170,8 @@ export default {
     selectedIndex: -1, //
     type: "",
     listType: [
-      { value: "0", label: "Authorized Officer" },
-      { value: "1", label: "Qualified Personel" }
+      { value: 0, label: "Authorized Officer" },
+      { value: 1, label: "Qualified Personel" }
     ],
     headers: [
       {
@@ -221,7 +222,7 @@ export default {
       name: ""
     },
     rules: {
-      required: v => !!v || "This is a required field"
+      required: v => !!v || v === 0 || "This is a required field"
     }
   }),
 

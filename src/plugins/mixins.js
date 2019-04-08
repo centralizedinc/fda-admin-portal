@@ -149,16 +149,16 @@ export default {
                     }
                 },
                 variationsTypes(variations) {
-                    if (variations === "0") {
+                    if (variations === 0) {
                         return "Minor";
-                    } else if (variations === "1") {
+                    } else if (variations === 1) {
                         return "Major";
                     }
                 },
                 ListTypes(type) {
-                    if (type === "0") {
+                    if (type === 0) {
                         return "Authorized Officer";
-                    } else if (type === "1") {
+                    } else if (type === 1) {
                         return "Qualified Personel";
                     }
                 },

@@ -304,8 +304,8 @@ export default {
     ],
     variations: "",
     variationsType: [
-      { value: "0", label: "Minor" },
-      { value: "1", label: "Major" }
+      { value: 0, label: "Minor" },
+      { value: 1, label: "Major" }
     ],
     dialog: false,
     dialogView: false,
@@ -396,7 +396,7 @@ export default {
       name: ""
     },
     rules: {
-      required: v => !!v || "This is a required field"
+      required: v => !!v || v === 0 || "This is a required field"
     }
   }),
 

@@ -155,6 +155,13 @@ export default {
                         return "Major";
                     }
                 },
+                ListTypes(id_type) {
+                    if (id_type === 0) {
+                        return "Authorized Officer";
+                    } else if (id_type === 1) {
+                        return "Qualified Personel";
+                    }
+                },
                 rol(role) {
                     if (role === "0") {
                         return "Admin";

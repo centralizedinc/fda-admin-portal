@@ -30,6 +30,28 @@
                     :rules="[rules.required]"
                   ></v-text-field>
                 </v-flex>
+                <v-flex xs12>
+                  <v-autocomplete
+                    v-model="new_identification.type"
+                    :rules="[rules.required]"
+                    :disabled="isUpdating"
+                    :items="listType"
+                    label="ID Type"
+                    item-text="label"
+                    item-value="value"
+                  >
+                    <template slot="item" slot-scope="data">
+                      <template v-if="typeof data.item !== 'object'">
+                        <v-list-tile-content v-text="data.item"></v-list-tile-content>
+                      </template>
+                      <template v-else>
+                        <v-list-tile-content>
+                          <v-list-tile-title v-html="data.item.label"></v-list-tile-title>
+                        </v-list-tile-content>
+                      </template>
+                    </template>
+                  </v-autocomplete>
+                </v-flex>
               </v-layout>
             </v-container>
           </v-card-text>
@@ -62,6 +84,12 @@
                 </v-flex>
                 <v-flex xs6>
                   <label class="subheading">{{new_identification.name}}</label>
+                </v-flex>
+                <v-flex xs6>
+                  <label class="title">ID Type:</label>
+                </v-flex>
+                <v-flex xs6>
+                  <label class="subheading">{{ListTypes(new_identification.type)}}</label>
                 </v-flex>
                 <v-flex xs6>
                   <label class="title">Created By:</label>
@@ -102,6 +130,7 @@
     <v-data-table :headers="headers" :items="identification" :search="search" class="elevation-1">
       <template slot="items" slot-scope="props">
         <td>{{ props.item.name }}</td>
+        <td>{{ ListTypes(props.item.type) }}</td>
         <td>{{ getAdmin(props.item.created_by).last_name }}</td>
         <td>{{ formatDate(props.item.date_created) }}</td>
         <td>{{ getAdmin(props.item.modified_by).first_name}}</td>
@@ -135,14 +164,25 @@ export default {
     modified_identification: {},
     dialog: false,
     dialogView: false,
+    isUpdating: false,
     search: "",
     selectedIndex: -1, //
+    type: "",
+    listType: [
+      { value: "0", label: "Authorized Officer" },
+      { value: "1", label: "Qualified Personel" }
+    ],
     headers: [
       {
         text: "Identification Type",
         align: "left",
         sortable: "true",
         value: "name"
+      },
+      {
+        text: "ID Type",
+        align: "left",
+        value: "type"
       },
       {
         text: "Created By",
@@ -191,6 +231,18 @@ export default {
   },
   created() {
     this.init();
+  },
+
+  watch: {
+    isUpdating(val) {
+      if (val) {
+        setTimeout(() => (this.isUpdating = false), 3000);
+      }
+    },
+
+    dialog(val) {
+      val || this.close();
+    }
   },
 
   methods: {

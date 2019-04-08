@@ -31,7 +31,6 @@
                   ></v-text-field>
                 </v-flex>
                 <v-flex xs12>
-                  {{new_identification.type}}
                   <v-autocomplete
                     v-model="new_identification.type"
                     :rules="[rules.required]"

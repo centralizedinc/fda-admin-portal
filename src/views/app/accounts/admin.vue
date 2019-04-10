@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div>    
     <v-toolbar flat color="white">
       <v-flex xs4>
         <v-text-field append-icon="search" label="Search" single-line hide-details v-model="search"></v-text-field>
@@ -22,82 +22,84 @@
           <v-divider class="mx-2" inset vertical></v-divider>
           <v-card-text>
             <v-container grid-list-md>
-              <v-form ref="form" v-model="valid">
-                <v-layout wrap>
-                  <v-flex xs12>
-                    <v-text-field
-                      v-model="new_admin.first_name"
-                      :rules="[rules.required]"
-                      label="First Name"
-                    ></v-text-field>
-                  </v-flex>
-                  <v-flex xs12>
-                    <v-text-field
-                      v-model="new_admin.last_name"
-                      :rules="[rules.required]"
-                      label="Last Name"
-                    ></v-text-field>
-                  </v-flex>
-                  <v-flex xs12>
-                    <v-text-field
-                      v-model="new_admin.username"
-                      :rules="[rules.required]"
-                      label="Username"
-                    ></v-text-field>
-                  </v-flex>
-                  <v-flex xs12>
-                    <v-text-field
-                      v-model="new_admin.email"
-                      :rules="[rules.required]"
-                      label="Email Address"
-                    ></v-text-field>
-                  </v-flex>
-                  <v-flex xs12>
-                    <v-autocomplete
-                      multiple
-                      v-model="new_admin.group"
-                      :rules="[rules.required]"
-                      :disabled="isUpdating"
-                      :items="groups_items"
-                      color="blue-grey lighten-2"
-                      label="Group name"
-                      item-text="name"
-                      item-value="_id"
-                    ></v-autocomplete>
-                  </v-flex>
-                  <v-flex xs12 v-if="mode ===0">
-                    <v-text-field
-                      :append-icon="new_password ? 'visibility' : 'visibility_off'"
-                      :type="new_password ? 'text' : 'password'"
-                      :rules="[rules.required]"
-                      label="Password"
-                      @click:append="new_password = !new_password"
-                      v-model="new_admin.password"
-                    ></v-text-field>
-                  </v-flex>
-                  <v-flex xs12>
-                    <v-autocomplete
-                      v-model="new_admin.role"
-                      :rules="[rules.required]"
-                      :disabled="isUpdating"
-                      :items="roles"
-                      label="Role name"
-                      item-text="label"
-                      item-value="value"
-                    >
-                      <template slot="item" slot-scope="data">
-                        <template v-if="typeof data.item !== 'object'">
-                          <v-list-tile-content v-text="data.item"></v-list-tile-content>
-                        </template>
-                        <template v-else>
-                          <v-list-tile-content>
-                            <v-list-tile-title v-html="data.item.label"></v-list-tile-title>
-                          </v-list-tile-content>
-                        </template>
+               <v-form ref="form" v-model="valid">
+              <v-layout wrap>
+               
+                <v-flex xs12>
+                  <v-text-field
+                    v-model="new_admin.first_name"
+                    :rules="[rules.required]"
+                    label="First Name"
+                  ></v-text-field>
+                </v-flex>
+                <v-flex xs12>
+                  <v-text-field
+                    v-model="new_admin.last_name"
+                    :rules="[rules.required]"
+                    label="Last Name"
+                  ></v-text-field>
+                </v-flex>
+                <v-flex xs12>
+                  <v-text-field
+                    v-model="new_admin.username"
+                    :rules="[rules.required]"
+                    label="Username"
+                  ></v-text-field>
+                </v-flex>
+                <v-flex xs12>
+                  <v-text-field
+                    v-model="new_admin.email"
+                    :rules="[rules.required]"
+                    label="Email Address"
+                  ></v-text-field>
+                </v-flex>
+                <v-flex xs12>
+                  <v-autocomplete
+                    multiple
+                    v-model="new_admin.group"
+                    :rules="[rules.required]"
+                    :disabled="isUpdating"
+                    :items="groups_items"
+                    color="blue-grey lighten-2"
+                    label="Group name"
+                    item-text="name"
+                    item-value="_id"
+                  ></v-autocomplete>
+                </v-flex>
+                <v-flex xs12 v-if="mode ===0">
+                  <v-text-field
+                    :append-icon="new_password ? 'visibility' : 'visibility_off'"
+                    :type="new_password ? 'text' : 'password'"
+                    :rules="[rules.required]"
+                    label="Password"
+                    @click:append="new_password = !new_password"
+                    v-model="new_admin.password"
+                  ></v-text-field>
+                </v-flex>
+                <v-flex xs12>
+                  <v-autocomplete
+                    v-model="new_admin.role"
+                    :rules="[rules.required]"
+                    :disabled="isUpdating"
+                    :items="roles"
+                    label="Role name"
+                    item-text="label"
+                    item-value="value"
+                  >
+                    <template slot="item" slot-scope="data">
+                      <template v-if="typeof data.item !== 'object'">
+                        <v-list-tile-content v-text="data.item"></v-list-tile-content>
                       </template>
-                    </v-autocomplete>
-                  </v-flex>
-                </v-layout>
+                      <template v-else>
+                        <v-list-tile-content>
+                          <v-list-tile-title v-html="data.item.label"></v-list-tile-title>
+                        </v-list-tile-content>
+                      </template>
+                    </template>
+                  </v-autocomplete>
+                </v-flex>
+                
+              </v-layout>
               </v-form>
             </v-container>
           </v-card-text>
@@ -203,8 +205,7 @@
       </v-dialog>
     </v-toolbar>
     <v-data-table :headers="headers" :items="admins" :search="search" class="elevation-1">
-      <template slot="items" slot-scope="props">
-        <tr @click="viewItem(props.item)">
+      <template slot="items" slot-scope="props">        
           <td>{{ props.item.first_name }}</td>
           <td>{{ props.item.last_name }}</td>
           <td>{{ props.item.username }}</td>
@@ -225,24 +226,9 @@
               icon
               color="primary"
             >edit</v-icon>
-            <v-icon
-              class="ma-1"
-              small
-              @click="viewItem(props.item)"
-              flat
-              icon
-              color="primary"
-            >visibility</v-icon>
-            <v-icon
-              class="ma-1"
-              small
-              @click="changePassword(props.item)"
-              flat
-              icon
-              color="primary"
-            >lock</v-icon>
-          </td>
-        </tr>
+            <v-icon class="ma-1" small @click="viewItem(props.item)" flat icon color="primary">visibility</v-icon>
+            <v-icon class="ma-1" small @click="changePassword(props.item)" flat icon color="primary">lock</v-icon>
+          </td>        
       </template>
       <v-alert
         slot="no-results"
@@ -251,34 +237,39 @@
         icon="warning"
       >Your search for "{{ search }}" found no results.</v-alert>
     </v-data-table>
-    <v-dialog v-model="changePassDialog" max-width="500px" transition="dialog-transition">
-      <v-layout row wrap>
-        <v-flex xs12>
-          <v-card>
-            <v-toolbar dark color="primary">
-              <span class="title">Change Password</span>
-            </v-toolbar>
-            <v-card-text>
-              <v-form>
-                <v-text-field
-                  :append-icon="new_password ? 'visibility' : 'visibility_off'"
-                  :type="new_password ? 'text' : 'password'"
-                  :rules="[rules.required]"
-                  label="Password"
-                  @click:append="new_password = !new_password"
-                  v-model="new_admin.password"
-                ></v-text-field>
-              </v-form>
-            </v-card-text>
-            <v-divider></v-divider>
-            <v-card-actions>
-              <v-spacer></v-spacer>
-              <v-btn color="success" outline @click="changePassDialog = false">Cancel</v-btn>
-              <v-btn color="success" :loading="isLoading" @click="updatePassword()">Submit</v-btn>
-            </v-card-actions>
-          </v-card>
-        </v-flex>
-      </v-layout>
+    <v-dialog
+      v-model="changePassDialog"
+      max-width="500px"
+      transition="dialog-transition"
+    >
+    <v-layout row wrap>
+      <v-flex xs12>
+        <v-card>                  
+          <v-toolbar dark color="primary">
+            <span class="title">Change Password</span>          
+          </v-toolbar>
+          <v-card-text>                      
+            <v-form >
+              <v-text-field
+                    :append-icon="new_password ? 'visibility' : 'visibility_off'"
+                    :type="new_password ? 'text' : 'password'"
+                    :rules="[rules.required]"
+                    label="Password"
+                    @click:append="new_password = !new_password"
+                    v-model="new_admin.password"
+              ></v-text-field>
+            </v-form>
+          </v-card-text>
+          <v-divider></v-divider>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn color="success" outline @click="changePassDialog = false">Cancel</v-btn>
+            <v-btn color="success" :loading="isLoading" @click="updatePassword()">Submit</v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-flex>
+    </v-layout>
+      
     </v-dialog>
   </div>
 </template>
@@ -287,8 +278,8 @@ export default {
   data: () => ({
     showMenu: false,
     isLoading: false,
-    changePassDialog: false,
-    valid: true,
+    changePassDialog:false,
+    valid:true,
     mode: 0, // 0 - create, 1 - edit
     groups: {},
     groups_items: [],
@@ -433,7 +424,7 @@ export default {
           );
         });
     },
-    getGroup(group_list) {
+    getGroup(group_list) {      
       var list = "";
       if (group_list) {
         group_list.forEach(item => {
@@ -471,7 +462,7 @@ export default {
       this.dialogView = true;
     },
 
-    changePassword(item) {
+    changePassword(item){
       this.new_admin = JSON.parse(JSON.stringify(item));
       this.new_admin.password = null;
       this.changePassDialog = true;
@@ -522,34 +513,33 @@ export default {
       return true;
     },
     submit() {
-      this.isLoading = true;
-      this.$refs.form.validate();
+      this.isLoading=true;
+      this.$refs.form.validate()
       if (this.valid) {
-        this.$store
-          .dispatch("ADD_ADMIN", this.new_admin)
-          .then(result => {
-            this.isLoading = false;
-            console.log("added:admin: " + JSON.stringify(result));
-            this.init();
-            this.$notify({
-              message: "You have successfully created a new Admin",
-              icon: "check_circle",
-              color: "primary"
-            });
-            this.close();
-          })
-          .catch(err => {
-            this.isLoading = false;
-            this.$notifyError(err);
+        this.$store.dispatch("ADD_ADMIN", this.new_admin)
+        .then(result => {
+          this.isLoading=false;
+          console.log("added:admin: " + JSON.stringify(result));
+          this.init();
+          this.$notify({
+            message: "You have successfully created a new Admin",
+            icon: "check_circle",
+            color: "primary"
           });
-      } else {
-        this.isLoading = false;
-        this.$notifyError([{ message: "Please fill-up required fields" }]);
+          this.close();
+        })
+        .catch(err=>{
+          this.isLoading=false;
+          this.$notifyError(err)
+        });
+      }else{
+        this.isLoading=false;
+          this.$notifyError([{ message: "Please fill-up required fields" }]);
       }
     },
     save() {
-      this.isLoading = true;
-      this.$refs.form.validate();
+      this.isLoading=true;
+      this.$refs.form.validate()
       if (this.valid) {
         this.$store.dispatch("EDIT_ADMIN", this.new_admin).then(result => {
           console.log("edited:admin: " + JSON.stringify(result));
@@ -560,30 +550,29 @@ export default {
             icon: "check_circle"
           });
           this.close();
-          this.isLoading = false;
+          this.isLoading=false;
         });
-      } else {
-        this.isLoading = false;
-        this.$notifyError([{ message: "Please fill-up required fields" }]);
+      }else{
+          this.isLoading=false;
+          this.$notifyError([{ message: "Please fill-up required fields" }]);
       }
     },
-    updatePassword() {
-      this.isLoading = true;
-      this.$store
-        .dispatch("RESET_PASSWORD", this.new_admin)
-        .then(result => {
-          this.isLoading = false;
-          if (result.data.success) {
-            this.$notify({ message: "Password Updated" });
-            this.changePassDialog = false;
-          } else {
-            this.$notifyError(result.data.errors);
+    updatePassword(){
+      this.isLoading=true;
+        this.$store.dispatch('RESET_PASSWORD', this.new_admin)
+        .then(result=>{
+          this.isLoading=false;
+          if(result.data.success){
+            this.$notify({message: 'Password Updated'})
+            this.changePassDialog=false
+          }else{
+            this.$notifyError(result.data.errors)
           }
         })
-        .catch(err => {
-          this.isLoading = false;
-          console.log("########## ERROR: " + JSON.stringify(result));
-        });
+        .catch(err=>{
+          this.isLoading=false;
+          console.log('########## ERROR: ' + JSON.stringify(result))
+        })
     }
   }
 };

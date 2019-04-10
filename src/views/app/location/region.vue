@@ -25,14 +25,14 @@
               <v-layout wrap>
                 <v-flex xs12>
                   <v-text-field
-                    label="Region Code"
+                    label="Region Name"
                     v-model="new_region.name"
                     :rules="[rules.required]"
                   ></v-text-field>
                 </v-flex>
                 <v-flex xs12>
                   <v-text-field
-                    label="Region Name"
+                    label="Region Code"
                     v-model="new_region.region_code"
                     :rules="[rules.required]"
                   ></v-text-field>

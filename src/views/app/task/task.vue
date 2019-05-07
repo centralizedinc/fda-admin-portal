@@ -518,8 +518,9 @@ export default {
       var check = true;
       if (
         this.isEmpty(this.new_task.name) ||
-        this.isEmpty(this.new_task.approval) ||
-        this.isEmpty(this.new_task.denied) ||
+        ((this.isEmpty(this.new_task.approval) ||
+          this.isEmpty(this.new_task.denied)) &&
+          this.isEmpty(this.new_task.condition)) ||
         this.isEmpty(this.new_task.groups)
       ) {
         this.$notify({

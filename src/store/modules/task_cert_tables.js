@@ -1,4 +1,4 @@
-// import TaskType from '../../api/apiTaskCertManager';
+import TaskType from '../../api/apiTaskCertManager';
 
 const state = {
     tasks: []

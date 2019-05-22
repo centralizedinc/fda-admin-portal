@@ -1,4 +1,4 @@
-// import ChecklistType from '../../api/apiChecklistCert';
+import ChecklistType from '../../api/apiChecklistCert';
 
 const state = {
     checklist: []

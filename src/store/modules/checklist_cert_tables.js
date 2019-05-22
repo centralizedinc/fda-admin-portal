@@ -29,7 +29,7 @@ var actions = {
         })
     },
     
-    ADD_CHECKLIST(context, new_checklist) {
+    ADD_CHECKLIST_CERT(context, new_checklist) {
         return new Promise((resolve, reject) => {
             new ChecklistType(context.rootState.user_session.token).addChecklistCert(new_checklist, (err, data) => {
                 if (err) {

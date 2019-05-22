@@ -192,7 +192,16 @@
                 <v-icon color="success">recent_actors</v-icon>
               </v-list-tile-action>
               <v-list-tile-content>
-                <v-list-tile-title class="body-1 font-weight-light">Task</v-list-tile-title>
+                <v-list-tile-title class="body-1 font-weight-light">Task License</v-list-tile-title>
+              </v-list-tile-content>
+            </v-list-tile>
+            <!-- Certificate -->
+            <v-list-tile @click="goTo('/app/taskCert')" class="ma-1" :style="activeRoute('taskCert')">
+              <v-list-tile-action>
+                <v-icon color="success">recent_actors</v-icon>
+              </v-list-tile-action>
+              <v-list-tile-content>
+                <v-list-tile-title class="body-1 font-weight-light">Task Certificate</v-list-tile-title>
               </v-list-tile-content>
             </v-list-tile>
             <v-list-tile
@@ -204,7 +213,20 @@
                 <v-icon color="success">view_quilt</v-icon>
               </v-list-tile-action>
               <v-list-tile-content>
-                <v-list-tile-title class="body-1 font-weight-light">Checklist</v-list-tile-title>
+                <v-list-tile-title class="body-1 font-weight-light">Checklist License</v-list-tile-title>
+              </v-list-tile-content>
+            </v-list-tile>
+            <!-- Certificate -->
+            <v-list-tile
+              @click="goTo('/app/checklistCert')"
+              class="ma-1"
+              :style="activeRoute('checklistCert')"
+            >
+              <v-list-tile-action>
+                <v-icon color="success">view_quilt</v-icon>
+              </v-list-tile-action>
+              <v-list-tile-content>
+                <v-list-tile-title class="body-1 font-weight-light">Checklist Certificate</v-list-tile-title>
               </v-list-tile-content>
             </v-list-tile>
           </v-list-group>Tasks

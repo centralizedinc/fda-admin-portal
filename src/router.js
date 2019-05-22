@@ -161,13 +161,13 @@ export default new Router({
         },
         {
           path: 'task',
-          name: 'Task',
+          name: 'Task License',
           beforeEnter: dropBreadcrumbs,
           component: () => import('@/views/app/task/task.vue')
         },
         {
           path: 'checklist',
-          name: 'Checklist',
+          name: 'Checklist License',
           beforeEnter: dropBreadcrumbs,
           component: () => import('@/views/app/task/checklist.vue')
         },

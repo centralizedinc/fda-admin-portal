@@ -172,6 +172,18 @@ export default new Router({
           component: () => import('@/views/app/task/checklist.vue')
         },
         {
+          path: 'taskCert',
+          name: 'Task Certificate',
+          beforeEnter: dropBreadcrumbs,
+          component: () => import('@/views/app/task/taskCert.vue')
+        },
+        {
+          path: 'checklistCert',
+          name: 'Checklist Certificate',
+          beforeEnter: dropBreadcrumbs,
+          component: () => import('@/views/app/task/checklistCert.vue')
+        },
+        {
           path: 'logout',
           name: 'Logout',
           component: () => import('@/views/app/UserPortfolio.vue')

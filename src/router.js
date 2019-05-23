@@ -69,6 +69,25 @@ export default new Router({
           beforeEnter: dropBreadcrumbs,
           component: () => import('@/views/app/reference/productLine.vue')
         },
+        // type of food product certificate
+        {
+          path: 'foodProduct',
+          name: 'Type of Food Products',
+          beforeEnter: dropBreadcrumbs,
+          component: () => import('@/views/app/reference/typeOfFoodProduct.vue')
+        },
+        {
+          path: 'foodCategory',
+          name: 'Food Category',
+          beforeEnter: dropBreadcrumbs, 
+          component: () => import('@/views/app/reference/foodCategorization.vue')
+        },
+        {
+          path: 'companyActivity',
+          name: 'Company Activity',
+          beforeEnter: dropBreadcrumbs, 
+          component: () => import('@/views/app/reference/companyActivity.vue')
+        },
         {
           path: 'designation',
           name: 'Designation',

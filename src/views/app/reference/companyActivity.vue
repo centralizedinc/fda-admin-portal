@@ -25,8 +25,8 @@
               <v-layout wrap>
                 <v-flex xs12>
                   <v-text-field
-                    label="Type of Food Products"
-                    v-model="new_food_product.name"
+                    label="Type of Activity"
+                    v-model="new_activity.name"
                     :rules="[rules.required]"
                   ></v-text-field>
                 </v-flex>
@@ -58,34 +58,34 @@
               <v-layout row wrap align-center justify-center fill-height>
                 <!-- <v-flex xs6> -->
                 <v-flex xs6>
-                  <label class="title">Type Food Product:</label>
+                  <label class="title">Type Activity:</label>
                 </v-flex>
                 <v-flex xs6>
-                  <label class="subheading">{{new_food_product.name}}</label>
+                  <label class="subheading">{{new_activity.name}}</label>
                 </v-flex>
                 <v-flex xs6>
                   <label class="title">Created By:</label>
                 </v-flex>
                 <v-flex xs6>
-                  <label class="subheading">{{getAdmin(new_food_product.created_by).first_name}}</label>
+                  <label class="subheading">{{getAdmin(new_activity.created_by).first_name}}</label>
                 </v-flex>
                 <v-flex xs6>
                   <label class="title">Date Created:</label>
                 </v-flex>
                 <v-flex xs6>
-                  <label class="subheading">{{formatDate(new_food_product.date_created)}}</label>
+                  <label class="subheading">{{formatDate(new_activity.date_created)}}</label>
                 </v-flex>
                 <v-flex xs6>
                   <label class="title">Modified By:</label>
                 </v-flex>
                 <v-flex xs6>
-                  <label class="subheading">{{getAdmin(new_food_product.modified_by)}}</label>
+                  <label class="subheading">{{getAdmin(new_activity.modified_by)}}</label>
                 </v-flex>
                 <v-flex xs6>
                   <label class="title">Date Modified:</label>
                 </v-flex>
                 <v-flex xs6>
-                  <label class="subheading">{{formatDate(new_food_product.date_modified)}}</label>
+                  <label class="subheading">{{formatDate(new_activity.date_modified)}}</label>
                 </v-flex>
               </v-layout>
             </v-container>
@@ -99,7 +99,7 @@
       </v-dialog>
     </v-toolbar>
     <!-- TABLE -->
-    <v-data-table :headers="headers" :items="food_product" :search="search" class="elevation-1">
+    <v-data-table :headers="headers" :items="activity" :search="search" class="elevation-1">
       <template slot="items" slot-scope="props">
         <td>{{ props.item.name }}</td>
         <td>{{ getAdmin(props.item.created_by).last_name }}</td>
@@ -131,15 +131,15 @@
 export default {
   data: () => ({
     mode: 0, // 0 - create, 1 - edit
-    new_food_product: {},
-    modified_food_product: {},
+    new_activity: {},
+    modified_activity: {},
     dialog: false,
     dialogView: false,
     search: "",
     selectedIndex: -1,
     headers: [
       {
-        text: "Type of Food Product",
+        text: "Type of Activity",
         align: "left",
         sortable: "true",
         value: "name"
@@ -169,7 +169,7 @@ export default {
         value: "editStatus"
       }
     ],
-    food_product: [],
+    activity: [],
     editedIndex: -1,
     editedItem: {
       id: "",
@@ -187,7 +187,7 @@ export default {
 
   computed: {
     formTitle() {
-      return this.mode === 0 ? "Add Food Product" : "Edit Food Product";
+      return this.mode === 0 ? "Add Activity" : "Edit Activity";
     }
   },
   created() {
@@ -211,37 +211,37 @@ export default {
       return !str || str === null || str === "";
     },
     // init() {
-    //   this.$store.dispatch("GET_FOOD_PRODUCT").then(result => {
-    //     this.food_product = this.$store.state.food_product_tables.food_product;
+    //   this.$store.dispatch("GET_COMPANY_ACTIVITY").then(result => {
+    //     this.activity = this.$store.state.company_activity_tables.activity;
     //   });
     // },
     addItem() {
       this.selectedIndex = -1;
       this.mode = 0; // Create
-      this.new_food_product = {}; // holds the filled up item
+      this.new_activity = {}; // holds the filled up item
       this.dialog = true;
     },
     editItem(item, index) {
       this.mode = 1; // Edit
       this.selectedIndex = index;
-      this.new_food_product = JSON.parse(JSON.stringify(item));
+      this.new_activity = JSON.parse(JSON.stringify(item));
       this.dialog = true;
     },
 
     viewItem(item) {
-      this.new_food_product = item;
+      this.new_activity = item;
       this.dialogView = true;
     },
 
     close() {
       this.dialog = false;
       this.dialogView = false;
-      this.new_food_product = {};
+      this.new_activity = {};
     },
     validate() {
       var check = true;
       if (
-        this.isEmpty(this.new_food_product.name)
+        this.isEmpty(this.new_activity.name)
       ) {
         this.$notify({
           message: "Please fill up required fields",
@@ -249,11 +249,11 @@ export default {
         });
         return false;
       } else {
-        for (let i = 0; i < this.food_product.length; i++) {
+        for (let i = 0; i < this.activity.length; i++) {
           if (
             this.selectedIndex != i &&
-            this.food_product[i].name.toLowerCase() ===
-            this.new_food_product.name.toLowerCase()
+            this.activity[i].name.toLowerCase() ===
+            this.new_activity.name.toLowerCase()
           ) {
             check = false;
           } else if (!check) {
@@ -269,11 +269,11 @@ export default {
     },
     submit() {
       if (this.validate()) {
-        this.$store.dispatch("ADD_FOOD_PRODUCT", this.new_food_product).then(result => {
-          console.log("added:food product " + JSON.stringify(result));
+        this.$store.dispatch("ADD_COMPANY_ACTIVITY", this.new_activity).then(result => {
+          console.log("added:Company Activity " + JSON.stringify(result));
           this.init();
           this.$notify({
-            message: "You have successfully created a new Type of Food Product",
+            message: "You have successfully created a new company activity",
             icon: "check_circle",
             color: "primary"
           });
@@ -284,11 +284,11 @@ export default {
 
     save() {
       if (this.validate()) {
-        this.$store.dispatch("EDIT_FOOD_PRODUCT", this.new_food_product).then(result => {
-          console.log("edited:food product: " + JSON.stringify(result));
+        this.$store.dispatch("EDIT_COMPANY_ACTIVITY", this.new_activity).then(result => {
+          console.log("edited:Company Activity: " + JSON.stringify(result));
           this.init();
           this.$notify({
-            message: "You have successfully edited a Type of Food Product",
+            message: "You have successfully edited a company activity",
             icon: "check_circle",
             color: "primary"
           });

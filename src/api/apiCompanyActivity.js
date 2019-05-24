@@ -11,7 +11,7 @@ export default class CompanyActivityType {
 
     getCompanyActivity(cb) {
 
-        axios.get('company/activity').then((result) => {
+        axios.get('core/activity').then((result) => {
                 console.log("###API### GET ACTIVITY")
                 if (result.data.success) {
                     cb(result.data.errors, result.data.model)
@@ -26,7 +26,7 @@ export default class CompanyActivityType {
 
     addCompanyActivity(new_activity, cb) {
         console.log("api############# add activity" + JSON.stringify(new_activity))
-        axios.post('company/activity', new_activity).then((result) => {
+        axios.post('core/activity', new_activity).then((result) => {
                 console.log("api############# ADD ACTIVITY")
                 cb(result.data.errors, result.data.model)
             })
@@ -37,7 +37,7 @@ export default class CompanyActivityType {
 
     editCompanyActivity(modified_activity, cb) {
         var id = modified_activity._id
-        axios.post('company/activity/' + id, modified_activity).then((result) => {
+        axios.post('core/activity/' + id, modified_activity).then((result) => {
                 console.log("api############# Edit ACTIVITY" + JSON.stringify(modified_activity))
                 cb(result.data.errors, result.data.model)
             })

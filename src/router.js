@@ -89,6 +89,12 @@ export default new Router({
           component: () => import('@/views/app/reference/companyActivity.vue')
         },
         {
+          path: 'typeOfSource',
+          name: 'Type of source',
+          beforeEnter: dropBreadcrumbs, 
+          component: () => import('@/views/app/reference/typeOfSource.vue')
+        },
+        {
           path: 'designation',
           name: 'Designation',
           beforeEnter: dropBreadcrumbs,

@@ -37,7 +37,7 @@ export default class CompanyActivityType {
 
     editCompanyActivity(modified_activity, cb) {
         var id = modified_activity._id
-        axios.post('company/activity/' + id, modified_activity).then((result) => {
+        axios.post('core/activity/' + id, modified_activity).then((result) => {
                 console.log("api############# Edit ACTIVITY" + JSON.stringify(modified_activity))
                 cb(result.data.errors, result.data.model)
             })

@@ -210,11 +210,11 @@ export default {
     isEmpty(str) {
       return !str || str === null || str === "";
     },
-    // init() {
-    //   this.$store.dispatch("GET_FOOD_PRODUCT").then(result => {
-    //     this.food_product = this.$store.state.food_product_tables.food_product;
-    //   });
-    // },
+    init() {
+      this.$store.dispatch("GET_FOOD_PRODUCT").then(result => {
+        this.food_product = this.$store.state.food_product_tables.food_product;
+      });
+    },
     addItem() {
       this.selectedIndex = -1;
       this.mode = 0; // Create

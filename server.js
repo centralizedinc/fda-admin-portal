@@ -7,7 +7,7 @@ var serveStatic = require('serve-static');
 var port = process.env.PORT || 5000;
 var app = express();
 
-app.get("/test", (req,res)=>{
+app.get("/", (req,res)=>{
     res.sendStatus(200)
 });
 

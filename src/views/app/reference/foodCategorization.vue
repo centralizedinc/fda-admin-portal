@@ -85,7 +85,7 @@
                   <label class="title">Type of Food Product:</label>
                 </v-flex>
                 <v-flex xs6>
-                  <label class="subheading">{{new_food_category.food_product}}</label>
+                  <label class="subheading">{{ product_details(new_food_category.food_product) }}</label>
                 </v-flex>
                 <!-- <v-flex xs6>
                   <label class="title">Province Name:</label>
@@ -131,7 +131,7 @@
     <v-data-table :headers="headers" :items="food_categories" :search="search" class="elevation-1">
       <template slot="items" slot-scope="props">
         <td>{{ props.item.name }}</td>
-        <td>{{ props.item.food_product }}</td>
+        <td>{{ product_details(props.item.food_product) }}</td>
         <td>{{ getAdmin(props.item.created_by).last_name }}</td>
         <td>{{ formatDate(props.item.date_created) }}</td>
         <td>{{ getAdmin(props.item.modified_by).first_name }}</td>
@@ -248,11 +248,12 @@ export default {
     //     : "";
     //   return this.getRegion(region_id) ? this.getRegion(region_id).name : "";
     // },
-    // province_details(province_id) {
-    //   return this.getProvince(province_id)
-    //     ? this.getProvince(province_id).name
-    //     : "";
-    // },
+    
+    product_details(product_id) {
+      return this.getFoodProduct(product_id)
+        ? this.getFoodProduct(product_id).name
+        : "";
+    },
     isEmpty(str) {
       return !str || str === null || str === "";
     },

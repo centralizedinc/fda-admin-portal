@@ -12,12 +12,12 @@ const state = {
 const mutations = {
     //SET FOOD Product
     SET_FOOD_PRODUCT(state, data) {
-        state.regions = data
+        state.food_product = data
         console.log("###FOOD_PRODUCT:SET###" + JSON.stringify(data))
     },
     //SET FOOD category
     SET_FOOD_CATEGORY(state, data) {
-        state.provinces = data
+        state.food_category = data
         console.log("###FOOD_CATEGORY:SET###" + JSON.stringify(data))
     }
 }

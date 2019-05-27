@@ -89,6 +89,12 @@ export default new Router({
           component: () => import('@/views/app/reference/companyActivity.vue')
         },
         {
+          path: 'shelfLife',
+          name: 'Type of Shelf Life',
+          beforeEnter: dropBreadcrumbs, 
+          component: () => import('@/views/app/reference/shelfLife.vue')
+        },
+        {
           path: 'typeOfSource',
           name: 'Type of source',
           beforeEnter: dropBreadcrumbs, 

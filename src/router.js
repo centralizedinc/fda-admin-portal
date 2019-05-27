@@ -95,10 +95,10 @@ export default new Router({
           component: () => import('@/views/app/reference/shelfLife.vue')
         },
         {
-          path: 'typeOfSource',
-          name: 'Type of source',
+          path: 'source',
+          name: 'Type of Source',
           beforeEnter: dropBreadcrumbs, 
-          component: () => import('@/views/app/reference/typeOfSource.vue')
+          component: () => import('@/views/app/reference/source.vue')
         },
         {
           path: 'designation',

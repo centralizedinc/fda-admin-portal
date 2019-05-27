@@ -26,7 +26,7 @@
                 <v-flex xs12>
                   <v-text-field
                     label="Type of Source"
-                    v-model="new_source.name"
+                    v-model="new_typeofsource.name"
                     :rules="[rules.required]"
                   ></v-text-field>
                 </v-flex>
@@ -61,31 +61,31 @@
                   <label class="title">Type of Source:</label>
                 </v-flex>
                 <v-flex xs6>
-                  <label class="subheading">{{new_source.name}}</label>
+                  <label class="subheading">{{new_typeofsource.name}}</label>
                 </v-flex>
                 <v-flex xs6>
                   <label class="title">Created By:</label>
                 </v-flex>
                 <v-flex xs6>
-                  <label class="subheading">{{getAdmin(new_source.created_by).first_name}}</label>
+                  <label class="subheading">{{getAdmin(new_typeofsource.created_by).first_name}}</label>
                 </v-flex>
                 <v-flex xs6>
                   <label class="title">Date Created:</label>
                 </v-flex>
                 <v-flex xs6>
-                  <label class="subheading">{{formatDate(new_source.date_created)}}</label>
+                  <label class="subheading">{{formatDate(new_typeofsource.date_created)}}</label>
                 </v-flex>
                 <v-flex xs6>
                   <label class="title">Modified By:</label>
                 </v-flex>
                 <v-flex xs6>
-                  <label class="subheading">{{getAdmin(new_source.modified_by)}}</label>
+                  <label class="subheading">{{getAdmin(new_typeofsource.modified_by)}}</label>
                 </v-flex>
                 <v-flex xs6>
                   <label class="title">Date Modified:</label>
                 </v-flex>
                 <v-flex xs6>
-                  <label class="subheading">{{formatDate(new_source.date_modified)}}</label>
+                  <label class="subheading">{{formatDate(new_typeofsource.date_modified)}}</label>
                 </v-flex>
               </v-layout>
             </v-container>
@@ -99,7 +99,7 @@
       </v-dialog>
     </v-toolbar>
     <!-- TABLE -->
-    <v-data-table :headers="headers" :items="source" :search="search" class="elevation-1">
+    <v-data-table :headers="headers" :items="typeofsource" :search="search" class="elevation-1">
       <template slot="items" slot-scope="props">
         <td>{{ props.item.name }}</td>
         <td>{{ getAdmin(props.item.created_by).last_name }}</td>
@@ -131,8 +131,8 @@
 export default {
   data: () => ({
     mode: 0, // 0 - create, 1 - edit
-    new_source: {},
-    modified_source: {},
+    new_typeofource: {},
+    modified_typeofsource: {},
     dialog: false,
     dialogView: false,
     search: "",
@@ -169,7 +169,7 @@ export default {
         value: "editStatus"
       }
     ],
-    source: [],
+    typeofsource: [],
     editedIndex: -1,
     editedItem: {
       id: "",
@@ -187,7 +187,7 @@ export default {
 
   computed: {
     formTitle() {
-      return this.mode === 0 ? "Add Source" : "Edit Source";
+      return this.mode === 0 ? "Add Type of Source" : "Edit Type of  Source";
     }
   },
   created() {
@@ -211,37 +211,37 @@ export default {
       return !str || str === null || str === "";
     },
     init() {
-      this.$store.dispatch("GET_TYPE_OF_SOURCE").then(result => {
-        this.source = this.$store.state.type_of_source_tables.type_of_source;
+      this.$store.dispatch("GET_TYPEOFSOURCE").then(result => {
+        this.typeofsource = this.$store.state.typeofsource_tables.typeofsource;
       });
     },
     addItem() {
       this.selectedIndex = -1;
       this.mode = 0; // Create
-      this.new_source = {}; // holds the filled up item
+      this.new_typeofsource = {}; // holds the filled up item
       this.dialog = true;
     },
     editItem(item, index) {
       this.mode = 1; // Edit
       this.selectedIndex = index;
-      this.new_source = JSON.parse(JSON.stringify(item));
+      this.new_typeofsource = JSON.parse(JSON.stringify(item));
       this.dialog = true;
     },
 
     viewItem(item) {
-      this.new_source = item;
+      this.new_typeofsource = item;
       this.dialogView = true;
     },
 
     close() {
       this.dialog = false;
       this.dialogView = false;
-      this.new_source = {};
+      this.new_typeofsource = {};
     },
     validate() {
       var check = true;
       if (
-        this.isEmpty(this.new_source.name)
+        this.isEmpty(this.new_typeofsource.name)
       ) {
         this.$notify({
           message: "Please fill up required fields",
@@ -249,11 +249,11 @@ export default {
         });
         return false;
       } else {
-        for (let i = 0; i < this.source.length; i++) {
+        for (let i = 0; i < this.typeofsource.length; i++) {
           if (
             this.selectedIndex != i &&
-            this.source[i].name.toLowerCase() ===
-            this.new_source.name.toLowerCase()
+            this.typeofsource[i].name.toLowerCase() ===
+            this.new_typeofsource.name.toLowerCase()
           ) {
             check = false;
           } else if (!check) {
@@ -269,8 +269,8 @@ export default {
     },
     submit() {
       if (this.validate()) {
-        this.$store.dispatch("ADD_TYPE_OF_SOURCE", this.new_source).then(result => {
-          console.log("added:Type of Source " + JSON.stringify(result));
+        this.$store.dispatch("ADD_TYPEOFSOURCE", this.new_typeofsource).then(result => {
+          console.log("added:Type of Type of Source " + JSON.stringify(result));
           this.init();
           this.$notify({
             message: "You have successfully created a new type of source",
@@ -284,8 +284,8 @@ export default {
 
     save() {
       if (this.validate()) {
-        this.$store.dispatch("EDIT_TYPE_OF_SOURCE", this.new_source).then(result => {
-          console.log("edited:Type of Source: " + JSON.stringify(result));
+        this.$store.dispatch("EDIT_TYPEOFSOURCE", this.new_typeofsource).then(result => {
+          console.log("edited:Type of Type of Source: " + JSON.stringify(result));
           this.init();
           this.$notify({
             message: "You have successfully edited a type of source",

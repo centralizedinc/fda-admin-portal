@@ -11,8 +11,8 @@ export default class TypeOfSourceType {
 
     getTypeOfSource(cb) {
 
-        axios.get('core/source').then((result) => {
-                console.log("###API### GET SOURCE")
+        axios.get('core/typeofsource').then((result) => {
+                console.log("###API### GET TypeOfSource")
                 if (result.data.success) {
                     cb(result.data.errors, result.data.model)
                 } else {
@@ -24,10 +24,10 @@ export default class TypeOfSourceType {
             })
     }
 
-    addTypeOfSource(new_source, cb) {
-        console.log("api############# add source" + JSON.stringify(new_source))
-        axios.post('core/source', new_source).then((result) => {
-                console.log("api############# ADD SOURCE")
+    addTypeOfSource(new_typeofsource, cb) {
+        console.log("api############# add typeofsource" + JSON.stringify(new_typeofsource))
+        axios.post('core/typeofsource', new_typeofsource).then((result) => {
+                console.log("api############# ADD TyepeOFSource")
                 cb(result.data.errors, result.data.model)
             })
             .catch(err => {
@@ -35,10 +35,10 @@ export default class TypeOfSourceType {
             })
     }
 
-    editTypeOfSource(modified_source, cb) {
-        var id = modified_source._id
-        axios.post('core/source/' + id, modified_source).then((result) => {
-                console.log("api############# Edit SOURCE" + JSON.stringify(modified_source))
+    editTypeOfSource(modified_typeofsource, cb) {
+        var id = modified_typeofsource._id
+        axios.post('core/typeofsource/' + id, modified_typeofsource).then((result) => {
+                console.log("api############# Edit SOURCE" + JSON.stringify(modified_typeofsource))
                 cb(result.data.errors, result.data.model)
             })
             .catch(err => {

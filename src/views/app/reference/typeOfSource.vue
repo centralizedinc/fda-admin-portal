@@ -25,7 +25,7 @@
               <v-layout wrap>
                 <v-flex xs12>
                   <v-text-field
-                    label="Type of Source"
+                    label="Type Of Source"
                     v-model="new_typeofsource.name"
                     :rules="[rules.required]"
                   ></v-text-field>
@@ -131,7 +131,7 @@
 export default {
   data: () => ({
     mode: 0, // 0 - create, 1 - edit
-    new_typeofource: {},
+    new_typeofsource: {},
     modified_typeofsource: {},
     dialog: false,
     dialogView: false,
@@ -187,7 +187,7 @@ export default {
 
   computed: {
     formTitle() {
-      return this.mode === 0 ? "Add Type of Source" : "Edit Type of  Source";
+      return this.mode === 0 ? "Add Type of Source" : "Edit Type of Source";
     }
   },
   created() {
@@ -270,7 +270,7 @@ export default {
     submit() {
       if (this.validate()) {
         this.$store.dispatch("ADD_TYPEOFSOURCE", this.new_typeofsource).then(result => {
-          console.log("added:Type of Type of Source " + JSON.stringify(result));
+          console.log("added:Company typeofsource " + JSON.stringify(result));
           this.init();
           this.$notify({
             message: "You have successfully created a new type of source",
@@ -285,7 +285,7 @@ export default {
     save() {
       if (this.validate()) {
         this.$store.dispatch("EDIT_TYPEOFSOURCE", this.new_typeofsource).then(result => {
-          console.log("edited:Type of Type of Source: " + JSON.stringify(result));
+          console.log("edited:Company typeofsource: " + JSON.stringify(result));
           this.init();
           this.$notify({
             message: "You have successfully edited a type of source",

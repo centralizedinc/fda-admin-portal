@@ -210,11 +210,11 @@ export default {
     isEmpty(str) {
       return !str || str === null || str === "";
     },
-    // init() {
-    //   this.$store.dispatch("GET_TYPE_OF_SOURCE").then(result => {
-    //     this.source = this.$store.state.type_of_source_tables.source;
-    //   });
-    // },
+    init() {
+      this.$store.dispatch("GET_TYPE_OF_SOURCE").then(result => {
+        this.source = this.$store.state.type_of_source_tables.type_of_source;
+      });
+    },
     addItem() {
       this.selectedIndex = -1;
       this.mode = 0; // Create

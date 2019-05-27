@@ -210,11 +210,11 @@ export default {
     isEmpty(str) {
       return !str || str === null || str === "";
     },
-    // init() {
-    //   this.$store.dispatch("GET_COMPANY_ACTIVITY").then(result => {
-    //     this.activity = this.$store.state.company_activity_tables.activity;
-    //   });
-    // },
+    init() {
+      this.$store.dispatch("GET_COMPANY_ACTIVITY").then(result => {
+        this.activity = this.$store.state.company_activity_tables.company_activity;
+      });
+    },
     addItem() {
       this.selectedIndex = -1;
       this.mode = 0; // Create

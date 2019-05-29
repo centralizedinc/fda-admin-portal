@@ -11,7 +11,7 @@ export default class CountryOriginType {
 
     getCountryOrigin(cb) {
 
-        axios.get('core/country/origin').then((result) => {
+        axios.get('core/origin').then((result) => {
                 console.log("###API### GET CountryOrigin")
                 if (result.data.success) {
                     cb(result.data.errors, result.data.model)
@@ -26,7 +26,7 @@ export default class CountryOriginType {
 
     addCountryOrigin(new_country_origin, cb) {
         console.log("api############# add CountryOrigin" + JSON.stringify(new_country_origin))
-        axios.post('core/country/origin', new_country_origin).then((result) => {
+        axios.post('core/origin', new_country_origin).then((result) => {
                 console.log("api############# ADD CountryOrigin")
                 cb(result.data.errors, result.data.model)
             })
@@ -37,7 +37,7 @@ export default class CountryOriginType {
 
     editCountryOrigin(modified_country_origin, cb) {
         var id = modified_country_origin._id
-        axios.post('core/country/origin/' + id, modified_country_origin).then((result) => {
+        axios.post('core/origin/' + id, modified_country_origin).then((result) => {
                 console.log("api############# Edit CountryOrigin" + JSON.stringify(modified_country_origin))
                 cb(result.data.errors, result.data.model)
             })

@@ -17,7 +17,7 @@ const mutations = {
 var actions = {
 
     // GET minerals
-    GET_minerals(context) {
+    GET_MINERALS(context) {
         return new Promise((resolve, reject) => {
             new MineralsType(context.rootState.user_session.token).getMinerals((err, data) => {
                 if (err) {
@@ -29,7 +29,7 @@ var actions = {
             })
         })
     },
-    ADD_minerals(context, new_minerals) {
+    ADD_MINERALS(context, new_minerals) {
         return new Promise((resolve, reject) => {
             new MineralsType(context.rootState.user_session.token).addMinerals(new_minerals, (err, data) => {
                 if (err) {
@@ -40,7 +40,7 @@ var actions = {
             })
         })
     },
-    EDIT_minerals(context, modified_minerals) {
+    EDIT_MINERALS(context, modified_minerals) {
         return new Promise((resolve, reject) => {
             new MineralsType(context.rootState.user_session.token).editMinerals(modified_minerals, (err, data) => {
                 if (err) {

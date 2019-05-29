@@ -8,7 +8,7 @@ const state = {
 
 const mutations = {
     //SET minerals
-    SET_minerals(state, data) {
+    SET_MINERALS(state, data) {
         state.minerals = data
         console.log("###minerals:SET###" + JSON.stringify(data))
     },

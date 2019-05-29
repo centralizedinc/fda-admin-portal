@@ -11,7 +11,7 @@ export default class ProductSpecificationsType {
 
     getProductSpecifications(cb) {
 
-        axios.get('core/product/specifications').then((result) => {
+        axios.get('core/specifications').then((result) => {
                 console.log("###API### GET ProductSpecifications")
                 if (result.data.success) {
                     cb(result.data.errors, result.data.model)
@@ -26,7 +26,7 @@ export default class ProductSpecificationsType {
 
     addProductSpecifications(new_product_specifications, cb) {
         console.log("api############# add ProductSpecifications" + JSON.stringify(new_product_specifications))
-        axios.post('core/product/specifications', new_product_specifications).then((result) => {
+        axios.post('core/specifications', new_product_specifications).then((result) => {
                 console.log("api############# ADD ProductSpecifications")
                 cb(result.data.errors, result.data.model)
             })
@@ -37,7 +37,7 @@ export default class ProductSpecificationsType {
 
     editProductSpecifications(modified_product_specifications, cb) {
         var id = modified_product_specifications._id
-        axios.post('core/product/specifications/' + id, modified_product_specifications).then((result) => {
+        axios.post('core/specifications/' + id, modified_product_specifications).then((result) => {
                 console.log("api############# Edit ProductSpecifications" + JSON.stringify(modified_product_specifications))
                 cb(result.data.errors, result.data.model)
             })

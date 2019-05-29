@@ -26,10 +26,10 @@
                 <v-flex xs12>
                   <v-autocomplete
                     v-model="new_food_category.food_product"
-                    :disabled="isUpdating"
-                    :items="food_product_items"
                     :rules="[rules.required]"
-                    label="Product"
+                    :disabled="isUpdating"
+                    :items="food_products_items"
+                    label="Type of Food Product"
                     item-text="name"
                     item-value="_id"
                   >
@@ -61,7 +61,7 @@
         </v-card>
       </v-dialog>
       <!-- VIEW -->
-      <v-dialog v-model="dialogView" max-width="700px">
+      <v-dialog v-model="dialogView" max-width="800px">
         <v-card>
           <v-card-title
             primary-title
@@ -76,23 +76,17 @@
               <v-layout row wrap align-center justify-center fill-height>
                 <!-- <v-flex xs6> -->
                 <v-flex xs6>
-                  <label class="title">Food Categorization:</label>
+                  <label class="title">Food Product Name:</label>
                 </v-flex>
                 <v-flex xs6>
-                  <label class="subheading">{{food_category.name}}</label>
+                  <label class="subheading">{{ food_product_details(new_food_category.food_product) }}</label>
                 </v-flex>
                 <v-flex xs6>
-                  <label class="title">Type of Food Product:</label>
+                  <label class="title">Food Category Name:</label>
                 </v-flex>
                 <v-flex xs6>
-                  <label class="subheading">{{ product_details(new_food_category.food_product) }}</label>
+                  <label class="subheading">{{new_food_category.name}}</label>
                 </v-flex>
-                <!-- <v-flex xs6>
-                  <label class="title">Province Name:</label>
-                </v-flex>
-                <v-flex xs6>
-                  <label class="subheading">{{province_details(new_city.province)}}</label>
-                </v-flex> -->
                 <v-flex xs6>
                   <label class="title">Created By:</label>
                 </v-flex>
@@ -115,7 +109,7 @@
                   <label class="title">Date Modified:</label>
                 </v-flex>
                 <v-flex xs6>
-                  <label class="subheading">{{formatDate(new_food_category.date_modified)}}</label>
+                  <label class="subheading">{{formatDate(new_food_category.date_created)}}</label>
                 </v-flex>
               </v-layout>
             </v-container>
@@ -128,16 +122,23 @@
         </v-card>
       </v-dialog>
     </v-toolbar>
-    <v-data-table :headers="headers" :items="food_categories" :search="search" class="elevation-1">
+    <v-data-table :headers="headers" :items="food_category" :search="search" class="elevation-1">
       <template slot="items" slot-scope="props">
+        <td>{{ food_product_details(props.item.food_product) }}</td>
         <td>{{ props.item.name }}</td>
-        <td>{{ product_details(props.item.food_product) }}</td>
         <td>{{ getAdmin(props.item.created_by).last_name }}</td>
         <td>{{ formatDate(props.item.date_created) }}</td>
         <td>{{ getAdmin(props.item.modified_by).first_name }}</td>
         <td>{{ formatDate(props.item.date_modified) }}</td>
         <td class="justify-center layout px-0">
-          <v-icon small class="mr-2" @click="editItem(props.item, props.index)" flat icon color="primary">edit</v-icon>
+          <v-icon
+            small
+            class="mr-2"
+            @click="editItem(props.item, props.index)"
+            flat
+            icon
+            color="primary"
+          >edit</v-icon>
           <v-icon small @click="viewItem(props.item)" flat icon color="primary">visibility</v-icon>
         </td>
       </template>
@@ -154,27 +155,30 @@
 export default {
   data: () => ({
     mode: 0, // 0 - create, 1 - edit
-    food_product_items: [],
-    food_category: {},
-    new_food_category: {},
+    food_products: {},
+    food_products_items: [],
+    new_food_category: {
+      name: "",
+      food_product: ""
+    },
     modified_food_category: {},
     dialog: false,
     dialogView: false,
     isUpdating: false,
     search: "",
-    selectedIndex: -1,
+    selectedIndex: -1, //
     headers: [
       {
-        text: "Food Category",
-        align: "left",
-        sortable: "true",
-        value: "name"
-      },
-      {
-        text: "Type of Food Product",
+        text: "Food Product Name",
         align: "left",
         sortable: "true",
         value: "food_product"
+      },
+      {
+        text: "Food Category Name",
+        align: "left",
+        sortable: "true",
+        value: "name"
       },
       {
         text: "Created By",
@@ -202,21 +206,19 @@ export default {
       }
     ],
     food_product: [],
-    food_categories: [],
+    food_category: [],
     editedIndex: -1,
     editedItem: {
-      name: "",
+      food_category: "",
       food_product: "",
-      created_by: "",
       date_created: "",
-      modified_by: "",
       date_modified: ""
     },
     defaultItem: {
       name: ""
     },
     rules: {
-      required: v => !!v || "This is a required field"
+      required: v => !!v || v === 0 || "This is a required field" //
     }
   }),
 
@@ -242,64 +244,67 @@ export default {
   },
 
   methods: {
-    // region_details(province_id) {
-    //   var region_id = this.getProvince(province_id)
-    //     ? this.getProvince(province_id).region
+    getFoodProduct(food_product_id) {
+                    if (!this.isEmpty(this.$store.state.food_product_tables.food_product)) {
+                        var food_product = null;
+                        food_product = this.$store.state.food_product_tables.food_product.find(r => {
+                            return r._id.toString() === food_product_id;
+                        });
+                        return food_product ? food_product : null;
+                    } else {
+                        return null
+                    }
+                },
+    // food_product_details(food_category_id) {
+    //   var food_product_id = this.getFoodCategory(food_category_id)
+    //     ? this.getFoodCategory(food_category_id).food_product
     //     : "";
-    //   return this.getRegion(region_id) ? this.getRegion(region_id).name : "";
+    //     return this.getFoodProduct(food_product_id) ? this.getFoodProduct(food_product_id).name : "";
     // },
-    
-    product_details(product_id) {
-      return this.getFoodProduct(product_id)
-        ? this.getFoodProduct(product_id).name
-        : "";
+    food_product_details(food_product_id) {
+      return this.getFoodProduct(food_product_id) ? this.getFoodProduct(food_product_id).name : "";
     },
     isEmpty(str) {
       return !str || str === null || str === "";
     },
     init() {
       this.$store
-        .dispatch("GET_FOOD_PRODUCT")
+        .dispatch("GET_FOOD_CATEGORY")
         .then(result => {
-          this.food_category = this.$store.state.food_category_tables.food_category;
-          console.log("######foodProduct: " + JSON.stringify(this.food_product));
+          this.food_category = this.$store.state.food_product_tables.food_category;
           return this.$store.dispatch("GET_FOOD_PRODUCT");
         })
-        // .then(result => {
-        //   this.provinces_items = this.$store.state.regional_tables.provinces;
-        //   return this.$store.dispatch("GET_REGION");
-        // });
+        .then(result => {
+          // GET food product data
+          this.food_product_items = this.$store.state.food_product_tables.food_product;
+        });
     },
-    removeFoodProduct(item) {
+    remove(item) {
       const index = this.food_product.indexOf(item.name);
       if (index >= 0) this.food_product.splice(index, 1);
     },
-    initialize() {
-      this.food_categories = {};
-      this.food_product = [];
-    },
     addItem() {
-      this.selectedIndex = -1;
+      this.selectedIndex = -1; //
       this.mode = 0; // Create
-      this.new_city = {}; // holds the filled up item
+      this.new_food_category = {}; // holds the filled up item
       this.dialog = true;
     },
     editItem(item, index) {
-      this.selectedIndex = index;
+      this.selectedIndex = index; //
       this.mode = 1; // Edit
       this.new_food_category = JSON.parse(JSON.stringify(item));
       this.dialog = true;
     },
 
     viewItem(item) {
-      this.food_category = item;
+      this.new_food_category = item;
       this.dialogView = true;
     },
 
     close() {
       this.dialog = false;
       this.dialogView = false;
-      this.food_category = {};
+      this.new_food_category = {};
     },
     validate() {
       var check = true;
@@ -313,14 +318,15 @@ export default {
         });
         return false;
       } else {
-        for (let i = 0; i < this.food_categories.length; i++) {
+        for (let i = 0; i < this.food_categorys.length; i++) {
           if (
             this.selectedIndex != i &&
-            this.food_categories[i].food_product &&
-            this.food_categories[i].name &&
-            this.food_categories[i].food_product.toLowerCase() ===
-              this.new_food_category.food_product.toLowerCase() &&
-            this.new_food_category.name.toLowerCase() === this.food_categories[i].name.toLowerCase()
+            this.food_categorys[i].food_product &&
+            this.food_categorys[i].name &&
+            this.food_categorys[i].food_product.toLowerCase() ===
+            this.new_food_category.food_product.toLowerCase() &&
+            this.new_food_category.name.toLowerCase() ===
+            this.food_categorys[i].name.toLowerCase()
           ) {
             check = false;
           } else if (!check) {
@@ -337,10 +343,10 @@ export default {
     submit() {
       if (this.validate()) {
         this.$store.dispatch("ADD_FOOD_CATEGORY", this.new_food_category).then(result => {
-          console.log("added:food Category: " + JSON.stringify(result));
+          console.log("added:food_category: " + JSON.stringify(result));
           this.init();
           this.$notify({
-            message: "You have successfully created a food category",
+            message: "You have successfully created a new food category",
             icon: "check_circle",
             color: "primary"
           });
@@ -348,18 +354,22 @@ export default {
         });
       }
     },
+
     save() {
       if (this.validate()) {
-        this.$store.dispatch("EDIT_FOOD_CATEGORY", this.new_food_category).then(result => {
-          console.log("edited:food category: " + JSON.stringify(result));
-          this.init();
-          this.$notify({
-            message: "You have successfully edited a food category",
-            icon: "check_circle",
-            color: "primary"
+        // console.log('###########edited:food_category: ' + JSON.stringify(this.new_food_category));
+        this.$store
+          .dispatch("EDIT_FOOD_CATEGORY", this.new_food_category)
+          .then(result => {
+            console.log("edited:food_category: " + JSON.stringify(result));
+            this.init();
+            this.$notify({
+              message: "You have successfully edited a food category",
+              icon: "check_circle",
+              color: "primary"
+            });
+            this.close();
           });
-          this.close();
-        });
       }
     }
   }

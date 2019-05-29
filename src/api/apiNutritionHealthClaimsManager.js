@@ -35,7 +35,7 @@ export default class NutritionHealthClaimsType {
             })
     }
 
-    editNutritionHealthClaims(modified_nutritio_healthclaims, cb) {
+    editNutritionHealthClaims(modified_nutrition_healthclaims, cb) {
         var id = modified_nutrition_healthclaims._id
         axios.post('core/health/' + id, modified_nutrition_healthclaims).then((result) => {
                 console.log("api############# Edit NutritionHealthClaims" + JSON.stringify(modified_nutrition_healthclaims))

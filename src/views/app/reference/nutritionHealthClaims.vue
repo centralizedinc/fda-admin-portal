@@ -99,7 +99,7 @@
       </v-dialog>
     </v-toolbar>
     <!-- TABLE -->
-    <v-data-table :headers="headers" :items="nutrition_helthclaims" :search="search" class="elevation-1">
+    <v-data-table :headers="headers" :items="nutrition_healthclaims" :search="search" class="elevation-1">
       <template slot="items" slot-scope="props">
         <td>{{ props.item.name }}</td>
         <td>{{ getAdmin(props.item.created_by).last_name }}</td>
@@ -212,7 +212,7 @@ export default {
     },
     init() {
       this.$store.dispatch("GET_NUTRITION_HEALTHCLAIMS").then(result => {
-        this.nutrition_healthclaimns = this.$store.state.nutrition_healthclaims_tables.nutrition_healthclaims;
+        this.nutrition_healthclaims = this.$store.state.nutrition_healthclaims_tables.nutrition_healthclaims;
       });
     },
     addItem() {

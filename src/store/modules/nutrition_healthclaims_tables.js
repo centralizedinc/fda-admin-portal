@@ -31,7 +31,7 @@ var actions = {
     },
     ADD_NUTRITION_HEALTHCLAIMS(context, new_nutrition_healthclaims) {
         return new Promise((resolve, reject) => {
-            new NutritionHealthClaimsType(context.rootState.user_session.token).addNutritionHealthClaims(new_nutritions_healthclaims, (err, data) => {
+            new NutritionHealthClaimsType(context.rootState.user_session.token).addNutritionHealthClaims(new_nutrition_healthclaims, (err, data) => {
                 if (err) {
                     reject(err)
                 } else {

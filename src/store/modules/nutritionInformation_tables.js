@@ -40,7 +40,7 @@ var actions = {
             })
         })
     },
-    EDIT_NutritionInformation(context, modified_nutrition_information) {
+    EDIT_NUTRITION_INFORMATION(context, modified_nutrition_information) {
         return new Promise((resolve, reject) => {
             new NutritionInformationType(context.rootState.user_session.token).editNutritionInformation(modified_nutrition_information, (err, data) => {
                 if (err) {

@@ -25,7 +25,7 @@ export default class CountryOriginType {
     }
 
     addCountryOrigin(new_country_origin, cb) {
-        console.log("api############# add countryorigin" + JSON.stringify(new_country_origin))
+        console.log("api############# add CountryOrigin" + JSON.stringify(new_country_origin))
         axios.post('core/origin', new_country_origin).then((result) => {
                 console.log("api############# ADD CountryOrigin")
                 cb(result.data.errors, result.data.model)

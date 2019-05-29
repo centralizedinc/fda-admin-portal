@@ -211,7 +211,7 @@ export default {
       return !str || str === null || str === "";
     },
     init() {
-      this.$store.dispatch("GET_vitamins").then(result => {
+      this.$store.dispatch("GET_VITAMINS").then(result => {
         this.vitamins = this.$store.state.vitamins_tables.vitamins;
       });
     },

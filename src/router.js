@@ -167,6 +167,12 @@ export default new Router({
           component: () => import('@/views/app/reference/vitamins.vue')
         },
         {
+          path: 'minerals',
+          name: 'Minerals',
+          beforeEnter: dropBreadcrumbs,
+          component: () => import('@/views/app/reference/minerals.vue')
+        },
+        {
           path: 'profile',
           name: 'Profile',
           beforeEnter: dropBreadcrumbs,

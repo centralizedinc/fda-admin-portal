@@ -240,7 +240,7 @@
         <v-tooltip top>
           <v-list-group
             color="success"
-            prepend-icon="fas fa-reference"
+            prepend-icon="receipt"
             slot="activator"
             append-icon="fas fa-chevron-down fa-1x"
           >
@@ -254,7 +254,7 @@
               :style="activeRoute('Food Products')"
             >
               <v-list-tile-action>
-                <v-icon color="success">people_outline</v-icon>
+                <v-icon color="success">local_dining</v-icon>
               </v-list-tile-action>
               <v-list-tile-content>
                 <v-list-tile-title class="body-1 font-weight-light">Types of Food Products</v-list-tile-title>
@@ -267,7 +267,7 @@
               :style="activeRoute('Food Category')"
             >
               <v-list-tile-action>
-                <v-icon color="success">account_box</v-icon>
+                <v-icon color="success">assistant</v-icon>
               </v-list-tile-action>
               <v-list-tile-content>
                 <v-list-tile-title class="body-1 font-weight-light">Food Category</v-list-tile-title>
@@ -280,10 +280,10 @@
               :style="activeRoute('Shelf Life')"
             >
               <v-list-tile-action>
-                <v-icon color="success">account_box</v-icon>
+                <v-icon color="success">clear_all</v-icon>
               </v-list-tile-action>
               <v-list-tile-content>
-                <v-list-tile-title class="body-1 font-weight-light">Food Category</v-list-tile-title>
+                <v-list-tile-title class="body-1 font-weight-light">Shelf Life</v-list-tile-title>
               </v-list-tile-content>
             </v-list-tile>
 
@@ -293,7 +293,7 @@
               :style="activeRoute('Type of Source')"
             >
               <v-list-tile-action>
-                <v-icon color="success">account_box</v-icon>
+                <v-icon color="success">details</v-icon>
               </v-list-tile-action>
               <v-list-tile-content>
                 <v-list-tile-title class="body-1 font-weight-light">Type of Source</v-list-tile-title>
@@ -306,7 +306,7 @@
               :style="activeRoute('Country of Origin')"
             >
               <v-list-tile-action>
-                <v-icon color="success">account_box</v-icon>
+                <v-icon color="success">flag</v-icon>
               </v-list-tile-action>
               <v-list-tile-content>
                 <v-list-tile-title class="body-1 font-weight-light">Country of Origin</v-list-tile-title>
@@ -319,7 +319,7 @@
               :style="activeRoute('Product Specification')"
             >
               <v-list-tile-action>
-                <v-icon color="success">account_box</v-icon>
+                <v-icon color="success">aspect_ratio</v-icon>
               </v-list-tile-action>
               <v-list-tile-content>
                 <v-list-tile-title class="body-1 font-weight-light">Product Specification</v-list-tile-title>
@@ -332,7 +332,7 @@
               :style="activeRoute('Nutrition Information')"
             >
               <v-list-tile-action>
-                <v-icon color="success">account_box</v-icon>
+                <v-icon color="success">colorize</v-icon>
               </v-list-tile-action>
               <v-list-tile-content>
                 <v-list-tile-title class="body-1 font-weight-light">Nutrition Information</v-list-tile-title>
@@ -345,7 +345,7 @@
               :style="activeRoute('Vitamins')"
             >
               <v-list-tile-action>
-                <v-icon color="success">account_box</v-icon>
+                <v-icon color="success">control_point</v-icon>
               </v-list-tile-action>
               <v-list-tile-content>
                 <v-list-tile-title class="body-1 font-weight-light">Vitamins</v-list-tile-title>
@@ -358,13 +358,13 @@
               :style="activeRoute('Minerals')"
             >
               <v-list-tile-action>
-                <v-icon color="success">account_box</v-icon>
+                <v-icon color="success">wb_iridescent</v-icon>
               </v-list-tile-action>
               <v-list-tile-content>
                 <v-list-tile-title class="body-1 font-weight-light">Minerals</v-list-tile-title>
               </v-list-tile-content>
             </v-list-tile>
-<!--  -->
+
           </v-list-group>Reference
         </v-tooltip>
 

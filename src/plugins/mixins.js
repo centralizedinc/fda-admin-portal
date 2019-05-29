@@ -61,6 +61,17 @@ export default {
                         return null
                     }
                 },
+                getFoodProduct(food_product_id) {
+                    if (!this.isEmpty(this.$store.state.food_product_tables.food_product)) {
+                        var food_product = null;
+                        food_product = this.$store.state.food_product_tables.food_product.find(r => {
+                            return r._id.toString() === food_product_id;
+                        });
+                        return food_product ? food_product : null;
+                    } else {
+                        return null
+                    }
+                },
                 getPrimary(primary_id) {
                     if (!this.isEmpty(this.$store.state.reference_tables.primary)) {
                         var primary = null;

@@ -340,6 +340,19 @@
             </v-list-tile>
 
             <v-list-tile
+              @click="goTo('/app/nutritionHealthClaims')"
+              class="ma-1"
+              :style="activeRoute('Nutrition Health Claims')"
+            >
+              <v-list-tile-action>
+                <v-icon color="success">colorize</v-icon>
+              </v-list-tile-action>
+              <v-list-tile-content>
+                <v-list-tile-title class="body-1 font-weight-light">Nutrition Health Claims</v-list-tile-title>
+              </v-list-tile-content>
+            </v-list-tile>
+
+            <v-list-tile
               @click="goTo('/app/vitamins')"
               class="ma-1"
               :style="activeRoute('Vitamins')"

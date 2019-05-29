@@ -42,7 +42,7 @@ var actions = {
     },
     EDIT_PRODUCT_SPECIFICATIONS(context, modified_product_specifications) {
         return new Promise((resolve, reject) => {
-            new ProductSpecificationsType(context.rootState.user_session.token).editroductSpecifications(modified_product_specifications, (err, data) => {
+            new ProductSpecificationsType(context.rootState.user_session.token).editProductSpecifications(modified_product_specifications, (err, data) => {
                 if (err) {
                     reject(err)
                 } else {

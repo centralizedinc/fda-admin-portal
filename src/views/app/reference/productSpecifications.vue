@@ -187,7 +187,7 @@ export default {
 
   computed: {
     formTitle() {
-      return this.mode === 0 ? "Add ProductSpecifications" : "Edit ProductSpecifications";
+      return this.mode === 0 ? "Add Product" : "Edit Product";
     }
   },
   created() {

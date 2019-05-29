@@ -23,7 +23,7 @@ var actions = {
                 if (err) {
                     reject(err)
                 } else {
-                    context.commit('SET_vitamins', data)
+                    context.commit('SET_VITAMINS', data)
                     resolve(data)
                 }
             })

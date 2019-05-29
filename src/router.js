@@ -101,6 +101,12 @@ export default new Router({
           component: () => import('@/views/app/reference/source.vue')
         },
         {
+          path: 'productSpecifications',
+          name: 'Product Specifications',
+          beforeEnter: dropBreadcrumbs, 
+          component: () => import('@/views/app/reference/productSpecifications.vue')
+        },
+        {
           path: 'designation',
           name: 'Designation',
           beforeEnter: dropBreadcrumbs,

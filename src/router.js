@@ -113,6 +113,12 @@ export default new Router({
           component: () => import('@/views/app/reference/nutritionInformation.vue')
         },
         {
+          path: 'nutritionHealthClaims',
+          name: 'Nutrition Health Claims',
+          beforeEnter: dropBreadcrumbs, 
+          component: () => import('@/views/app/reference/nutritionHealthClaims.vue')
+        },
+        {
           path: 'designation',
           name: 'Designation',
           beforeEnter: dropBreadcrumbs,

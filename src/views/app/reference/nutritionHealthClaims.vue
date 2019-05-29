@@ -61,7 +61,7 @@
                   <label class="title">Nutrition Health Claims:</label>
                 </v-flex>
                 <v-flex xs6>
-                  <label class="subheading">{{new_nutritionclaims.name}}</label>
+                  <label class="subheading">{{new_nutrition_healthclaims.name}}</label>
                 </v-flex>
                 <v-flex xs6>
                   <label class="title">Created By:</label>
@@ -131,15 +131,15 @@
 export default {
   data: () => ({
     mode: 0, // 0 - create, 1 - edit
-    new_type_source: {},
-    modified_type_source: {},
+    new_nutrition_healthclaims: {},
+    modified_nutrition_healthclaims: {},
     dialog: false,
     dialogView: false,
     search: "",
     selectedIndex: -1,
     headers: [
       {
-        text: "Type of Source",
+        text: "Nutritions Health Claims",
         align: "left",
         sortable: "true",
         value: "name"
@@ -169,7 +169,7 @@ export default {
         value: "editStatus"
       }
     ],
-    type_source: [],
+    nutrition_healthclaims: [],
     editedIndex: -1,
     editedItem: {
       id: "",
@@ -187,7 +187,7 @@ export default {
 
   computed: {
     formTitle() {
-      return this.mode === 0 ? "Add Source" : "Edit Source";
+      return this.mode === 0 ? "Add Nutrition Health Claims" : "Edit Nutrition Health Claims";
     }
   },
   created() {
@@ -211,37 +211,37 @@ export default {
       return !str || str === null || str === "";
     },
     init() {
-      this.$store.dispatch("GET_TYPE_SOURCE").then(result => {
-        this.type_source = this.$store.state.type_source_tables.type_source;
+      this.$store.dispatch("GET_NUTRITION_HEALTHCLAIMS").then(result => {
+        this.nutrition_healthclaimns = this.$store.state.nutrition_healthclaims_tables.nutrition_healthclaims;
       });
     },
     addItem() {
       this.selectedIndex = -1;
       this.mode = 0; // Create
-      this.new_type_source = {}; // holds the filled up item
+      this.new_nutrition_healthclaims = {}; // holds the filled up item
       this.dialog = true;
     },
     editItem(item, index) {
       this.mode = 1; // Edit
       this.selectedIndex = index;
-      this.new_type_source = JSON.parse(JSON.stringify(item));
+      this.new_nutrition_healthclaims = JSON.parse(JSON.stringify(item));
       this.dialog = true;
     },
 
     viewItem(item) {
-      this.new_type_source = item;
+      this.new_nutrition_healthclaims = item;
       this.dialogView = true;
     },
 
     close() {
       this.dialog = false;
       this.dialogView = false;
-      this.new_type_source = {};
+      this.new_nutrition_healthclaims = {};
     },
     validate() {
       var check = true;
       if (
-        this.isEmpty(this.new_type_source.name)
+        this.isEmpty(this.new_nutrition_healthclaims.name)
       ) {
         this.$notify({
           message: "Please fill up required fields",
@@ -249,11 +249,11 @@ export default {
         });
         return false;
       } else {
-        for (let i = 0; i < this.type_source.length; i++) {
+        for (let i = 0; i < this.nutrition_healthclaims.length; i++) {
           if (
             this.selectedIndex != i &&
-            this.type_source[i].name.toLowerCase() ===
-            this.new_type_source.name.toLowerCase()
+            this.nutrition_healthclaims[i].name.toLowerCase() ===
+            this.new_nutrition_healthclaims.name.toLowerCase()
           ) {
             check = false;
           } else if (!check) {
@@ -269,11 +269,11 @@ export default {
     },
     submit() {
       if (this.validate()) {
-        this.$store.dispatch("ADD_TYPE_SOURCE", this.new_type_source).then(result => {
-          console.log("added:Company type_source " + JSON.stringify(result));
+        this.$store.dispatch("ADD_NUTRITION_HEALTHCLAIMS", this.new_nutrition_healthclaims).then(result => {
+          console.log("added:Company nutrition_healthclaims " + JSON.stringify(result));
           this.init();
           this.$notify({
-            message: "You have successfully created a new type of type_source",
+            message: "You have successfully created a new type of nutrition_healthclaims",
             icon: "check_circle",
             color: "primary"
           });
@@ -284,11 +284,11 @@ export default {
 
     save() {
       if (this.validate()) {
-        this.$store.dispatch("EDIT_TYPE_SOURCE", this.new_type_source).then(result => {
-          console.log("edited:Company type_source: " + JSON.stringify(result));
+        this.$store.dispatch("EDIT_NUTRITION_HEALTHCLAIMS", this.new_nutrition_healthclaims).then(result => {
+          console.log("edited:Company nutrition_healthclaims: " + JSON.stringify(result));
           this.init();
           this.$notify({
-            message: "You have successfully edited a type of type_source",
+            message: "You have successfully edited a type of nutrition_healthclaims",
             icon: "check_circle",
             color: "primary"
           });

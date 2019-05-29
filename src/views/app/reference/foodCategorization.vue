@@ -25,10 +25,10 @@
               <v-layout wrap>
                 <v-flex xs12>
                   <v-autocomplete
-                    v-model="new_food_category.food_product"
+                    v-model="food_product_details(new_food_category).food_product"
                     :rules="[rules.required]"
                     :disabled="isUpdating"
-                    :items="food_products_items"
+                    :items="food_products"
                     label="Type of Food Product"
                     item-text="name"
                     item-value="_id"
@@ -46,7 +46,7 @@
                   </v-autocomplete>
                 </v-flex>
                 <v-flex xs12>
-                  <v-text-field v-model="new_food_category.name" :rules="[rules.required]" label="Name"></v-text-field>
+                  <v-text-field v-model="new_food_category.name" :rules="[rules.required]" label="Food Category"></v-text-field>
                 </v-flex>
               </v-layout>
             </v-container>
@@ -75,17 +75,18 @@
             <v-container grid-list-xl>
               <v-layout row wrap align-center justify-center fill-height>
                 <!-- <v-flex xs6> -->
-                <v-flex xs6>
-                  <label class="title">Food Product Name:</label>
-                </v-flex>
-                <v-flex xs6>
-                  <label class="subheading">{{ food_product_details(new_food_category.food_product) }}</label>
-                </v-flex>
+                
                 <v-flex xs6>
                   <label class="title">Food Category Name:</label>
                 </v-flex>
                 <v-flex xs6>
                   <label class="subheading">{{new_food_category.name}}</label>
+                </v-flex>
+                <v-flex xs6>
+                  <label class="title">Type of Food Product:</label>
+                </v-flex>
+                <v-flex xs6>
+                  <label class="subheading">{{ food_product_details(new_food_category).food_product }}</label>
                 </v-flex>
                 <v-flex xs6>
                   <label class="title">Created By:</label>
@@ -124,8 +125,8 @@
     </v-toolbar>
     <v-data-table :headers="headers" :items="food_category" :search="search" class="elevation-1">
       <template slot="items" slot-scope="props">
-        <td>{{ food_product_details(props.item.food_product) }}</td>
         <td>{{ props.item.name }}</td>
+        <td>{{ food_product_details(props.item).food_product }}</td>
         <td>{{ getAdmin(props.item.created_by).last_name }}</td>
         <td>{{ formatDate(props.item.date_created) }}</td>
         <td>{{ getAdmin(props.item.modified_by).first_name }}</td>
@@ -156,7 +157,7 @@ export default {
   data: () => ({
     mode: 0, // 0 - create, 1 - edit
     food_products: {},
-    food_products_items: [],
+    food_products: [],
     new_food_category: {
       name: "",
       food_product: ""
@@ -169,16 +170,16 @@ export default {
     selectedIndex: -1, //
     headers: [
       {
-        text: "Food Product Name",
-        align: "left",
-        sortable: "true",
-        value: "food_product"
-      },
-      {
         text: "Food Category Name",
         align: "left",
         sortable: "true",
         value: "name"
+      },
+      {
+        text: "Type of Food Product",
+        align: "left",
+        sortable: "true",
+        value: "food_product"
       },
       {
         text: "Created By",
@@ -209,7 +210,7 @@ export default {
     food_category: [],
     editedIndex: -1,
     editedItem: {
-      food_category: "",
+      name: "",
       food_product: "",
       date_created: "",
       date_modified: ""
@@ -244,23 +245,6 @@ export default {
   },
 
   methods: {
-    getFoodProduct(food_product_id) {
-                    if (!this.isEmpty(this.$store.state.food_product_tables.food_product)) {
-                        var food_product = null;
-                        food_product = this.$store.state.food_product_tables.food_product.find(r => {
-                            return r._id.toString() === food_product_id;
-                        });
-                        return food_product ? food_product : null;
-                    } else {
-                        return null
-                    }
-                },
-    // food_product_details(food_category_id) {
-    //   var food_product_id = this.getFoodCategory(food_category_id)
-    //     ? this.getFoodCategory(food_category_id).food_product
-    //     : "";
-    //     return this.getFoodProduct(food_product_id) ? this.getFoodProduct(food_product_id).name : "";
-    // },
     food_product_details(food_product_id) {
       return this.getFoodProduct(food_product_id) ? this.getFoodProduct(food_product_id).name : "";
     },
@@ -275,8 +259,8 @@ export default {
           return this.$store.dispatch("GET_FOOD_PRODUCT");
         })
         .then(result => {
-          // GET food product data
-          this.food_product_items = this.$store.state.food_product_tables.food_product;
+          // GET Food Product items
+          this.food_products = this.$store.state.food_product_tables.food_product;
         });
     },
     remove(item) {
@@ -309,8 +293,8 @@ export default {
     validate() {
       var check = true;
       if (
-        this.isEmpty(this.new_food_category.name) ||
-        this.isEmpty(this.new_food_category.food_product)
+        this.isEmpty(this.new_food_category.name) 
+
       ) {
         this.$notify({
           message: "Please fill up required fields",
@@ -318,15 +302,12 @@ export default {
         });
         return false;
       } else {
-        for (let i = 0; i < this.food_categorys.length; i++) {
+        for (let i = 0; i < this.food_category.length; i++) {
           if (
             this.selectedIndex != i &&
-            this.food_categorys[i].food_product &&
-            this.food_categorys[i].name &&
-            this.food_categorys[i].food_product.toLowerCase() ===
-            this.new_food_category.food_product.toLowerCase() &&
+            this.food_category[i].name &&
             this.new_food_category.name.toLowerCase() ===
-            this.food_categorys[i].name.toLowerCase()
+            this.food_category[i].name.toLowerCase()
           ) {
             check = false;
           } else if (!check) {

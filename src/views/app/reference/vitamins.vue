@@ -25,7 +25,7 @@
               <v-layout wrap>
                 <v-flex xs12>
                   <v-text-field
-                    label="Type of Shelf Life"
+                    label="Vitamins"
                     v-model="new_vitamins.name"
                     :rules="[rules.required]"
                   ></v-text-field>
@@ -58,7 +58,7 @@
               <v-layout row wrap align-center justify-center fill-height>
                 <!-- <v-flex xs6> -->
                 <v-flex xs6>
-                  <label class="title">Type of Shelf Life:</label>
+                  <label class="title">itamins:</label>
                 </v-flex>
                 <v-flex xs6>
                   <label class="subheading">{{new_vitamins.name}}</label>
@@ -139,7 +139,7 @@ export default {
     selectedIndex: -1,
     headers: [
       {
-        text: "Type of shelf life",
+        text: "Vitamins",
         align: "left",
         sortable: "true",
         value: "name"
@@ -187,7 +187,7 @@ export default {
 
   computed: {
     formTitle() {
-      return this.mode === 0 ? "Add Shelf Life" : "Edit Shelf Life";
+      return this.mode === 0 ? "Add Vitamins" : "Edit Vitamins";
     }
   },
   created() {

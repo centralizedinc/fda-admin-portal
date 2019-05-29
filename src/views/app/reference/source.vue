@@ -25,8 +25,8 @@
               <v-layout wrap>
                 <v-flex xs12>
                   <v-text-field
-                    label="Country of Origin"
-                    v-model="new_country.name"
+                    label="Type of Source"
+                    v-model="new_type_source.name"
                     :rules="[rules.required]"
                   ></v-text-field>
                 </v-flex>
@@ -58,34 +58,34 @@
               <v-layout row wrap align-center justify-center fill-height>
                 <!-- <v-flex xs6> -->
                 <v-flex xs6>
-                  <label class="title">Country of Origin:</label>
+                  <label class="title">Type of Source:</label>
                 </v-flex>
                 <v-flex xs6>
-                  <label class="subheading">{{new_country.name}}</label>
+                  <label class="subheading">{{new_type_source.name}}</label>
                 </v-flex>
                 <v-flex xs6>
                   <label class="title">Created By:</label>
                 </v-flex>
                 <v-flex xs6>
-                  <label class="subheading">{{getAdmin(new_country.created_by).first_name}}</label>
+                  <label class="subheading">{{getAdmin(new_type_source.created_by).first_name}}</label>
                 </v-flex>
                 <v-flex xs6>
                   <label class="title">Date Created:</label>
                 </v-flex>
                 <v-flex xs6>
-                  <label class="subheading">{{formatDate(new_country.date_created)}}</label>
+                  <label class="subheading">{{formatDate(new_type_source.date_created)}}</label>
                 </v-flex>
                 <v-flex xs6>
                   <label class="title">Modified By:</label>
                 </v-flex>
                 <v-flex xs6>
-                  <label class="subheading">{{getAdmin(new_country.modified_by)}}</label>
+                  <label class="subheading">{{getAdmin(new_type_source.modified_by)}}</label>
                 </v-flex>
                 <v-flex xs6>
                   <label class="title">Date Modified:</label>
                 </v-flex>
                 <v-flex xs6>
-                  <label class="subheading">{{formatDate(new_country.date_modified)}}</label>
+                  <label class="subheading">{{formatDate(new_type_source.date_modified)}}</label>
                 </v-flex>
               </v-layout>
             </v-container>
@@ -99,7 +99,7 @@
       </v-dialog>
     </v-toolbar>
     <!-- TABLE -->
-    <v-data-table :headers="headers" :items="country" :search="search" class="elevation-1">
+    <v-data-table :headers="headers" :items="type_source" :search="search" class="elevation-1">
       <template slot="items" slot-scope="props">
         <td>{{ props.item.name }}</td>
         <td>{{ getAdmin(props.item.created_by).last_name }}</td>
@@ -131,15 +131,15 @@
 export default {
   data: () => ({
     mode: 0, // 0 - create, 1 - edit
-    new_country: {},
-    modified_country: {},
+    new_type_source: {},
+    modified_type_source: {},
     dialog: false,
     dialogView: false,
     search: "",
     selectedIndex: -1,
     headers: [
       {
-        text: "Country of Origin",
+        text: "Type of Source",
         align: "left",
         sortable: "true",
         value: "name"
@@ -169,7 +169,7 @@ export default {
         value: "editStatus"
       }
     ],
-    country: [],
+    type_source: [],
     editedIndex: -1,
     editedItem: {
       id: "",
@@ -187,7 +187,7 @@ export default {
 
   computed: {
     formTitle() {
-      return this.mode === 0 ? "Add Country" : "Edit Country";
+      return this.mode === 0 ? "Add Source" : "Edit Source";
     }
   },
   created() {
@@ -211,37 +211,37 @@ export default {
       return !str || str === null || str === "";
     },
     init() {
-      this.$store.dispatch("GET_Country_Of_Origin").then(result => {
-        this.country = this.$store.state.country_of_origin_tables.country_of_origin;
+      this.$store.dispatch("GET_TYPE_SOURCE").then(result => {
+        this.type_source = this.$store.state.type_source_tables.type_source;
       });
     },
     addItem() {
       this.selectedIndex = -1;
       this.mode = 0; // Create
-      this.new_country = {}; // holds the filled up item
+      this.new_type_source = {}; // holds the filled up item
       this.dialog = true;
     },
     editItem(item, index) {
       this.mode = 1; // Edit
       this.selectedIndex = index;
-      this.new_country = JSON.parse(JSON.stringify(item));
+      this.new_type_source = JSON.parse(JSON.stringify(item));
       this.dialog = true;
     },
 
     viewItem(item) {
-      this.new_country = item;
+      this.new_type_source = item;
       this.dialogView = true;
     },
 
     close() {
       this.dialog = false;
       this.dialogView = false;
-      this.new_country = {};
+      this.new_type_source = {};
     },
     validate() {
       var check = true;
       if (
-        this.isEmpty(this.new_country.name)
+        this.isEmpty(this.new_type_source.name)
       ) {
         this.$notify({
           message: "Please fill up required fields",
@@ -249,11 +249,11 @@ export default {
         });
         return false;
       } else {
-        for (let i = 0; i < this.country.length; i++) {
+        for (let i = 0; i < this.type_source.length; i++) {
           if (
             this.selectedIndex != i &&
-            this.country[i].name.toLowerCase() ===
-            this.new_country.name.toLowerCase()
+            this.type_source[i].name.toLowerCase() ===
+            this.new_type_source.name.toLowerCase()
           ) {
             check = false;
           } else if (!check) {
@@ -269,11 +269,11 @@ export default {
     },
     submit() {
       if (this.validate()) {
-        this.$store.dispatch("ADD_COUNTRY_OF_ORIGIN", this.new_country).then(result => {
-          console.log("added:Country of Origin " + JSON.stringify(result));
+        this.$store.dispatch("ADD_TYPE_SOURCE", this.new_type_source).then(result => {
+          console.log("added:Company type_source " + JSON.stringify(result));
           this.init();
           this.$notify({
-            message: "You have successfully created a new country of origin",
+            message: "You have successfully created a new type of type_source",
             icon: "check_circle",
             color: "primary"
           });
@@ -284,11 +284,11 @@ export default {
 
     save() {
       if (this.validate()) {
-        this.$store.dispatch("EDIT_COUNTRY_OF_ORIGIN", this.new_country).then(result => {
-          console.log("edited:Country of Origin: " + JSON.stringify(result));
+        this.$store.dispatch("EDIT_TYPE_SOURCE", this.new_type_source).then(result => {
+          console.log("edited:Company type_source: " + JSON.stringify(result));
           this.init();
           this.$notify({
-            message: "You have successfully edited a country of origin",
+            message: "You have successfully edited a type of type_source",
             icon: "check_circle",
             color: "primary"
           });

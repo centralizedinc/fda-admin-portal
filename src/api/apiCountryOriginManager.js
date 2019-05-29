@@ -2,17 +2,17 @@ import axios from 'axios'
 
 axios.defaults.baseURL = process.env.VUE_APP_API_BASE_URI
 
-export default class CountryOfOriginType {
+export default class CountryOriginType {
     constructor(token) {
         this.token = token;
         axios.defaults.headers.common['Content-Type'] = 'application/json'
         axios.defaults.headers.common['access_token'] = token;
     }
 
-    getCountryOfOrigin(cb) {
+    getCountryOrigin(cb) {
 
-        axios.get('core/country').then((result) => {
-                console.log("###API### GET COUNTRY")
+        axios.get('core/origin').then((result) => {
+                console.log("###API### GET CountryOrigin")
                 if (result.data.success) {
                     cb(result.data.errors, result.data.model)
                 } else {
@@ -24,10 +24,10 @@ export default class CountryOfOriginType {
             })
     }
 
-    addCountryOfOrigin(new_country, cb) {
-        console.log("api############# add country" + JSON.stringify(new_country))
-        axios.post('core/country', new_country).then((result) => {
-                console.log("api############# ADD COUNTRY")
+    addCountryOrigin(new_country_origin, cb) {
+        console.log("api############# add countryorigin" + JSON.stringify(new_country_origin))
+        axios.post('core/origin', new_country_origin).then((result) => {
+                console.log("api############# ADD CountryOrigin")
                 cb(result.data.errors, result.data.model)
             })
             .catch(err => {
@@ -35,10 +35,10 @@ export default class CountryOfOriginType {
             })
     }
 
-    editCountryOfOrigin(modified_country, cb) {
-        var id = modified_country._id
-        axios.post('core/country/' + id, modified_country).then((result) => {
-                console.log("api############# Edit COUNTRY" + JSON.stringify(modified_country))
+    editCountryOrigin(modified_country_origin, cb) {
+        var id = modified_country_origin._id
+        axios.post('core/origin/' + id, modified_country_origin).then((result) => {
+                console.log("api############# Edit CountryOrigin" + JSON.stringify(modified_country_origin))
                 cb(result.data.errors, result.data.model)
             })
             .catch(err => {

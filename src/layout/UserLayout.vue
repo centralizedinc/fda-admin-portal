@@ -13,9 +13,9 @@
             style=" height: 100px; background:url('https://i.postimg.cc/YCbD5mHP/image.png') repeat center center"
           >
             <v-avatar size="40" color="teal">
-            <img v-if="admin.avatar" :src="admin.avatar.location" alt="alt">
-            <span v-else>{{admin.first_name.substring(0,1) + admin.last_name.substring(0,1)}}</span>
-          </v-avatar>
+              <img v-if="admin.avatar" :src="admin.avatar.location" alt="alt">
+              <span v-else>{{admin.first_name.substring(0,1) + admin.last_name.substring(0,1)}}</span>
+            </v-avatar>
             <v-spacer></v-spacer>
             <v-list-tile-content class="mt-4">
               <v-list-tile-title class="body-2">{{admin.first_name}} {{admin.last_name}}</v-list-tile-title>
@@ -26,7 +26,6 @@
             </v-list-tile-content>
           </v-list-tile>
         </v-list>
-        
       </v-toolbar>
       <v-list>
         <!-- SIDENAV -->
@@ -196,7 +195,11 @@
               </v-list-tile-content>
             </v-list-tile>
             <!-- Certificate -->
-            <v-list-tile @click="goTo('/app/taskCert')" class="ma-1" :style="activeRoute('taskCert')">
+            <v-list-tile
+              @click="goTo('/app/taskCert')"
+              class="ma-1"
+              :style="activeRoute('taskCert')"
+            >
               <v-list-tile-action>
                 <v-icon color="success">recent_actors</v-icon>
               </v-list-tile-action>
@@ -231,6 +234,140 @@
             </v-list-tile>
           </v-list-group>Tasks
         </v-tooltip>
+
+        <!-- reference -->
+
+        <v-tooltip top>
+          <v-list-group
+            color="success"
+            prepend-icon="fas fa-reference"
+            slot="activator"
+            append-icon="fas fa-chevron-down fa-1x"
+          >
+            <v-list-tile slot="activator">
+              <v-list-tile-title>Reference</v-list-tile-title>
+            </v-list-tile>
+
+            <v-list-tile
+              @click="goTo('/app/foodProduct')"
+              class="ma-1"
+              :style="activeRoute('Food Products')"
+            >
+              <v-list-tile-action>
+                <v-icon color="success">people_outline</v-icon>
+              </v-list-tile-action>
+              <v-list-tile-content>
+                <v-list-tile-title class="body-1 font-weight-light">Types of Food Products</v-list-tile-title>
+              </v-list-tile-content>
+            </v-list-tile>
+
+            <v-list-tile
+              @click="goTo('/app/foodCategory')"
+              class="ma-1"
+              :style="activeRoute('Food Category')"
+            >
+              <v-list-tile-action>
+                <v-icon color="success">account_box</v-icon>
+              </v-list-tile-action>
+              <v-list-tile-content>
+                <v-list-tile-title class="body-1 font-weight-light">Food Category</v-list-tile-title>
+              </v-list-tile-content>
+            </v-list-tile>
+
+            <v-list-tile
+              @click="goTo('/app/shelfLife')"
+              class="ma-1"
+              :style="activeRoute('Shelf Life')"
+            >
+              <v-list-tile-action>
+                <v-icon color="success">account_box</v-icon>
+              </v-list-tile-action>
+              <v-list-tile-content>
+                <v-list-tile-title class="body-1 font-weight-light">Food Category</v-list-tile-title>
+              </v-list-tile-content>
+            </v-list-tile>
+
+            <v-list-tile
+              @click="goTo('/app/source')"
+              class="ma-1"
+              :style="activeRoute('Type of Source')"
+            >
+              <v-list-tile-action>
+                <v-icon color="success">account_box</v-icon>
+              </v-list-tile-action>
+              <v-list-tile-content>
+                <v-list-tile-title class="body-1 font-weight-light">Type of Source</v-list-tile-title>
+              </v-list-tile-content>
+            </v-list-tile>
+
+            <v-list-tile
+              @click="goTo('/app/countryOrigin')"
+              class="ma-1"
+              :style="activeRoute('Country of Origin')"
+            >
+              <v-list-tile-action>
+                <v-icon color="success">account_box</v-icon>
+              </v-list-tile-action>
+              <v-list-tile-content>
+                <v-list-tile-title class="body-1 font-weight-light">Country of Origin</v-list-tile-title>
+              </v-list-tile-content>
+            </v-list-tile>
+
+            <v-list-tile
+              @click="goTo('/app/productSpecifications')"
+              class="ma-1"
+              :style="activeRoute('Product Specification')"
+            >
+              <v-list-tile-action>
+                <v-icon color="success">account_box</v-icon>
+              </v-list-tile-action>
+              <v-list-tile-content>
+                <v-list-tile-title class="body-1 font-weight-light">Product Specification</v-list-tile-title>
+              </v-list-tile-content>
+            </v-list-tile>
+
+            <v-list-tile
+              @click="goTo('/app/nutritionInformation')"
+              class="ma-1"
+              :style="activeRoute('Nutrition Information')"
+            >
+              <v-list-tile-action>
+                <v-icon color="success">account_box</v-icon>
+              </v-list-tile-action>
+              <v-list-tile-content>
+                <v-list-tile-title class="body-1 font-weight-light">Nutrition Information</v-list-tile-title>
+              </v-list-tile-content>
+            </v-list-tile>
+
+            <v-list-tile
+              @click="goTo('/app/vitamins')"
+              class="ma-1"
+              :style="activeRoute('Vitamins')"
+            >
+              <v-list-tile-action>
+                <v-icon color="success">account_box</v-icon>
+              </v-list-tile-action>
+              <v-list-tile-content>
+                <v-list-tile-title class="body-1 font-weight-light">Vitamins</v-list-tile-title>
+              </v-list-tile-content>
+            </v-list-tile>
+
+            <v-list-tile
+              @click="goTo('/app/minerals')"
+              class="ma-1"
+              :style="activeRoute('Minerals')"
+            >
+              <v-list-tile-action>
+                <v-icon color="success">account_box</v-icon>
+              </v-list-tile-action>
+              <v-list-tile-content>
+                <v-list-tile-title class="body-1 font-weight-light">Minerals</v-list-tile-title>
+              </v-list-tile-content>
+            </v-list-tile>
+<!--  -->
+          </v-list-group>Reference
+        </v-tooltip>
+
         <v-list-tile @click="goTo('/app/group')" class="ma-1" :style="activeRoute('Group')">
           <v-list-tile-action>
             <v-tooltip top>
@@ -358,7 +495,7 @@
             <span v-else>{{admin.first_name.substring(0,1) + admin.last_name.substring(0,1)}}</span>
           </v-avatar>
         </v-btn>
-        
+
         <v-list two-line subheader>
           <v-list-tile avatar @click="goTo('/app/profile')">
             <v-list-tile-content>
@@ -396,8 +533,8 @@
         <v-icon small>fas fa-indent</v-icon>
       </v-btn>-->
       <v-btn flat icon v-if="isMiniView" @click="showNav=!showNav">
-            <v-icon>menu</v-icon>
-        </v-btn>
+        <v-icon>menu</v-icon>
+      </v-btn>
     </v-toolbar>
     <!-- <v-content> -->
     <v-container fluid>
@@ -462,7 +599,7 @@ export default {
   //#########################
   data() {
     return {
-      showNav:true,
+      showNav: true,
       mini: false,
       route_name: "",
       admin: {},
@@ -514,8 +651,8 @@ export default {
     app_version() {
       return process.env.VUE_APP_VERSION;
     },
-    isMiniView(){
-        return this.$vuetify.breakpoint.smAndDown
+    isMiniView() {
+      return this.$vuetify.breakpoint.smAndDown;
     }
   }
 };

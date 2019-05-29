@@ -107,10 +107,10 @@ export default new Router({
           component: () => import('@/views/app/reference/designation.vue')
         },
         {
-          path: 'countryOfOrigin',
+          path: 'countryOrigin',
           name: 'Country of Origin',
           beforeEnter: dropBreadcrumbs,
-          component: () => import('@/views/app/reference/countryOfOrigin.vue')
+          component: () => import('@/views/app/reference/countryOrigin.vue')
         },
         {
           path: 'fees',

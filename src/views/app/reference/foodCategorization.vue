@@ -86,7 +86,7 @@
                   <label class="title">Type of Food Product:</label>
                 </v-flex>
                 <v-flex xs6>
-                  <label class="subheading">{{ food_product_details(new_food_category).food_product }}</label>
+                  <label class="subheading">{{ new_food_category.food_product }}</label>
                 </v-flex>
                 <v-flex xs6>
                   <label class="title">Created By:</label>
@@ -126,7 +126,7 @@
     <v-data-table :headers="headers" :items="food_category" :search="search" class="elevation-1">
       <template slot="items" slot-scope="props">
         <td>{{ props.item.name }}</td>
-        <td>{{ food_product_details(props.item).food_product }}</td>
+        <td>{{ food_product_details(props.item.food_product) }}</td>
         <td>{{ getAdmin(props.item.created_by).last_name }}</td>
         <td>{{ formatDate(props.item.date_created) }}</td>
         <td>{{ getAdmin(props.item.modified_by).first_name }}</td>

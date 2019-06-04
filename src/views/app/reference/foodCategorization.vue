@@ -25,7 +25,7 @@
               <v-layout wrap>
                 <v-flex xs12>
                   <v-autocomplete
-                    v-model="food_product_details(new_food_category).food_product"
+                    v-model="new_food_category.food_product"
                     :rules="[rules.required]"
                     :disabled="isUpdating"
                     :items="food_products"

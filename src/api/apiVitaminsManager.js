@@ -2,17 +2,17 @@ import axios from 'axios'
 
 axios.defaults.baseURL = process.env.VUE_APP_API_BASE_URI
 
-export default class CompanyActivityType {
+export default class VitaminsType {
     constructor(token) {
         this.token = token;
         axios.defaults.headers.common['Content-Type'] = 'application/json'
         axios.defaults.headers.common['access_token'] = token;
     }
 
-    getCompanyActivity(cb) {
+    getVitamins(cb) {
 
-        axios.get('core/company/activity').then((result) => {
-                console.log("###API### GET ACTIVITY")
+        axios.get('core/vitamins').then((result) => {
+                console.log("###API### GET vitamins")
                 if (result.data.success) {
                     cb(result.data.errors, result.data.model)
                 } else {
@@ -24,10 +24,10 @@ export default class CompanyActivityType {
             })
     }
 
-    addCompanyActivity(new_activity, cb) {
-        console.log("api############# add activity" + JSON.stringify(new_activity))
-        axios.post('core/company/activity', new_activity).then((result) => {
-                console.log("api############# ADD ACTIVITY")
+    addVitamins(new_vitamins, cb) {
+        console.log("api############# add vitamins" + JSON.stringify(new_vitamins))
+        axios.post('core/vitamins', new_vitamins).then((result) => {
+                console.log("api############# ADD vitamins")
                 cb(result.data.errors, result.data.model)
             })
             .catch(err => {
@@ -35,10 +35,10 @@ export default class CompanyActivityType {
             })
     }
 
-    editCompanyActivity(modified_activity, cb) {
-        var id = modified_activity._id
-        axios.post('core/company/activity/' + id, modified_activity).then((result) => {
-                console.log("api############# Edit ACTIVITY" + JSON.stringify(modified_activity))
+    editVitamins(modified_vitamins, cb) {
+        var id = modified_vitamins._id
+        axios.post('core/vitamins/' + id, modified_vitamins).then((result) => {
+                console.log("api############# Edit vitamins" + JSON.stringify(modified_vitamins))
                 cb(result.data.errors, result.data.model)
             })
             .catch(err => {

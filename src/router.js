@@ -89,10 +89,46 @@ export default new Router({
           component: () => import('@/views/app/reference/companyActivity.vue')
         },
         {
+          path: 'shelfLife',
+          name: 'Type of Shelf Life',
+          beforeEnter: dropBreadcrumbs, 
+          component: () => import('@/views/app/reference/shelfLife.vue')
+        },
+        {
+          path: 'source',
+          name: 'Type of Source',
+          beforeEnter: dropBreadcrumbs, 
+          component: () => import('@/views/app/reference/source.vue')
+        },
+        {
+          path: 'productSpecifications',
+          name: 'Product Specifications',
+          beforeEnter: dropBreadcrumbs, 
+          component: () => import('@/views/app/reference/productSpecifications.vue')
+        },
+        {
+          path: 'nutritionInformation',
+          name: 'Nutrition Information',
+          beforeEnter: dropBreadcrumbs, 
+          component: () => import('@/views/app/reference/nutritionInformation.vue')
+        },
+        {
+          path: 'nutritionHealthClaims',
+          name: 'Nutrition Health Claims',
+          beforeEnter: dropBreadcrumbs, 
+          component: () => import('@/views/app/reference/nutritionHealthClaims.vue')
+        },
+        {
           path: 'designation',
           name: 'Designation',
           beforeEnter: dropBreadcrumbs,
           component: () => import('@/views/app/reference/designation.vue')
+        },
+        {
+          path: 'countryOrigin',
+          name: 'Country of Origin',
+          beforeEnter: dropBreadcrumbs,
+          component: () => import('@/views/app/reference/countryOrigin.vue')
         },
         {
           path: 'fees',
@@ -129,6 +165,18 @@ export default new Router({
           name: 'Additional Activity',
           beforeEnter: dropBreadcrumbs,
           component: () => import('@/views/app/reference/additionalActivity.vue')
+        },
+        {
+          path: 'vitamins',
+          name: 'Vitamins',
+          beforeEnter: dropBreadcrumbs,
+          component: () => import('@/views/app/reference/vitamins.vue')
+        },
+        {
+          path: 'minerals',
+          name: 'Minerals',
+          beforeEnter: dropBreadcrumbs,
+          component: () => import('@/views/app/reference/minerals.vue')
         },
         {
           path: 'profile',

@@ -2,17 +2,17 @@ import axios from 'axios'
 
 axios.defaults.baseURL = process.env.VUE_APP_API_BASE_URI
 
-export default class CompanyActivityType {
+export default class MineralsType {
     constructor(token) {
         this.token = token;
         axios.defaults.headers.common['Content-Type'] = 'application/json'
         axios.defaults.headers.common['access_token'] = token;
     }
 
-    getCompanyActivity(cb) {
+    getMinerals(cb) {
 
-        axios.get('core/company/activity').then((result) => {
-                console.log("###API### GET ACTIVITY")
+        axios.get('core/minerals').then((result) => {
+                console.log("###API### GET minerals")
                 if (result.data.success) {
                     cb(result.data.errors, result.data.model)
                 } else {
@@ -24,10 +24,10 @@ export default class CompanyActivityType {
             })
     }
 
-    addCompanyActivity(new_activity, cb) {
-        console.log("api############# add activity" + JSON.stringify(new_activity))
-        axios.post('core/company/activity', new_activity).then((result) => {
-                console.log("api############# ADD ACTIVITY")
+    addMinerals(new_minerals, cb) {
+        console.log("api############# add minerals" + JSON.stringify(new_minerals))
+        axios.post('core/minerals', new_minerals).then((result) => {
+                console.log("api############# ADD minerals")
                 cb(result.data.errors, result.data.model)
             })
             .catch(err => {
@@ -35,10 +35,10 @@ export default class CompanyActivityType {
             })
     }
 
-    editCompanyActivity(modified_activity, cb) {
-        var id = modified_activity._id
-        axios.post('core/company/activity/' + id, modified_activity).then((result) => {
-                console.log("api############# Edit ACTIVITY" + JSON.stringify(modified_activity))
+    editMinerals(modified_minerals, cb) {
+        var id = modified_minerals._id
+        axios.post('core/minerals/' + id, modified_minerals).then((result) => {
+                console.log("api############# Edit minerals" + JSON.stringify(modified_minerals))
                 cb(result.data.errors, result.data.model)
             })
             .catch(err => {

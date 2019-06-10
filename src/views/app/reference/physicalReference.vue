@@ -25,11 +25,11 @@
               <v-layout wrap>
                 <v-flex xs12>
                   <v-autocomplete
-                    v-model="new_food_category.food_product"
+                    v-model="new_physical_reference.product_specification"
                     :rules="[rules.required]"
                     :disabled="isUpdating"
-                    :items="food_products"
-                    label="Type of Food Product"
+                    :items="product_specifications"
+                    label="Product Specification"
                     item-text="name"
                     item-value="_id"
                   >
@@ -46,7 +46,7 @@
                   </v-autocomplete>
                 </v-flex>
                 <v-flex xs12>
-                  <v-text-field v-model="new_food_category.name" :rules="[rules.required]" label="Food Category"></v-text-field>
+                  <v-text-field v-model="new_physical_reference.name" :rules="[rules.required]" label="physical Reference"></v-text-field>
                 </v-flex>
               </v-layout>
             </v-container>
@@ -80,37 +80,37 @@
                   <label class="title">Food Category Name:</label>
                 </v-flex>
                 <v-flex xs6>
-                  <label class="subheading">{{new_food_category.name}}</label>
+                  <label class="subheading">{{new_physical_reference.name}}</label>
                 </v-flex>
                 <v-flex xs6>
                   <label class="title">Type of Food Product:</label>
                 </v-flex>
                 <v-flex xs6>
-                  <label class="subheading">{{ new_food_category.food_product }}</label>
+                  <label class="subheading">{{ new_physical_reference.product_specification }}</label>
                 </v-flex>
                 <v-flex xs6>
                   <label class="title">Created By:</label>
                 </v-flex>
                 <v-flex xs6>
-                  <label class="subheading">{{getAdmin(new_food_category.created_by)}}</label>
+                  <label class="subheading">{{getAdmin(new_physical_reference.created_by)}}</label>
                 </v-flex>
                 <v-flex xs6>
                   <label class="title">Date Created:</label>
                 </v-flex>
                 <v-flex xs6>
-                  <label class="subheading">{{formatDate(new_food_category.date_created)}}</label>
+                  <label class="subheading">{{formatDate(new_physical_reference.date_created)}}</label>
                 </v-flex>
                 <v-flex xs6>
                   <label class="title">Modified By:</label>
                 </v-flex>
                 <v-flex xs6>
-                  <label class="subheading">{{getAdmin(new_food_category.modified_by)}}</label>
+                  <label class="subheading">{{getAdmin(new_physical_reference.modified_by)}}</label>
                 </v-flex>
                 <v-flex xs6>
                   <label class="title">Date Modified:</label>
                 </v-flex>
                 <v-flex xs6>
-                  <label class="subheading">{{formatDate(new_food_category.date_created)}}</label>
+                  <label class="subheading">{{formatDate(new_physical_reference.date_created)}}</label>
                 </v-flex>
               </v-layout>
             </v-container>
@@ -123,10 +123,10 @@
         </v-card>
       </v-dialog>
     </v-toolbar>
-    <v-data-table :headers="headers" :items="food_category" :search="search" class="elevation-1">
+    <v-data-table :headers="headers" :items="physical_reference" :search="search" class="elevation-1">
       <template slot="items" slot-scope="props">
         <td>{{ props.item.name }}</td>
-        <td>{{ food_product_details(props.item.food_product) }}</td>
+        <td>{{ product_specification_details(props.item.product_specification) }}</td>
         <td>{{ getAdmin(props.item.created_by).last_name }}</td>
         <td>{{ formatDate(props.item.date_created) }}</td>
         <td>{{ getAdmin(props.item.modified_by).first_name }}</td>
@@ -156,13 +156,13 @@
 export default {
   data: () => ({
     mode: 0, // 0 - create, 1 - edit
-    food_products: {},
-    food_products: [],
-    new_food_category: {
+    product_specifications: {},
+    product_specifications: [],
+    new_physical_reference: {
       name: "",
-      food_product: ""
+      product_specification: ""
     },
-    modified_food_category: {},
+    modified_physical_reference: {},
     dialog: false,
     dialogView: false,
     isUpdating: false,
@@ -179,7 +179,7 @@ export default {
         text: "Type of Food Product",
         align: "left",
         sortable: "true",
-        value: "food_product"
+        value: "product_specification"
       },
       {
         text: "Created By",
@@ -206,12 +206,12 @@ export default {
         value: "editStatus"
       }
     ],
-    food_product: [],
-    food_category: [],
+    product_specification: [],
+    physical_reference: [],
     editedIndex: -1,
     editedItem: {
       name: "",
-      food_product: "",
+      product_specification: "",
       date_created: "",
       date_modified: ""
     },
@@ -245,55 +245,55 @@ export default {
   },
 
   methods: {
-    food_product_details(food_product_id) {
-      return this.getFoodProduct(food_product_id) ? this.getFoodProduct(food_product_id).name : "";
+    product_specification_details(product_specification_id) {
+      return this.getFoodProduct(product_specification_id) ? this.getFoodProduct(product_specification_id).name : "";
     },
     isEmpty(str) {
       return !str || str === null || str === "";
     },
     init() {
       this.$store
-        .dispatch("GET_FOOD_CATEGORY")
+        .dispatch("GET_physical_reference")
         .then(result => {
-          this.food_category = this.$store.state.food_product_tables.food_category;
-          return this.$store.dispatch("GET_FOOD_PRODUCT");
+          this.physical_reference = this.$store.state.product_specification_tables.physical_reference;
+          return this.$store.dispatch("GET_product_specification");
         })
         .then(result => {
           // GET Food Product items
-          this.food_products = this.$store.state.food_product_tables.food_product;
+          this.product_specifications = this.$store.state.product_specification_tables.product_specification;
         });
     },
     remove(item) {
-      const index = this.food_product.indexOf(item.name);
-      if (index >= 0) this.food_product.splice(index, 1);
+      const index = this.product_specification.indexOf(item.name);
+      if (index >= 0) this.product_specification.splice(index, 1);
     },
     addItem() {
       this.selectedIndex = -1; //
       this.mode = 0; // Create
-      this.new_food_category = {}; // holds the filled up item
+      this.new_physical_reference = {}; // holds the filled up item
       this.dialog = true;
     },
     editItem(item, index) {
       this.selectedIndex = index; //
       this.mode = 1; // Edit
-      this.new_food_category = JSON.parse(JSON.stringify(item));
+      this.new_physical_reference = JSON.parse(JSON.stringify(item));
       this.dialog = true;
     },
 
     viewItem(item) {
-      this.new_food_category = item;
+      this.new_physical_reference = item;
       this.dialogView = true;
     },
 
     close() {
       this.dialog = false;
       this.dialogView = false;
-      this.new_food_category = {};
+      this.new_physical_reference = {};
     },
     validate() {
       var check = true;
       if (
-        this.isEmpty(this.new_food_category.name) 
+        this.isEmpty(this.new_physical_reference.name) 
 
       ) {
         this.$notify({
@@ -302,12 +302,12 @@ export default {
         });
         return false;
       } else {
-        for (let i = 0; i < this.food_category.length; i++) {
+        for (let i = 0; i < this.physical_reference.length; i++) {
           if (
             this.selectedIndex != i &&
-            this.food_category[i].name &&
-            this.new_food_category.name.toLowerCase() ===
-            this.food_category[i].name.toLowerCase()
+            this.physical_reference[i].name &&
+            this.new_physical_reference.name.toLowerCase() ===
+            this.physical_reference[i].name.toLowerCase()
           ) {
             check = false;
           } else if (!check) {
@@ -323,8 +323,8 @@ export default {
     },
     submit() {
       if (this.validate()) {
-        this.$store.dispatch("ADD_FOOD_CATEGORY", this.new_food_category).then(result => {
-          console.log("added:food_category: " + JSON.stringify(result));
+        this.$store.dispatch("ADD_physical_reference", this.new_physical_reference).then(result => {
+          console.log("added:physical_reference: " + JSON.stringify(result));
           this.init();
           this.$notify({
             message: "You have successfully created a new food category",
@@ -338,11 +338,11 @@ export default {
 
     save() {
       if (this.validate()) {
-        // console.log('###########edited:food_category: ' + JSON.stringify(this.new_food_category));
+        // console.log('###########edited:physical_reference: ' + JSON.stringify(this.new_physical_reference));
         this.$store
-          .dispatch("EDIT_FOOD_CATEGORY", this.new_food_category)
+          .dispatch("EDIT_physical_reference", this.new_physical_reference)
           .then(result => {
-            console.log("edited:food_category: " + JSON.stringify(result));
+            console.log("edited:physical_reference: " + JSON.stringify(result));
             this.init();
             this.$notify({
               message: "You have successfully edited a food category",

@@ -99,7 +99,7 @@
       </v-dialog>
     </v-toolbar>
     <!-- TABLE -->
-    <v-data-table :headers="headers" :items="activity" :search="search" class="elevation-1">
+    <v-data-table :headers="headers" :items="company_activity" :search="search" class="elevation-1">
       <template slot="items" slot-scope="props">
         <td>{{ props.item.name }}</td>
         <td>{{ getAdmin(props.item.created_by).last_name }}</td>
@@ -169,7 +169,7 @@ export default {
         value: "editStatus"
       }
     ],
-    activity: [],
+    company_activity: [],
     editedIndex: -1,
     editedItem: {
       id: "",
@@ -210,11 +210,11 @@ export default {
     isEmpty(str) {
       return !str || str === null || str === "";
     },
-    // init() {
-    //   this.$store.dispatch("GET_COMPANY_ACTIVITY").then(result => {
-    //     this.activity = this.$store.state.company_activity_tables.activity;
-    //   });
-    // },
+    init() {
+      this.$store.dispatch("GET_COMPANY_ACTIVITY").then(result => {
+        this.company_activity = this.$store.state.company_activity_tables.company_activity;
+      });
+    },
     addItem() {
       this.selectedIndex = -1;
       this.mode = 0; // Create
@@ -249,10 +249,10 @@ export default {
         });
         return false;
       } else {
-        for (let i = 0; i < this.activity.length; i++) {
+        for (let i = 0; i < this.company_activity.length; i++) {
           if (
             this.selectedIndex != i &&
-            this.activity[i].name.toLowerCase() ===
+            this.company_activity[i].name.toLowerCase() ===
             this.new_activity.name.toLowerCase()
           ) {
             check = false;

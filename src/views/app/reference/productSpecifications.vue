@@ -6,7 +6,7 @@
       </v-flex>
       <v-divider class="mx-2" inset vertical></v-divider>
       <v-btn fab medium color="fdaMed" top right absolute @click="addItem">
-        <v-icon medium color="fdaSilver">add</v-icon>
+        <v-icon medium color="success">add</v-icon>
       </v-btn>
       <v-spacer></v-spacer>
       <!-- ADD | EDIT -->
@@ -24,29 +24,11 @@
             <v-container grid-list-md>
               <v-layout wrap>
                 <v-flex xs12>
-                  <v-autocomplete
-                    v-model="new_food_category.food_product"
+                  <v-text-field
+                    label="Product Specifications"
+                    v-model="new_product_specifications.name"
                     :rules="[rules.required]"
-                    :disabled="isUpdating"
-                    :items="food_products"
-                    label="Type of Food Product"
-                    item-text="name"
-                    item-value="_id"
-                  >
-                    <template slot="item" slot-scope="data">
-                      <template v-if="typeof data.item !== 'object'">
-                        <v-list-tile-content v-text="data.item"></v-list-tile-content>
-                      </template>
-                      <template v-else>
-                        <v-list-tile-content>
-                          <v-list-tile-title v-html="data.item.name"></v-list-tile-title>
-                        </v-list-tile-content>
-                      </template>
-                    </template>
-                  </v-autocomplete>
-                </v-flex>
-                <v-flex xs12>
-                  <v-text-field v-model="new_food_category.name" :rules="[rules.required]" label="Food Category"></v-text-field>
+                  ></v-text-field>
                 </v-flex>
               </v-layout>
             </v-container>
@@ -75,42 +57,35 @@
             <v-container grid-list-xl>
               <v-layout row wrap align-center justify-center fill-height>
                 <!-- <v-flex xs6> -->
-                
                 <v-flex xs6>
-                  <label class="title">Food Category Name:</label>
+                  <label class="title">Product Specifications:</label>
                 </v-flex>
                 <v-flex xs6>
-                  <label class="subheading">{{new_food_category.name}}</label>
-                </v-flex>
-                <v-flex xs6>
-                  <label class="title">Type of Food Product:</label>
-                </v-flex>
-                <v-flex xs6>
-                  <label class="subheading">{{ new_food_category.food_product }}</label>
+                  <label class="subheading">{{new_product_specifications.name}}</label>
                 </v-flex>
                 <v-flex xs6>
                   <label class="title">Created By:</label>
                 </v-flex>
                 <v-flex xs6>
-                  <label class="subheading">{{getAdmin(new_food_category.created_by)}}</label>
+                  <label class="subheading">{{getAdmin(new_product_specifications.created_by).first_name}}</label>
                 </v-flex>
                 <v-flex xs6>
                   <label class="title">Date Created:</label>
                 </v-flex>
                 <v-flex xs6>
-                  <label class="subheading">{{formatDate(new_food_category.date_created)}}</label>
+                  <label class="subheading">{{formatDate(new_product_specifications.date_created)}}</label>
                 </v-flex>
                 <v-flex xs6>
                   <label class="title">Modified By:</label>
                 </v-flex>
                 <v-flex xs6>
-                  <label class="subheading">{{getAdmin(new_food_category.modified_by)}}</label>
+                  <label class="subheading">{{getAdmin(new_product_specifications.modified_by)}}</label>
                 </v-flex>
                 <v-flex xs6>
                   <label class="title">Date Modified:</label>
                 </v-flex>
                 <v-flex xs6>
-                  <label class="subheading">{{formatDate(new_food_category.date_created)}}</label>
+                  <label class="subheading">{{formatDate(new_product_specifications.date_modified)}}</label>
                 </v-flex>
               </v-layout>
             </v-container>
@@ -123,10 +98,10 @@
         </v-card>
       </v-dialog>
     </v-toolbar>
-    <v-data-table :headers="headers" :items="food_category" :search="search" class="elevation-1">
+    <!-- TABLE -->
+    <v-data-table :headers="headers" :items="product_specifications" :search="search" class="elevation-1">
       <template slot="items" slot-scope="props">
         <td>{{ props.item.name }}</td>
-        <td>{{ food_product_details(props.item.food_product) }}</td>
         <td>{{ getAdmin(props.item.created_by).last_name }}</td>
         <td>{{ formatDate(props.item.date_created) }}</td>
         <td>{{ getAdmin(props.item.modified_by).first_name }}</td>
@@ -156,30 +131,18 @@
 export default {
   data: () => ({
     mode: 0, // 0 - create, 1 - edit
-    food_products: {},
-    food_products: [],
-    new_food_category: {
-      name: "",
-      food_product: ""
-    },
-    modified_food_category: {},
+    new_product_specifications: {},
+    modified_product_specifications: {},
     dialog: false,
     dialogView: false,
-    isUpdating: false,
     search: "",
-    selectedIndex: -1, //
+    selectedIndex: -1,
     headers: [
       {
-        text: "Food Category Name",
+        text: "Product Specifications",
         align: "left",
         sortable: "true",
         value: "name"
-      },
-      {
-        text: "Type of Food Product",
-        align: "left",
-        sortable: "true",
-        value: "food_product"
       },
       {
         text: "Created By",
@@ -206,33 +169,32 @@ export default {
         value: "editStatus"
       }
     ],
-    food_product: [],
-    food_category: [],
+    product_specifications: [],
     editedIndex: -1,
     editedItem: {
+      id: "",
       name: "",
-      food_product: "",
       date_created: "",
       date_modified: ""
     },
     defaultItem: {
-      name: ""
+      name: "",
     },
     rules: {
-      required: v => !!v || v === 0 || "This is a required field" //
+      required: v => !!v || "This is a required field"
     }
   }),
 
   computed: {
     formTitle() {
-      return this.mode === 0 ? "Add Food Category" : "Edit Food Category";
+      return this.mode === 0 ? "Add Product" : "Edit Product";
     }
   },
   created() {
     this.init();
   },
 
-  watch: {
+   watch: {
     isUpdating(val) {
       if (val) {
         setTimeout(() => (this.isUpdating = false), 3000);
@@ -245,56 +207,41 @@ export default {
   },
 
   methods: {
-    food_product_details(food_product_id) {
-      return this.getFoodProduct(food_product_id) ? this.getFoodProduct(food_product_id).name : "";
-    },
     isEmpty(str) {
       return !str || str === null || str === "";
     },
     init() {
-      this.$store
-        .dispatch("GET_FOOD_CATEGORY")
-        .then(result => {
-          this.food_category = this.$store.state.food_product_tables.food_category;
-          return this.$store.dispatch("GET_FOOD_PRODUCT");
-        })
-        .then(result => {
-          // GET Food Product items
-          this.food_products = this.$store.state.food_product_tables.food_product;
-        });
-    },
-    remove(item) {
-      const index = this.food_product.indexOf(item.name);
-      if (index >= 0) this.food_product.splice(index, 1);
+      this.$store.dispatch("GET_PRODUCT_SPECIFICATIONS").then(result => {
+        this.product_specifications = this.$store.state.product_specifications_tables.product_specifications;
+      });
     },
     addItem() {
-      this.selectedIndex = -1; //
+      this.selectedIndex = -1;
       this.mode = 0; // Create
-      this.new_food_category = {}; // holds the filled up item
+      this.new_product_specifications = {}; // holds the filled up item
       this.dialog = true;
     },
     editItem(item, index) {
-      this.selectedIndex = index; //
       this.mode = 1; // Edit
-      this.new_food_category = JSON.parse(JSON.stringify(item));
+      this.selectedIndex = index;
+      this.new_product_specifications = JSON.parse(JSON.stringify(item));
       this.dialog = true;
     },
 
     viewItem(item) {
-      this.new_food_category = item;
+      this.new_product_specifications = item;
       this.dialogView = true;
     },
 
     close() {
       this.dialog = false;
       this.dialogView = false;
-      this.new_food_category = {};
+      this.new_product_specifications = {};
     },
     validate() {
       var check = true;
       if (
-        this.isEmpty(this.new_food_category.name) 
-
+        this.isEmpty(this.new_product_specifications.name)
       ) {
         this.$notify({
           message: "Please fill up required fields",
@@ -302,12 +249,11 @@ export default {
         });
         return false;
       } else {
-        for (let i = 0; i < this.food_category.length; i++) {
+        for (let i = 0; i < this.product_specifications.length; i++) {
           if (
             this.selectedIndex != i &&
-            this.food_category[i].name &&
-            this.new_food_category.name.toLowerCase() ===
-            this.food_category[i].name.toLowerCase()
+            this.product_specifications[i].name.toLowerCase() ===
+            this.new_product_specifications.name.toLowerCase()
           ) {
             check = false;
           } else if (!check) {
@@ -323,11 +269,11 @@ export default {
     },
     submit() {
       if (this.validate()) {
-        this.$store.dispatch("ADD_FOOD_CATEGORY", this.new_food_category).then(result => {
-          console.log("added:food_category: " + JSON.stringify(result));
+        this.$store.dispatch("ADD_PRODUCT_SPECIFICATIONS", this.new_product_specifications).then(result => {
+          console.log("added:Company product_specifications " + JSON.stringify(result));
           this.init();
           this.$notify({
-            message: "You have successfully created a new food category",
+            message: "You have successfully created a new type of product_specifications",
             icon: "check_circle",
             color: "primary"
           });
@@ -338,19 +284,16 @@ export default {
 
     save() {
       if (this.validate()) {
-        // console.log('###########edited:food_category: ' + JSON.stringify(this.new_food_category));
-        this.$store
-          .dispatch("EDIT_FOOD_CATEGORY", this.new_food_category)
-          .then(result => {
-            console.log("edited:food_category: " + JSON.stringify(result));
-            this.init();
-            this.$notify({
-              message: "You have successfully edited a food category",
-              icon: "check_circle",
-              color: "primary"
-            });
-            this.close();
+        this.$store.dispatch("EDIT_PRODUCT_SPECIFICATIONS", this.new_product_specifications).then(result => {
+          console.log("edited:Company product_specifications: " + JSON.stringify(result));
+          this.init();
+          this.$notify({
+            message: "You have successfully edited a type of product_specifications",
+            icon: "check_circle",
+            color: "primary"
           });
+          this.close();
+        });
       }
     }
   }

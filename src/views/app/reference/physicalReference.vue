@@ -45,6 +45,7 @@
                     </template>
                   </v-autocomplete>
                 </v-flex>
+
                 <v-flex xs12>
                   <v-text-field v-model="new_physical_reference.name" :rules="[rules.required]" label="physical Reference"></v-text-field>
                 </v-flex>
@@ -126,7 +127,7 @@
     <v-data-table :headers="headers" :items="physical_reference" :search="search" class="elevation-1">
       <template slot="items" slot-scope="props">
         <td>{{ props.item.name }}</td>
-        <td>{{ product_specification_details(props.item.product_specification) }}</td>
+        <td>{{ props.item.product_specification }}</td>
         <td>{{ getAdmin(props.item.created_by).last_name }}</td>
         <td>{{ formatDate(props.item.date_created) }}</td>
         <td>{{ getAdmin(props.item.modified_by).first_name }}</td>
@@ -170,13 +171,13 @@ export default {
     selectedIndex: -1, //
     headers: [
       {
-        text: "Food Category Name",
+        text: "Physical Reference",
         align: "left",
         sortable: "true",
         value: "name"
       },
       {
-        text: "Type of Food Product",
+        text: "Product Specification",
         align: "left",
         sortable: "true",
         value: "product_specification"
@@ -225,7 +226,7 @@ export default {
 
   computed: {
     formTitle() {
-      return this.mode === 0 ? "Add Food Category" : "Edit Food Category";
+      return this.mode === 0 ? "Add Physical Reference" : "Edit Physical Reference";
     }
   },
   created() {
@@ -253,14 +254,14 @@ export default {
     },
     init() {
       this.$store
-        .dispatch("GET_physical_reference")
+        .dispatch("GET_PHYSICAL_REFERENCE")
         .then(result => {
-          this.physical_reference = this.$store.state.product_specification_tables.physical_reference;
-          return this.$store.dispatch("GET_product_specification");
+          this.physical_reference = this.$store.state.physical_reference_tables.physical_reference;
+          return this.$store.dispatch("GET_PRODUCT_SPECIFICATIONS");
         })
         .then(result => {
           // GET Food Product items
-          this.product_specifications = this.$store.state.product_specification_tables.product_specification;
+          this.product_specifications = this.$store.state.product_specifications_tables.product_specifications;
         });
     },
     remove(item) {
@@ -323,11 +324,11 @@ export default {
     },
     submit() {
       if (this.validate()) {
-        this.$store.dispatch("ADD_physical_reference", this.new_physical_reference).then(result => {
+        this.$store.dispatch("ADD_PHYSICAL_REFERENCE", this.new_physical_reference).then(result => {
           console.log("added:physical_reference: " + JSON.stringify(result));
           this.init();
           this.$notify({
-            message: "You have successfully created a new food category",
+            message: "You have successfully created a new physical reference",
             icon: "check_circle",
             color: "primary"
           });
@@ -340,12 +341,12 @@ export default {
       if (this.validate()) {
         // console.log('###########edited:physical_reference: ' + JSON.stringify(this.new_physical_reference));
         this.$store
-          .dispatch("EDIT_physical_reference", this.new_physical_reference)
+          .dispatch("EDIT_PHYSICAL_REFERENCE", this.new_physical_reference)
           .then(result => {
             console.log("edited:physical_reference: " + JSON.stringify(result));
             this.init();
             this.$notify({
-              message: "You have successfully edited a food category",
+              message: "You have successfully edited a physical reference",
               icon: "check_circle",
               color: "primary"
             });

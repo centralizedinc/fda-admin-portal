@@ -107,6 +107,12 @@ export default new Router({
           component: () => import('@/views/app/reference/productSpecifications.vue')
         },
         {
+          path: 'physicalReference',
+          name: 'Physical Reference',
+          beforeEnter: dropBreadcrumbs, 
+          component: () => import('@/views/app/reference/physicalReference.vue')
+        },
+        {
           path: 'nutritionInformation',
           name: 'Nutrition Information',
           beforeEnter: dropBreadcrumbs, 

@@ -11,7 +11,7 @@ export default class PhysicalReferenceType {
 
     getPhysicalReference(cb) {
 
-        axios.get('core/specifications/reference').then((result) => {
+        axios.get('core/physicalReference').then((result) => {
                 console.log("###API### GET PhysicalReference")
                 if (result.data.success) {
                     cb(result.data.errors, result.data.model)
@@ -26,7 +26,7 @@ export default class PhysicalReferenceType {
 
     addPhysicalReference(new_physical_reference, cb) {
         console.log("api############# add PhysicalReference" + JSON.stringify(new_physical_reference))
-        axios.post('core/specifications/reference', new_physical_reference).then((result) => {
+        axios.post('core/physicalReference', new_physical_reference).then((result) => {
                 console.log("api############# ADD PhysicalReference")
                 cb(result.data.errors, result.data.model)
             })
@@ -37,7 +37,7 @@ export default class PhysicalReferenceType {
 
     editPhysicalReference(modified_physical_reference, cb) {
         var id = modified_physical_reference._id
-        axios.post('core/specifications/reference/' + id, modified_physical_reference).then((result) => {
+        axios.post('core/physicalReference/' + id, modified_physical_reference).then((result) => {
                 console.log("api############# Edit PhysicalReference" + JSON.stringify(modified_physical_reference))
                 cb(result.data.errors, result.data.model)
             })

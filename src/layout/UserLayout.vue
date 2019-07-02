@@ -378,6 +378,45 @@
               </v-list-tile-content>
             </v-list-tile>
 
+            <v-list-tile
+              @click="goTo('/app/toy/exemption')"
+              class="ma-1"
+              :style="activeRoute('Minerals')"
+            >
+              <v-list-tile-action>
+                <v-icon color="success">wb_iridescent</v-icon>
+              </v-list-tile-action>
+              <v-list-tile-content>
+                <v-list-tile-title class="body-1 font-weight-light">Toy Exemption</v-list-tile-title>
+              </v-list-tile-content>
+            </v-list-tile>
+
+            <v-list-tile
+              @click="goTo('/app/product/presentation')"
+              class="ma-1"
+              :style="activeRoute('Minerals')"
+            >
+              <v-list-tile-action>
+                <v-icon color="success">wb_iridescent</v-icon>
+              </v-list-tile-action>
+              <v-list-tile-content>
+                <v-list-tile-title class="body-1 font-weight-light">Cosmetic Product Presentation</v-list-tile-title>
+              </v-list-tile-content>
+            </v-list-tile>
+
+            <v-list-tile
+              @click="goTo('/app/activity')"
+              class="ma-1"
+              :style="activeRoute('Minerals')"
+            >
+              <v-list-tile-action>
+                <v-icon color="success">wb_iridescent</v-icon>
+              </v-list-tile-action>
+              <v-list-tile-content>
+                <v-list-tile-title class="body-1 font-weight-light">Company Activity/Activities</v-list-tile-title>
+              </v-list-tile-content>
+            </v-list-tile>
+
           </v-list-group>Reference
         </v-tooltip>
 

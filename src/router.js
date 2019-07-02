@@ -274,6 +274,18 @@ export default new Router({
           component: () => import('@/views/app/accounts/client.vue')
         },
         {
+          path: 'toy/exemption',
+          name: 'Toy Exemption',
+          beforeEnter: dropBreadcrumbs,
+          component: () => import('@/views/app/reference/toyExemption.vue')
+        },
+        {
+          path: 'product/presentation',
+          name: 'Cosmetic Product Presentation',
+          beforeEnter: dropBreadcrumbs,
+          component: () => import('@/views/app/reference/productPresentation.vue')
+        },
+        {
           path: 'test',
           name: 'test',
           component: () => import('@/views/app/accounts/test.vue')
@@ -285,7 +297,7 @@ export default new Router({
       path: '/about',
       name: 'about',
       // route level code-splitting
-      // this generates a separate chunk (about.[hash].js) for this route
+      // this generates a separate chunk (about.[hash].js) for this route`
       // which is lazy-loaded when the route is visited.
       component: () => import( /* webpackChunkName: "about" */ './views/About.vue')
     }

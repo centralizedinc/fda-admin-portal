@@ -381,7 +381,7 @@
             <v-list-tile
               @click="goTo('/app/toy/exemption')"
               class="ma-1"
-              :style="activeRoute('Minerals')"
+              :style="activeRoute('Toy Exemption<')"
             >
               <v-list-tile-action>
                 <v-icon color="success">wb_iridescent</v-icon>
@@ -394,7 +394,7 @@
             <v-list-tile
               @click="goTo('/app/product/presentation')"
               class="ma-1"
-              :style="activeRoute('Minerals')"
+              :style="activeRoute('Cosmetic Product Presentation<')"
             >
               <v-list-tile-action>
                 <v-icon color="success">wb_iridescent</v-icon>
@@ -407,7 +407,7 @@
             <v-list-tile
               @click="goTo('/app/activity')"
               class="ma-1"
-              :style="activeRoute('Minerals')"
+              :style="activeRoute('Company Activity')"
             >
               <v-list-tile-action>
                 <v-icon color="success">wb_iridescent</v-icon>

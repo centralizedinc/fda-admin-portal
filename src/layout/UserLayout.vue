@@ -381,7 +381,7 @@
             <v-list-tile
               @click="goTo('/app/toy/exemption')"
               class="ma-1"
-              :style="activeRoute('Toy Exemption<')"
+              :style="activeRoute('Toy Exemption')"
             >
               <v-list-tile-action>
                 <v-icon color="success">wb_iridescent</v-icon>
@@ -394,7 +394,7 @@
             <v-list-tile
               @click="goTo('/app/product/presentation')"
               class="ma-1"
-              :style="activeRoute('Cosmetic Product Presentation<')"
+              :style="activeRoute('Cosmetic Product Presentation')"
             >
               <v-list-tile-action>
                 <v-icon color="success">wb_iridescent</v-icon>
